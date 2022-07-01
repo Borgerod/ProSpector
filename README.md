@@ -10,8 +10,9 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 -  Steg 2 tillegg: Skal også skrape etter bedrifter som har "mangelfull profil" ( har bekreftet eier men ingen innhold) 
 
 ## TODO
-- se om du finner boilerplates
-- sjekk Compadability med google maps
-- sjekk Compadability med gulesider 
-- sjekk Compadability med 1881
-- sjekk Compadability med proff.no
+- [X] se om du finner boilerplates
+- [X] sjekk Compadability med google maps
+	- [ ] lag formel for PageToken
+- [ ] sjekk Compadability med gulesider 
+- [ ] sjekk Compadability med 1881
+- [ ] sjekk Compadability med proff.no
