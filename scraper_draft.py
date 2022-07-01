@@ -1,5 +1,9 @@
 from environs import Env
 import googlemaps
+import requests
+from bs4 import BeautifulSoup
+# import time
+from fake_headers import Headers
 
 # ____ Local Imports _____
 from config import cred
@@ -11,16 +15,94 @@ from config import cred
 	TODO: 
 		Create formula for PAGE_TOKENS
 '''
-
+def get_hdr():
+	hdr = Headers().generate()
+	return hdr
 
 def get_api_values(name):              
 	api_key = cred[name]['API_KEY']
 	return api_key
 
 
+def loop(api_key, radius, loc):
+	videofeed = pd.DataFrame()
+	response = nearby_search(api_key, radius, loc)
+	resp_df, max_res = parse_data(response)
+	videofeed = pd.concat([videofeed, resp_df], ignore_index = True)
+	while len(videofeed) < max_res:
+		token = None
+		try:
+			response = request.execute()
+			resp_df, max_res = parse_data(response)
+			videofeed = pd.concat([videofeed, resp_df], axis=0, ignore_index = True)
+			request = youtube.search().list_next(request, response)
+		except AttributeError:
+			return videofeed
+	return videofeed
+
+
+def parse_data(response):
+	results 
+	name = []
+	business_status=[]
+	opening_hours=[]
+photos =[]
+	price_level=[]
+	rating=[]
+	types=[]
+
+
+
+	# titles = []
+	# videoIds = []
+	# channelIds = []
+	# img = []
+	# date = []
+	max_res = response['pageInfo']["totalResults"]
+	resp_df = pd.DataFrame()
+	for item in response['items']:
+		titles.append(item['snippet']['title'])
+		channelIds.append(item['snippet']['channelTitle'])
+		videoIds.append(item['id']['videoId'])
+		img.append(item['snippet']['thumbnails']['high']['url'])
+		date.append(item['snippet']['publishTime'])
+	if "nextPageToken" in response:
+		print("..next page..")
+		token = response["nextPageToken"]
+		resp_df['date'] = date
+		resp_df['channelId'] = channelIds
+		resp_df['title'] = titles
+		resp_df['videoId'] = videoIds
+		resp_df['thumbnail'] = img
+		return resp_df, max_res
+	else:
+		try:
+			resp_df['date'] = date
+			resp_df['channelId'] = channelIds
+			resp_df['title'] = titles
+			resp_df['videoId'] = videoIds
+			resp_df['thumbnail'] = img
+			print("..FINISHED!")
+			return resp_df, max_res
+		except:
+			print("..FINISHED!")
+			return resp_df, max_res
+
+
+def all_vids_loop(channelId, youtube):
+	request = youtube.search().list(part = 'id,snippet',
+									channelId = channelId,
+									type = 'video',
+									maxResults = 50,
+									relevanceLanguage = 'en',)
+	return request
+
+
+
 def location_list():
 
 	locations : {'bergen': '60.244958, 5.636803',} #TEMPORARTY
+
 	# locations = { 	'bergen': '60.244958, 5.636803', 			# Bjøørnafjorden
 	# 				'oslo' : '59.987955, 10.527667', 			# Bærum (skogen) 
 	# 				'tønnsberg': '59.226256, 10.807865',		# Vikanetoppen 1
@@ -38,13 +120,11 @@ def nearby_search(api_key, radius, loc):
 
 	url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={loc}&radius={radius}&key={api_key}"
 	print(url)
-	# place_search = maps_api.find_place(
-	# 		"St. Louis Lambert International Airport",
-	# 		"textquery",
-	# 		fields = ["formatted_address", "place_id"],
-	# 		language = 'no',
-	# 	)
-
+	payload = {}
+	headers = get_hdr()
+	response = requests.request("GET", url, headers = headers)
+	# response = requests.request("GET", url, headers=headers, data=payload)
+	return response.text
 
 def main():
 	# ___ Setu p______
@@ -53,7 +133,7 @@ def main():
 	loc = location_list()
 	for i in loc:
 		nearby_search(api_key, radius, loc[i])
-main()
+# main()
 
 '''
 # fra googles eksempel
