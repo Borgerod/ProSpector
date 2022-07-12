@@ -1,0 +1,1 @@
+https://data.brreg.no/enhetsregisteret/api/docs/index.html
