@@ -28,7 +28,7 @@
 
 
 # Cred 
-cred =  { 'google': {  'API_KEY': 'AIzaSyC3N7q2PIVMA3OdBDfkxqxjQFY1VVIXNUE',
+cred =  { 'google': {  'API_KEY': 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 		               'API_ID': 'xxxxx',
 		               'App_name': 'Mediavest_Places',
 		               'IP_restriction': '192.168.68.76',  },}
@@ -38,8 +38,8 @@ cred =  { 'google': {  'API_KEY': 'AIzaSyC3N7q2PIVMA3OdBDfkxqxjQFY1VVIXNUE',
 
 # # Payload:
 # payload = {	'dbname'   : 'Telegram_data',
-# 			'host' 	   : 'localhost',
-# 			'user'	   : 'postgres',
+# 		'host' 	   : 'localhost',
+# 		'user'	   : 'postgres',
 #         	'password' : 'xxxxxxx',
 #         	'tablename': 'daily_monitor',  }
 
