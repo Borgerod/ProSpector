@@ -1,0 +1,98 @@
+1657277879673	geckodriver	INFO	Listening on 127.0.0.1:49650
+1657277882727	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "49651" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofileL8Vqkx"
+1657277883006	Marionette	INFO	Marionette enabled
+1657277883009	Marionette	INFO	Listening on port 49662
+WebDriver BiDi listening on ws://localhost:49651
+Read port: 49662
+1657277883136	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofileL8Vqkx\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:49651/devtools/browser/bc03263a-04fd-4730-906d-80b4632e10dd
+JavaScript warning: https://www.google.com/maps/_/js/k=maps.m.no.3SRHI6I9GNo.2019.O/m=sc2,per,mo,lp,ti,ds,stx,bom,b/am=Ygc4mAIAAAAI/rt=j/d=1/rs=ACT90oHVu76aHyTRsA9Hy3XE-haan9xj2w, line 1988: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: copyTexSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: copyTexSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+1657277945557	Marionette	INFO	Stopped listening on port 49662
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+remote-debugging-port" "49739" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofilezYl344"
+1657277910471	Marionette	INFO	Marionette enabled
+1657277910474	Marionette	INFO	Listening on port 49751
+WebDriver BiDi listening on ws://localhost:49739
+Read port: 49751
+1657277910684	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofilezYl344\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:49739/devtools/browser/92b81edf-2ace-4a98-856f-3ece2e60f538
+JavaScript warning: https://www.google.com/maps/_/js/k=maps.m.no.PvNkPWl4mII.2019.O/m=sc2,per,mo,lp,ep,ti,ds,stx,pwd,dw,ppl,log,std,b/am=Ygc4mAIAAAAI/rt=j/d=1/rs=ACT90oGatFaR7y3Fq1ImOFcXAdY4-RNHLA, line 3291: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: copyTexSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: copyTexSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: , line 0: WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+1657277982474	Marionette	INFO	Stopped listening on port 49751
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+1657278085611	geckodriver	INFO	Listening on 127.0.0.1:50139
+1657278088676	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "50140" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofilemd9qAE"
+1657278088905	Marionette	INFO	Marionette enabled
+1657278088909	Marionette	INFO	Listening on port 50151
+WebDriver BiDi listening on ws://localhost:50140
+Read port: 50151
+1657278089104	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofilemd9qAE\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:50140/devtools/browser/1a27b087-3bbc-42ed-8ea6-fded40d4fed6
+JavaScript error: https://www.google.com/sorry/index?continue=https://www.google.com/maps/place/Felleskatalogen%2BAS/%4059.9287146,10.7099271,17z/data%3D!4m5!3m4!1s0x0:0xf58778d2e5fc5517!8m2!3d59.9287146!4d10.7099271&q=EgSe-CYjGImdoJYGIhDqZQ_Y5EgN1Tpb_PGxXK6SMgFy, line 1: SyntaxError: expected expression, got ','
+1657278107963	Marionette	INFO	Stopped listening on port 50151
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+1657278165541	geckodriver	INFO	Listening on 127.0.0.1:50246
+1657278168599	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "50247" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofileuZCOh3"
+1657278168825	Marionette	INFO	Marionette enabled
+1657278168828	Marionette	INFO	Listening on port 50258
+WebDriver BiDi listening on ws://localhost:50247
+Read port: 50258
+1657278169034	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofileuZCOh3\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:50247/devtools/browser/49943c13-369e-4120-8bf1-2bb13f87e52e
+JavaScript error: https://www.google.com/sorry/index?continue=https://www.google.com/maps/place/Felleskatalogen%2BAS/%4059.9287146,10.7099271,17z/data%3D!4m5!3m4!1s0x0:0xf58778d2e5fc5517!8m2!3d59.9287146!4d10.7099271&q=EgSe-CYjGNmdoJYGIhDrRsqTPY6r3XtXmZo_5rPoMgFy, line 1: SyntaxError: expected expression, got ','
+1657278179254	Marionette	INFO	Stopped listening on port 50258
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+1657278255260	geckodriver	INFO	Listening on 127.0.0.1:50357
+1657278258284	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "50358" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofileq7wjpx"
+1657278258510	Marionette	INFO	Marionette enabled
+1657278258513	Marionette	INFO	Listening on port 50370
+WebDriver BiDi listening on ws://localhost:50358
+Read port: 50370
+1657278258709	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofileq7wjpx\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:50358/devtools/browser/d817a0e2-f93f-42ae-bad2-2659865a0b0d
+JavaScript error: https://www.google.com/sorry/index?continue=https://www.google.com/maps&q=EgSe-CYjGLKeoJYGIhBHVh4xKvlhaqrwa85Yj4bpMgFy, line 1: SyntaxError: expected expression, got ','
+1657278273191	Marionette	INFO	Stopped listening on port 50370
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+1657278362370	geckodriver	INFO	Listening on 127.0.0.1:50470
+1657278365418	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "50471" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofile8O34ev"
+1657278365645	Marionette	INFO	Marionette enabled
+1657278365648	Marionette	INFO	Listening on port 50482
+WebDriver BiDi listening on ws://localhost:50471
+Read port: 50482
+1657278365856	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\BIGDAD~1\\AppData\\Local\\Temp\\rust_mozprofile8O34ev\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:50471/devtools/browser/a1cf44e4-dab8-4027-b365-3779a5f24e2b
+JavaScript error: https://www.google.com/sorry/index?continue=https://www.google.com/maps&q=EgSe-CYjGJ6foJYGIhDvL_MOOpfC3ZObidoQlpt-MgFy, line 1: SyntaxError: expected expression, got ','
+1657278368899	Marionette	INFO	Stopped listening on port 50482
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
