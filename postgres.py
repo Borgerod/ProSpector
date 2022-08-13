@@ -48,14 +48,14 @@ from config import payload
 			  UPDATE NOTE: getInputTable not referenced in postgres.py  
 
 	TODO [ OTHER ]
-	- [X] finalize databaseManager()
+		- [X] finalize databaseManager()
 
 	TODO [ CONSIDER ]
-	- [ ] replace current system for getFilename() etc, with a simple parseConfig()
+		- [ ] replace current system for getFilename() etc, with a simple parseConfig()
 
 
 	TODO [ TEST NEEDED ]
-	- [ ] test if cleanUp is needed or not when running concatData() routine  
+		- [ ] test if cleanUp is needed or not when running concatData() routine  
 '''
 
 
@@ -83,39 +83,11 @@ def getConnection():
 		user = user, 
 		password = password)
 
-
 ''' * ___ ACTIONS _______________________________________________ 
 '''
-
-''' ? __________________________________________ [ MAKE DECISION b ] ______________________________________________
-	decision desc: 
-		fetchData() and getInputTable() as basicly the same function
-		merge them so you only need one of them. 
-
-		! IMPORTANT NOTE: make sure functions using getInputData doesnt need editing 
-'''
-# fixme [OLD] getInputTable()
-	# def getInputTable(tablename):
-		# ''' 
-		# fucntion documentaion:
-		# 	fetches an updated Input_List from database,
-		# 	the extractors will base their searches on this list.
-
-		# 	PS: table is returned as np.array. 
-		# '''
-		# dbname, host, user, password = parseConfig()
-		# conn = getConnection()	
-		# curr = getCursor(conn)  
-		# curr.execute(f"SELECT * FROM {tablename};") 
-		# input_data = curr.fetchall()
-		# input_df = pd.DataFrame(input_data, columns = [desc[0] for desc in curr.description])
-		# inputs = input_df.to_numpy()
-		# curr.close()
-		# conn.close()
-		# return inputs
-
 # * [NEW] getInputTable()
 def getInputTable(tablename):
+	''' temporary FIX in case some files still calls this function'''
 	return fetchData(tablename) # FIXME: Temporary Quick fix for [ MAKE DECISION b ] 
 
 def fetchData(tablename):
@@ -133,11 +105,7 @@ def fetchData(tablename):
 	curr.close()
 	conn.close()
 	return old_df
-''' ? ____________________________________________________________________________________________________________
-'''
 
-'''? __________________________________________ [ MAKE DECISION a ] ________________________________________________
-'''
 # fixme [OLD] insertData() 
 	# def insertData(df, tablename):
 	# ''' 
@@ -149,6 +117,7 @@ def fetchData(tablename):
 	# dbname, host, user, password = parseConfig()
 	# engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')	
 	# df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
+
 # [OLD NEW] replaceData() --> REPLACE
 	# def replaceData(df, tablename): 
 		# ''' 
@@ -161,6 +130,7 @@ def fetchData(tablename):
 		# dbname, host, user, password = parseConfig()
 		# engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
 		# df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
+
 # [OLD NEW] insertData()	--> APPEND
 	# def insertData(df, tablename): 
 		# ''' 
@@ -185,13 +155,13 @@ def insertData(df, tablename):
 	conn = getConnection()
 	curr = getCursor(conn)
 	dbname, host, user, password = parseConfig()
-	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
+	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')	
 	if tablename == 'brreg_table':
 		df.to_sql(f'{tablename}', engine, if_exists = 'append', index = False)
 	else:
 		df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
-'''? _______________________________________________________________________________________________________________
-'''
+	curr.close()
+	conn.close()
 
 def concatData(df, old_df):
 	''' 
@@ -253,7 +223,6 @@ def checkForTable(tablename):
 		print(f"    table; {tablename} exist")
 		curr.close()
 	except psycopg2.errors.UndefinedTable as e:
-
 	# except TypeError as e:
 		table_exists = False
 		print(f"    Error: table {tablename} does not exist")
@@ -265,7 +234,7 @@ def checkForTable(tablename):
 '''* ___ MANAGER _______________________________________________ 
 '''
 # fixme [OLD] databaseManager()
-# def databaseManager(df, tablename):
+	# def databaseManager(df, tablename):
 	# dbname, host, user, password = parseConfig()
 	# conn = getConnection()
 
@@ -289,7 +258,7 @@ def checkForTable(tablename):
 	# insertData(df, tablename)	
 
 # [OLD NEW] databaseManager()	
-# # def databaseManager(df, tablename):
+	# # def databaseManager(df, tablename):
 	# # ''' 
 	# # 	desc: the file's main function 
 	# # 	does: gets connection, runs if statement, then sends table straight to insertData()
@@ -343,17 +312,16 @@ def databaseManager(df, tablename):
 		try:
 			old_df = fetchData(tablename)
 		except:
-			## print("table does not exsist")
+			# print("table does not exsist")
 			pass
 		try: 
 			df = concatData(df, old_df)
 		except:
-			## print("unable to concat")
+			# print("unable to concat")
 			pass
 		insertData(df, tablename)
 	else: 
 		insertData(df, tablename)
-
 
 '''
 * [MAKE DECISION a]-TEST CONCLUTION : postgres.py works as intended 
@@ -509,18 +477,9 @@ def postLastUpdate(tablename):
 	'''! ALTERNATIVE '''	
 	# update(user_table).where(user_table.c.name == 'patrick').values(fullname='Patrick the Star')
 
-
-
-# def deleteUnit():
-	# stmt = delete(user_table).where(user_table.c.name == 'patrick')
-	# print(stmt)
-
-
 def deleteData(org_num, tablename):
 	conn = getConnection()
 	curr = getCursor(conn)
-	curr.execute(
-	f""" DELETE {tablename}
-                WHERE 'org_num' = '{org_num}'""")
+	curr.execute(f"""DELETE FROM public.{tablename} WHERE "org_num" = '{org_num}'""")
 	conn.commit()
 	curr.close()

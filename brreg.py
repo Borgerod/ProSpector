@@ -1,17 +1,3 @@
-'''* TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP 
--							
--							_____ WHERE I LEFT OF _____
--						[10.08.22]
--						About to make an Update function 
--						ATM it seems like i need two seperate functions for "download whole dataset" and "update dataset"
--						
-
-						! ISSUE:
-						- in updateDataBase(tablename, settings, testmode,  action):
-						- unable to do json = getRequest(url)
-
-- TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
-
 import time; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 import pandas as pd 
 import requests 
@@ -27,22 +13,21 @@ from tqdm import tqdm
 
 # ___ local imports __________
 from config import payload, tablenames, settings
-from postgres import databaseManager, cleanUp, fetchData, checkForTable, postLastUpdate
+from postgres import databaseManager, cleanUp, fetchData, checkForTable, postLastUpdate, deleteData
 from file_manager import *
 
 import json
 import gzip
 import pandas as pd 
-import pprint
 import ast
-
+import datetime as dt
 
 '''
 TODO LIST:
 	- [X] create downloader function 
 	- [X] implement postgres code 
-	- [ ] check if current version works 
-	- [ ] Make Update function 
+	- [X] check if current version works 
+	- [X] Make Update function 
 	- [ ] make documentation on "RUNDOWN OF THE PROGRAM", including what postgres.py does
 	- [ ] make documentation on "NOTABLE FLAWS"
 '''
@@ -52,7 +37,7 @@ TODO LIST:
 '''
 def getRequest(url):
 	''' simple get request based on next_page -> json_dict '''
-	# url = f'https://data.brreg.no/enhetsregisteret/api/enheter/?page=0&size=20'
+	# url = f'https://data.brreg.no/enhetsregisteret/api/enheter/?page=0&size=20'  #FIXME [TEMP] while testing
 	return (requests.get(url, timeout = 10)).json()
 
 def getMaxpages(json_str):
@@ -90,65 +75,32 @@ def makeDataframe(data):
 	df = pd.json_normalize(data)
 	return df
 
-''' * ____ API REQUEST ___________________________
+def getTableName():
+	'''gets the name of the propriate table'''
+	return parseTablenames(getFileName())
+
+''' * ____ UPDATE REQUEST ___________________________
 '''
-
-
-# FIXME: [TEMP DISABLED] UpdateDataBase()
-# def apiManager(current_page):
+# ! moved to file_manaher.py
+# def getLastUpdate(col_name):
 	# '''
-	# 	Manages the api from "Brønnøysynd registeret"
+	# 	gets the date for when a table was last modified from update_tracker
+	# 	- "update_tracker" is a seperate small table that is updated after each sucsessfull run
+		
+	# 	Note:  to avoid confusion, the variable "tablename" passed when calling getLastUpdate(tablename) is renamed to col_name, 
+	# 		   since fetchData() also uses "tablename"		
 	# '''
-	# tablename = getTableName()
-	# json = getRequest(current_page)
-	# '''pages'''
-	# # page = getpage(json)
-	# page = getpage(json, current_page) #FIXME --> TEMP while testing
-	# total_pages = getMaxpages(page)
-	# current_page = getCurrentpage(page)	
-	# next_page = getnext_page(current_page)
-
-	# '''data'''
-	# # data = getData(json)
-	# # df = makeDataframe(data)
-	# # df = datasetEditor(df)
-
-
-	# # TODO: Consider using for loop, e.g. for i in total_pages:
-	# next_result = 0
-	# while next_result == 0:
-	# 	try:
-	# 		databaseManager(df, tablename)
-	# 		next_result = 1
-	# 	# ! REMEBER: you must  account for the api limit 
-	# 	except:
-	# 		continue
-	# 	break
-	# return df, total_pages, current_page, next_page
-
-# ! MOVED TO POSTGRES.PY
-	# def checkLastUpdate(): #TODO: Finish this.
-	# 	# '''
-	# 	# 	checks for last date a update occoured, 
-	# 	# 	returns parameter "oppdateringsid"
-	# 	# '''
-	# 	# last_update = None  #Date 
-
-
-	# 	# # select relfilenode from pg_class where relname = 'test';
-
-	# 	# return last_update
-
-
-def getLastUpdate(tablename):
-	df = fetchData(tablename = 'update_tracker')
-	return dt.strptime( df.to_dict()[tablename][0])
-
+	# df = fetchData(tablename = parseTablenames('update_tracker')) # fetches tablename for "update_tracker" from config, then fetchess df for database
+	# return df.iloc[0][col_name] # fetches date-cell for "col_name" returns -> str 
+	# #? [JUST IN case] you need timestamp to be datetime
+	# #? from datetime import datetime as dt
+	# #? return dt.strptime(df.to_dict()[tablename][0], "%Y-%m-%d") 
 
 def manageUpdateData(unit):
 	'''
 		parse relevant data from unit
 	'''
+	time.sleep(1)
 	url = unit['_links']['enhet']['href']
 	change_type = unit['endringstype']
 	org_num = unit['organisasjonsnummer']
@@ -160,11 +112,12 @@ def manageUpdateData(unit):
 		- Fjernet
 	'''	
 	if change_type == 'Ukjent':
-		addUnit(org_num, url)
+		# Command.addUnit(org_num, url)
+		pass
 	if change_type == 'Ny':
-		addUnit(org_num, url)
+		Command.addNewUnit(org_num, url)
 	if change_type == 'Endring':
-		addUnit(org_num, url)
+		Command.addChangedUnit(org_num, url)
 	if change_type == 'Sletting':
 		Command.deleteUnit(org_num)
 	if change_type == 'Fjernet':
@@ -172,16 +125,27 @@ def manageUpdateData(unit):
 
 class Command:
 	
-	def addUnit(org_num, url):
+	def addNewUnit(org_num, url):
 		data = getRequest(url)
 		df = datasetEditor(jsonDataframe(data))
-		df = df.drop('_links.self.href', axis = 1)
+		# ! Not sure why i need this 
+		# df = df.drop('_links.self.href', axis = 1)
+		databaseManager(df, tablename = getTableName())
+		databaseManager(unit, tablename = 'input_table')
+
+	def addChangedUnit(org_num, url):
+		data = getRequest(url)
+		df = datasetEditor(jsonDataframe(data))
+		# ! Not sure why i need this 
+		# df = df.drop('_links.self.href', axis = 1)
 		databaseManager(df, tablename = getTableName())
 
 	def deleteUnit(org_num):
-		# TODO: [INSERT SQLALCHEMY OR PSYCOG2 CODE]
 		deleteData(org_num, tablename = getTableName())
-
+		try:
+			deleteData(org_num, tablename = 'input_table')
+		except:
+			pass
 	#! replaced with addUnit()
 	# def changeUnit(org_num, url):
 		# # TODO: [INSERT SQLALCHEMY OR PSYCOG2 CODE]
@@ -190,166 +154,41 @@ class Command:
 		# df = df.drop('_links.self.href', axis = 1)
 		# databaseManager(df, tablename = getTableName())
 
-
-
-
-
-
-def updateAPI(base_url, page_num, tablename):
-	print(f'MOCK "updateAPI": {page_num}')
-	# url = f'{base_url}dato={getLastUpdate(tablename)}T00:00:00.000Z&page={page_num}&size=20'
-	# # url = 'https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato=2022-08-09T00:00:00.000Z' #FIXME: [TEMP] while testing
-	# last_update = checkLastUpdate()
-	# json_str = getRequest(url)
-	# # import pprint
-	# # pprint.pprint(json_str)
-
-	# units = list(json_str['_embedded']['oppdaterteEnheter'])
-
-	# # ? not sure which of these i need yet
-	# current_page = getCurrentpage(json_str)
-	# next_page = getnext_page(current_page)
-	# total_pages = getMaxpages(json_str)
-	
-	# ''' Loop, rest of the pages '''
-	# with concurrent.futures.ThreadPoolExecutor() as executor:
-	# 	list(executor.map(manageUpdateData, units))
-
-
-
-
+def updateAPI(page_num):
+	tablename = getTableName()
+	page_url = f'https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato={getLastUpdate(col_name = tablename)}T00:00:00.000Z&page={page_num}&size=20'
 
 	
+	last_update = getLastUpdate(tablename)
+	json_str = getRequest(page_url)
 
+	units = list(json_str['_embedded']['oppdaterteEnheter'])
 
-	# #? next_url = json_str['_embedded']['_links']['next']   #Not Sure if fast enough
+	# ! threading is disabled due to it caused overflodding for POSTGRES
+	# - resolved by regular for loop instead 
+		# ''' Loop, rest of the pages '''
+		# with concurrent.futures.ThreadPoolExecutor() as executor:
+		# 	list(executor.map(manageUpdateData, units))
 
-	# # ! EDIT THESE 
-	# manageUpdateData(json_str)
-	# # df = makeDataframe(data)
-	# # df = datasetEditor(df)
+	# ! reeally slow..
+	for unit in units:
+		manageUpdateData(unit)
 
-
-
-
-
-	# # databaseManager(df, tablename)
-
-	# '''* update-url examples:
-	# 	get all updates (today):
-	# 		'https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter'
-		
-	# 	*	[USing THIS ONE] get all updates after a certain date:
-	# 		'https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato=2010-01-03T00:00:00.000Z'
-		
-	# 	get all updates after a certain update_time 
-	# 		'https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?oppdateringsid=2'
-	# '''
-
-	# # ? not sure if loop is needed 
-	# 	# ''' TODO: implement if statement: 
-	# 	# 	- if totalElements > 10000:
-	# 	# 	-	actionDecider(table_exist=False, testmode, tablename)
-	# 	# '''
-
-	# 	# # * [NEW LOOP]
-	# 	# for i in range(0, total_pages-1):
-	# 	# 	databaseManager(df, tablename)
-
-
-	# 	# # TODO: [OLD LOOP] Consider using for loop, e.g. for i in total_pages:
-	# 	# next_result = 0
-	# 	# while next_result == 0:
-	# 	# 	try:
-	# 	# 		databaseManager(df, tablename)
-	# 	# 		next_result = 1
-	# 	# 	# ! REMEBER: you must  account for the api limit 
-	# 	# 	except:
-	# 	# 		continue
-	# 	# 	break	
-	# return df, total_pages, current_page, next_page
-
-
-
-
-def updateDataBase(tablename, settings, testmode,  action):
-	# total_elements = gettotalElements() #[usage: tqdm & loop(could be)] gets total elements of dataset from api
-	print("_"*91)
-	if testmode:
-		print("|			Updating: Brønnøysund Register (TESTMODE) 			  |")
-	else:
-		print("|			Updating: Brønnøysund Register 			  |")
-	print("_"*91)
-	print()		
-	url = f'https://data.brreg.no/enhetsregisteret/api/{action}'
-
-	
-	# ''' first run '''
-	# df, total_pages, current_page, next_page = apiManager(current_page = 0)
-
-	# #? not sure if needed 
-	# 	# ''' temporary code for testing '''
-	# 	# if testmode == "on":
-	# 	# 	total_pages = 1
-
-	# ''' makes list of all page numbers '''
-	# all_pages = np.arange(0, )
-	
-
-
-
-	json = getRequest(url)
-	import pprint
-	pprint(json)
-	# max_pages =  getMaxpages()
-	# print(max_pages)
-	# print(f'amount of pages to scrape = {len(all_pages)}')
-
-	# print(f"amount of elements to scrape = {gettotalElements(json_str)}")
-
-
-
-
-
-
-	# if gettotalElements(json_str) > 10000:
-	# 	actionDecider(table_exist = False, testmode=testmode, tablename=tablename)
-	# else:
-	# 	''' Loop, rest of the pages '''
-	# 	with concurrent.futures.ThreadPoolExecutor() as executor:
-	# 		list(tqdm(executor.map(updateAPI, all_pages, tablename), total = all_pages[-1] ))
-	
-	# print("cleaning database..")
-	# cleanUp()
-	# print("    cleaning complete")
-
-	# print("_"*91)
-	# print(f"|			Update Complete. 			  |")
-	# print(f"|			Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")
-	# print("_"*91)
-	# print()
 
 ''' * ____ DOWNLOAD JSONFILE _____________________
 '''
 def downloadJSON(json_file_name, url):
-	with open('enheter_alle.json.gz', 'wb') as out_file:
-		content = requests.get(url, stream=True).content
-		out_file.write(content)
-
-# TODO : example of download with TQDM
-# def download_file(url, filename):
-    # """
-    # Helper method handling downloading large files from `url` to `filename`. Returns a pointer to `filename`.
-    # """
-    # chunkSize = 1024
-    # r = requests.get(url, stream=True)
-    # with open(filename, 'wb') as f:
-    #     pbar = tqdm( unit="B", total=int( r.headers['Content-Length'] ) )
-    #     for chunk in r.iter_content(chunk_size=chunkSize): 
-    #         if chunk: # filter out keep-alive new chunks
-    #             pbar.update (len(chunk))
-    #             f.write(chunk)
-    # return filename
+    """
+    	Helper method handling downloading large files from `url` to `filename`. Returns a pointer to `filename`.
+    """
+    chunkSize = 1024
+    r = requests.get(url, stream=True)
+    with open('enheter_alle.json.gz', 'wb') as f:
+        pbar = tqdm( unit="B", total=int( r.headers['Content-Length'] ) )
+        for chunk in r.iter_content(chunk_size = chunkSize): 
+            if chunk: # filter out keep-alive new chunks
+                pbar.update (len(chunk))
+                f.write(chunk)
 
 ''' * ____  MAKE DATAFRAME  _______________________
 '''
@@ -364,22 +203,32 @@ def datasetEditor(df):
 	'''
 		drops columns not in keep_list, then renames columns from BRREG dataset  
 	'''
-	keep_list = np.array([	'organisasjonsnummer', 'navn', 'registreringsdatoEnhetsregisteret',
-							'registrertIMvaregisteret', 'antallAnsatte', 'stiftelsesdato',
-							'registrertIForetaksregisteret', 'registrertIStiftelsesregisteret',
-							'registrertIFrivillighetsregisteret', 'sisteInnsendteAarsregnskap',
-							'konkurs', 'underAvvikling',
-							'underTvangsavviklingEllerTvangsopplosning', 'maalform',
-							'organisasjonsform.kode', 'organisasjonsform.beskrivelse',
-							'organisasjonsform._links.self.href', 'naeringskode1.beskrivelse',
-							'naeringskode1.kode', 'forretningsadresse.land',
-							'forretningsadresse.landkode', 'forretningsadresse.postnummer',
-							'forretningsadresse.poststed', 'forretningsadresse.adresse',
-							'forretningsadresse.kommune', 'forretningsadresse.kommunenummer',
-							'institusjonellSektorkode.kode', 'institusjonellSektorkode.beskrivelse',
-							'_links.self.href', 'postadresse.land', 'postadresse.landkode',
-							'postadresse.postnummer', 'postadresse.poststed', 'postadresse.adresse',
-							'postadresse.kommune', 'postadresse.kommunenummer', 'hjemmeside',])
+
+	# ! [OLD] keep_list 
+	# keep_list = np.array([	'organisasjonsnummer', 'navn', 'registreringsdatoEnhetsregisteret',
+							# 'registrertIMvaregisteret', 'antallAnsatte', 'stiftelsesdato',
+							# 'registrertIForetaksregisteret', 'registrertIStiftelsesregisteret',
+							# 'registrertIFrivillighetsregisteret', 'sisteInnsendteAarsregnskap',
+							# 'konkurs', 'underAvvikling',
+							# 'underTvangsavviklingEllerTvangsopplosning', 'maalform',
+							# 'organisasjonsform.kode', 'organisasjonsform.beskrivelse',
+							# 'organisasjonsform._links.self.href', 'naeringskode1.beskrivelse',
+							# 'naeringskode1.kode', 'forretningsadresse.land',
+							# 'forretningsadresse.landkode', 'forretningsadresse.postnummer',
+							# 'forretningsadresse.poststed', 'forretningsadresse.adresse',
+							# 'forretningsadresse.kommune', 'forretningsadresse.kommunenummer',
+							# 'institusjonellSektorkode.kode', 'institusjonellSektorkode.beskrivelse',
+							# '_links.self.href', 'postadresse.land', 'postadresse.landkode',
+							# 'postadresse.postnummer', 'postadresse.poststed', 'postadresse.adresse',
+							# 'postadresse.kommune', 'postadresse.kommunenummer', 'hjemmeside',])
+	
+	# * [NEW] keep_list 
+	keep_list = np.array([ 'organisasjonsnummer', 'navn', 'registreringsdatoEnhetsregisteret', 'mva_registrert',
+					       'antallAnsatte', 'registrertIForetaksregisteret', 'registrertIStiftelsesregisteret',
+					       'registrertIFrivillighetsregisteret', 'konkurs', 'underAvvikling',
+					       'underTvangsavviklingEllerTvangsopplosning', 'maalform', 'hjemmeside',
+					       'stiftelsesdato', 'sisteInnsendteAarsregnskap'])
+
 	df = df[df.columns.intersection(keep_list)]
 	return df.rename(columns = {	'organisasjonsnummer':'org_num',
 									'navn':'navn',
@@ -410,77 +259,32 @@ def datasetEditor(df):
 									'sisteInnsendteAarsregnskap':'siste_innsendt_årsregnskap',})
 
 
-# FIXME: [TEMP DISABLED] 
+def updateInput_table(df2, tablename):
+	df1 = fetchData(tablename)
+	new = df2[~(df1.org_num.isin(df2.org_num))&(~df1.company_name.isin(df2.company_name))]
+	databaseManager(df, 'input_table')
 
+# TODO: make a function that updates input_table when you download the whole dataset
+# def 
+# 	databaseManager(unit, tablename = 'input_table')
 
-# [TRASH]
-	# 	# df = updateAPI(url)
-	# 	# print(f'{df}\n')	
-	# 	# print("    dataframe complete")
-	# 	# print()
-
-
-	# 	# ''' * ANNBEFALING FRA BRREG IHT OPPDATERING
-	# 	# 	Vi anbefaler følgende bruk: Filtrer på dato for første gangs uthenting, slik at man unngår enheter tidligere enn eventuell siste kopi. 
-	# 	# 	Filtrer så på updateid for å hente neste sett av resultater. (Her kan man trygt bruke updateid+1). 
-	# 	# 	Page+size kan benyttes for mer presis navigering i en updateid- eller dato-spørring.
-		
-	# 	# 	PAGINERING
-	# 	# 		Det er mulig å filtrere og bla gjennom resultatsettet via page+size, dato og/eller updateid, men med visse begrensninger. 
-	# 	# 		(Page+1)*size kan ikke overskride 10 000 og det kan finnes flere elementer med samme dato. Updateid kan bare forekomme en gang, 
-	# 	# 		men disse er gjenbrukt på tvers av underenheter og enheter og kan ha gap på flere tusen id’er.
-	# 	# '''
-
-
-	# 	# print("making dataframe..")
-	# 	# data = json_file_name #FIXME --> [TEMP] while testing
-	# 	# df = jsonDataframe(data = json_file_name)
-	# 	# print(f'{df}\n')	
-	# 	# print("    dataframe complete")
-	# 	# print()
-
-	# 	# print("editing dataframe..")
-	# 	# df = datasetEditor(df)
-	# 	# print(f'{df}\n')	
-	# 	# print("    editing complete")
-	# 	# print()
-		
-	# 	# print("uploading to database..")
-	# 	# databaseManager(df, tablename)
-	# 	# print('    upload complete')
-	# 	# print()
-
-	# 	# print(f'Display results:\n\n{df}\n\n')
-	# 	# db_table = fetchData(tablename)
-	# 	# print(f'{db_table}\n')	
-	# 	# print()
-
-	# 	# # cleanup; check for duplicates
-	# 	# # TODO: insert this 
-	# 	# print("_"*91)
-	# 	# print(f"|			Update Complete. 			  |")
-	# 	# print(f"|			Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")
-	# 	# print("_"*91)
-	# 	# print()
-
-
-def downloadWholeDataset(tablename, testmode, json_file_name, action):
+''' * ____  ACTION DESIDER  _______________________
+	consist of three functions;
+	"actionDecider" which makes the decision on what type of action to make, either: 
+		- Download full datatset --> downloadWholeDataset()
+		- Update dataset --> updateDataBase()
+'''
+def downloadWholeDataset(tablename, json_file_name, action):
 	print("_"*91)
-	if testmode:
-		print("|			Starting: Brønnøysund Register Extractor (TESTMODE) 			  |")
-	else:
-		print("|			Starting: Brønnøysund Register Extractor 			  |")
+	print("|			Starting: Brønnøysund Register Extractor 			  |")
 	print("_"*91)
 	print()	
 
-	#! [not in use] [usage: tqdm]
-	# total_elements = gettotalElements() # gets total elements of dataset from api 
 	url = f'https://data.brreg.no/enhetsregisteret/api/{action}'
 	
-	#FIXME --> [TEMP] DISABLED  while testing
-	# print("downloading file..")
-	# downloadJSON(json_file_name, url)
-	# print("    downloading complete") 
+	print("downloading file..")
+	downloadJSON(json_file_name, url)
+	print("    downloading complete") 
 
 	print("making dataframe..")
 	df = jsonDataframe(data = json_file_name)
@@ -494,6 +298,8 @@ def downloadWholeDataset(tablename, testmode, json_file_name, action):
 	print("    editing complete")
 	print()
 	
+	updateInput_table(df2=df, tablename)
+
 	print("uploading to database..")
 	databaseManager(df, tablename)
 	print('    upload complete')
@@ -504,10 +310,8 @@ def downloadWholeDataset(tablename, testmode, json_file_name, action):
 	print(f'{db_table}\n')	
 	print()
 
-	# cleanup; check for duplicates
-	# TODO: insert this 
 	print("cleaning database..")
-	cleanUp()
+	cleanUp(tablename)
 	print("    cleaning complete")
 	
 	# missing values; 
@@ -519,43 +323,77 @@ def downloadWholeDataset(tablename, testmode, json_file_name, action):
 	print("_"*91)
 	print()
 
-def actionDecider(table_exist, testmode, tablename):
+def updateDataBase(tablename, settings,  action):
+	print("_"*91)
+	''' checking if  or not'''
+	print("|			Updating: Brønnøysund Register 			  |")
+	print("_"*91)
+	print()		
+
+	url = f'https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato={getLastUpdate(col_name = tablename)}T00:00:00.000Z'
+
+	# ? not sure if needed 
+		# ''' temporary code for testing '''
+		# if  == "on":
+		# 	total_pages = 1
+
+	json_str = getRequest(url)
+	max_pages =  getMaxpages(json_str)
+
+	# FIXME [TEMP] while testing fixme [TEMP] while testing fixme [TEMP] while testing
+	print(f"""\n 	Last time Database was modified:             {getLastUpdate(col_name = tablename)}
+	today's date:                                13-08-2022
+	amount of pages to scrape:                   {(max_pages)}
+	amount of elements that needs to be updated: {gettotalElements(json_str)}
+	limit for max elements:                      10000""")
+
+
+	''' Checks if amount of changes needed to be updated exceeds the limit '''
+	if gettotalElements(json_str) > 10000:
+		# fixme prints for testing
+		''' recalls actiondecider() with fake param (table_exist = False) to make it download whole database '''
+		actionDecider(table_exist = False, tablename=tablename)
+	else:
+		# fixme prints for testing
+		''' makes list of all page numbers '''
+		all_pages = np.arange(0, max_pages)
+		''' Loop, rest of the pages '''
+		with concurrent.futures.ThreadPoolExecutor() as executor:
+			list(tqdm(executor.map(updateAPI, all_pages), total = len(all_pages)))
+
+	print("cleaning database..")
+	cleanUp(tablename)
+	print("    cleaning complete")
+
+	print("_"*91)
+	print(f"|			Update Complete. 			  |")
+	print(f"|			Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")
+	print("_"*91)
+	print()
+
+def actionDecider(table_exist, tablename):
 	if table_exist:
 		settings = parseSettings(getFileName())	#fetches the appropriate settings for current file
-		updateDataBase(tablename, settings, testmode, action = 'enheter/lastned')
-		# print(" STAND-IN for updateDataBase() ")		
+		updateDataBase(tablename, settings, action = 'oppdateringer/enheter')
 	else:
-		downloadWholeDataset(tablename, testmode, json_file_name, action = 'oppdateringer/enheter')
-
-# TODO: should be exported to file_manager.py
-def getTableName():
-	return parseTablenames(getFileName())
+		json_file_name = 'enheter_alle.json.gz'
+		downloadWholeDataset(tablename, json_file_name, action = 'enheter/lastned')
 
 ''' * ____  MAIN  ________________________________
 '''
-def brregExtractor(testmode):
-	# current_file_name = getFileName()	# fetches name of current file 
+def brregExtractor():
 	tablename = getTableName() # fetches the appropriate tablename for current file
-
-	''' Decide wether to download or update
-		Checks if table exsist, then builds the propriate url for api '''
-	if testmode:
-		json_file_name = 'enheter_alle_snippet.json.gz'
-	else: 
-		json_file_name = 'enheter_alle.json.gz'
-	
 	''' Decide wether to download or update
 		Checks if table exsist, then builds the propriate url for api '''
 	table_exist = checkForTable(tablename) 
-	actionDecider(table_exist, testmode, tablename)
-	# postLastUpdate(tablename)
-
-
-
+	actionDecider(table_exist, tablename)
+	postLastUpdate(tablename)
+	cleanUp(tablename='input_table')
 
 # FIXME: [TEMP] while testing
 if __name__ == '__main__':			# FIXME: STAND IN FOR main() in main.py
-	brregExtractor(testmode = False)
+	brregExtractor()
+
 
 
 
@@ -743,3 +581,52 @@ if __name__ == '__main__':			# FIXME: STAND IN FOR main() in main.py
 
 
 
+# [TRASH] from updateDataBase()
+	# 	# df = updateAPI(url)
+	# 	# print(f'{df}\n')	
+	# 	# print("    dataframe complete")
+	# 	# print()
+
+
+	# 	# ''' * ANNBEFALING FRA BRREG IHT OPPDATERING
+	# 	# 	Vi anbefaler følgende bruk: Filtrer på dato for første gangs uthenting, slik at man unngår enheter tidligere enn eventuell siste kopi. 
+	# 	# 	Filtrer så på updateid for å hente neste sett av resultater. (Her kan man trygt bruke updateid+1). 
+	# 	# 	Page+size kan benyttes for mer presis navigering i en updateid- eller dato-spørring.
+		
+	# 	# 	PAGINERING
+	# 	# 		Det er mulig å filtrere og bla gjennom resultatsettet via page+size, dato og/eller updateid, men med visse begrensninger. 
+	# 	# 		(Page+1)*size kan ikke overskride 10 000 og det kan finnes flere elementer med samme dato. Updateid kan bare forekomme en gang, 
+	# 	# 		men disse er gjenbrukt på tvers av underenheter og enheter og kan ha gap på flere tusen id’er.
+	# 	# '''
+
+
+	# 	# print("making dataframe..")
+	# 	# data = json_file_name #FIXME --> [TEMP] while testing
+	# 	# df = jsonDataframe(data = json_file_name)
+	# 	# print(f'{df}\n')	
+	# 	# print("    dataframe complete")
+	# 	# print()
+
+	# 	# print("editing dataframe..")
+	# 	# df = datasetEditor(df)
+	# 	# print(f'{df}\n')	
+	# 	# print("    editing complete")
+	# 	# print()
+		
+	# 	# print("uploading to database..")
+	# 	# databaseManager(df, tablename)
+	# 	# print('    upload complete')
+	# 	# print()
+
+	# 	# print(f'Display results:\n\n{df}\n\n')
+	# 	# db_table = fetchData(tablename)
+	# 	# print(f'{db_table}\n')	
+	# 	# print()
+
+	# 	# # cleanup; check for duplicates
+	# 	# # TODO: insert this 
+	# 	# print("_"*91)
+	# 	# print(f"|			Update Complete. 			  |")
+	# 	# print(f"|			Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")
+	# 	# print("_"*91)
+	# 	# print()

@@ -30,7 +30,8 @@ tablenames = {	'google' 	   			: 'google_table',
 				'gulesider'    			: 'gulesider_table',
 				'input_table'  			: 'input_table',
 				'output_table' 			: 'output_table',
-				'gulesider_error_table' : 'gulesider_error_table'  }
+				'gulesider_error_table' : 'gulesider_error_table',
+				'update_tracker' 		: 'update_tracker',		  }
 
 ''' _____ EXTRACTORS ____________________________________________________________'''
 settings =  {	'google_settings'	 : {'chunk_size' : 50,},

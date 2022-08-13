@@ -3,6 +3,7 @@ from inspect import currentframe, getframeinfo, stack
 
 # ___ local imports __________
 from config import tablenames, settings
+from postgres import databaseManager, cleanUp, fetchData, checkForTable, postLastUpdate, deleteData
 
 
 ''' ____ NEW EXPERIMENTAL: parse tablename & settings  ____________________________'''
@@ -24,7 +25,6 @@ def getLineNumber():
 def getFilePath():
 	''' gets current filepath --> filepath '''
 	# return getframeinfo(currentframe()).filename
-
 	return stack()[1].filename 
 
 def getRelativePath():
@@ -34,4 +34,16 @@ def getRelativePath():
 def getFileName():
 	''' gets filename for current file --> file_name '''
 	return re.split("[/,.]+", ('/'.join(map(str, stack()[1].filename.split('\\')[-2:]))))[1]
+
+
+def getLastUpdate(col_name):
+	'''
+		gets the date for when a table was last modified from update_tracker
+		- "update_tracker" is a seperate small table that is updated after each sucsessfull run
+		
+		Note:  to avoid confusion, the variable "tablename" passed when calling getLastUpdate(tablename) is renamed to col_name, 
+			   since fetchData() also uses "tablename"		
+	'''
+	df = fetchData(tablename = parseTablenames('update_tracker')) # fetches tablename for "update_tracker" from config, then fetchess df for database
+	return df.iloc[0][col_name] # fetches date-cell for "col_name" returns -> str 
 
