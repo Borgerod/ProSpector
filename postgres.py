@@ -13,9 +13,9 @@ import pandas as pd
 import json
 import psycopg2
 from psycopg2.extras import Json
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, update, delete
 import concurrent.futures
-
+from datetime import datetime as dt 
 # ___ local imports ________
 # from config import google_payload, brreg_payload, CHUNK_SIZE
 from config import payload
@@ -38,14 +38,14 @@ from config import payload
 	TODO [ MAKE DECISION a ]
 		- [ ] rename insertData() to appendData(), then remake insertData()
 		- [ ] [MAYBE] make replaceData() & purgeData()
-	  	- [ ] update extractors to call appendData() or insertData()
-	  	- if [ALTERNATIVE] is used: 
-	  		- [ ] include if statement in databaseManager()	
+		- [ ] update extractors to call appendData() or insertData()
+		- if [ALTERNATIVE] is used: 
+			- [ ] include if statement in databaseManager()	
 
 	TODO [ MAKE DECISION b ]
-	  	- [X] merge fetchData and getInputTable()
-	  	- [ ] update extractors using getInputData() if needed
-	  	 	  UPDATE NOTE: getInputTable not referenced in postgres.py  
+		- [X] merge fetchData and getInputTable()
+		- [ ] update extractors using getInputData() if needed
+			  UPDATE NOTE: getInputTable not referenced in postgres.py  
 
 	TODO [ OTHER ]
 	- [X] finalize databaseManager()
@@ -89,10 +89,10 @@ def getConnection():
 
 ''' ? __________________________________________ [ MAKE DECISION b ] ______________________________________________
 	decision desc: 
-	 	fetchData() and getInputTable() as basicly the same function
-	 	merge them so you only need one of them. 
+		fetchData() and getInputTable() as basicly the same function
+		merge them so you only need one of them. 
 
-	 	! IMPORTANT NOTE: make sure functions using getInputData doesnt need editing 
+		! IMPORTANT NOTE: make sure functions using getInputData doesnt need editing 
 '''
 # fixme [OLD] getInputTable()
 	# def getInputTable(tablename):
@@ -151,28 +151,28 @@ def fetchData(tablename):
 	# df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
 # [OLD NEW] replaceData() --> REPLACE
 	# def replaceData(df, tablename): 
-		''' 
-			inserts final dataframe to database, 
-			! REPLACES old table, with new table.
-			if tablename does not exsist in db, it creates new table. 
-		'''
-		conn = getConnection()
-		curr = getCursor(conn)
-		dbname, host, user, password = parseConfig()
-		engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
-		df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
+		# ''' 
+		# 	inserts final dataframe to database, 
+		# 	! REPLACES old table, with new table.
+		# 	if tablename does not exsist in db, it creates new table. 
+		# '''
+		# conn = getConnection()
+		# curr = getCursor(conn)
+		# dbname, host, user, password = parseConfig()
+		# engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
+		# df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
 # [OLD NEW] insertData()	--> APPEND
 	# def insertData(df, tablename): 
-		''' 
-			inserts final dataframe to database, 
-			! APPENDS new table to old table.
-			if tablename does not exsist in db, it creates new table. 
-		'''
-	conn = getConnection()
-	curr = getCursor(conn)
-	dbname, host, user, password = parseConfig()
-	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
-	df.to_sql(f'{tablename}', engine, if_exists = 'append', index = False)
+		# ''' 
+		# 	inserts final dataframe to database, 
+		# 	! APPENDS new table to old table.
+		# 	if tablename does not exsist in db, it creates new table. 
+		# '''
+		# conn = getConnection()
+		# curr = getCursor(conn)
+		# dbname, host, user, password = parseConfig()
+		# engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
+		# df.to_sql(f'{tablename}', engine, if_exists = 'append', index = False)
 
 # * [ALTERNATIVE] insertData() ---> [ TWO-IN-ONE ]
 def insertData(df, tablename): 
@@ -240,6 +240,26 @@ def cleanUp(tablename):
 	print(df)
 	curr.close()
 	conn.close()
+
+def checkForTable(tablename):
+	print(f"checking if {tablename} exists: ")
+	conn = getConnection()
+	try:
+		curr = conn.cursor()
+		#! [OLD] curr.execute("select * from information_schema.tables where table_name=%s", (tablename,))				 	# check table
+		curr.execute(f"SELECT * FROM {tablename};")
+		exists = curr.fetchone()[0]
+		table_exists = True
+		print(f"    table; {tablename} exist")
+		curr.close()
+	except psycopg2.errors.UndefinedTable as e:
+
+	# except TypeError as e:
+		table_exists = False
+		print(f"    Error: table {tablename} does not exist")
+	print(f"table_exists = {table_exists}")
+	conn.close()
+	return table_exists
 
 
 '''* ___ MANAGER _______________________________________________ 
@@ -313,9 +333,11 @@ def databaseManager(df, tablename):
 			  if tablename is NOT 'brreg_table': runs the "concat(old_df, new_df)" routine.
 			  if tablename is 'brreg_table': does nothing.
 	'''
-	dbname, host, user, password = parseConfig() 
+	dbname, host, user, password = parseConfig()
 	## conn = getConnection()
-
+	# if 'update_tracker' in tablename:
+		
+		
 	if 'brreg_table' not in tablename:
 		old_df = pd.DataFrame()
 		try:
@@ -343,40 +365,40 @@ def databaseManager(df, tablename):
 	 fetching data
 	 passing to databaseManager()
 	 check if tablename == "brreg_table":
-	        TRUE --> tablename IS named "brreg_table"
-	                tablename: brreg_table
-	                type: <class 'str'>
+			TRUE --> tablename IS named "brreg_table"
+					tablename: brreg_table
+					type: <class 'str'>
 
-	        runs insertData()
+			runs insertData()
 	 check if tablename == "brreg_table": (note statement looks different)
-	        TRUE --> tablename IS named "brreg_table"
-	                tablename: brreg_table
-	                type: <class 'str'>
+			TRUE --> tablename IS named "brreg_table"
+					tablename: brreg_table
+					type: <class 'str'>
 
-	        actions: APPENDS new_table to old_table
-	        runs cleanUp():
-	                runs fetchData() -> to get getting old_table
-	                runs drop_duplicates()
-	                create_engine() --> APPEND
+			actions: APPENDS new_table to old_table
+			runs cleanUp():
+					runs fetchData() -> to get getting old_table
+					runs drop_duplicates()
+					create_engine() --> APPEND
 	|                                  Finished                             |
 
 	* SECOND RUN OUTPUT, (tablename: 'gulesider_table'):
 	 fetching data
 	 passing to databaseManager()
 	 check if tablename == "brreg_table":
-	        FALSE --> tablename is NOT named "brreg_table"
-	                tablename: gulesider_table
-	                type: <class 'str'>
+			FALSE --> tablename is NOT named "brreg_table"
+					tablename: gulesider_table
+					type: <class 'str'>
 
-	        runs getInputTable() -> try to get getting old_table
-	        runs concatData() -> try to old_table with new_table
-	        runs insertData()
+			runs getInputTable() -> try to get getting old_table
+			runs concatData() -> try to old_table with new_table
+			runs insertData()
 	 check if tablename == "brreg_table": (note statement looks different)
-	        FALSE --> tablename is NOT named "brreg_table"
-	                tablename: gulesider_table
-	                type: <class 'str'>
+			FALSE --> tablename is NOT named "brreg_table"
+					tablename: gulesider_table
+					type: <class 'str'>
 
-	        actions: REPLACE old_table with new_table
+			actions: REPLACE old_table with new_table
 	|                                  Finished                             |
 
 	TEST MATERIAL:
@@ -439,7 +461,7 @@ def databaseManager(df, tablename):
 	* TEST OUTPUT
 	tablename: "brreg_table
 	______ TABLE FROM getInputTable(tablename)____________
-	         org_num                                         navn  ... har_Facebook                                  facebook
+			 org_num                                         navn  ... har_Facebook                                  facebook
 	0    811879312.0                      17. Mai Nemda Kaupanger  ...        False                                      None
 	1    812467182.0                                     &More AS  ...        False                                      None
 	2    813646552.0                                     1 Sbx AS  ...        False                                      None
@@ -456,7 +478,7 @@ def databaseManager(df, tablename):
 
 	tablename: "brreg_table
 	______ TABLE FROM fetchData(tablename)____________
-	         org_num                                         navn  ... har_Facebook                                  facebook
+			 org_num                                         navn  ... har_Facebook                                  facebook
 	0    811879312.0                      17. Mai Nemda Kaupanger  ...        False                                      None
 	1    812467182.0                                     &More AS  ...        False                                      None
 	2    813646552.0                                     1 Sbx AS  ...        False                                      None
@@ -473,3 +495,32 @@ def databaseManager(df, tablename):
 
 	|                                  Finished                             |
 '''
+
+def postLastUpdate(tablename):
+	conn = getConnection()
+	curr = getCursor(conn)
+	curr.execute(
+	f""" UPDATE update_tracker
+                SET {tablename} = '{dt.now().strftime('%Y-%m-%d')}'
+                WHERE index = 'date'""")
+	conn.commit()
+	curr.close()
+
+	'''! ALTERNATIVE '''	
+	# update(user_table).where(user_table.c.name == 'patrick').values(fullname='Patrick the Star')
+
+
+
+# def deleteUnit():
+	# stmt = delete(user_table).where(user_table.c.name == 'patrick')
+	# print(stmt)
+
+
+def deleteData(org_num, tablename):
+	conn = getConnection()
+	curr = getCursor(conn)
+	curr.execute(
+	f""" DELETE {tablename}
+                WHERE 'org_num' = '{org_num}'""")
+	conn.commit()
+	curr.close()
