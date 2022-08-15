@@ -36,11 +36,16 @@ AWS:
 
 
 
+Notes from Client:
+	Det eneste vi ser etter i et prospekt er om de har:
+	-  Betalt oppføring på: Proff, 1881 eller Gulesider
+	-  Ingen, ikke-bekreftet eller mangelfull Google-profil 
 
+De andre kriteriene er ikke viktig for oss da det tyder på at de har behov for markedsføring da de har kjøpt oppføring hos katalogene.
 
-
-
-
+	utelukke:
+	- mediebyråer & reklamebyråer
+	•	Mediebyråer , Markedsføringskonsulenter  , Medie- og kommunikasjonsrådgivning , Internettdesign og programmering , Reklamebyrå
 
 
 HIGHLIGT syntax
@@ -59,4 +64,5 @@ HIGHLIGT syntax
 
 # rgba(235, 64, 52, 0.8)
 # rgba(235, 255, 145, 0.8)
+
 
