@@ -1,12 +1,18 @@
 ''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP 
 							
 							_____ WHERE I LEFT OF _____
-		
+						[14.08.2022]
+						holder på å teste ut hastigheten og om den klarer å skrape alt. 
+						error: - reached 829 before error:selenium.common.exceptions.TimeoutException: 
+
 						__ISSUE:___
 						Får noen ganger denne feilmeldingen:
 						[0807/172348.241:INFO:CONSOLE(247)] "Autofocus processing was blocked because a document already has a focused element.", source: https://www.google.com/ (247) 
 						
-						Skraper 600 enheter --> 334.99 second(s)
+						Etter endringer; skraper 200 enheter --> 77.52 second(s)
+						Skraper 600 enheter -->  	  165.02 second(s)
+												[old] 232.41 second(s)
+												[old] 334.99 second(s)
 						
 TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 
@@ -24,7 +30,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from inspect import currentframe, getframeinfo
-
+import os 
 # ___ local imports __________
 from config import payload, tablenames, settings
 from postgres import databaseManager, getInputTable
@@ -32,7 +38,11 @@ from file_manager import *
 from input_table import inputTable
 
 
-
+'''! ISSUES:
+	- reached 829 before error:
+	error occored in on line: 220, claimedStatus --> search.send_keys(Keys.RETURN) 
+	selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 300.000
+'''
 
 '''
 ____ CMD code _____
@@ -171,7 +181,37 @@ def driverOptions():
 
 
 '''
-! OPPOSITE : unregistered not registered
+! [OLD] OPPOSITE : unregistered not registered
+'''
+
+# def claimedStatus(chunk, driver):
+	# '''
+	# 	get the google page for the searchword, 
+	# 	then checks if the searchword is a registered business, 
+	# 	and if it is unclaimed.
+	# 	returns a np.array to saveData() for each iteration
+	# '''
+	# org_num = chunk[0]
+	# search_term = chunk[1]
+	# search = driver.find_element("name", "q")
+	# search.clear()
+	# search.send_keys(search_term+' maps')
+	# search.send_keys(Keys.RETURN)
+	# try: 
+	# 	check_business = driver.find_element(By.XPATH, '//*[@id="rhs"]/div')
+	# 	is_unreqistered = False
+	# 	try: 
+	# 		check_claimed = driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div/div/a')
+	# 		is_unclaimed = True
+	# 	except:
+	# 		is_unclaimed = False
+	# except:
+	# 	is_unreqistered = True
+	# 	is_unclaimed = True
+	# return np.array((org_num, search_term, is_unreqistered, is_unclaimed), dtype = object)
+
+'''
+* [NEW] registered not unregistered
 '''
 def claimedStatus(chunk, driver):
 	'''
@@ -182,42 +222,7 @@ def claimedStatus(chunk, driver):
 	'''
 	org_num = chunk[0]
 	search_term = chunk[1]
-	search = driver.find_element("name", "q")
-	search.clear()
-	search.send_keys(search_term+' maps')
-	search.send_keys(Keys.RETURN)
-	try: 
-		check_business = driver.find_element(By.XPATH, '//*[@id="rhs"]/div')
-		is_unreqistered = False
-		try: 
-			check_claimed = driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div/div/a')
-			is_unclaimed = True
-		except:
-			is_unclaimed = False
-	except:
-		is_unreqistered = True
-		is_unclaimed = True
-	return np.array((org_num, search_term, is_unreqistered, is_unclaimed), dtype = object)
 
-
-# def makeDataframe(status):
-# 	''' makes dataframe from json '''
-# 	df = pd.DataFrame([status], columns = ['org_num', 'navn', 'google Uregistrert', 'google Uerklært'])
-# 	return df
-
-
-'''
-* registered not unregistered
-'''
-def claimedStatus(chunk, driver):
-	'''
-		get the google page for the searchword, 
-		then checks if the searchword is a registered business, 
-		and if it is unclaimed.
-		returns a np.array to saveData() for each iteration
-	'''
-	org_num = chunk[0]
-	search_term = chunk[1]
 	search = driver.find_element("name", "q")
 	search.clear()
 	search.send_keys(search_term+' maps')
@@ -235,14 +240,10 @@ def claimedStatus(chunk, driver):
 		is_claimed = False
 	return np.array((org_num, search_term, is_reqistered, is_claimed), dtype = object)
 
-
 def makeDataframe(status):
 	''' makes dataframe from json '''
 	df = pd.DataFrame([status], columns = ['org_num', 'navn', 'google registrert', 'google erklært'])
 	return df
-
-
-
 
 def extractionManager(chunk):
 	''' 
@@ -260,70 +261,19 @@ def extractionManager(chunk):
 	
 	''' initiate scraper '''
 
-	status = claimedStatus(chunk, driver)
-	df = makeDataframe(status)
+	try: 
+		status = claimedStatus(chunk, driver)
+		df = makeDataframe(status)
+		return df
+	except:
+		pass 
 	# print("_"*100)
 	# print('from extractionManager, printing df after claimedStatus():')	
 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
 	# print()
-	return df
-
-def googleExtractor(testmode):
-	'''
-		sets up all nessasary functions, 
-		then gets list of company names, 
-		then iterates through the list via multithreading: claimedStatus().
-	'''
-	print("_"*91)
-	print("|											  |")
-	print("|			Starting: GOOGLE Extractor 			  |")
-	print("|											  |")
-	print("_"*91)
-	print()
-
-	''' preperations: parse config, connect to database and connect to api manager '''
-
-	''' fetching data from config '''
-	file_name = getFileName()	# fetches name of current file 
-	tablename = parseTablenames(file_name) # fetches the appropriate tablename for current file
-	settings = parseSettings(file_name)	# fetches the appropriate settings for current file
 	
 
-	chunk_size = settings['chunk_size']
-	input_array = inputTable()	#get inputs from postgres database
-	
-	''' temporary code for testing '''
-	if testmode == 'on':
-		test_chunks = input_array[:chunk_size] 	# TEMP TEMP TEMP TEMP TEMP TEMP
-		chunks = [test_chunks] 					# TEMP TEMP TEMP TEMP TEMP TEMP
-	else:
-		chunks = [input_array[x:x+chunk_size] for x in range(0, len(input_array),chunk_size)]
-	for i, chunk in enumerate(chunks):
-		print(f"Chunk number {i+1} / {len(chunks)}")
-		with tqdm(total = len(chunks)) as pbar:
-			with concurrent.futures.ThreadPoolExecutor() as executor:
-					results = executor.map(extractionManager, chunk)
-					for df in results:
-						databaseManager(df, tablename)
-						# deleteData(df['org_num'], tablename = 'input_table')
-						pbar.update(1)
-	print("																		"+"_"*91)
-	print("																		|											  |")
-	print("																		|				   Data Extraction Complete. 				  |")
-	print("																		|											  |")
-	print("																		"+"_"*91)
-	print()			
-	print(f"|				   Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")	
-
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
+def googleExtractor():
 	'''
 		sets up all nessasary functions, 
 		then gets list of company names, 
@@ -342,8 +292,7 @@ if __name__ == '__main__':
 	settings = parseSettings(file_name)	# fetches the appropriate settings for current file
 	chunk_size = settings['chunk_size']
 	input_array = fetchData('input_table').to_numpy()
-	# input_array = inputTable()	#get inputs from postgres database
-	# print(len(input_array))
+	print(f'full input_array: {len(input_array)}')
 	''' temporary code for testing '''
 	# chunk_size = 50 # TEMP TEMP TEMP TEMP TEMP TEMP
 
@@ -351,33 +300,27 @@ if __name__ == '__main__':
 	# test_chunks = [input_array[i::chunk_size] for i in range(len(input_array))]
 	# test_chunks = input_array[(len(input_array)/chunk_size)::chunk_size] 	# TEMP TEMP TEMP TEMP TEMP TEMP
 
-	# chunks = [test_chunks] 					# TEMP TEMP TEMP TEMP TEMP TEMP
 	# chunks = [input_array[i::chunk_size] for i in range(len(input_array))]
 	chunks = [input_array[x:x+chunk_size] for x in range(0, len(input_array),chunk_size)]
 
-	# print(chunks[1])
-
-	chunks = input_array[:50] #fixme [TEMP] while testing
-	# for i, chunk in enumerate(chunks):
-	# 	print(f"Chunk number {i+1} / {len(chunks)}")
-
+	chunks = input_array[2000:2000] #TEMP - while testing
+	print(f'current run uses {len(chunks)}')
+	print(f'current run uses {len(chunks[0])}')
+	print(f'example; first element in the first chunk: {chunks[0][0]}')
+	print(f'number of workers in use {min(32, (os.cpu_count() or 1) + 4)}')
 	with tqdm(total = len(chunks)) as pbar:
-		with concurrent.futures.ThreadPoolExecutor() as executor:
+		# with concurrent.futures.ThreadPoolExecutor() as executor:
+		with concurrent.futures.ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor:
 				results = executor.map(extractionManager, chunks)
 				for df in results:
-					databaseManager(df, tablename)
+					if df is None:
+						pass
+					else:
+						databaseManager(df, tablename)
 					pbar.update(1)
 
 	# with concurrent.futures.ThreadPoolExecutor() as executor:
 	# 	results = executor.map(extractionManager, chunks)
-
-	# [ OLD PRINT ]
-	# 	print("_"*91)
-	# 	print("|											  |")
-	# 	print("|			Data Extraction Complete. 			  |")
-	# 	print("|											  |")
-	# 	print("_"*91)
-	# 	print()
 
 	print("																		"+"_"*91)
 	print("																		|				   Data Extraction Complete. 				  |")
@@ -385,15 +328,62 @@ if __name__ == '__main__':
 	print()			
 	print(f"|				   Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")
 
+if __name__ == '__main__':
+	googleExtractor()
 
 
 
 
+# ! [OLD] googleExtractor()
+# def googleExtractor(testmode):
+	# '''
+	# 	sets up all nessasary functions, 
+	# 	then gets list of company names, 
+	# 	then iterates through the list via multithreading: claimedStatus().
+	# '''
+	# print("_"*91)
+	# print("|											  |")
+	# print("|			Starting: GOOGLE Extractor 			  |")
+	# print("|											  |")
+	# print("_"*91)
+	# print()
+
+	# ''' preperations: parse config, connect to database and connect to api manager '''
+
+	# ''' fetching data from config '''
+	# file_name = getFileName()	# fetches name of current file 
+	# tablename = parseTablenames(file_name) # fetches the appropriate tablename for current file
+	# settings = parseSettings(file_name)	# fetches the appropriate settings for current file
+	
+
+	# chunk_size = settings['chunk_size']
+	# input_array = inputTable()	#get inputs from postgres database
+	
+	# ''' temporary code for testing '''
+	# if testmode == 'on':
+	# 	test_chunks = input_array[:chunk_size] 	# TEMP TEMP TEMP TEMP TEMP TEMP
+	# 	chunks = [test_chunks] 					# TEMP TEMP TEMP TEMP TEMP TEMP
+	# else:
+	# 	chunks = [input_array[x:x+chunk_size] for x in range(0, len(input_array),chunk_size)]
+	# for i, chunk in enumerate(chunks):
+	# 	print(f"Chunk number {i+1} / {len(chunks)}")
+	# 	with tqdm(total = len(chunks)) as pbar:
+	# 		with concurrent.futures.ThreadPoolExecutor() as executor:
+	# 				results = executor.map(extractionManager, chunk)
+	# 				for df in results:
+	# 					databaseManager(df, tablename)
+	# 					# deleteData(df['org_num'], tablename = 'input_table')
+	# 					pbar.update(1)
+	# print("																		"+"_"*91)
+	# print("																		|											  |")
+	# print("																		|				   Data Extraction Complete. 				  |")
+	# print("																		|											  |")
+	# print("																		"+"_"*91)
+	# print()			
+	# print(f"|				   Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")	
 
 
-
-'''
-	ISSUE LOG:
+''' ISSUE LOG:
 
 		Issue:
 			Ett eller annet sted i koden forsvinner "org_num", 
@@ -428,5 +418,4 @@ if __name__ == '__main__':
 				- remove multithreading (might be related to multithreading-FLAW)
 			working solution: 
 				- replaced "--no-startup-window" with "options.add_argument("--headless")"
-
 '''

@@ -9,6 +9,7 @@
 
 - TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 
+
 import time; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 import requests
 from bs4 import BeautifulSoup

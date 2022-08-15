@@ -13,7 +13,7 @@ from tqdm import tqdm
 
 # ___ local imports __________
 from config import payload, tablenames, settings
-from postgres import databaseManager, cleanUp, fetchData, checkForTable, postLastUpdate, deleteData
+from postgres import databaseManager, cleanUp, fetchData, checkForTable, postLastUpdate, deleteData, replacetData
 from file_manager import *
 
 import json
@@ -30,6 +30,8 @@ TODO LIST:
 	- [X] Make Update function 
 	- [ ] make documentation on "RUNDOWN OF THE PROGRAM", including what postgres.py does
 	- [ ] make documentation on "NOTABLE FLAWS"
+! ISSUE: 
+	- [ ] something makes database double as big as it should be, fix it
 '''
 
 
@@ -37,7 +39,7 @@ TODO LIST:
 '''
 def getRequest(url):
 	''' simple get request based on next_page -> json_dict '''
-	# url = f'https://data.brreg.no/enhetsregisteret/api/enheter/?page=0&size=20'  #FIXME [TEMP] while testing
+	# url = f'https://data.brreg.no/enhetsregisteret/api/enheter/?page=0&size=20'  #TEMP - while testing
 	return (requests.get(url, timeout = 10)).json()
 
 def getMaxpages(json_str):
@@ -258,7 +260,6 @@ def datasetEditor(df):
 									'stiftelsesdato':'stiftelsesdato',
 									'sisteInnsendteAarsregnskap':'siste_innsendt_årsregnskap',})
 
-
 def updateInput_table(df2, tablename):
 	df1 = fetchData(tablename)
 	new = df2[~(df1.org_num.isin(df2.org_num))&(~df1.company_name.isin(df2.company_name))]
@@ -301,7 +302,7 @@ def downloadWholeDataset(tablename, json_file_name, action):
 	updateInput_table(df2=df, tablename)
 
 	print("uploading to database..")
-	databaseManager(df, tablename)
+	replacetData(df, tablename)
 	print('    upload complete')
 	print()
 
@@ -340,7 +341,7 @@ def updateDataBase(tablename, settings,  action):
 	json_str = getRequest(url)
 	max_pages =  getMaxpages(json_str)
 
-	# FIXME [TEMP] while testing fixme [TEMP] while testing fixme [TEMP] while testing
+	# TEMP - while testing TEMP - while testing TEMP - while testing
 	print(f"""\n 	Last time Database was modified:             {getLastUpdate(col_name = tablename)}
 	today's date:                                13-08-2022
 	amount of pages to scrape:                   {(max_pages)}

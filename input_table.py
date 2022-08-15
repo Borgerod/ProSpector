@@ -11,7 +11,7 @@ from inspect import currentframe, getframeinfo
 
 # ___ local imports ________
 from config import payload, tablenames, settings
-from postgres import databaseManager, cleanUp, fetchData, checkForTable, postLastUpdate, deleteData ,insertData
+from postgres import databaseManager, cleanUp, fetchData, checkForTable, postLastUpdate, deleteData ,insertData, replacetData
 from file_manager import *
 
 
@@ -25,7 +25,23 @@ PURPOSE:
 
 '''
 
-def inputTableManager():
+def resetInputTable():
+	'''
+		used mainly for testing, 
+		it disregards the changes that 'removeExtracted()' has done, 
+		and renews input_table from brreg_table
+	'''
+	input_table = fetchData(tablename = 'input_table')
+	print(f'current length of input_table: {len(input_table)}')
+	if input("are you sure you want to reset input_table? (y/n)") == "y" or "Y" or "yes" or "Yes":
+		print("	resetting input_table..")
+		brreg = fetchData(tablename = 'brreg_table')
+		input_table = brreg[['org_num', 'navn']]
+		replacetData(input_table, tablename = 'input_table')
+		print("	reset complete.")
+		print(f'new length of input_table: {len(input_table)}')
+
+def inputTableManager(): #? Don't think this is in use
 
 	# FOR TESTING
 	df = pd.DataFrame(columns = ['org_num', 'navn'])
@@ -34,18 +50,10 @@ def inputTableManager():
 	input_data = getInputTable(tablenames['input_table'])	# gets current input table 
 	# insertData(df, tablename)	# Either makes or for updates input table 
 
-def inputTable():
+def inputTable(): #? Don't think this is in use
 	tablename = parseTablenames(getFileName())
 	input_data = getInputTable(tablename)
 	
-# def something():
-# 	gulesider_status = 
-# 	google_status = 
-# 	brreg_status = 
-
-# if __name__ == '__main__':
-# 	inputTableManager()
-
 def removeExtracted():
 	'''
 		removed companies from input_table that has been extracted by google and gulesider
@@ -54,21 +62,20 @@ def removeExtracted():
 	gulesider =  fetchData(tablename = 'gulesider_table')
 	google = fetchData(tablename = 'google_table')
 	gulesider.org_num = gulesider.org_num.astype(int).astype(str)
-	# input_snippet = input_table.iloc[:10]
-
 
 	common1 = input_table.merge(google, on = ['org_num'])
 	common2 = input_table.merge(gulesider, on = ['org_num'])
 	to_be_removed = common1.merge(common2, on = ['org_num'])
 
 	new_input_table = input_table[(~input_table.org_num.isin(to_be_removed.org_num))]
-	new_input_table= new_input_table.reset_index(drop=True)
+	new_input_table = new_input_table.reset_index(drop = True)
 	print(new_input_table)
-	insertData(new_input_table, tablename='input_table')
+	insertData(new_input_table, tablename = 'input_table')
 
-
-
-
+if __name__ == '__main__':
+	resetInputTable()
+	input_table = fetchData(tablename = 'input_table')
+	print(f'current length of input_table: {len(input_table)}')
 
 
 

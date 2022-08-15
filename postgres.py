@@ -40,18 +40,18 @@ from config import payload
 		- [ ] [MAYBE] make replaceData() & purgeData()
 		- [ ] update extractors to call appendData() or insertData()
 		- if [ALTERNATIVE] is used: 
-			- [ ] include if statement in databaseManager()	
+			- [X] include if statement in databaseManager()	
 
 	TODO [ MAKE DECISION b ]
 		- [X] merge fetchData and getInputTable()
-		- [ ] update extractors using getInputData() if needed
+		- [X] update extractors using getInputData() if needed
 			  UPDATE NOTE: getInputTable not referenced in postgres.py  
 
 	TODO [ OTHER ]
 		- [X] finalize databaseManager()
 
 	TODO [ CONSIDER ]
-		- [ ] replace current system for getFilename() etc, with a simple parseConfig()
+		- [X] replace current system for getFilename() etc, with a simple parseConfig()
 
 
 	TODO [ TEST NEEDED ]
@@ -160,6 +160,19 @@ def insertData(df, tablename):
 		df.to_sql(f'{tablename}', engine, if_exists = 'append', index = False)
 	else:
 		df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
+	curr.close()
+	conn.close()
+
+def replacetData(df, tablename):  # ! MIGHT NOT ME NESSASARY, cleanUp() should have solved this issue
+	''' 
+		Special case for brreg.py where downloading whole dataset 
+		appended instead of replacing, this was the seasiest solution. 
+	'''
+	conn = getConnection()
+	curr = getCursor(conn)
+	dbname, host, user, password = parseConfig()
+	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')	
+	df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
 	curr.close()
 	conn.close()
 

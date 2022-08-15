@@ -18,6 +18,31 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 - [ ] sjekk Compadability med proff.no
 
 
+
+## TODO
+extractor:
+- [ ] finish brreg
+- [ ] finish google
+- [ ] finish gulesider
+
+user API:
+- [ ] finish output_table (output algorithm)
+- [ ] make user api 
+- [ ] make user-code
+
+AWS:
+- [ ] uplaod db to aws 
+- [ ] upload code to aws (if possible)
+
+
+
+
+
+
+
+
+
+
 HIGHLIGT syntax
 # TODO Highlighted as a TODO
 # - This will also be highlighted as a TODO (Prefixed with a -)
