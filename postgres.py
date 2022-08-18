@@ -70,6 +70,20 @@ def parseConfig():
 	password = payload['password']
 	return dbname, host, user, password
 
+def parseTestConfig(): #? Function on trial 
+	test_dbname = test_payload['dbname']
+	test_host = test_payload['host']
+	test_user = test_payload['user']
+	test_password = test_payload['password']
+	return test_dbname, test_host, test_user, test_password
+
+def parseTestConfig(): #? [ALTERNATIVE] Function on trial 
+	test_dbname = payload['test_dbname']
+	host = payload['host']
+	user = payload['user']
+	password = payload['password']
+	return test_dbname, host, user, password
+
 def getCursor(conn):
 	''' returns postgres cursor '''
 	return conn.cursor()
@@ -88,7 +102,7 @@ def getConnection():
 # * [NEW] getInputTable()
 def getInputTable(tablename):
 	''' temporary FIX in case some files still calls this function'''
-	return fetchData(tablename) # FIXME: Temporary Quick fix for [ MAKE DECISION b ] 
+	return fetchData(tablename) # TODO: function is deprecated, should be deleted (some files might still use this)
 
 def fetchData(tablename):
 	''' 
@@ -98,7 +112,8 @@ def fetchData(tablename):
 	dbname, host, user, password = parseConfig()
 	conn = getConnection()
 	curr = getCursor(conn)  
-	curr.execute(f"SELECT * FROM {tablename};") 
+	# curr.execute(f"SELECT * FROM {tablename};") 
+	curr.execute(f'SELECT * FROM "{tablename}";') 
 	old_data = curr.fetchall()
 	column_names  = [desc[0] for desc in curr.description]
 	old_df = pd.DataFrame(old_data, columns = column_names)
@@ -157,9 +172,9 @@ def insertData(df, tablename):
 	dbname, host, user, password = parseConfig()
 	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')	
 	if tablename == 'brreg_table':
-		df.to_sql(f'{tablename}', engine, if_exists = 'append', index = False)
+		df.to_sql(f"{tablename}", engine, if_exists = 'append', index = False)
 	else:
-		df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
+		df.to_sql(f"{tablename}", engine, if_exists = 'replace', index = False)
 	curr.close()
 	conn.close()
 
@@ -242,6 +257,66 @@ def checkForTable(tablename):
 	print(f"table_exists = {table_exists}")
 	conn.close()
 	return table_exists
+
+def postLastUpdate(tablename):
+	conn = getConnection()
+	curr = getCursor(conn)
+	curr.execute(
+	f""" UPDATE update_tracker
+				SET {tablename} = '{dt.now().strftime('%Y-%m-%d')}'
+				WHERE index = 'date'""")
+	conn.commit()
+	curr.close()
+	conn.close()
+
+	'''! ALTERNATIVE '''	
+	# update(user_table).where(user_table.c.name == 'patrick').values(fullname='Patrick the Star')
+
+def deleteData(org_num, tablename):
+	conn = getConnection()
+	curr = getCursor(conn)
+	curr.execute(f"""DELETE FROM public."{tablename}" WHERE "org_num" = '{org_num}'""")
+	conn.commit()
+	curr.close()
+	conn.close()
+
+def purgeTable(tablename, **kwargs):
+	''' 
+		Purges the data for the given table, with a warning, unless an override is stated.
+		How to call function:
+			purgeTable(tablename = 'gulesider_test_table', override = True)
+	'''
+
+	if kwargs.get('override', None):
+		purge()
+	else:
+		print(f'''	________ !!! WARNING !!! ________\n 	you are about to delete ALL the of the data stored in {tablename}, \n 	please make sure to make a backup before proceeding.\n''')
+		repeat = True
+		while repeat:
+			input_ = input(f"	are you sure you want to purge {tablename}? (y/n)")
+			if input_ == ("y" or "Y" or "yes" or "Yes"):
+				print("\n		purging table..")
+				purge()
+				print(f"		purge complete.")
+				repeat = False
+				break
+			elif input_ == ("n" or "N" or "no" or "No"):
+				print(f"\n	aborting purge of {tablename}.")
+				repeat = False
+				break
+			else:
+				print('''\n	Error: invalied input, please type "y" for yes, or "n" for no, \n 	or press "ctrl+c" to close the program.\n\n''')
+
+def purge():
+	'''
+		purge command used by purgeTable()
+	'''
+	conn.getConnection()
+	curr.getCursor()
+	curr.execute(f"truncate daily_monitor;")
+	conn.commit()
+	curr.close()
+	conn.close()
 
 
 '''* ___ MANAGER _______________________________________________ 
@@ -332,6 +407,7 @@ def databaseManager(df, tablename):
 		except:
 			# print("unable to concat")
 			pass
+		# print()
 		insertData(df, tablename)
 	else: 
 		insertData(df, tablename)
@@ -477,22 +553,16 @@ def databaseManager(df, tablename):
 	|                                  Finished                             |
 '''
 
-def postLastUpdate(tablename):
-	conn = getConnection()
-	curr = getCursor(conn)
-	curr.execute(
-	f""" UPDATE update_tracker
-                SET {tablename} = '{dt.now().strftime('%Y-%m-%d')}'
-                WHERE index = 'date'""")
-	conn.commit()
-	curr.close()
 
-	'''! ALTERNATIVE '''	
-	# update(user_table).where(user_table.c.name == 'patrick').values(fullname='Patrick the Star')
+# # TEMP while testing 
+# def fetchDataRow(org_num, tablename):
+# 	conn = getConnection()
+# 	curr = getCursor(conn)
+# 	curr.execute(f"""DELETE FROM public."{tablename}" WHERE "org_num" = '{org_num}'""")
+# 	# row = curr.fetchall()
+# 	conn.commit()
+# 	# print(row)
+# 	curr.close()
+# 	conn.close()
 
-def deleteData(org_num, tablename):
-	conn = getConnection()
-	curr = getCursor(conn)
-	curr.execute(f"""DELETE FROM public.{tablename} WHERE "org_num" = '{org_num}'""")
-	conn.commit()
-	curr.close()
+# fetchDataRow(org_num=815124022, tablename='1881_test_table')

@@ -86,7 +86,7 @@ google = google.reset_index(drop = True)
 brreg = brreg.reset_index(drop = True)
 
 
-# gulesider,google,brreg,
+# gulesider, google, brreg,
 df = pd.concat([gulesider,google,brreg], axis = 1)
 df = df.loc[:,~df.columns.duplicated()].copy()
 

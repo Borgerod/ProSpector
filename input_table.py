@@ -8,7 +8,6 @@ from sqlalchemy import create_engine
 import concurrent.futures
 from inspect import currentframe, getframeinfo
 
-
 # ___ local imports ________
 from config import payload, tablenames, settings
 from postgres import databaseManager, cleanUp, fetchData, checkForTable, postLastUpdate, deleteData ,insertData, replacetData
@@ -16,7 +15,7 @@ from file_manager import *
 
 
 
-
+ 
 '''
 PURPOSE: 
 	make sures to update input_table
@@ -31,13 +30,17 @@ def resetInputTable():
 		it disregards the changes that 'removeExtracted()' has done, 
 		and renews input_table from brreg_table
 	'''
-	input_table = fetchData(tablename = 'input_table')
+	try:
+		input_table = fetchData(tablename = 'input_table')
+	except:
+		input_table=[]
 	print(f'current length of input_table: {len(input_table)}')
+	# time.sleep(0.5)
 	if input("are you sure you want to reset input_table? (y/n)") == "y" or "Y" or "yes" or "Yes":
 		print("	resetting input_table..")
-		brreg = fetchData(tablename = 'brreg_table')
+		brreg = fetchData(tablename = "brreg_table")
 		input_table = brreg[['org_num', 'navn']]
-		replacetData(input_table, tablename = 'input_table')
+		replacetData(input_table, tablename = "input_table")
 		print("	reset complete.")
 		print(f'new length of input_table: {len(input_table)}')
 
@@ -73,8 +76,8 @@ def removeExtracted():
 	insertData(new_input_table, tablename = 'input_table')
 
 if __name__ == '__main__':
-	resetInputTable()
-	input_table = fetchData(tablename = 'input_table')
+	# resetInputTable()
+	input_table = fetchData(tablename = "input_table")
 	print(f'current length of input_table: {len(input_table)}')
 
 
