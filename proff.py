@@ -26,7 +26,7 @@ from multiprocessing import Pool, Process
 
 ''' ___ local imports __________'''
 from config import payload, tablenames, settings
-from postgres import databaseManager, getInputTable
+from postgres import databaseManager, getInputTable, checkIfMissing
 from file_manager import *
 from input_table import inputTable
 from base_extractor import genSearchTerm, pullRequest
@@ -136,27 +136,40 @@ def extractionManager(input_array):
 	'''
 	org_num = input_array[0]
 	search_term = input_array[1]
-	source = 'proff.py'
-	base_url = 'https://www.proff.no/bransjesøk?q='
-	url = linkBuilder(base_url, str(org_num))       
-	req = getRequest(url)
-	soup = getSoup(req)
-	try:
-		promo = soup.find('div', class_="search-container-wrap")
-		error = False
-		tag = promo.div['class'][2]		
-		if 'low-priority' in tag: 
-			try:
-				deleteData(org_num, tablename = "input_table")
-			except:
+	if not checkIfMissing(org_num):
+		# print("Not Missing, continue") #TEMP - while testing
+		source = 'proff.py'
+		base_url = 'https://www.proff.no/bransjesøk?q='
+		url = linkBuilder(base_url, str(org_num))       
+		req = getRequest(url)
+		soup = getSoup(req)
+		try:
+			promo = soup.find('div', class_="search-container-wrap")
+			error = False
+			tag = promo.div['class'][2]		
+			if 'low-priority' in tag: 
 				pass
-		else:
-			# deleteData(org_num, tablename = "input_table")
-			return checkPayScore(org_num, search_term, tag ,error)
-	except AttributeError:
-		tag = None 
-		error = True
-		return org_num, search_term, tag ,error
+				'''
+				! Try statement was removed because; 
+				- even if the company does not have a payed entry here, doesnt mean that they have a payed_entry for the other ones. 
+				try:
+					deleteData(org_num, tablename = "input_table")
+				except:
+					pass			
+				'''
+
+			else:
+				deleteData(org_num, tablename = "input_table") #* All inputs that are found can be deleted from input_table 
+				# return checkPayScore(org_num, search_term, tag ,error)
+				return org_num, search_term #,error
+		except AttributeError:
+			# tag = None 
+			# error = True
+			pass
+			# return org_num, search_term, tag ,error
+	else:
+		# print("Missing, pass") #TEMP - while testing
+		pass
 
 def proffExtractor(**kwargs):
 	'''
@@ -164,9 +177,9 @@ def proffExtractor(**kwargs):
 		then gets list of company names, 
 		then iterates through the list via multithreading: claimedStatus().
 	'''
-	print("_"*91)
-	print("|                Starting: 1881 EXTRACTOR                  |")
-	print("_"*91)
+	print("_"*62)
+	print("|                  Starting: Proff Extractor                 |")
+	print("_"*62)
 	print()
 	''' fetching data from config '''
 	file_name = getFileName() # gets filename of this file.
@@ -185,12 +198,14 @@ def proffExtractor(**kwargs):
 	print(f"input length: {len(input_array)}")
 	nested_input_array = makeChunks(input_array, chunksize) # divides input_array into chunks 
 	print(f"number of chunks: {len(nested_input_array)}")
+	nested_input_array = nested_input_array[1167:] #TEMP --- test
 	with tqdm(total = len(nested_input_array)) as pbar: #TEMP --- TEST
 		for input_array in nested_input_array:
 			with Pool() as pool:
 				results = list(tqdm(pool.imap_unordered(extractionManager, input_array), total = len(input_array)))
 				results = [x for x in results if x is not None]
-				df =  pd.DataFrame(results, columns = ['org_num', 'navn', 'betalingsnivå','feilmelding'])
+				df =  pd.DataFrame(results, columns = ['org_num', 'navn'])
+				# print(df)
 				databaseManager(df, tablename = "output_table")
 				pbar.update(1) #TEMP --- TEST
 	'''
@@ -198,12 +213,17 @@ def proffExtractor(**kwargs):
 		- extractor wait untill ALL of the data has been gathered before it passes it to postgres
 		TODO: løsningen er å lage sine egne chunks
 	'''
-
-	print("                                                                     "+"_"*91)
-	print("                                                                     |                  Data Extraction Complete.                  |")
-	print("                                                                     "+"_"*91)
+	print("_"*62)
+	print("                  Data Extraction Complete.                 ")
+	print(f"                  Finished in {round(time.perf_counter() - start, 2)} second(s)                ")
+	print("_"*62)
 	print()
-	print(f"                                                                    |                  Finished in {round(time.perf_counter() - start, 2)} second(s)                  |")
+
+	# print("                                                                     "+"_"*91)
+	# print("                                                                     |                  Data Extraction Complete.                  |")
+	# print("                                                                     "+"_"*91)
+	# print()
+	# print(f"                                                                    |                  Finished in {round(time.perf_counter() - start, 2)} second(s)                  |")
 
 if __name__ == '__main__':
 	# proffExtractor(testmode = True)

@@ -230,17 +230,19 @@ def cleanUp(tablename):
 	'''
 	df = fetchData(tablename)
 	df = df.drop_duplicates(subset = 'org_num')
+	df = df.reset_index()
 	conn = getConnection()
 	curr = getCursor(conn)
 	dbname, host, user, password = parseConfig()
 	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
-	df.to_sql(f'{tablename}', engine, if_exists = 'append', index = False)
+	# df.to_sql(f'{tablename}', engine, if_exists = 'append', index = False)
+	df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
 	print(df)
 	curr.close()
 	conn.close()
 
 def checkForTable(tablename):
-	print(f"checking if {tablename} exists: ")
+	print(f"checking if {tablename} exists.. ")
 	conn = getConnection()
 	try:
 		curr = conn.cursor()
@@ -251,13 +253,36 @@ def checkForTable(tablename):
 		print(f"    table; {tablename} exist")
 		curr.close()
 	except psycopg2.errors.UndefinedTable as e:
-	# except TypeError as e:
 		table_exists = False
 		print(f"    Error: table {tablename} does not exist")
-	print(f"table_exists = {table_exists}")
 	conn.close()
 	return table_exists
 
+def checkForElement(org_num, tablename):
+	conn = getConnection()
+	try:
+		curr = conn.cursor()
+		curr.execute(f"""SELECT FROM public."{tablename}" WHERE "org_num" = '{org_num}'""")
+		# exists = curr.fetchone()[0]
+		exists = curr.fetchone()
+		conn.close()
+		return True
+	except TypeError as e:
+		conn.close()
+		return False
+
+def checkIfMissing(org_num):
+	'''
+		checks if company is missing from input_table, 
+		if so, then it is already confirmed and 
+		the extractor should move on to the next company. 
+	'''
+	if checkForElement(org_num, tablename='input_table'):
+		return False
+	else:
+		return True
+
+# ! might not be nessecary anymore 
 def postLastUpdate(tablename):
 	conn = getConnection()
 	curr = getCursor(conn)
@@ -321,68 +346,6 @@ def purge():
 
 '''* ___ MANAGER _______________________________________________ 
 '''
-# fixme [OLD] databaseManager()
-	# def databaseManager(df, tablename):
-	# dbname, host, user, password = parseConfig()
-	# conn = getConnection()
-
-	# # OLD concat call  [might be needed for [OLD]inserData() / [NEW]replaceData()]
-	# 	''' manage database '''
-	# 	# old_df = pd.DataFrame()
-	# 	# try:
-	# 	# 	conn = getConnection()
-	# 	# 	old_df = getInputTable(tablename)
-	# 	# 	# old_df = fetchData(tablename)
-	# 	# except:
-	# 	# 	pass
-	# 	# 	# print("table does not exsist")		
-	# 	# try: 
-	# 	# 	df = concatData(df, old_df)
-	# 	# 	# print(df)
-	# 	# except:
-	# 	# 	pass
-	# 	# 	print("unable to concat")
-
-	# insertData(df, tablename)	
-
-# [OLD NEW] databaseManager()	
-	# # def databaseManager(df, tablename):
-	# # ''' 
-	# # 	desc: the file's main function 
-	# # 	does: gets connection, runs if statement, then sends table straight to insertData()
-	# # 		  if tablename is NOT 'brreg_table': runs the "concat(old_df, new_df)" routine.
-	# # 		  if tablename is 'brreg_table': does nothing.
-	# # '''
-	# # print('\n fetching data\n passing to databaseManager() \n check if tablename == "brreg_table":') #FIXME --> TEMP while testing
-	# # #FIXME --> TEMP while testing
-	# # # dbname, host, user, password = parseConfig() 
-	# # # conn = getConnection()
-	# # if 'brreg_table' not in tablename:
-	# # 	print(f'	FALSE --> tablename is NOT named "brreg_table"\n	 	tablename: {tablename}\n	 	type: {type(tablename)}\n') #FIXME --> TEMP while testing
-
-	# # 	old_df = pd.DataFrame()
-	# # 	try:
-	# # 		# conn = getConnection()
-	# # 		old_df = getInputTable(tablename)
-	# # 		# old_df = fetchData(tablename)
-	# # 	except:
-	# # 		# pass
-	# # 		print(f'	Error: did NOT find old_table --> old_df = empty') #FIXME --> TEMP while testing
-	# # 		# print("table does not exsist")		
-	# # 	try: 
-	# # 		df = concatData(df, old_df)
-	# # 	except:
-	# # 		# pass
-	# # 		print(f'	Error: UNABLE to concat --> final_df = new_table') #FIXME --> TEMP while testing
-	# # 		# print("unable to concat")
-	# # 	insertData(df, tablename)
-	# # else: 
-	# # 	print(f'	TRUE --> tablename IS named "brreg_table"\n	 	tablename: {tablename}\n	 	type: {type(tablename)}\n') #FIXME --> TEMP while testing
-	# # 	insertData(df, tablename)
-	# # 	cleanUp(tablename) #FIXME --> TEMP while testing
-	# # print(f"|				   Finished 				|")
-
-# * [NEW] databaseManager()	
 def databaseManager(df, tablename):
 	''' 
 		desc: the file's main function 
@@ -408,9 +371,10 @@ def databaseManager(df, tablename):
 			# print("unable to concat")
 			pass
 		# print()
-		insertData(df, tablename)
-	else: 
-		insertData(df, tablename)
+	insertData(df, tablename)
+	# 	insertData(df, tablename)
+	# else: 
+	# 	insertData(df, tablename)
 
 '''
 * [MAKE DECISION a]-TEST CONCLUTION : postgres.py works as intended 
@@ -566,3 +530,67 @@ def databaseManager(df, tablename):
 # 	conn.close()
 
 # fetchDataRow(org_num=815124022, tablename='1881_test_table')
+
+
+
+# fixme [OLD] databaseManager()
+	# def databaseManager(df, tablename):
+	# dbname, host, user, password = parseConfig()
+	# conn = getConnection()
+
+	# # OLD concat call  [might be needed for [OLD]inserData() / [NEW]replaceData()]
+	# 	''' manage database '''
+	# 	# old_df = pd.DataFrame()
+	# 	# try:
+	# 	# 	conn = getConnection()
+	# 	# 	old_df = getInputTable(tablename)
+	# 	# 	# old_df = fetchData(tablename)
+	# 	# except:
+	# 	# 	pass
+	# 	# 	# print("table does not exsist")		
+	# 	# try: 
+	# 	# 	df = concatData(df, old_df)
+	# 	# 	# print(df)
+	# 	# except:
+	# 	# 	pass
+	# 	# 	print("unable to concat")
+
+	# insertData(df, tablename)	
+
+# [OLD NEW] databaseManager()	
+	# # def databaseManager(df, tablename):
+	# # ''' 
+	# # 	desc: the file's main function 
+	# # 	does: gets connection, runs if statement, then sends table straight to insertData()
+	# # 		  if tablename is NOT 'brreg_table': runs the "concat(old_df, new_df)" routine.
+	# # 		  if tablename is 'brreg_table': does nothing.
+	# # '''
+	# # print('\n fetching data\n passing to databaseManager() \n check if tablename == "brreg_table":') #FIXME --> TEMP while testing
+	# # #FIXME --> TEMP while testing
+	# # # dbname, host, user, password = parseConfig() 
+	# # # conn = getConnection()
+	# # if 'brreg_table' not in tablename:
+	# # 	print(f'	FALSE --> tablename is NOT named "brreg_table"\n	 	tablename: {tablename}\n	 	type: {type(tablename)}\n') #FIXME --> TEMP while testing
+
+	# # 	old_df = pd.DataFrame()
+	# # 	try:
+	# # 		# conn = getConnection()
+	# # 		old_df = getInputTable(tablename)
+	# # 		# old_df = fetchData(tablename)
+	# # 	except:
+	# # 		# pass
+	# # 		print(f'	Error: did NOT find old_table --> old_df = empty') #FIXME --> TEMP while testing
+	# # 		# print("table does not exsist")		
+	# # 	try: 
+	# # 		df = concatData(df, old_df)
+	# # 	except:
+	# # 		# pass
+	# # 		print(f'	Error: UNABLE to concat --> final_df = new_table') #FIXME --> TEMP while testing
+	# # 		# print("unable to concat")
+	# # 	insertData(df, tablename)
+	# # else: 
+	# # 	print(f'	TRUE --> tablename IS named "brreg_table"\n	 	tablename: {tablename}\n	 	type: {type(tablename)}\n') #FIXME --> TEMP while testing
+	# # 	insertData(df, tablename)
+	# # 	cleanUp(tablename) #FIXME --> TEMP while testing
+	# # print(f"|				   Finished 				|")
+

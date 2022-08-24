@@ -1,20 +1,25 @@
-''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP 
+''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP 
 							
-							_____ WHERE I LEFT OF _____
-						[14.08.2022]
-						holder på å teste ut hastigheten og om den klarer å skrape alt. 
-						error: - reached 829 before error:selenium.common.exceptions.TimeoutException: 
+*							_____ WHERE I LEFT OF _____
+-						[14.08.2022]
+-						holder på å teste ut hastigheten og om den klarer å skrape alt. 
+-						error: - reached 829 before error:selenium.common.exceptions.TimeoutException: 
 
-						__ISSUE:___
-						Får noen ganger denne feilmeldingen:
-						[0807/172348.241:INFO:CONSOLE(247)] "Autofocus processing was blocked because a document already has a focused element.", source: https://www.google.com/ (247) 
-						
-						Etter endringer; skraper 200 enheter --> 77.52 second(s)
-						Skraper 600 enheter -->  	  165.02 second(s)
+!						__ISSUE:___
+-						Får noen ganger denne feilmeldingen:
+-						[0807/172348.241:INFO:CONSOLE(247)] "Autofocus processing was blocked because a document already has a focused element.", source: https://www.google.com/ (247) 
+
+
+TODO					[ ] [KANSKJE] legg til 'C-unlock' til googleExtractor()			
+TODO 					[ ]	Change gooogleExtractor to pull input from designated list 		
+
+*						_____ EXTRACTION RECORD _______
+-						Skraper 200 enheter --> 	   77.52 second(s) (Etter Endringer)
+-						Skraper 600 enheter -->  	  165.02 second(s)
 												[old] 232.41 second(s)
 												[old] 334.99 second(s)
 						
-TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
+TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 
 import time; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 import re
@@ -491,44 +496,40 @@ def extractionManager(chunk):
 	# print('from extractionManager, printing df after claimedStatus():')	
 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
 	# print()
-	
+
+
+def makeChunks(input_array, chunksize):
+	''' 
+		used by proffExtractor, divides input array into chunks 
+	'''
+	return [input_array[i:i+chunksize] for i in range(0, len(input_array), chunksize)]  
 
 # * ORIGINAL - disabled while testing
-# def googleExtractor():
-	# '''
-	# 	sets up all nessasary functions, 
-	# 	then gets list of company names, 
-	# 	then iterates through the list via multithreading: claimedStatus().
-	# '''
-	# print("_"*91)
-	# print("|			Starting: GOOGLE Extractor 			  |")
-	# print("_"*91)
-	# print()
+def googleExtractor():
+	'''
+		sets up all nessasary functions, 
+		then gets list of company names, 
+		then iterates through the list via multithreading: claimedStatus().
+	'''
+	print("_"*62)
+	print("|                  Starting: Google Extractor                |")
+	print("_"*62)
+	print()
+	''' preperations: parse config, connect to database and connect to api manager '''
 
-	# ''' preperations: parse config, connect to database and connect to api manager '''
-
-	# ''' fetching data from config '''
-	# file_name = getFileName()	# fetches name of current file 
-	# tablename = parseTablenames(file_name) # fetches the appropriate tablename for current file
-	# settings = parseSettings(file_name)	# fetches the appropriate settings for current file
-	# chunk_size = settings['chunk_size']
-	# input_array = fetchData('input_table').to_numpy()
-	# print(f'full input_array: {len(input_array)}')
-	# ''' temporary code for testing '''
-	# # chunk_size = 50 # TEMP TEMP TEMP TEMP TEMP TEMP
-
-	# # index = [index for index, i in enumerate(input_array)]
-	# # test_chunks = [input_array[i::chunk_size] for i in range(len(input_array))]
-	# # test_chunks = input_array[(len(input_array)/chunk_size)::chunk_size] 	# TEMP TEMP TEMP TEMP TEMP TEMP
-
-	# # chunks = [input_array[i::chunk_size] for i in range(len(input_array))]
-	# chunks = [input_array[x:x+chunk_size] for x in range(0, len(input_array),chunk_size)]
-
-	# chunks = input_array[2000:2000] #TEMP - while testing
-	# print(f'current run uses {len(chunks)}')
-	# print(f'current run uses {len(chunks[0])}')
-	# print(f'example; first element in the first chunk: {chunks[0][0]}')
-	# print(f'number of workers in use {min(32, (os.cpu_count() or 1) + 4)}')
+	''' fetching data from config '''
+	file_name = getFileName()	# fetches name of current file 
+	tablename = parseTablenames(file_name) # fetches the appropriate tablename for current file
+	settings = parseSettings(file_name)	# fetches the appropriate settings for current file
+	chunksize = settings['chunk_size']
+	input_array = fetchData('output_table').to_numpy()
+	print(f'full input_array: {len(input_array)}')
+	
+	chunks = makeChunks(input_array, chunksize)
+	print(f'current run uses {len(chunks)}')
+	print(f'current run uses {len(chunks[0])}')
+	print(f'example; first element in the first chunk: {chunks[0][0]}')
+	print(f'number of workers in use {min(32, (os.cpu_count() or 1) + 4)}')
 	# with tqdm(total = len(chunks)) as pbar:
 	# 	# with concurrent.futures.ThreadPoolExecutor() as executor:
 	# 	with concurrent.futures.ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor:
@@ -539,82 +540,78 @@ def extractionManager(chunk):
 	# 				else:
 	# 					databaseManager(df, tablename)
 	# 				pbar.update(1)
-
-	# # with concurrent.futures.ThreadPoolExecutor() as executor:
-	# # 	results = executor.map(extractionManager, chunks)
-
-	# print("																		"+"_"*91)
-	# print("																		|				   Data Extraction Complete. 				  |")
-	# print("																		"+"_"*91)
-	# print()			
-	# print(f"|				   Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")
+	print("_"*62)
+	print("                   Data Extraction Complete.                 ")
+	print(f"                  Finished in {round(time.perf_counter() - start, 2)} second(s)                 ")
+	print("_"*62)
+	print()
 
 
 
 
-# TEMP - TEST VERSION:
-def googleExtractor():
-	'''
-		sets up all nessasary functions, 
-		then gets list of company names, 
-		then iterates through the list via multithreading: claimedStatus().
-	'''
-	# print("_"*91)
-	# print("|			Starting: GOOGLE Extractor TEST			  |")
-	# print("_"*91)
-	# print()
+# # TEMP - TEST VERSION:
+# def googleExtractor():
+# 	'''
+# 		sets up all nessasary functions, 
+# 		then gets list of company names, 
+# 		then iterates through the list via multithreading: claimedStatus().
+# 	'''
+# 	# print("_"*91)
+# 	# print("|			Starting: GOOGLE Extractor TEST			  |")
+# 	# print("_"*91)
+# 	# print()
 
-	''' preperations: parse config, connect to database and connect to api manager '''
+# 	''' preperations: parse config, connect to database and connect to api manager '''
 
-	''' fetching data from config '''
-	file_name = getFileName()	# fetches name of current file 
-	tablename = parseTablenames(file_name) # fetches the appropriate tablename for current file
-	settings = parseSettings(file_name)	# fetches the appropriate settings for current file
-	chunk_size = settings['chunk_size']
-	# chunks = [	  [812721232,	"ANDRE HAGEN MUSIC"],]
-				  # [815124022,	"1 P.P.H.U PECHERZEWSKI PECHERZEWSKI WALDEMAR"],]
-				  # [811555622,	"AUDUN BREINES MEDIA"],]
-				   # [812531042,	"ANN-MARIE VOLDHEIM"],
-				  # [812721232,	"ANDRE HAGEN MUSIC"],]
+# 	''' fetching data from config '''
+# 	file_name = getFileName()	# fetches name of current file 
+# 	tablename = parseTablenames(file_name) # fetches the appropriate tablename for current file
+# 	settings = parseSettings(file_name)	# fetches the appropriate settings for current file
+# 	chunk_size = settings['chunk_size']
+# 	# chunks = [	  [812721232,	"ANDRE HAGEN MUSIC"],]
+# 				  # [815124022,	"1 P.P.H.U PECHERZEWSKI PECHERZEWSKI WALDEMAR"],]
+# 				  # [811555622,	"AUDUN BREINES MEDIA"],]
+# 				   # [812531042,	"ANN-MARIE VOLDHEIM"],
+# 				  # [812721232,	"ANDRE HAGEN MUSIC"],]
 
-	chunks = [[928434508,	"A. JENSEN KONSULENT"],
-				  [811555622,	"AUDUN BREINES MEDIA"],
-				  [811599492,	"2Ø SERVICE AS"],
-				  [811699632,	"2 CLAP STUDIO DA"],
-				  [811733652,	"BLUEBELL TELECOM AB"],
-				  [811879312,	"17. MAI NEMDA KAUPANGER"],
-				  [812467182,	"&MORE AS"],
-				  [812531042,	"ANN-MARIE VOLDHEIM"],
-				  [812587412,	"820 GRADER"],
-				  [812721232,	"ANDRE HAGEN MUSIC"],
-				  [815124022,	"1 P.P.H.U PECHERZEWSKI PECHERZEWSKI WALDEMAR"],]	
-	# print(f'current run uses {len(chunks)} chunks')
-	# print(f'each chunk has {len(chunks[0])} units')
-	# print(f'example; first element in the first chunk: {chunks[0][0]}')
-	# print(f'number of workers in use {min(32, (os.cpu_count() or 1) + 4)}')
+# 	chunks = [[928434508,	"A. JENSEN KONSULENT"],
+# 				  [811555622,	"AUDUN BREINES MEDIA"],
+# 				  [811599492,	"2Ø SERVICE AS"],
+# 				  [811699632,	"2 CLAP STUDIO DA"],
+# 				  [811733652,	"BLUEBELL TELECOM AB"],
+# 				  [811879312,	"17. MAI NEMDA KAUPANGER"],
+# 				  [812467182,	"&MORE AS"],
+# 				  [812531042,	"ANN-MARIE VOLDHEIM"],
+# 				  [812587412,	"820 GRADER"],
+# 				  [812721232,	"ANDRE HAGEN MUSIC"],
+# 				  [815124022,	"1 P.P.H.U PECHERZEWSKI PECHERZEWSKI WALDEMAR"],]	
+# 	# print(f'current run uses {len(chunks)} chunks')
+# 	# print(f'each chunk has {len(chunks[0])} units')
+# 	# print(f'example; first element in the first chunk: {chunks[0][0]}')
+# 	# print(f'number of workers in use {min(32, (os.cpu_count() or 1) + 4)}')
 	
 
 
 
-	with tqdm(total = len(chunks)) as pbar:
-		# with concurrent.futures.ThreadPoolExecutor() as executor:
-		with concurrent.futures.ThreadPoolExecutor(max_workers = min(32, (os.cpu_count() or 1) + 4)) as executor:
-				results = executor.map(extractionManager, chunks)
-				for df in results:
-					if df is None:
-						pass			
-					else:
-						databaseManager(df, tablename = 'google_test_table')
-					pbar.update(1)
+# 	with tqdm(total = len(chunks)) as pbar:
+# 		# with concurrent.futures.ThreadPoolExecutor() as executor:
+# 		with concurrent.futures.ThreadPoolExecutor(max_workers = min(32, (os.cpu_count() or 1) + 4)) as executor:
+# 				results = executor.map(extractionManager, chunks)
+# 				for df in results:
+# 					if df is None:
+# 						pass			
+# 					else:
+# 						databaseManager(df, tablename = 'google_test_table')
+# 					pbar.update(1)
 
-	# with concurrent.futures.ThreadPoolExecutor() as executor:
-	# 	results = executor.map(extractionManager, chunks)
+# 	# with concurrent.futures.ThreadPoolExecutor() as executor:
+# 	# 	results = executor.map(extractionManager, chunks)
 
-	# print("																		"+"_"*91)
-	# print("																		|				   TEST Complete. 				  |")
-	# print("																		"+"_"*91)
-	# print()			
-	# print(f"|				   Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")
+# 	# print("																		"+"_"*91)
+# 	# print("																		|				   TEST Complete. 				  |")
+# 	# print("																		"+"_"*91)
+# 	# print()			
+# 	# print(f"|				   Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")
 
 
 

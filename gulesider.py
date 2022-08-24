@@ -1,15 +1,15 @@
-''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP 
+''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP 
 							
-							_____ WHERE I LEFT OF _____
-						[08.08.22]
+*							_____ WHERE I LEFT OF _____
+*						[08.08.22]
 
-						legg til en kode som fjerner navn fra imput_list når et bedrift har blitt suksessfullt skrapet.
 
-						NOTE 400 enheter --> Finished in 119.64 second(s)
-						NOTE 100 enheter --> 20.76 second(s)
-						NOTE 500 enheter -->  Finished in 19.54 second(s)
-						NOTE 500 enheter -->  Finished in 16.97 second(s)
-- TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
+*						_____ EXTRACTION RECORD _______
+-						NOTE 100 enheter -->  Finished in 20.76 second(s)
+-						NOTE 500 enheter -->  Finished in 19.54 second(s)
+-						NOTE 500 enheter -->  Finished in 16.97 second(s)
+
+TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP '''
 
 
 import time; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
@@ -28,10 +28,11 @@ from multiprocessing import Pool, Process
 
 ''' ___ local imports __________'''
 from config import payload, tablenames, settings
-from postgres import databaseManager, getInputTable
+from postgres import databaseManager, getInputTable, checkIfMissing
 from file_manager import *
 from input_table import inputTable
-from base_extractor import genSearchTerm, linkBuilder, pullRequest
+# from base_extractor import genSearchTerm, linkBuilder, pullRequest
+from base_extractor import genSearchTerm, pullRequest
 
 
 ''' * CURRENT EXTRACTION TIME *
@@ -265,28 +266,35 @@ def errorManager(org_num, search_term, url, e):  # TEMP [DEACTIVATED] - while te
 def extractionManager(input_array):
 	org_num = input_array[0]
 	search_term = input_array[1]
-	source = 'gulsesider.py'
-	base_url = 'https://www.gulesider.no'
-	url = linkBuilder(base_url, str(org_num))  		
-	soup = pullRequest(url, source, org_num, search_term) 
-	new_link = getNewLinks(soup, url)
-	if new_link is None:
-		e = f'Error: "{search_term}" gave no search results'
-		# print(e)
-		errorManager(org_num, search_term, url, e)
-		
-	elif new_link is not None:
-		soup = pullRequest(new_link, source, org_num, search_term)
-		if soup is None:
-			print("soup == None")
-		result_array = getData(soup, new_link)
-		# if result_array is None:
-		# 	print("soup == None")
-		return result_array
+	if not checkIfMissing(org_num):
+		# print("Not Missing, continue") #TEMP - while testing
+		source = 'gulsesider.py'
+		base_url = 'https://www.gulesider.no'
+		url = linkBuilder(base_url, str(org_num))  		
+		soup = pullRequest(url, source, org_num, search_term) 
+		new_link = getNewLinks(soup, url)
+		if new_link is None:
+			e = f'Error: "{search_term}" gave no search results'
+			# print(e)
+
+			errorManager(org_num, search_term, url, e)
+			
+		elif new_link is not None:
+			soup = pullRequest(new_link, source, org_num, search_term)
+			if soup is None:
+				print("soup == None")
+			df = getData(soup, new_link)
+			# if result_array is None:
+			# 	print("soup == None")
+			deleteData(org_num, tablename = "input_table") #* All inputs that are found can be deleted from input_table 
+			return df
+		else:
+			e = 'unknown error in: gulesider.py -> extractionManager()'
+			# print(e)
+			errorManager(org_num, search_term, url, e)
 	else:
-		e = 'unknown error in: gulesider.py -> extractionManager()'
-		# print(e)
-		errorManager(org_num, search_term, url, e)
+		# print("Missing, pass")  #TEMP - while testing
+		pass
 
 		# return 
 
@@ -296,11 +304,10 @@ def gulesiderExtractor(**kwargs):
 		then gets list of company names, 
 		then iterates through the list via multithreading: claimedStatus().
 	'''
-	print("_"*91)
-	print("|			    Starting: GULESIDER EXTRACTOR 				  |")
-	print("_"*91)
+	print("_"*62)
+	print("|                Starting: Gulesider Extractor               |")
+	print("_"*62)
 	print()
-
 	''' fetching data from config '''
 	file_name = getFileName() # gets filename of this file.
 	settings = parseSettings(file_name)	# same as above, only for settings.
@@ -309,7 +316,7 @@ def gulesiderExtractor(**kwargs):
 
 	''' making adjustments if testmode '''
 	if kwargs.get('testmode', None):
-		input_array = input_array[:500]
+		input_array = input_array[:1000]
 		tablename = parseTablenames(file_name, testmode = True) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
 		#! [ALT] tablename = 'gulses'ider_test_table'
 	else:
@@ -321,17 +328,21 @@ def gulesiderExtractor(**kwargs):
 			results = pool.imap_unordered(extractionManager, input_array, chunksize = chunksize)
 			for result in results:
 				if result is not None:
-					databaseManager(result, tablename = tablename)
+					print(result)
+					output = result[['org_num', 'navn']]
+					databaseManager(output, tablename = 'output_table')
+					# databaseManager(result, tablename = tablename)
 				pbar.update(1)
-	print("																		"+"_"*91)
-	print("																		|				   Data Extraction Complete. 				  |")
-	print("																		"+"_"*91)
-	print()			
-	print(f"																		|				   Finished in {round(time.perf_counter() - start, 2)} second(s)				  |")
+
+	print("_"*62)
+	print("                   Data Extraction Complete.                 ")
+	print(f"                  Finished in {round(time.perf_counter() - start, 2)} second(s)                 ")
+	print("_"*62)
+	print()
 
 if __name__ == '__main__':
-	gulesiderExtractor(testmode = True)
-
+	# gulesiderExtractor(testmode = True)
+	gulesiderExtractor(testmode = False)
 
 
 

@@ -38,7 +38,6 @@ def getFileName():
 	''' gets filename for current file --> file_name '''
 	return re.split("[/,.]+", ('/'.join(map(str, stack()[1].filename.split('\\')[-2:]))))[1]
 
-
 def getLastUpdate(col_name):
 	'''
 		gets the date for when a table was last modified from update_tracker

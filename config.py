@@ -27,14 +27,14 @@ payload = { 	'test_dbname': 'Mediavest_test_env',
 				'user'     : 'postgres',
 				'password' : 'Orikkel1991',  }
 
-tablenames = {	'google' 	   			: 'google_table',
+tablenames = {	'google' 	   			: 'google_output_table',
 				'brreg' 	   			: 'brreg_table',
 				'gulesider'    			: 'gulesider_table',
 				# 'input_table'  			: 'input_table',
 				# 'output_table' 			: 'output_table',
 				'input'  			: 'input_table',
 				'output' 			: 'output_table',
-				'1881' : '1881_table',
+				'I88I' : '1881_table',
 				'proff' : 'proff_table',
 				'google_input' : 'google_input_table',
 				'gulesider_error_table' : 'gulesider_error_table',
@@ -45,7 +45,7 @@ test_tablenames = {
 	'brreg':'brreg_test_table',
 	'google':'google_test_table',
 	'gulesider':'gulesider_test_table',
-	'1881':'1881_test_table',
+	'I88I':'1881_test_table',
 	'proff':'proff_test_table',
 	'':'',
 }
@@ -55,7 +55,7 @@ settings =  {	'google_settings'	 : {'chunk_size' : 50,	},
 				'brreg_settings' 	 : {'chunk_size' : 1, 	},
 				'gulesider_settings' : {'chunk_size' : 1, 	},
 				'proff_settings' 	 : {'chunk_size' : 500, 	},
-				'1881_settings' 	 : {'chunk_size' : 500, },  }
+				'I88I_settings' 	 : {'chunk_size' : 500, },  }
 
 
 '''

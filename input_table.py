@@ -24,6 +24,8 @@ PURPOSE:
 
 '''
 
+
+
 def resetInputTable():
 	'''
 		used mainly for testing, 
@@ -56,7 +58,7 @@ def inputTableManager(): #? Don't think this is in use
 def inputTable(): #? Don't think this is in use
 	tablename = parseTablenames(getFileName())
 	input_data = getInputTable(tablename)
-	
+
 def removeExtracted():
 	'''
 		removed companies from input_table that has been extracted by google and gulesider
@@ -76,13 +78,24 @@ def removeExtracted():
 	insertData(new_input_table, tablename = 'input_table')
 
 if __name__ == '__main__':
-	# resetInputTable()
+	resetInputTable()
+	# cleanUp(tablename = "input_table")
 	input_table = fetchData(tablename = "input_table")
+	try:
+		output_table = fetchData(tablename = "output_table")
+		output_table = output_table[['org_num', 'navn']]
+	except:
+		output_table = pd.DataFrame()
+	print(f'current length of output_table: {len(output_table)}')
 	print(f'current length of input_table: {len(input_table)}')
 
-
-
-
+	
+	df = pd.concat([output_table, input_table], axis=0)
+	df = df.drop_duplicates(subset = 'org_num', keep=False)
+	df = df.reset_index(drop=True)
+	replacetData(df, tablename = "input_table")
+	print(f'current length of output_table: {len(output_table)}')
+	print(f'current length of input_table: {len(df)}')
 
 
 
