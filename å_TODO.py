@@ -6,8 +6,28 @@
 
 	! [1] Issue with onbe of the extractors where one of them is raising an error. 
 	! [2] Issue with Feedback function for the app; Email-API not working.  
-	! [3] 
+	! [3] ISSUE request.connection error in gulesider.py
+		  requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+		  might have something to do with internet connnection
+	! [4] ISSUE Input_table getds bigger
+	! [5] There is a posibility that output_table is getting smaller, 
+		todo [ ] WIll look into it
+		print output_table [16:54]: 1374 rows
+		print output_table [16:55]: 1432 rows 
+		print output_table [17:13]: 2369 rows 
+	! [6] raised error in I88I.py:
+		sqlalchemy.exc.IntegrityError: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "pg_type_typname_nsp_index"
+			DETAIL:  Key (typname, typnamespace)=(output_table, 2200) already exists.
 
+			[SQL:
+			CREATE TABLE output_table (
+			        org_num BIGINT,
+			        navn TEXT
+			)
+
+			]
+			(Background on this error at: https://sqlalche.me/e/14/gkpj)
+	! [ ] 
 '''
 
 
@@ -67,6 +87,16 @@
 			 	 - Create your own way of sending the email
 
 	todo [ ] Organize theme and Finish "LightMode" (APP)
+
+	todo [ ] make / update a specific CleanUp code for Brreg_table:
+			 where it removes companies that are e.g.: 
+			 "konkurs == True"
+			 "under_avvikling == True"
+			 "under_tvangsavvikling_eller_oppløsning == True"
+
+	todo [ ] Check if it's possible to upload backend to AWS (CLOUD)
+			 so the users can control the updating of the database themselves 
+			 by making API calls. 
 
 * FINAL:
 	todo [ ] Clean Files (BACKEND)

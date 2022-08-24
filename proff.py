@@ -189,8 +189,8 @@ def proffExtractor(**kwargs):
 	''' making adjustments if testmode '''
 	if kwargs.get('testmode', None):
 		input_array = input_array[:1000]
-		tablename = parseTablenames(file_name, testmode = True) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
-		#! [ALT] tablename = 'gulsesider_test_table'
+		tablename = parseTablenames(file_name, testmode = False) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
+		# tablename = parseTablenames(file_name, testmode = True) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
 	else:
 		parseTablenames(file_name, testmode = False)
 		#! [ALT] tablename = 'gulesider_table'
@@ -198,14 +198,13 @@ def proffExtractor(**kwargs):
 	print(f"input length: {len(input_array)}")
 	nested_input_array = makeChunks(input_array, chunksize) # divides input_array into chunks 
 	print(f"number of chunks: {len(nested_input_array)}")
-	nested_input_array = nested_input_array[1167:] #TEMP --- test
+	# nested_input_array = nested_input_array[1167:] #TEMP --- test
 	with tqdm(total = len(nested_input_array)) as pbar: #TEMP --- TEST
 		for input_array in nested_input_array:
 			with Pool() as pool:
 				results = list(tqdm(pool.imap_unordered(extractionManager, input_array), total = len(input_array)))
 				results = [x for x in results if x is not None]
 				df =  pd.DataFrame(results, columns = ['org_num', 'navn'])
-				# print(df)
 				databaseManager(df, tablename = "output_table")
 				pbar.update(1) #TEMP --- TEST
 	'''

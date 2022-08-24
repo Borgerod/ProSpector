@@ -52,6 +52,18 @@ def pullRequest(url, source, org_num, search_term):
 			# pass 
 		# return soup
 
+
+# # ! OLD GET REQUEST 
+# def getRequest(url, org_num, search_term):
+# 	'''
+# 		1. makes a pull request from gulesider.no.
+# 		2. then checks the connection.
+# 		3. then returns a soup.
+# 		4. If a bad request occours; then it will save the error to "gulesider_error_table"
+# 	'''
+# 	return requests.get(url, timeout = 10) #* -> req 
+
+# ! NEW GET REQUEST 
 def getRequest(url, org_num, search_term):
 	'''
 		1. makes a pull request from gulesider.no.
@@ -59,11 +71,49 @@ def getRequest(url, org_num, search_term):
 		3. then returns a soup.
 		4. If a bad request occours; then it will save the error to "gulesider_error_table"
 	'''
-	return requests.get(url, timeout = 10) #* -> req 
+	next_result = 0
+	while next_result == 0:
+		try:
+			return requests.get(url, timeout = 10)
+			next_result = 1
+		except:
+			print(f"ERROR CAUGHT in getRequest():")
+			time.sleep(1)
+			continue
+		break
 
 def getSoup(req):
 	return BeautifulSoup(r.content, "html.parser") #* -> soup
 	
 
+
+
+
+
+
+# # ! NEW GET REQUEST 
+# def getRequest(url, org_num, search_term):
+# 	'''
+# 		1. makes a pull request from gulesider.no.
+# 		2. then checks the connection.
+# 		3. then returns a soup.
+# 		4. If a bad request occours; then it will save the error to "gulesider_error_table"
+# 	'''
+# 	next_result = 0
+# 	while next_result == 0:
+# 		try:
+# 			try:
+# 				req = requests.get(url, timeout = 10)
+# 				next_result = 1
+# 				return req
+# 			except HTTPError as e:
+# 				print(e)
+# 			# except:
+# 			# 	break
+# 		except:
+# 			print(f"ERROR CAUGHT in getRequest():")
+# 			time.sleep(5)
+# 			continue
+# 		break
 
 

@@ -203,8 +203,9 @@ def opplysningenExtractor(**kwargs): #1881Extractor did not work
 	input_array = getInputTable(tablenames['input']).to_numpy() #fetches the input data
 	''' making adjustments if testmode '''
 	if kwargs.get('testmode', None):
-		input_array = input_array[:1000]
-		tablename = parseTablenames(file_name, testmode = True) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
+		input_array = input_array[17500:]
+		tablename = parseTablenames(file_name, testmode = False) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
+		# tablename = parseTablenames(file_name, testmode = True) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
 		#! [ALT] tablename = 'gulses'ider_test_table'
 	else:
 		parseTablenames(file_name, testmode = False)
@@ -217,12 +218,10 @@ def opplysningenExtractor(**kwargs): #1881Extractor did not work
 		for input_array in nested_input_array:
 			with Pool() as pool:
 				results = list(tqdm(pool.imap_unordered(extractionManager, input_array), total = len(input_array)))
-				# results = list(tqdm(pool.imap_unordered(extractionManager, input_array, chunksize = chunksize), total = len(input_array)))
-				results = [x for x in results if x is not None]    # 00:51 seconds
+				results = [x for x in results if x is not None]
 				df =  pd.DataFrame(results, columns = ['org_num', 'navn'])
 				databaseManager(df, tablename = "output_table")
-				# print(f" Chunk finished in {round(time.perf_counter() - start, 2)} second(s)")
-		pbar.update(1) #TEMP --- TEST
+				pbar.update(1) #TEMP --- TEST
 	'''
 		! ____ CURRENT ISSUE____
 		- extractor wait untill ALL of the data has been gathered before it passes it to postgres

@@ -2,7 +2,8 @@ import re
 from inspect import currentframe, getframeinfo, stack
 
 # ___ local imports __________
-from config import tablenames, settings, test_tablenames
+# from config import tablenames, settings, test_tablenames
+from config import tablenames, settings
 from postgres import databaseManager, cleanUp, fetchData, checkForTable, postLastUpdate, deleteData
 
 

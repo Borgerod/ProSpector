@@ -32,28 +32,29 @@ tablenames = {	'google' 	   			: 'google_output_table',
 				'gulesider'    			: 'gulesider_table',
 				# 'input_table'  			: 'input_table',
 				# 'output_table' 			: 'output_table',
-				'input'  			: 'input_table',
-				'output' 			: 'output_table',
-				'I88I' : '1881_table',
-				'proff' : 'proff_table',
-				'google_input' : 'google_input_table',
+				'input'  				: 'input_table',
+				'output' 				: 'output_table',
+				'I88I' 					: '1881_table',
+				'proff' 				: 'proff_table',
+				'google_input' 			: 'google_input_table',
 				'gulesider_error_table' : 'gulesider_error_table',
-				'update_tracker' 		: 'update_tracker',		  }
+				'update_tracker' 		: 'update_tracker',		  
+				'call_list' 			: 'call_list',}
 
-test_tablenames = {
-	'general':'test_table',
-	'brreg':'brreg_test_table',
-	'google':'google_test_table',
-	'gulesider':'gulesider_test_table',
-	'I88I':'1881_test_table',
-	'proff':'proff_test_table',
-	'':'',
-}
+# test_tablenames = {
+# 	'general':'test_table',
+# 	'brreg':'brreg_test_table',
+# 	'google':'google_test_table',
+# 	'gulesider':'gulesider_test_table',
+# 	'I88I':'1881_test_table',
+# 	'proff':'proff_test_table',
+# 	'':'',
+# }
 
 ''' _____ EXTRACTORS ____________________________________________________________'''
 settings =  {	'google_settings'	 : {'chunk_size' : 50,	},
 				'brreg_settings' 	 : {'chunk_size' : 1, 	},
-				'gulesider_settings' : {'chunk_size' : 1, 	},
+				'gulesider_settings' : {'chunk_size' : 500, 	},
 				'proff_settings' 	 : {'chunk_size' : 500, 	},
 				'I88I_settings' 	 : {'chunk_size' : 500, },  }
 

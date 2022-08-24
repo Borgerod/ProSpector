@@ -538,7 +538,7 @@ def googleExtractor():
 	# 				if df is None:
 	# 					pass
 	# 				else:
-	# 					databaseManager(df, tablename)
+	# 					databaseManager(df, tablename='call_list')
 	# 				pbar.update(1)
 	print("_"*62)
 	print("                   Data Extraction Complete.                 ")

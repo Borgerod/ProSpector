@@ -27,6 +27,8 @@ TODO LIST:
 	- [X] Make Update function 
 	- [ ] make documentation on "RUNDOWN OF THE PROGRAM", including what postgres.py does
 	- [ ] make documentation on "NOTABLE FLAWS"
+	- [ ] create function that drops all "unnessasary" companies
+
 ! ISSUE: 
 	- [ ] something makes database double as big as it should be, fix it
 '''
@@ -136,17 +138,43 @@ def resetInputTable():
 	'''
 	print("	resetting input_table..")
 	brreg = fetchData(tablename = "brreg_table")
+
+
+	brreg = brregCleanUp(brreg)
+
+
 	input_table = brreg[['org_num', 'navn']]
 	print(f" removing output_table data from input_table")
 	output_table = fetchData(tablename = "output_table")
 	output_table = output_table[['org_num', 'navn']]
 	df = pd.concat([output_table, input_table], axis=0)
 	df = df.drop_duplicates(subset = 'org_num', keep=False)
-	df = df.reset_index()
+	df = df.reset_index(drop=True)
 	replacetData(df, tablename = "input_table")
 	print("	reset complete.")
 	print(f'new length of input_table: {len(df)}')
 	print(f'Display results:\n\n{df}\n\n')
+
+
+
+def brregCleanUp(df):
+	'''
+		a clean up routine specifically made for "brreg_table", before it is uploaded to "input_table".
+		function is called by: resetInputTable()
+		the routine:
+			removes companies that is tagged; bankrupt, disolved, liquidated, (might include "last annual report == None")
+	'''
+	'''
+		Query for siste_innsendt_årsregnskap if needed:
+			regnskap = df.loc[df['siste_innsendt_årsregnskap'].isnull()]
+	'''
+	'''
+		the inverse, if ever needed:
+		trash = df.loc[(df['under_avvikling'] == True) | (df['under_tvangsavvikling_eller_oppløsning'] == True) | (df['konkurs'] == True)]
+	'''
+	return df.loc[(df['under_avvikling'] == False) & (df['under_tvangsavvikling_eller_oppløsning'] == False) & (df['konkurs'] == False)]
+
+
 
 
 ''' * ____  MANAGER  ________________________________
@@ -243,12 +271,8 @@ def brregExtractor():
 	print("continuing to data extraction.")
 	print("\n\n")
 
-
 if __name__ == '__main__':		
 	brregExtractor()
-
-
-
 
 
 
@@ -419,9 +443,6 @@ if __name__ == '__main__':
 	df = fetchData(tablename)
 	print(df)
 '''
-
-
-
 
 # [TRASH] from updateDataBase()
 	# 	# df = updateAPI(url)

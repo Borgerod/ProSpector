@@ -211,6 +211,12 @@ def getData(soup, url):
 	else:
 		pass 
 
+def makeChunks(input_array, chunksize):
+	''' 
+		used by proffExtractor, divides input array into chunks 
+	'''
+	return [input_array[i:i+chunksize] for i in range(0, len(input_array), chunksize)]  
+
 def makeDataframe():
 		return pd.DataFrame( columns = ['org_num', 'navn', 'betalt_oppføring', 'tlf', 'daglig_leder', 
 										'styreleder', 'er_Eierbekreftet', ])
@@ -287,7 +293,9 @@ def extractionManager(input_array):
 			# if result_array is None:
 			# 	print("soup == None")
 			deleteData(org_num, tablename = "input_table") #* All inputs that are found can be deleted from input_table 
-			return df
+			# return df
+			if df is not None:
+				return org_num, search_term
 		else:
 			e = 'unknown error in: gulesider.py -> extractionManager()'
 			# print(e)
@@ -316,23 +324,41 @@ def gulesiderExtractor(**kwargs):
 
 	''' making adjustments if testmode '''
 	if kwargs.get('testmode', None):
-		input_array = input_array[:1000]
-		tablename = parseTablenames(file_name, testmode = True) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
+		# input_array = input_array[:1000]
+		input_array = input_array[18891:] #TEMP TEMP TEMP
+		tablename = parseTablenames(file_name, testmode = False) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
+		# tablename = parseTablenames(file_name, testmode = True) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
 		#! [ALT] tablename = 'gulses'ider_test_table'
 	else:
-		parseTablenames(file_name, testmode = True)
+		parseTablenames(file_name, testmode = False)
 		#! [ALT] tablename = 'gulesider_table'
 
-	with tqdm(total = len(input_array)) as pbar:
-		with Pool() as pool:
-			results = pool.imap_unordered(extractionManager, input_array, chunksize = chunksize)
-			for result in results:
-				if result is not None:
-					print(result)
-					output = result[['org_num', 'navn']]
-					databaseManager(output, tablename = 'output_table')
-					# databaseManager(result, tablename = tablename)
-				pbar.update(1)
+	# ! OLD VERSION WITRHOUT NESTED ARRAYS (CHUNKS)
+	# with tqdm(total = len(input_array)) as pbar:
+	# 	with Pool() as pool:
+	# 		results = pool.imap_unordered(extractionManager, input_array, chunksize = chunksize)
+	# 		for result in results:
+	# 			if result is not None:
+	# 				output = result[['org_num', 'navn']]
+	# 				databaseManager(output, tablename = 'output_table')
+	# 			pbar.update(1)
+
+
+
+# * NEW VERSION WITH NESTED ARRAYS (CHUNKS)
+	print(f"chunksize: {chunksize}")
+	print(f"input length: {len(input_array)}")
+	nested_input_array = makeChunks(input_array, chunksize) # divides input_array into chunks 
+	print(f"number of chunks: {len(nested_input_array)}")
+	with tqdm(total = len(nested_input_array)) as pbar: #TEMP --- TEST
+		for input_array in nested_input_array:
+			with Pool() as pool:
+				results = list(tqdm(pool.imap_unordered(extractionManager, input_array), total = len(input_array)))
+				results = [x for x in results if x is not None]
+				df =  pd.DataFrame(results, columns = ['org_num', 'navn'])
+				databaseManager(df, tablename = "output_table")
+				pbar.update(1) #TEMP --- TEST
+
 
 	print("_"*62)
 	print("                   Data Extraction Complete.                 ")
