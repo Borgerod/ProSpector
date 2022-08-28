@@ -354,27 +354,18 @@ def databaseManager(df, tablename):
 			  if tablename is 'brreg_table': does nothing.
 	'''
 	dbname, host, user, password = parseConfig()
-	## conn = getConnection()
-	# if 'update_tracker' in tablename:
-		
-		
+
 	if 'brreg_table' not in tablename:
 		old_df = pd.DataFrame()
 		try:
 			old_df = fetchData(tablename)
 		except:
-			# print("table does not exsist")
 			pass
 		try: 
 			df = concatData(df, old_df)
 		except:
-			# print("unable to concat")
 			pass
-		# print()
 	insertData(df, tablename)
-	# 	insertData(df, tablename)
-	# else: 
-	# 	insertData(df, tablename)
 
 
 

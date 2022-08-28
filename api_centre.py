@@ -10,65 +10,21 @@
 	- [ ] create verification code for API keys to gatekeep API-calls (if AWS doesnt handle it by itself)
 	- [ ] create functions for API-actions
 '''
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-def getCallList():
-	pass
-
-
-
-
-
+from config import payload
+from postgres import parseConfig
 
 
-# from django.shortcuts import render
+dbname, host, user, password = parseConfig()
 
-# def index(request):
-#    return render(request, 'index.html')
+SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}"
 
-# def home(request):
-#    msg = request.GET.get('message')
-#    return render(request, 'home.html',{'msg':msg })
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL
+)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-
-
-# from django.shortcuts import render
-
-# def index(request):
-#     user = {
-#         'fullname' : request.user.get_full_name(),
-#         'firstname' : request.user.first_name,
-#         'lastname' : request.user.last_name,
-#         'email' : request.user.email,
-#         'last_login': request.user.last_login,
-#         'account_created': request.user.date_joined
-#     }
-#     return render(request, 'index.html',{'user':user})
-
-# index(request)
-
-
-
-
-
-from fastapi import FastAPI, Depends, Request, Form, status 
-from starlette.responses import RedirectResponse
-from starlette.templating import Jinja2Templates
-
-
-app = FastAPI()
-
-@app.get("/")
-def home():
-	return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int):
-	return {"item_id": item_id}
-	
-home()
-read_item(10)
-
-# def home(request: Request, db: Session=Depends(get_db)):
-# 	todos = db.query(models.Todo).all()
-# 	return templates.TemplateResponse("base.html", "request":request, "todo_list": todos)
+Base = declarative_base()
