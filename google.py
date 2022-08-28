@@ -51,10 +51,11 @@ from selenium.webdriver.chrome.options import Options
 
 '''___ local imports __________
 ''' 
-from config import payload, tablenames, settings
-from postgres import databaseManager, getInputTable
 from file_manager import *
 from input_table import inputTable
+from config import payload, tablenames, settings
+from postgres import databaseManager, getInputTable
+
 
 
 ''' * ____ CATCHPA SOLVER __________________________________________________________________________
