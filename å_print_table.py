@@ -54,7 +54,7 @@ pd.options.display.width = 2000					# Whole	   (dataframe display border)
 # tablename = 'output_table'
 # tablename = 'I88I_output_table'
 # tablename = 'gulesider_output_table'
-tablename = 'google_input_table'
+tablename = 'google_output_table'
 # tablename = 'output_table'
 # tablename = 'input_table' # len(input_table) = 896187
 # tablename = 'brreg_table' # len(input_table) = 1069577
@@ -70,7 +70,6 @@ print()
 print(f"	EXAMPLE ROW:")
 print('\t' + str(f"	{pd.DataFrame(df.iloc[1]).T}").replace('\n', '\n\t\t'))
 # print('\t' + str(f"	{tabulate(pd.DataFrame(df.iloc[1]).T, headers='keys', tablefmt='psql')}").replace('\n', '\n\t\t'))
-df = df.iloc[10000:15000]
 print()
 print("	TABLE:")
 print('\t' + str(f"	{df}").replace('\n', '\n\t\t'))
