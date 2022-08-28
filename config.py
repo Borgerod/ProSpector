@@ -39,7 +39,31 @@ tablenames = {	'google' 	   			: 'google_output_table',
 				'google_input' 			: 'google_input_table',
 				'gulesider_error_table' : 'gulesider_error_table',
 				'update_tracker' 		: 'update_tracker',		  
-				'call_list' 			: 'call_list',}
+				'call_list' 			: 'call_list',
+				'I88I_output_table'		: 'I88I_output_table',
+				'gulesider_output_table' : 'gulesider_output_table',	}
+
+
+'''
+	dict of all the extractor filenames (.py files), listed in chronological order.  
+'''
+extractor_filenames = {	'input' 					: ['brreg', 'input_table',],
+						'first_output' 				: ['1881', 'gulesider', 'proff', 'output_table'],
+						'second_output'    			: 'google',
+						'final' 		   			: 'call_list',										}
+
+extractor_filenames = {	'first' 					: 'brreg',
+						'second' 					: ['1881', 'gulesider', 'proff'],
+						'third'						: 'google',											}
+
+table_managers = {	'first' 					: 'brreg',
+					'input'    					: 'input_table',
+					'second' 					: ['1881', 'gulesider', 'proff'],
+					'first_output'				: 'output_table',
+					'third'						: 'google',
+					'final_output'    			: 'call_list',
+					'second_output'    			: 'call_list',
+					'final' 		   			: 'call_list',											}
 
 # test_tablenames = {
 # 	'general':'test_table',
@@ -65,3 +89,6 @@ Mediavest_test_env
 old: media_vest
 new: Mediavest
 '''
+
+
+

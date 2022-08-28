@@ -1,6 +1,24 @@
 ''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP 
 							
 							_____ WHERE I LEFT OF _____
+							Holder på å fikse config og seperat postgres fil
+
+						må endre på payload (tablename) --> er mye rot med den 
+						
+						__UPDATE:___ 
+						laget to alternativer i config file, for øyeblikket tester jeg ut ALT 1:
+						- payload = 			{ """ dbname, host, user, password """}
+						- tablenames = 			{ """ tablenames """ }
+						- google_settings = 	{ """ chunk_size """ }
+						- brreg_settings = 		{ """ 			 """ }
+						- gulesider_settings = 	{ """  			 """ }
+
+
+						ALT 2, er:
+						- payload = 			{ """ dbname, host, user, password """}
+						- google_settings = 	{ """ tablename, chunk_size """ }
+						- brreg_settings = 		{ """ tablename """ }
+						- gulesider_settings = 	{ """ tablename """ }						
 
 
 TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
@@ -16,9 +34,14 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from inspect import currentframe, getframeinfo
+
 # ___ local imports __________
-from postgres import databaseManager, getInputChunks
-# from .Mediavest_Scraper_bot import postgres
+from config import payload, tablenames, google_settings
+# from config import google_payload, CHUNK_SIZE
+# from postgres import databaseManager, getInputChunks
+
+
 
 '''
 ____ CMD code _____
@@ -86,7 +109,7 @@ NOTES, TIME CALCULATION:
 '''
 
 '''
-	RUNDOWN OF THE PROGRAM:
+RUNDOWN OF THE PROGRAM:
 	[Updated 06.08.22]
 
 		Part 1:	Extractor - Controlled by extractionManager();
@@ -104,7 +127,7 @@ NOTES, TIME CALCULATION:
 '''
 	
 '''
-	TODO: 
+TODO: 
 	
 	- [X] bytt ut CSV  med database
 	- [X] fix issue: "org_num" forsvinner -> feil i database & hindrer concat
@@ -136,13 +159,24 @@ NOTABLE FLAWS:
 			En thread pr chunk i chunks, der webdriverne blir tildelt en chunk hver, 
 			hvor den har X antall bedrifter å arbeide med før den lukkes ned. 
 '''
-''' 
-	GLOBALS 
+
+
+''' ____ NEW EXPERIMENTAL CODE: parse tablename & settings  ____________________________'''
+
 '''
-CHUNK_SIZE = 5
+	parsing postgres tablename relative to whichever code this is (google in this case) 
+	& whatever additional settings it needs, imported from config.py.
+	then pass the variables over to postgres.py during call. 
+'''
+
+def parseTablenames(file_name):
+	tablename = tablenames['google']
+
+
+
+
 
 ''' ____ OPTIONAL: print fileinfo and line number ____________________________'''
-from inspect import currentframe, getframeinfo
 def getLineNumber():
 	''' gets current line number '''
 	cf = currentframe()
@@ -176,9 +210,8 @@ def driverOptions():
 	options = webdriver.ChromeOptions()
 	options.add_experimental_option("excludeSwitches", ["enable-automation"]) # disable the automation bar [part 1]
 	options.add_experimental_option('useAutomationExtension', False) # disable the automation bar [part 2]
-	options.add_argument("--headless") # opens as invisible
-	# options.add_argument("--window-size=%s" % "1920,1080")
-	options.add_argument("--disable-gpu") # disable GPU-based/assisted rendering and only use a software render 
+	options.add_argument("--headless") # opens window as invisible
+	options.add_argument("--disable-gpu") # disable GPU rendering (only software render) 
 	options.add_argument('--no-sandbox') # Bypass OS security model
 	return options
 
@@ -208,19 +241,20 @@ def claimedStatus(chunk, driver):
 		is_unclaimed = True
 	return np.array((org_num, search_term, is_unreqistered, is_unclaimed), dtype = object)
 
-# def getInputChunks(conn):
-# 	''' fetches old_df from database '''
-# 	tablename = 'brreg_table'
-# 	curr = getCursor(conn)  
-# 	curr.execute(f"SELECT * FROM {tablename};") 
-# 	input_data = curr.fetchall()
-# 	column_names  = [desc[0] for desc in curr.description]
-# 	input_df = pd.DataFrame(input_data, columns = column_names)
-# 	input_df = input_df[['org_num', 'navn']][:CHUNK_SIZE] #for testing
-# 	inputs = input_df.to_numpy()
-# 	curr.close()
-# 	conn.close()
-# 	return inputs
+# [ OLD POSTGRES CODE BEFORE MIGRATION ]
+	# def getInputChunks(conn):
+	# 	''' fetches old_df from database '''
+	# 	tablename = 'brreg_table'
+	# 	curr = getCursor(conn)  
+	# 	curr.execute(f"SELECT * FROM {tablename};") 
+	# 	input_data = curr.fetchall()
+	# 	column_names  = [desc[0] for desc in curr.description]
+	# 	input_df = pd.DataFrame(input_data, columns = column_names)
+	# 	input_df = input_df[['org_num', 'navn']][:CHUNK_SIZE] #for testing
+	# 	inputs = input_df.to_numpy()
+	# 	curr.close()
+	# 	conn.close()
+	# 	return inputs
 
 def makeDataframe(status):
 	''' makes dataframe from json '''
@@ -252,148 +286,172 @@ def extractionManager(chunk):
 	# print()
 	return df
 
-# ''' ___ PART 2; POSTGRES  ____________________________________________________ 
-# '''
-# payload = { 'dbname'   : 'media_vest',
-# 			'host'     : 'localhost',
-# 			'user'     : 'postgres',
-# 			'password' : 'Orikkel1991',
-# 			'tablename': 'google_table',  }
 
-# import json
-# import psycopg2
-# from psycopg2.extras import Json
-# from sqlalchemy import create_engine
-# from tqdm import tqdm
+# [ OLD POSTGRES CODE BEFORE MIGRATION ]
+	# ''' ___ PART 2; POSTGRES  ____________________________________________________ 
+	# '''
+	# payload = { 'dbname'   : 'media_vest',
+	# 			'host'     : 'localhost',
+	# 			'user'     : 'postgres',
+	# 			'password' : 'Orikkel1991',
+	# 			'tablename': 'google_table',  }
 
-# ''' ___ PREP _______________________________________________ '''
-# def parseConfig():
-# 	''' returns parsed payload from config file '''
-# 	dbname = payload['dbname']
-# 	host = payload['host']
-# 	user = payload['user']
-# 	password = payload['password']
-# 	tablename = payload['tablename']
-# 	return dbname, host, user, password, tablename
+	# import json
+	# import psycopg2
+	# from psycopg2.extras import Json
+	# from sqlalchemy import create_engine
+	# from tqdm import tqdm
 
-# def getCursor(conn):
-# 	''' returns postgres cursor '''
-# 	return conn.cursor()
+	# ''' ___ PREP _______________________________________________ '''
+	# def parseConfig():
+	# 	''' returns parsed payload from config file '''
+	# 	dbname = payload['dbname']
+	# 	host = payload['host']
+	# 	user = payload['user']
+	# 	password = payload['password']
+	# 	tablename = payload['tablename']
+	# 	return dbname, host, user, password, tablename
 
-# def getConnection():
-# 	''' connects to database '''
-# 	return psycopg2.connect(
-# 		dbname = dbname, 
-# 		host = host, 
-# 		user = user, 
-# 		password = password)
+	# def getCursor(conn):
+	# 	''' returns postgres cursor '''
+	# 	return conn.cursor()
 
-# ''' ___ ACTIONS _______________________________________________ '''
-# def insertData(df):
-# 	''' 
-# 		inserts final dataframe to database, 
-# 		creates new table if table it does not exsist, else it updates
-# 	'''
-# 	# print("_"*100)
-# 	# print('from insertData(); printing final df before saving to database:')	
-# 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
-# 	# print()
-# 	conn = getConnection()
-# 	curr = getCursor(conn)
-# 	dbname, host, user, password, tablename = parseConfig()
-# 	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
-# 	df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
+	# def getConnection():
+	# 	''' connects to database '''
+	# 	return psycopg2.connect(
+	# 		dbname = dbname, 
+	# 		host = host, 
+	# 		user = user, 
+	# 		password = password)
 
-# def fetchData(conn, tablename):
-# 	''' fetches old_df from database '''
-# 	dbname, host, user, password, tablename = parseConfig()
-# 	curr = getCursor(conn)  
-# 	curr.execute(f"SELECT * FROM {tablename};") 
-# 	old_data = curr.fetchall()
-# 	column_names  = [desc[0] for desc in curr.description]
-# 	old_df = pd.DataFrame(old_data, columns = column_names)
-# 	curr.close()
-# 	conn.close()
-# 	return old_df
-  
-# def concatData(df, old_df):
-# 	''' Concat old_df from database with new df from api request '''
-# 	df.set_index(['org_num'],  inplace = True)
+	# ''' ___ ACTIONS _______________________________________________ '''
+	# def insertData(df):
+	# 	''' 
+	# 		inserts final dataframe to database, 
+	# 		creates new table if table it does not exsist, else it updates
+	# 	'''
+	# 	# print("_"*100)
+	# 	# print('from insertData(); printing final df before saving to database:')	
+	# 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
+	# 	# print()
+	# 	conn = getConnection()
+	# 	curr = getCursor(conn)
+	# 	dbname, host, user, password, tablename = parseConfig()
+	# 	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
+	# 	df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
 
-# 	try: 
-# 		df.drop('org_num', axis = 1, inplace=True)
-# 	except KeyError:
-# 		pass
-# 	# print("_"*100)
-# 	# print('printing old_df before squeeze:')	
-# 	# print(f'line: {getLineNumber()}, print(old_df): \n{df}')
-# 	# print()	
-# 	# old_df.set_index(old_df['org_num'].squeeze(), inplace = True)
-# 	old_df.set_index(old_df['org_num'], inplace = True)
-# 	try: 
-# 		old_df.drop('org_num', axis = 1, inplace=True)
-# 	except KeyError:
-# 		print("KeyError: old_df['org_num']")
-# 	# print("_"*100)
-# 	# print('df & old_df after dropping "org_num":')	
-# 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
-# 	# print(f'line: {getLineNumber()}, print(old_df): \n{old_df}')
-# 	# print()
-# 	df = pd.concat((df, old_df), axis = 0)
-# 	# print("_"*100)
-# 	# print('printing final_df after concat:')	
-# 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
-# 	# print()
-# 	df = df.groupby(df.index).last().reset_index()
-# 	# print("_"*100)
-# 	# print('printing final_df after groupby:')	
-# 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
-# 	# print()
-# 	return df
+	# def fetchData(conn, tablename):
+	# 	''' fetches old_df from database '''
+	# 	dbname, host, user, password, tablename = parseConfig()
+	# 	curr = getCursor(conn)  
+	# 	curr.execute(f"SELECT * FROM {tablename};") 
+	# 	old_data = curr.fetchall()
+	# 	column_names  = [desc[0] for desc in curr.description]
+	# 	old_df = pd.DataFrame(old_data, columns = column_names)
+	# 	curr.close()
+	# 	conn.close()
+	# 	return old_df
+	  
+	# def concatData(df, old_df):
+	# 	''' Concat old_df from database with new df from api request '''
+	# 	df.set_index(['org_num'],  inplace = True)
 
-# def databaseManager(df):
-# 	''' manage database '''
-# 	old_df = pd.DataFrame()
-# 	try:
-# 		conn = getConnection()
-# 		old_df = fetchData(conn, tablename)
-# 	except:
-# 		print("table does not exsist")
-	
-# 	# if old_df.empty:
-# 	# 	try: 
-# 	# 		df = concatData(df, old_df)
-# 	# 	except:
-# 	# 		print("unable to concat") 
-# 	# print("_"*100)
-# 	# print('from databaseManager; printing df & old_df before concatData():')	
-# 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
-# 	# print(f'line: {getLineNumber()}, print(old_df): \n{old_df}')
-# 	# print()
-# 	df = concatData(df, old_df)
-# 	insertData(df)	
+	# 	try: 
+	# 		df.drop('org_num', axis = 1, inplace=True)
+	# 	except KeyError:
+	# 		pass
+	# 	# print("_"*100)
+	# 	# print('printing old_df before squeeze:')	
+	# 	# print(f'line: {getLineNumber()}, print(old_df): \n{df}')
+	# 	# print()	
+	# 	# old_df.set_index(old_df['org_num'].squeeze(), inplace = True)
+	# 	old_df.set_index(old_df['org_num'], inplace = True)
+	# 	try: 
+	# 		old_df.drop('org_num', axis = 1, inplace=True)
+	# 	except KeyError:
+	# 		print("KeyError: old_df['org_num']")
+	# 	# print("_"*100)
+	# 	# print('df & old_df after dropping "org_num":')	
+	# 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
+	# 	# print(f'line: {getLineNumber()}, print(old_df): \n{old_df}')
+	# 	# print()
+	# 	df = pd.concat((df, old_df), axis = 0)
+	# 	# print("_"*100)
+	# 	# print('printing final_df after concat:')	
+	# 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
+	# 	# print()
+	# 	df = df.groupby(df.index).last().reset_index()
+	# 	# print("_"*100)
+	# 	# print('printing final_df after groupby:')	
+	# 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
+	# 	# print()
+	# 	return df
 
-if __name__ == '__main__':
+	# def databaseManager(df):
+	# 	''' manage database '''
+	# 	old_df = pd.DataFrame()
+	# 	try:
+	# 		conn = getConnection()
+	# 		old_df = fetchData(conn, tablename)
+	# 	except:
+	# 		print("table does not exsist")
+		
+	# 	# if old_df.empty:
+	# 	# 	try: 
+	# 	# 		df = concatData(df, old_df)
+	# 	# 	except:
+	# 	# 		print("unable to concat") 
+	# 	# print("_"*100)
+	# 	# print('from databaseManager; printing df & old_df before concatData():')	
+	# 	# print(f'line: {getLineNumber()}, print(df): \n{df}')
+	# 	# print(f'line: {getLineNumber()}, print(old_df): \n{old_df}')
+	# 	# print()
+	# 	df = concatData(df, old_df)
+	# 	insertData(df)	
+
+def makeChunks(input_array, chunksize):
+	''' 
+		used by proffExtractor, divides input array into chunks 
 	'''
-		sets up all nessasary functions, 
-		then gets list of company names, 
-		then iterates through the list via multithreading: claimedStatus().
+	return [input_array[i:i+chunksize] for i in range(0, len(input_array), chunksize)]  
+
+
+
+def getSettings():
+	''' 
+		Prepwork; fetches config-data & propriate input 
 	'''
-	print("_"*91)
-	print("|											  |")
-	print("|			Starting: GOOGLE Extractor 			  |")
-	print("|											  |")
-	print("_"*91)
-	print()
+	file_name = 'google'
+	chunksize = parseSettings(file_name)['chunk_size']
+	# ! input_array = (getInputTable(file_name))[['org_num', 'navn']].to_numpy() #![ORIGINAL] temporary disabled B/C input_table might be corrupt by faulty versions
+	input_array = fetchData('google_input_table').to_numpy()
+	''' 
+		making adjustments to settings based on **kawrg: "testmode" 
+	'''
+	mode = 'Test Mode'
+	tablename = 'test_output_table' #? [ALT] tablename = parseTablenames('1881', testmode = True)
+	start_limit, end_limit = None, 1
+	input_array = input_array[start_limit : end_limit]
+	return file_name, chunksize, mode, tablename, start_limit, end_limit, input_array
 
-	''' preperations: parse config, connect to database and connect to api manager '''
-	# dbname, host, user, password, tablename = parseConfig()
-	# conn = getConnection()
-	# input_df = getInputChunks(conn)
+def printSettingsInfo(nested_input_array):
+	file_name, chunksize, mode, tablename, start_limit, end_limit, input_array = getSettings()
+	print(f"Running: {mode}")
+	print(f"output_table used: {tablename}")
+	print(f"Input_array starts from: [{start_limit}:{end_limit}]")
+	print(f"chunksize: {chunksize}")
+	print(f"input length: {len(input_array)}")
+	print(f"number of chunks: {len(nested_input_array)}")
+	print("\n\n\n")
 
+# * ORIGINAL - disabled while testing
 
-	input_df = getInputChunks()
-	chunks = [input_df] # TEMP
+if __name__ == '__main__':	
+	# testmode_kwarg = kwargs.get('testmode', None)
+	file_name, chunksize, mode, tablename, start_limit, end_limit, input_array = getSettings()
+	nested_input_array = makeChunks(input_array, chunksize) # divides input_array into chunks 
+	printSettingsInfo(nested_input_array)
+	chunks = nested_input_array
 	for i, chunk in enumerate(chunks):
 		print(f"Chunk number {i+1} / {len(chunks)}")
 	# 	with tqdm(total = len(chunks)) as pbar:
@@ -404,8 +462,7 @@ if __name__ == '__main__':
 					print('printing result from multithread:')	
 					print(f'line: {getLineNumber()}, print(result): \n{result}')
 					print()
-					print(result)
-					# databaseManager(result)
+					databaseManager(result)
 	# 				pbar.update(1)
 	print("																		"+"_"*91)
 	print("																		|											  |")

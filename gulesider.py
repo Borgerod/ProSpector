@@ -5,9 +5,20 @@
 
 
 *						_____ EXTRACTION RECORD _______
--						NOTE 100 enheter -->  Finished in 20.76 second(s)
--						NOTE 500 enheter -->  Finished in 19.54 second(s)
--						NOTE 500 enheter -->  Finished in 16.97 second(s)
+*						Extracts (668.5K) units  --> 	36170.92 second(s)			| => (1000) :  256.83 sec | [0.054 s/unit]				
+ 				   		Extracts (1000) units 	 -->  	51.00 second(s) 			| => (1000) :  51.00 sec  | [0.051 s/unit]
+ 				   AVG: Extracts (500) units 	 -->  	18.25 second(s) 			| => (1000) :  36.50 sec  | [0.037 s/unit]
+ 						Extracts (100) units 	 -->  	20.76 second(s)				  
+						Extracts (500) units 	 -->    19.54 second(s) 
+						Extracts (500) units 	 -->    16.97 second(s)
+
+
+*						_____ ESTIMATIONS _______
+*						Estimated length of input_list: 						1.069.577 rows / [1069577]
+*						Estimated total extraction time: 						[16:04:32] / 964.54 minutes
+* 						ACTUAL TOTAL EXTRACTION TIME: 							[--:--:--] / ---.-- minutes
+
+10:02:50
 
 TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP '''
 
@@ -277,7 +288,7 @@ def extractionManager(input_array):
 		source = 'gulsesider.py'
 		base_url = 'https://www.gulesider.no'
 		url = linkBuilder(base_url, str(org_num))  		
-		soup = pullRequest(url, source, org_num, search_term) 
+		soup = pullRequest(url) 
 		new_link = getNewLinks(soup, url)
 		if new_link is None:
 			e = f'Error: "{search_term}" gave no search results'
@@ -286,7 +297,7 @@ def extractionManager(input_array):
 			errorManager(org_num, search_term, url, e)
 			
 		elif new_link is not None:
-			soup = pullRequest(new_link, source, org_num, search_term)
+			soup = pullRequest(new_link)
 			if soup is None:
 				print("soup == None")
 			df = getData(soup, new_link)
@@ -325,7 +336,7 @@ def gulesiderExtractor(**kwargs):
 	''' making adjustments if testmode '''
 	if kwargs.get('testmode', None):
 		# input_array = input_array[:1000]
-		input_array = input_array[18891:] #TEMP TEMP TEMP
+		input_array = input_array[129500:] #TEMP TEMP TEMP
 		tablename = parseTablenames(file_name, testmode = False) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
 		# tablename = parseTablenames(file_name, testmode = True) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
 		#! [ALT] tablename = 'gulses'ider_test_table'
@@ -356,7 +367,8 @@ def gulesiderExtractor(**kwargs):
 				results = list(tqdm(pool.imap_unordered(extractionManager, input_array), total = len(input_array)))
 				results = [x for x in results if x is not None]
 				df =  pd.DataFrame(results, columns = ['org_num', 'navn'])
-				databaseManager(df, tablename = "output_table")
+				print(df)
+				databaseManager(df, tablename = "gulesider_output_table")
 				pbar.update(1) #TEMP --- TEST
 
 
@@ -367,8 +379,8 @@ def gulesiderExtractor(**kwargs):
 	print()
 
 if __name__ == '__main__':
-	# gulesiderExtractor(testmode = True)
-	gulesiderExtractor(testmode = False)
+	gulesiderExtractor(testmode = True)
+	# gulesiderExtractor(testmode = False)
 
 
 

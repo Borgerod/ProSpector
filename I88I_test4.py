@@ -28,16 +28,14 @@
 					TODO: eller prøver å samle opp arbeidet før du sender det til postgres
 
 *						_____ EXTRACTION RECORD _______
-812
-*						Extracts (406K) units --> 	 33151.87 second(s)				  | => (1000) :  256.83 sec | [0.0816 s/unit]
-*						Extracts (1000) units --> 	 81.11 second(s)				  | => (1000) :   81.11 sec | [0.0811 s/unit]
-						Extracts (600) units -->  	 54.14 second(s)				  | => (1000) :   90.00 sec | [0.090 s/unit]
+*						Extracts (1000) units --> 	 81.11 second(s)				  | => (1000) :  256.83 sec | [0.0811 s/unit]
+						Extracts (600) units -->  	 54.14 second(s)				  | => (1000) :  90.00 sec | [0.090 s/unit]
 						Extracts (1000) units --> 	 256.83 second(s)				  | => (1000) :  256.83 sec | [0.257 s/unit]
-
+						
 *						_____ ESTIMATIONS _______
 *						Estimated length of input_list: 						1.069.577 rows / [1069577]
-*						Estimated total extraction time: 						[24:15:36] / [01:00:15:36]
-* 
+*						Estimated total extraction time: 						[26:44:21] / [01:02:44:21]
+
 
 TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP'''
 
@@ -61,7 +59,7 @@ from config import payload, tablenames, settings
 from postgres import databaseManager, getInputTable, checkIfMissing
 from file_manager import *
 from input_table import inputTable
-from base_extractor import genSearchTerm
+from base_extractor import genSearchTerm, getRequest
 
 
 
@@ -71,10 +69,7 @@ def linkBuilder(base_url, term):
 	'''
 	return f'{base_url}{term}'
 
-
-
-
-# # * NEW4 GET REQUEST 
+# # * NEW3 GET REQUEST 
 # def getRequest(url):
 # 	'''
 # 		1. makes a pull request from gulesider.no.
@@ -101,76 +96,8 @@ def linkBuilder(base_url, term):
 # 				'__uzmd':'1660653747',}
 # 	s = requests.Session()
 # 	s.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36'
-# 	# return s.get(url, cookies=cookies, verify=True)
-# 	next_result = 0
-# 	while next_result == 0:
-# 		try:
-# 			r = s.get(url, cookies=cookies, verify=True)
-# 			next_result = 1
-# 			return r
-# 		except:
-# 			# print(f"ERROR CAUGHT in getRequest():")
-# 			time.sleep(5)
-# 			continue
-# 		break
+# 	return s.get(url, cookies=cookies, verify=True)
 
-
-
-def getRequest(url):
-	'''
-		1. makes a pull request from gulesider.no.
-		2. then checks the connection.
-		3. then returns a soup.
-		4. If a bad request occours; then it will save the error to "gulesider_error_table"
-	'''
-	cookies = { 'ASP.NET_SessionId':'5btxqhyab4kildcfudsowc31',
-				'__uzma':'c8749bb2-abdf-40b3-b4e2-3377bc4d33ae',
-				'__uzmb':'1660651793',
-				'__ssds':'2',
-				'__uzmaj2':'b50a61ac-fc20-49eb-aea0-9b9f7a292f82',
-				'__uzmbj2':'1660651794',
-				'_gid':'GA1.2.1371187027.1660652841',
-				'__ssuzjsr2':'a9be0cd8e',
-				'_MBL':'%7B%22u%22%3A%22G6fq8SYahK%22%2C%22t%22%3A1660653383%7D',
-				'__mbl':'%7B%22u%22%3A%5B%7B%22uid%22%3A%22YEIoShT3dFg6GprZ%22%2C%22ts%22%3A1660653384%7D%2C1660743384%5D%7D',
-				'_ga_60EFTS75DG':'GS1.1.1660652841.1.1.1660653384.0',
-				'_ga':'GA1.1.1591735888.1660652841',
-				'__uzmcj2':'995972548674',
-				'__uzmdj2':'1660653739',
-				'captchaResponse':'1',
-				'__uzmc':'856834036869',
-				'__uzmd':'1660653747',}
-	s = requests.Session()
-	s.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36'
-	# try:
-	req = s.get(url, cookies = cookies, verify = True, allow_redirects = False)
-	a = getSoup(req).find('a',{'href' : True})
-	if not a['href'] == '#query':
-		url = 'https://www.1881.no/'+a['href']
-		return s.get(url, cookies = cookies, verify = True, allow_redirects = False) 
-		
-	# 	print(url)
-	# 	req = s.get(url, cookies = cookies, verify = True, allow_redirects = False)
-	# 	return req
-	# except:
-	# 	# print(e)
-	# 	print(f"\n{url}")
-		# time.sleep(5)
-		# return s.get(url, cookies = cookies, verify = True, allow_redirects = False)
-
-	# next_result = 0
-	# while next_result == 0:
-	# 	try:
-	# 		r = s.get(url, cookies=cookies, verify=True, allow_redirects=False)
-	# 		next_result = 1
-	# 		return r
-	# 	except as e:
-	# 		print(e)
-	# 	# except:
-	# 		# print(f"ERROR CAUGHT in getRequest():")
-	# 		time.sleep(5)
-	# 		continue
-	# 	break
 
 
 
@@ -192,7 +119,6 @@ def newSoup(listing):
 	a = h2.find('a',{'href' : True})
 	return getSoup(getRequest('https://www.1881.no/'+a['href']))
 
-
 def checkIfList(soup):
 	''' checks if page is a profile or a listing '''
 	return soup.find('div',{'class':'box listing listing--business'})
@@ -213,58 +139,15 @@ def extractionManager(input_array):
 	base_url = 'https://www.1881.no/?query='
 	url = linkBuilder(base_url, str(org_num))
 	req = getRequest(url)
-	if req:
-		soup = getSoup(req)
-		if not checkIfList(soup):
-			if not soup.find('div',{'class':'box text-section'}):
-				if not findPromoDiv(soup):
-					deleteData(org_num, tablename = "input_table") #* All inputs that are found can be deleted from input_table  
-					return org_num, search_term
-		# try:
-		# 	if listing:
-		# 		soup = newSoup(listing)
-		# 	if not soup.find('div',{'class':'box text-section'}):
-		# 		if not findPromoDiv(soup):
-		# 			## if not getTestmode():
-		# 			# TEMP while testing
-		# 			# deleteData(org_num, tablename = "input_table") #* All inputs that are found can be deleted from input_table  
-		# 			return org_num, search_term #, error
-		# except:
-		# 	pass
+	soup = getSoup(req)
+	listing = checkIfList(soup)
+	if listing:
+		soup = newSoup(listing)
+	if not soup.find('div',{'class':'box text-section'}):
+		if not findPromoDiv(soup):
+			# deleteData(org_num, tablename = "input_table") #* All inputs that are found can be deleted from input_table 
+			return org_num, search_term #, error
 				
-def getSettings(kwargs):
-	''' 
-		Prepwork; fetches config-data & propriate input 
-	'''
-	file_name = 'I88I'
-	chunksize = parseSettings(file_name)['chunk_size']
-	#! input_array = (getInputTable(file_name))[['org_num', 'navn']].to_numpy() #![ORIGINAL] temporary disabled B/C input_table might be corrupt by faulty versions
-	input_array = (getInputTable('brreg_table'))[['org_num', 'navn']].to_numpy() #TEMP --- while testing
-	
-	''' 
-		making adjustments to settings based on **kawrg: "testmode" 
-	'''
-	if kwargs: # if kwargs.get('testmode', None):
-		mode = 'Test Mode'
-		tablename = '1881_test_output_table' #? [ALT] tablename = parseTablenames('1881', testmode = True)
-		start_limit, end_limit = 674000, 674500
-		input_array = input_array[start_limit : end_limit]
-	else:
-		mode = 'Publish Mode' #? [ALT]: mode = 'Final Mode'
-		tablename = '1881_output_table' #? [ALT] tablename = parseTablenames('1881', testmode = False)
-		start_limit, end_limit = 674000, None 				#TEMP while testing 
-		input_array = input_array[start_limit : end_limit]	
-	return file_name, chunksize, mode, tablename, start_limit, end_limit, input_array
-
-def printSettingsInfo(nested_input_array, testmode_kwarg):
-	file_name, chunksize, mode, tablename, start_limit, end_limit, input_array = getSettings(testmode_kwarg)
-	print(f"Running: {mode}")
-	print(f"output_table used: {tablename}")
-	print(f"Input_array starts from: [{start_limit}:{end_limit}]")
-	print(f"chunksize: {chunksize}")
-	print(f"input length: {len(input_array)}")
-	print(f"number of chunks: {len(nested_input_array)}")
-	print("\n\n\n")
 
 def opplysningenExtractor(**kwargs):
 	'''
@@ -277,10 +160,38 @@ def opplysningenExtractor(**kwargs):
 	print("_"*62)
 	print()
 
-	testmode_kwarg = kwargs.get('testmode', None)
-	file_name, chunksize, mode, tablename, start_limit, end_limit, input_array = getSettings(testmode_kwarg)
+	''' fetching data from config '''
+	file_name = getFileName() # gets filename of this file.
+	chunksize = 500
+	# input_array = getInputTable(tablenames['input']).to_numpy() #fetches the input data
+	input_array = (getInputTable('brreg_table'))[['org_num', 'navn']].to_numpy() #fetches the input data  #TEMP --- while testing
+	input_array = input_array[:1000]  #TEMP --- while testing
+	# input_array = [ [928408639, 'TJC SA'],
+	# [979389434, 'Intermezzo Frisør AS'],
+	# 				]
+	# 				# [928726452, 'TITLES-ON LIMITED'],
+	# 				# [916546351, 'TITTTEI VOLHA KOUHAR'],
+	# 				# [924648287, 'TITANIUM RENEWABLE SERVICES LTD'],
+	# 				# [917338213, 'TIUR FRISØR AS'],
+	# 				# [928673510, 'TIYOUBA OY'],
+	# 				# [916018002, 'TJ SUPPORT LTD'],
+	# 				# [928408639, 'TJC SA'],
+	# 				# [915851134, 'TJ74 LTD'], ]
+	
+	# ''' making adjustments if testmode '''
+	# if kwargs.get('testmode', None):
+	# 	# input_array = input_array[:1000]
+	# 	input_array = input_array[800000:801000]
+	# 	# tablename = parseTablenames(file_name, testmode = False) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
+	# 	tablename = 'I88I_test_output_table'
+	# else:
+	# 	parseTablenames(file_name, testmode = False)
 	nested_input_array = makeChunks(input_array, chunksize) # divides input_array into chunks 
-	printSettingsInfo(nested_input_array, testmode_kwarg)
+	
+	print(f"chunksize: {chunksize}")
+	print(f"input length: {len(input_array)}")
+	print(f"number of chunks: {len(nested_input_array)}")
+	print("\n\n\n")
 
 	with tqdm(total = len(nested_input_array)) as pbar: 
 		for input_array in nested_input_array:
@@ -289,7 +200,7 @@ def opplysningenExtractor(**kwargs):
 				results = [x for x in results if x is not None]
 				df =  pd.DataFrame(results, columns = ['org_num', 'navn'])
 				print(df)
-				databaseManager(df, tablename)
+				#### databaseManager(df, tablename = "I88I_test_output_table")
 				pbar.update(1)
 	
 	print("_"*62)
@@ -299,16 +210,5 @@ def opplysningenExtractor(**kwargs):
 	print()
 
 if __name__ == '__main__':
-	# opplysningenExtractor(testmode = True)
-	opplysningenExtractor(testmode = False)
-
-
-'''
-FIXME --- Where the issue was raised:
-	
-	 54%|██████████████████████████████████████                                | 970/1782 [11:48:19<10:03:34, 44.60s/it]
-	100%|████████████████████████████████████████████████████████████████████████████▊| 499/500 [00:45<00:00,  2.54it/s]
-
-	chunk :  970/1782 + (499/500) 
-	input array : (485000 + 499) / 891_000 =  from [485000/89100] to [485499/891000] ==> (485000+189000)/(891000+189000) = from [674000/1080000] to [674499/1080000]
-'''
+	opplysningenExtractor(testmode = True)
+	# opplysningenExtractor(testmode = False)

@@ -46,6 +46,8 @@
 	print output_table [16:54]: 1374 rows
 	print output_table [16:55]: 1432 rows 
 	print output_table [17:13]: 2369 rows 
+	print output_table [20:13]: 1231 rows 
+	! I WAS RIGHT
 '''
 
 '''
@@ -69,18 +71,19 @@ ____OTHER NOTES____
 
 9026 / 600 = 15.04 runs to scrape
 
+____ Seconds spent per extaction of 1 unit ____
+google: 	(600) 165.02 sec --(pr.enh)--> 0.275 s/enh   [=> (1000) : 275.03 sec]
+gulesider: 	(500)  18.25 sec --(pr.enh)--> 0.037 s/enh   [=> (1000) :  36.50 sec]
+1881: 		(600)  54.14 sec --(pr.enh)--> 0.090 s/enh   [=> (1000) :  90.00 sec]
+proff: 	   (1000)  26.50 sec --(pr.enh)--> 0.027 s/enh   [=> (1000) :  26.50 sec]
+TOT: 								   ==> 0.429 s/enh   [=> (1000) : 428.03 sec]
 
-google: 	(600) 165.02 sec --(pr.enh)--> 0.275 sec
-gulesider: 	(500)  18.25 sec --(pr.enh)--> 0.037 sec
-1881: 		(600)  54.14 sec --(pr.enh)--> 0.090 sec
-proff: 	   (1000)  26.50 sec --(pr.enh)--> 0.027 sec
-whole run: 							   ==> 0.429 sec
-
+____ Units extracted per second ____
 google: 	(600) 165.02 sec --(pr.sec)-->  3.6 enh/s
 gulesider: 	(500)  18.25 sec --(pr.sec)--> 27.4 enh/s
 1881: 		(600)  54.14 sec --(pr.sec)--> 11.1 enh/s
 proff: 	   (1000)  26.50 sec --(pr.sec)--> 37.7 enh/s
-whole run: 							   ==> 79.8 enh/s
+TOT: 								   ==> 79.8 enh/s
 
 time it would take to scrape all unnessasary companies in brreg_table:
 	3872 sec ==> 01:04 hours
@@ -97,18 +100,18 @@ time it would take to scrape all unnessasary companies in brreg_table:
 	multiprocessing.pool.RemoteTraceback:
 		"""
 		Traceback (most recent call last):
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\connectionpool.py", line 703, in urlopen
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/site-packages/urllib3/connectionpool.py", line 703, in urlopen
 		    httplib_response = self._make_request(
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\connectionpool.py", line 449, in _make_request
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/site-packages/urllib3/connectionpool.py", line 449, in _make_request
 		    six.raise_from(e, None)
 		  File "<string>", line 3, in raise_from
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\connectionpool.py", line 444, in _make_request
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/site-packages/urllib3/connectionpool.py", line 444, in _make_request
 		    httplib_response = conn.getresponse()
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 1374, in getresponse
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/http/client.py", line 1374, in getresponse
 		    response.begin()
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 318, in begin
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/http/client.py", line 318, in begin
 		    version, status, reason = self._read_status()
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 287, in _read_status
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/http/client.py", line 287, in _read_status
 		    raise RemoteDisconnected("Remote end closed connection without"
 		http.client.RemoteDisconnected: Remote end closed connection without response
 
@@ -180,23 +183,23 @@ time it would take to scrape all unnessasary companies in brreg_table:
 		IndentationError: unexpected indent
 		Traceback (most recent call last):
 		  File "<string>", line 1, in <module>
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\multiprocessing\spawn.py", line 116, in spawn_main
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/multiprocessing/spawn.py", line 116, in spawn_main
 		    exitcode = _main(fd, parent_sentinel)
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\multiprocessing\spawn.py", line 125, in _main
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/multiprocessing/spawn.py", line 125, in _main
 		    prepare(preparation_data)
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\multiprocessing\spawn.py", line 236, in prepare
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/multiprocessing/spawn.py", line 236, in prepare
 		    _fixup_main_from_path(data['init_main_from_path'])
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\multiprocessing\spawn.py", line 287, in _fixup_main_from_path
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/multiprocessing/spawn.py", line 287, in _fixup_main_from_path
 		    main_content = runpy.run_path(main_path,
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 269, in run_path
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/runpy.py", line 269, in run_path
 		    return _run_module_code(code, init_globals, run_name,
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 96, in _run_module_code
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/runpy.py", line 96, in _run_module_code
 		    _run_code(code, mod_globals, init_globals,
-		  File "C:\Users\Big Daddy B\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 86, in _run_code
+		  File "C:/Users/Big Daddy B/AppData/Local/Programs/Python/Python310/lib/runpy.py", line 86, in _run_code
 		    exec(code, run_globals)
-		  File "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\proff.py", line 32, in <module>
+		  File "C:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/proff.py", line 32, in <module>
 		    from base_extractor import genSearchTerm, pullRequest
-		  File "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\base_extractor.py", line 89
+		  File "C:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/base_extractor.py", line 89
 		    next_result = 0
 		IndentationError: unexpected indent
 

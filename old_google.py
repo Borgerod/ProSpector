@@ -17,9 +17,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 # ___ local imports __________
-from postgres import databaseManager, getInputChunks
 # from .Mediavest_Scraper_bot import postgres
-
+from config import payload, tablenames, settings
+from postgres import databaseManager, getInputTable
+from file_manager import *
+from input_table import inputTable
 '''
 ____ CMD code _____
 python google.py
@@ -176,7 +178,7 @@ def driverOptions():
 	options = webdriver.ChromeOptions()
 	options.add_experimental_option("excludeSwitches", ["enable-automation"]) # disable the automation bar [part 1]
 	options.add_experimental_option('useAutomationExtension', False) # disable the automation bar [part 2]
-	options.add_argument("--headless") # opens as invisible
+	# options.add_argument("--headless") # opens as invisible
 	# options.add_argument("--window-size=%s" % "1920,1080")
 	options.add_argument("--disable-gpu") # disable GPU-based/assisted rendering and only use a software render 
 	options.add_argument('--no-sandbox') # Bypass OS security model
@@ -373,27 +375,51 @@ def extractionManager(chunk):
 # 	df = concatData(df, old_df)
 # 	insertData(df)	
 
-if __name__ == '__main__':
+
+def makeChunks(input_array, chunksize):
+	''' 
+		used by proffExtractor, divides input array into chunks 
 	'''
-		sets up all nessasary functions, 
-		then gets list of company names, 
-		then iterates through the list via multithreading: claimedStatus().
+	return [input_array[i:i+chunksize] for i in range(0, len(input_array), chunksize)]  
+
+
+
+def getSettings():
+	''' 
+		Prepwork; fetches config-data & propriate input 
 	'''
-	print("_"*91)
-	print("|											  |")
-	print("|			Starting: GOOGLE Extractor 			  |")
-	print("|											  |")
-	print("_"*91)
-	print()
+	file_name = 'google'
+	chunksize = parseSettings(file_name)['chunk_size']
+	# ! input_array = (getInputTable(file_name))[['org_num', 'navn']].to_numpy() #![ORIGINAL] temporary disabled B/C input_table might be corrupt by faulty versions
+	input_array = fetchData('google_input_table').to_numpy()
+	''' 
+		making adjustments to settings based on **kawrg: "testmode" 
+	'''
+	mode = 'Test Mode'
+	tablename = 'test_output_table' #? [ALT] tablename = parseTablenames('1881', testmode = True)
+	start_limit, end_limit = None, 1
+	input_array = input_array[start_limit : end_limit]
+	return file_name, chunksize, mode, tablename, start_limit, end_limit, input_array
 
-	''' preperations: parse config, connect to database and connect to api manager '''
-	# dbname, host, user, password, tablename = parseConfig()
-	# conn = getConnection()
-	# input_df = getInputChunks(conn)
+def printSettingsInfo(nested_input_array):
+	file_name, chunksize, mode, tablename, start_limit, end_limit, input_array = getSettings()
+	print(f"Running: {mode}")
+	print(f"output_table used: {tablename}")
+	print(f"Input_array starts from: [{start_limit}:{end_limit}]")
+	print(f"chunksize: {chunksize}")
+	print(f"input length: {len(input_array)}")
+	print(f"number of chunks: {len(nested_input_array)}")
+	print("\n\n\n")
 
+# * ORIGINAL - disabled while testing
 
-	input_df = getInputChunks()
-	chunks = [input_df] # TEMP
+if __name__ == '__main__':	
+	# testmode_kwarg = kwargs.get('testmode', None)
+	file_name, chunksize, mode, tablename, start_limit, end_limit, input_array = getSettings()
+	nested_input_array = makeChunks(input_array, chunksize) # divides input_array into chunks 
+	printSettingsInfo(nested_input_array)
+	chunks = nested_input_array
+	# chunks = [input_df] # TEMP
 	for i, chunk in enumerate(chunks):
 		print(f"Chunk number {i+1} / {len(chunks)}")
 	# 	with tqdm(total = len(chunks)) as pbar:

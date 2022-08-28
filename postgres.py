@@ -336,8 +336,8 @@ def purge():
 	'''
 		purge command used by purgeTable()
 	'''
-	conn.getConnection()
-	curr.getCursor()
+	conn = getConnection()
+	curr = getCursor()
 	curr.execute(f"truncate daily_monitor;")
 	conn.commit()
 	curr.close()
@@ -375,6 +375,10 @@ def databaseManager(df, tablename):
 	# 	insertData(df, tablename)
 	# else: 
 	# 	insertData(df, tablename)
+
+
+
+
 
 '''
 * [MAKE DECISION a]-TEST CONCLUTION : postgres.py works as intended 
