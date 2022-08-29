@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-import models, schemas
+from sql_app import models, schemas
 
 
 def getRowsBetween(db: Session, start: int, limit: int):

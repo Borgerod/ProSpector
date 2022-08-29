@@ -18,7 +18,8 @@ import concurrent.futures
 from datetime import datetime as dt 
 # ___ local imports ________
 # from config import google_payload, brreg_payload, CHUNK_SIZE
-from config import payload
+from backend.config import payload
+# from config import payload
 
 '''	
 	* current version of postgres.py:

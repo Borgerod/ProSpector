@@ -2,7 +2,7 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 # from api_centre import Base
-from database import Base
+from sql_app.database import Base
 
 
 class CallList(Base):
