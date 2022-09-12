@@ -4,7 +4,6 @@
 '''
 import requests
 from bs4 import BeautifulSoup
-from fake_headers import Headers
 import time
 
 def genSearchTerm(term):
@@ -23,9 +22,9 @@ def pullRequest(url):
 	next_result = 0
 	while next_result == 0:
 		try:
-			r = getRequest(url)
+			req = getRequest(url)
 			next_result = 1
-			return BeautifulSoup(r.content, "html.parser") #* -> soup
+			return getSoup(req) #* -> soup
 		except:
 			print(f"ERROR CAUGHT in getRequest():")
 			time.sleep(5)
@@ -33,17 +32,13 @@ def pullRequest(url):
 		break
 
 def getSoup(req):
-	'''
-		gets soup
-	'''
-	return BeautifulSoup(r.content, "html.parser") #* -> soup
+	return BeautifulSoup(req.content, "html.parser") #* -> soup
 
 def getRequest(url):
 	'''
-		1. makes a pull request from gulesider.no.
-		2. then checks the connection.
-		3. then returns a soup.
-		4. If a bad request occours; then it will save the error to "gulesider_error_table"
+		1. makes cookies 
+		2. makes request session and sets headers to session
+		1. returns pull request from URL with cookies and verification
 	'''
 	cookies = { 'ASP.NET_SessionId':'5btxqhyab4kildcfudsowc31',
 				'__uzma':'c8749bb2-abdf-40b3-b4e2-3377bc4d33ae',

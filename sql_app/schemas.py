@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel,EmailStr
 
 
 class CallListBase(BaseModel):
@@ -8,3 +9,13 @@ class CallListBase(BaseModel):
     eier_erklært: bool | None = None
     komplett_profil: bool | None = None
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+#properties required during user creation
+class UserCreate(BaseModel):
+    username: str
+    email : EmailStr
+    password : str

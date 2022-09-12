@@ -1,0 +1,14 @@
+__pycache__
+.env
+env
+test_db.db
+print_tree.py
+sql_app.db
+sql_app
+backend\config.py
+backend\CLEAN_UP
+backend\non_complete_code
+backend\prod_&_test_tools
+backend\temporarily_put_aside
+ProSpecton_Production_Assets
+App\test_app

@@ -1,33 +1,39 @@
-from fastapi import Depends, FastAPI, HTTPException
-from sqlalchemy.orm import Session
+# from fastapi import Depends, FastAPI, HTTPException
+# from sqlalchemy.orm import Session
 
-from sql_app import crud, models, schemas
-from sql_app.database import SessionLocal, engine, Base
+# from sql_app import crud, models, schemas
+# from sql_app.database import SessionLocal, engine, Base
 
-Base.metadata.create_all(bind=engine)
+# '''
+#     activation command:
+#         uvicorn sql_app.main:app
+#         uvicorn sql_app.main:app --reload
 
-# from sql_app import database
-# database.Base.metadata.create_all(bind=engine)
+#     close command:
+#         ctrl+c
+# '''
 
-app = FastAPI()
+# Base.metadata.create_all(bind=engine)
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# app = FastAPI()
 
-@app.get("/callList/")
-def get_callList(skip: int = 0, limit: int = 100, token: str = None, db: Session = Depends(get_db)):
-    if token != "493802fjn9v24mucrf9+8q23u4jr98x+43":
-        return "Error"
+# # Dependency
+# def get_db():
+#     db = SessionLocal()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
 
-    users = crud.getRowsBetween(db, skip, limit)
-    return users
+# @app.get("/callList/")
+# def get_callList(skip: int = 0, limit: int = 100, token: str = None, db: Session = Depends(get_db)):
+#     if token != "493802fjn9v24mucrf9+8q23u4jr98x+43":
+#         return "Error"
 
-# response_model=list[validation_schema.CallListBase]
+#     users = crud.getRowsBetween(db, skip, limit)
+#     return users
+
+# # response_model=list[validation_schema.CallListBase]
 
 # @app.post("/users/{user_id}/items/", response_model=schemas.Item)
 # def create_item_for_user(
@@ -38,3 +44,66 @@ def get_callList(skip: int = 0, limit: int = 100, token: str = None, db: Session
 
 
 
+
+
+
+
+
+
+
+
+from fastapi import Depends, FastAPI, HTTPException
+from sql_app import crud
+from sql_app.core.config import Settings
+from sql_app.apis.general_pages.route_homepage import general_pages_router
+from sql_app.db.base import Base      # now import Base from db.base not db.base_class
+from sql_app.db.session import SessionLocal, engine, get_db
+from sql_app.apis.base import api_router #new
+
+# from core.config import Settings
+# from apis.general_pages.route_homepage import general_pages_router
+# from db.base import Base      # now import Base from db.base not db.base_class
+# from db.session import engine
+# from apis.base import api_router #new
+
+
+def include_router(app):   
+	app.include_router(api_router) #modified
+
+def start_application():
+	app = FastAPI(title=Settings.PROJECT_NAME,version=Settings.PROJECT_VERSION)
+	include_router(app)
+	return app 
+
+def create_tables():
+	print("create_tables")
+	Base.metadata.create_all(bind=engine)
+
+app = start_application()
+
+# @app.get("/callList/")
+# def get_callList(skip: int = 0, limit: int = 100, token: str = None, db: SessionLocal = Depends(get_db)):
+#     # if token != "493802fjn9v24mucrf9+8q23u4jr98x+43":
+#     #     return "Error"
+
+#     call_list = crud.getRowsBetween(db, skip, limit)
+#     return call_list
+
+
+
+
+'''
+make virtual enviourment:
+    python -m venv env
+
+activate env:
+    .\env\Scripts\activate
+
+initialise git:
+    git init
+
+
+set execuytionPolicy:
+	Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted
+
+'''

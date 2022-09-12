@@ -18,27 +18,19 @@
 	
 TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP'''
 
-import time; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
+import time
+
+from backend.postgres import deleteData; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 import requests
 from bs4 import BeautifulSoup
-from fake_headers import Headers
-from fake_useragent import UserAgent
 import pandas as pd
-import pprint
-import os.path
-from os import path
 from tqdm import tqdm
-import concurrent.futures
-import os.path
-import numpy as np
-from multiprocessing import Pool, Process
+from multiprocessing import Pool
 
 ''' ___ local imports __________'''
-from config import payload, tablenames, settings
+from config import tablenames
 from postgres import databaseManager, getInputTable, checkIfMissing
 from file_manager import *
-from input_table import inputTable
-from base_extractor import genSearchTerm, pullRequest
 
 '''
 TODO: potensiell annen måte å finne ut om de har betalt oppføring eller ikke

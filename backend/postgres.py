@@ -8,18 +8,11 @@
 
 
 import pandas as pd 
-import numpy as np
-import pandas as pd 
-import json
 import psycopg2
-from psycopg2.extras import Json
-from sqlalchemy import create_engine, update, delete
-import concurrent.futures
+from sqlalchemy import create_engine
 from datetime import datetime as dt 
 # ___ local imports ________
-# from config import google_payload, brreg_payload, CHUNK_SIZE
-from backend.config import payload
-# from config import payload
+from config import payload
 
 '''	
 	* current version of postgres.py:
@@ -63,40 +56,45 @@ from backend.config import payload
 
 ''' * ___ PREP _______________________________________________ 
 '''
+def parseConfig_to_User_API():
+	''' 
+		returns parsed payload from config file, 
+		where database name: ProSpector_User_API.
+	'''
+	dbname = payload['dbname2']
+	host = payload['host']
+	user = payload['user']
+	password = payload['password']
+	return dbname, host, user, password
+
 def parseConfig():
-	''' returns parsed payload from config file '''
+	''' 
+		returns parsed payload from config file, 
+		where database name: ProSpector_dev.
+	'''
 	dbname = payload['dbname']
 	host = payload['host']
 	user = payload['user']
 	password = payload['password']
 	return dbname, host, user, password
 
-def parseTestConfig(): #? Function on trial 
-	test_dbname = test_payload['dbname']
-	test_host = test_payload['host']
-	test_user = test_payload['user']
-	test_password = test_payload['password']
-	return test_dbname, test_host, test_user, test_password
-
-def parseTestConfig(): #? [ALTERNATIVE] Function on trial 
-	test_dbname = payload['test_dbname']
-	host = payload['host']
-	user = payload['user']
-	password = payload['password']
-	return test_dbname, host, user, password
-
 def getCursor(conn):
 	''' returns postgres cursor '''
 	return conn.cursor()
 
-def getConnection():
-	dbname, host, user, password = parseConfig()
+def getConnection(**kwargs):
+	if kwargs.get('to_user_api', None):
+	# if kwargs.get('dbname', 'ProSpector_User_API'):
+		dbname, host, user, password = parseConfig_to_User_API()
+	else:
+		dbname, host, user, password = parseConfig()
 	''' connects to database '''
 	return psycopg2.connect(
 		dbname = dbname, 
 		host = host, 
 		user = user, 
 		password = password)
+
 
 ''' * ___ ACTIONS _______________________________________________ 
 '''
@@ -105,13 +103,20 @@ def getInputTable(tablename):
 	''' temporary FIX in case some files still calls this function'''
 	return fetchData(tablename) # TODO: function is deprecated, should be deleted (some files might still use this)
 
-def fetchData(tablename):
+def fetchData(tablename, **kwargs):
 	''' 
 		desc: fetches old_df from database
 		reason: needed for replaceData() & [OLD] insertData()
 	'''
-	dbname, host, user, password = parseConfig()
-	conn = getConnection()
+	if kwargs.get('to_user_api', None):
+		dbname, host, user, password = parseConfig_to_User_API()
+		conn = getConnection(to_user_api=True)
+	else:
+		dbname, host, user, password = parseConfig()
+		conn = getConnection()
+
+	# print("fetchData:",tablename, dbname, host, user, password)
+
 	curr = getCursor(conn)  
 	# curr.execute(f"SELECT * FROM {tablename};") 
 	curr.execute(f'SELECT * FROM "{tablename}";') 
@@ -122,55 +127,26 @@ def fetchData(tablename):
 	conn.close()
 	return old_df
 
-# fixme [OLD] insertData() 
-	# def insertData(df, tablename):
-	# ''' 
-	# 	inserts final dataframe to database, 
-	# 	creates new table if table it does not exsist, else it updates
-	# '''
-	# conn = getConnection()
-	# curr = getCursor(conn)
-	# dbname, host, user, password = parseConfig()
-	# engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')	
-	# df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
-
-# [OLD NEW] replaceData() --> REPLACE
-	# def replaceData(df, tablename): 
-		# ''' 
-		# 	inserts final dataframe to database, 
-		# 	! REPLACES old table, with new table.
-		# 	if tablename does not exsist in db, it creates new table. 
-		# '''
-		# conn = getConnection()
-		# curr = getCursor(conn)
-		# dbname, host, user, password = parseConfig()
-		# engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
-		# df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
-
-# [OLD NEW] insertData()	--> APPEND
-	# def insertData(df, tablename): 
-		# ''' 
-		# 	inserts final dataframe to database, 
-		# 	! APPENDS new table to old table.
-		# 	if tablename does not exsist in db, it creates new table. 
-		# '''
-		# conn = getConnection()
-		# curr = getCursor(conn)
-		# dbname, host, user, password = parseConfig()
-		# engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
-		# df.to_sql(f'{tablename}', engine, if_exists = 'append', index = False)
 
 # * [ALTERNATIVE] insertData() ---> [ TWO-IN-ONE ]
-def insertData(df, tablename): 
+def insertData(df, tablename, **kwargs): 
 	''' 
 		desc: inserts final dataframe to database,
 		does: checks if tablename == 'brreg_table'
 			 ! then either "APPENDS" or "REPLACES" the table
 			  creates new table if table it does not exsist, else it updates
 	'''
-	conn = getConnection()
+
+	if kwargs.get('to_user_api', None):
+	# if kwargs.get('dbname', 'ProSpector_User_API'):
+		conn = getConnection(to_user_api=True)
+		dbname, host, user, password = parseConfig_to_User_API()
+	else:
+		conn = getConnection()
+		dbname, host, user, password = parseConfig()
 	curr = getCursor(conn)
-	dbname, host, user, password = parseConfig()
+	# print("insertData:",tablename, dbname, host, user, password)
+
 	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')	
 	if tablename == 'brreg_table':
 		df.to_sql(f"{tablename}", engine, if_exists = 'append', index = False)
@@ -179,14 +155,22 @@ def insertData(df, tablename):
 	curr.close()
 	conn.close()
 
-def replacetData(df, tablename):  # ! MIGHT NOT ME NESSASARY, cleanUp() should have solved this issue
+def replacetData(df, tablename, **kwargs):  # ! MIGHT NOT ME NESSASARY, cleanUp() should have solved this issue
 	''' 
 		Special case for brreg.py where downloading whole dataset 
 		appended instead of replacing, this was the seasiest solution. 
 	'''
-	conn = getConnection()
+	
+	
+
+	if kwargs.get('to_user_api', None):
+		conn = getConnection(to_user_api=True)
+		dbname, host, user, password = parseConfig_to_User_API()
+	else:
+		conn = getConnection()
+		dbname, host, user, password = parseConfig()
 	curr = getCursor(conn)
-	dbname, host, user, password = parseConfig()
+	
 	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')	
 	df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
 	curr.close()
@@ -220,7 +204,7 @@ def concatData(df, old_df):
 	df = pd.concat((df, old_df), axis = 0)
 	return df.groupby(df.index).last().reset_index()
 
-def cleanUp(tablename):
+def cleanUp(tablename, **kwargs):
 	'''	
 		desc: this function performs a cleanup routine which is runned after every extraction run.
 		does: fetches table from database, drops duplicates (pandas), then replaces old table. 
@@ -229,12 +213,20 @@ def cleanUp(tablename):
 				from brønnøysund register, which is appended to brreg_table and 
 				if the table is not empty it will create duplicates. this function performs a 
 	'''
-	df = fetchData(tablename)
+	if kwargs.get('to_user_api', None):
+		df = fetchData(tablename, to_user_api=True)
+	else:
+		df = fetchData(tablename)
 	df = df.drop_duplicates(subset = 'org_num')
 	df = df.reset_index()
-	conn = getConnection()
+	if kwargs.get('to_user_api', None):
+		conn = getConnection(to_user_api=True)
+		dbname, host, user, password = parseConfig_to_User_API()
+	else:
+		conn = getConnection()
+		dbname, host, user, password = parseConfig()
 	curr = getCursor(conn)
-	dbname, host, user, password = parseConfig()
+
 	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
 	# df.to_sql(f'{tablename}', engine, if_exists = 'append', index = False)
 	df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
@@ -347,246 +339,65 @@ def purge():
 
 '''* ___ MANAGER _______________________________________________ 
 '''
-def databaseManager(df, tablename):
+
+'''> [NEW] databaseManager (testing new version with kwargs)'''
+def databaseManager(df, tablename, **kwargs):
 	''' 
 		desc: the file's main function 
 		does: gets connection, runs if statement, then sends table straight to insertData()
 			  if tablename is NOT 'brreg_table': runs the "concat(old_df, new_df)" routine.
 			  if tablename is 'brreg_table': does nothing.
 	'''
-	dbname, host, user, password = parseConfig()
+	if kwargs.get('to_user_api', None):
+		dbname, host, user, password = parseConfig_to_User_API()
+	else:
+		dbname, host, user, password = parseConfig()
 
-	if 'brreg_table' not in tablename:
+	# print("databaseManager:",tablename, dbname, host, user, password)
+	if kwargs.get('to_user_api', None):		
 		old_df = pd.DataFrame()
 		try:
-			old_df = fetchData(tablename)
+			old_df = fetchData(tablename, to_user_api=True)
 		except:
 			pass
 		try: 
 			df = concatData(df, old_df)
 		except:
 			pass
-	insertData(df, tablename)
+		insertData(df, tablename, to_user_api=True)	
+	else:	
+		if 'brreg_table' not in tablename:
+			old_df = pd.DataFrame()
+			try:
+				old_df = fetchData(tablename)
+			except:
+				pass
+			try: 
+				df = concatData(df, old_df)
+			except:
+				pass
+		insertData(df, tablename)
 
+	
 
-
-
-
-'''
-* [MAKE DECISION a]-TEST CONCLUTION : postgres.py works as intended 
-	 FIXME brreg.py might NOT work as intended; 
-		- whileloop is infinate (might be due to test settup)
-
-
-	* FIRST RUN OUTPUT, (tablename: 'brreg_table'):
-	 fetching data
-	 passing to databaseManager()
-	 check if tablename == "brreg_table":
-			TRUE --> tablename IS named "brreg_table"
-					tablename: brreg_table
-					type: <class 'str'>
-
-			runs insertData()
-	 check if tablename == "brreg_table": (note statement looks different)
-			TRUE --> tablename IS named "brreg_table"
-					tablename: brreg_table
-					type: <class 'str'>
-
-			actions: APPENDS new_table to old_table
-			runs cleanUp():
-					runs fetchData() -> to get getting old_table
-					runs drop_duplicates()
-					create_engine() --> APPEND
-	|                                  Finished                             |
-
-	* SECOND RUN OUTPUT, (tablename: 'gulesider_table'):
-	 fetching data
-	 passing to databaseManager()
-	 check if tablename == "brreg_table":
-			FALSE --> tablename is NOT named "brreg_table"
-					tablename: gulesider_table
-					type: <class 'str'>
-
-			runs getInputTable() -> try to get getting old_table
-			runs concatData() -> try to old_table with new_table
-			runs insertData()
-	 check if tablename == "brreg_table": (note statement looks different)
-			FALSE --> tablename is NOT named "brreg_table"
-					tablename: gulesider_table
-					type: <class 'str'>
-
-			actions: REPLACE old_table with new_table
-	|                                  Finished                             |
-
-	TEST MATERIAL:
-		def getInputTable(tablename): #FIXME --> TEMP while testing
-			print(f'	runs getInputTable() -> try to get getting old_table') #FIXME --> TEMP while testing
-		def concatData(df, old_df): #FIXME --> TEMP while testing
-			print(f'	runs concatData() -> try to old_table with new_table') #FIXME --> TEMP while testing
-		def insertData(df, tablename): #FIXME --> TEMP while testing
-			print(f'	runs insertData() \n check if tablename == "brreg_table": (note statement looks different)') #FIXME --> TEMP while testing
-			if tablename == 'brreg_table': #FIXME --> TEMP while testing
-				print(f'	TRUE --> tablename IS named "brreg_table"\n	 	tablename: {tablename}\n	 	type: {type(tablename)}\n') #FIXME --> TEMP while testing
-				print(f'	actions: APPENDS new_table to old_table') #FIXME --> TEMP while testing
-			else: 
-				print(f'	FALSE --> tablename is NOT named "brreg_table"\n	 	tablename: {tablename}\n	 	type: {type(tablename)}\n') #FIXME --> TEMP while testing
-				print(f'	actions: REPLACE old_table with new_table') #FIXME --> TEMP while testing
-
-		def cleanUp(tablename): #FIXME --> TEMP while testing
-			print(f'	runs cleanUp():') #FIXME --> TEMP while testing
-			print(f'		runs fetchData() -> to get getting old_table')
-			print(f'		runs drop_duplicates()')
-			print(f'		create_engine() --> APPEND')
-
-		# * [NEW] databaseManager()	
-		def databaseManager(df, tablename):
-			print('\n fetching data\n passing to databaseManager() \n check if tablename == "brreg_table":') #FIXME --> TEMP while testing
-			#FIXME --> TEMP while testing
-			# dbname, host, user, password = parseConfig() 
-			# conn = getConnection()
-			if 'brreg_table' not in tablename:
-				print(f'	FALSE --> tablename is NOT named "brreg_table"\n	 	tablename: {tablename}\n	 	type: {type(tablename)}\n') #FIXME --> TEMP while testing
-
-				old_df = pd.DataFrame()
-				try:
-					# conn = getConnection()
-					old_df = getInputTable(tablename)
-					# old_df = fetchData(tablename)
-				except:
-					# pass
-					print(f'	Error: did NOT find old_table --> old_df = empty') #FIXME --> TEMP while testing
-					# print("table does not exsist")		
-				try: 
-					df = concatData(df, old_df)
-				except:
-					# pass
-					print(f'	Error: UNABLE to concat --> final_df = new_table') #FIXME --> TEMP while testing
-					# print("unable to concat")
-				insertData(df, tablename)
-			else: 
-				print(f'	TRUE --> tablename IS named "brreg_table"\n	 	tablename: {tablename}\n	 	type: {type(tablename)}\n') #FIXME --> TEMP while testing
-				insertData(df, tablename)
-				cleanUp(tablename) #FIXME --> TEMP while testing
-			print(f"|				   Finished 				|")
-
-				
-		databaseManager(df = pd.DataFrame(), tablename='gulesider_table')
-'''
-
-'''
-* [MAKE DECISION b]-TEST CONCLUTION: postgres.py works as intended
-	* TEST OUTPUT
-	tablename: "brreg_table
-	______ TABLE FROM getInputTable(tablename)____________
-			 org_num                                         navn  ... har_Facebook                                  facebook
-	0    811879312.0                      17. Mai Nemda Kaupanger  ...        False                                      None
-	1    812467182.0                                     &More AS  ...        False                                      None
-	2    813646552.0                                     1 Sbx AS  ...        False                                      None
-	3    813657872.0            1. Skudeneshavn Sjø Speidergruppe  ...         True  https://www.facebook.com/219276101515007
-	4    814048462.0  10th Planet Jiu Jitsu Bergen - Frode Nilsen  ...        False                                      None
-	..           ...                                          ...  ...          ...                                       ...
-	582  999286976.0                   0-6 Vålerenggata barnehage  ...        False                                      None
-	583  999292364.0                            1+1 Architects AS  ...        False                                      None
-	584  999413706.0                           1-2-3 Bygg Vest AS  ...        False                                      None
-	585  999515606.0                                 1001 Natt AS  ...        False                                      None
-	586  999529852.0                            1-2-3 Regnskap AS  ...        False                                      None
-
-	[587 rows x 14 columns]
-
-	tablename: "brreg_table
-	______ TABLE FROM fetchData(tablename)____________
-			 org_num                                         navn  ... har_Facebook                                  facebook
-	0    811879312.0                      17. Mai Nemda Kaupanger  ...        False                                      None
-	1    812467182.0                                     &More AS  ...        False                                      None
-	2    813646552.0                                     1 Sbx AS  ...        False                                      None
-	3    813657872.0            1. Skudeneshavn Sjø Speidergruppe  ...         True  https://www.facebook.com/219276101515007
-	4    814048462.0  10th Planet Jiu Jitsu Bergen - Frode Nilsen  ...        False                                      None
-	..           ...                                          ...  ...          ...                                       ...
-	582  999286976.0                   0-6 Vålerenggata barnehage  ...        False                                      None
-	583  999292364.0                            1+1 Architects AS  ...        False                                      None
-	584  999413706.0                           1-2-3 Bygg Vest AS  ...        False                                      None
-	585  999515606.0                                 1001 Natt AS  ...        False                                      None
-	586  999529852.0                            1-2-3 Regnskap AS  ...        False                                      None
-
-	[587 rows x 14 columns]
-
-	|                                  Finished                             |
-'''
-
-
-# # TEMP while testing 
-# def fetchDataRow(org_num, tablename):
-# 	conn = getConnection()
-# 	curr = getCursor(conn)
-# 	curr.execute(f"""DELETE FROM public."{tablename}" WHERE "org_num" = '{org_num}'""")
-# 	# row = curr.fetchall()
-# 	conn.commit()
-# 	# print(row)
-# 	curr.close()
-# 	conn.close()
-
-# fetchDataRow(org_num=815124022, tablename='1881_test_table')
-
-
-
-# fixme [OLD] databaseManager()
-	# def databaseManager(df, tablename):
+''' ! [OLD] databaseManager (testing new version with kwargs)'''
+# def databaseManager(df, tablename):
+	# ''' 
+	# 	desc: the file's main function 
+	# 	does: gets connection, runs if statement, then sends table straight to insertData()
+	# 		  if tablename is NOT 'brreg_table': runs the "concat(old_df, new_df)" routine.
+	# 		  if tablename is 'brreg_table': does nothing.
+	# '''
 	# dbname, host, user, password = parseConfig()
-	# conn = getConnection()
 
-	# # OLD concat call  [might be needed for [OLD]inserData() / [NEW]replaceData()]
-	# 	''' manage database '''
-	# 	# old_df = pd.DataFrame()
-	# 	# try:
-	# 	# 	conn = getConnection()
-	# 	# 	old_df = getInputTable(tablename)
-	# 	# 	# old_df = fetchData(tablename)
-	# 	# except:
-	# 	# 	pass
-	# 	# 	# print("table does not exsist")		
-	# 	# try: 
-	# 	# 	df = concatData(df, old_df)
-	# 	# 	# print(df)
-	# 	# except:
-	# 	# 	pass
-	# 	# 	print("unable to concat")
-
-	# insertData(df, tablename)	
-
-# [OLD NEW] databaseManager()	
-	# # def databaseManager(df, tablename):
-	# # ''' 
-	# # 	desc: the file's main function 
-	# # 	does: gets connection, runs if statement, then sends table straight to insertData()
-	# # 		  if tablename is NOT 'brreg_table': runs the "concat(old_df, new_df)" routine.
-	# # 		  if tablename is 'brreg_table': does nothing.
-	# # '''
-	# # print('\n fetching data\n passing to databaseManager() \n check if tablename == "brreg_table":') #FIXME --> TEMP while testing
-	# # #FIXME --> TEMP while testing
-	# # # dbname, host, user, password = parseConfig() 
-	# # # conn = getConnection()
-	# # if 'brreg_table' not in tablename:
-	# # 	print(f'	FALSE --> tablename is NOT named "brreg_table"\n	 	tablename: {tablename}\n	 	type: {type(tablename)}\n') #FIXME --> TEMP while testing
-
-	# # 	old_df = pd.DataFrame()
-	# # 	try:
-	# # 		# conn = getConnection()
-	# # 		old_df = getInputTable(tablename)
-	# # 		# old_df = fetchData(tablename)
-	# # 	except:
-	# # 		# pass
-	# # 		print(f'	Error: did NOT find old_table --> old_df = empty') #FIXME --> TEMP while testing
-	# # 		# print("table does not exsist")		
-	# # 	try: 
-	# # 		df = concatData(df, old_df)
-	# # 	except:
-	# # 		# pass
-	# # 		print(f'	Error: UNABLE to concat --> final_df = new_table') #FIXME --> TEMP while testing
-	# # 		# print("unable to concat")
-	# # 	insertData(df, tablename)
-	# # else: 
-	# # 	print(f'	TRUE --> tablename IS named "brreg_table"\n	 	tablename: {tablename}\n	 	type: {type(tablename)}\n') #FIXME --> TEMP while testing
-	# # 	insertData(df, tablename)
-	# # 	cleanUp(tablename) #FIXME --> TEMP while testing
-	# # print(f"|				   Finished 				|")
-
+	# if 'brreg_table' not in tablename:
+	# 	old_df = pd.DataFrame()
+	# 	try:
+	# 		old_df = fetchData(tablename)
+	# 	except:
+	# 		pass
+	# 	try: 
+	# 		df = concatData(df, old_df)
+	# 	except:
+	# 		pass
+	# insertData(df, tablename)

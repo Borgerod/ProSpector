@@ -23,7 +23,9 @@
 TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP '''
 
 
-import time; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
+import time
+
+from backend.postgres import deleteData; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 import requests
 from bs4 import BeautifulSoup
 from fake_headers import Headers
@@ -41,7 +43,6 @@ from multiprocessing import Pool, Process
 from config import payload, tablenames, settings
 from postgres import databaseManager, getInputTable, checkIfMissing
 from file_manager import *
-from input_table import inputTable
 # from base_extractor import genSearchTerm, linkBuilder, pullRequest
 from base_extractor import genSearchTerm, pullRequest
 

@@ -31,30 +31,22 @@ from time import sleep
 import re
 import os
 import csv
-import pickle 
-import logging
 import numpy as np
 import pandas as pd
 import datetime as dt
 from tqdm import tqdm
 from random import uniform, randint
-from inspect import currentframe, getframeinfo
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.chrome.options import Options
 
 '''___ local imports __________
 ''' 
 from file_manager import *
-from input_table import inputTable
-from config import payload, tablenames, settings
-from postgres import databaseManager, getInputTable
+from postgres import databaseManager
 
 
 
@@ -67,6 +59,10 @@ def write_stat(loops: int, time: int):
 		spamwriter.writerow([loops, time])  	 
 	
 def check_exists_by_xpath(xpath) -> bool:
+	'''
+		It says it needs driver but the code works just fine
+		# TODO: try fixing the function and see how ti works.
+	'''
 	try:
 		driver.find_element_by_xpath(xpath)
 	except NoSuchElementException:
@@ -204,13 +200,16 @@ def getSettings(kwargs) -> list:
 	'''
 	if kwargs: #! [OLD] if kwargs.get('testmode', None):
 		mode = 'Test Mode'
-		tablename = 'google_test_output_table' #? [ALT] tablename = parseTablenames('1881', testmode = True)
-		start_limit, end_limit = 700, 800
+		# tablename = 'google_test_output_table'
+		tablename = 'call_list_test'
+		start_limit, end_limit = 330, 600 #> TESTING the limit: 270
 		input_array = input_array[start_limit : end_limit]
 	else:
 		mode = 'Publish Mode'
-		tablename = 'google_output_table' #? [ALT] tablename = parseTablenames('1881', testmode = False)
-		start_limit, end_limit = None, None 				
+		# tablename = 'google_output_table'
+		tablename = 'call_list'
+		start_limit, end_limit = 6850, None #> TESTING the limit: 270
+		# start_limit, end_limit = None, None 				
 		input_array = input_array[start_limit : end_limit]
 
 	long_break, short_break = getLongBreak(), getShortBreak()	
@@ -299,7 +298,7 @@ def makeDataframe(result_list: list) -> pd.DataFrame:
 	''' 
 		makes dataframe "google_output_table" from ThreadPoolExecutor output. Called by googleExtractor()
 	'''
-	df = pd.DataFrame(result_list, columns = ['org_num', 'navn', 'google_profil', 'eier_erklært', 'komplett_profil'])
+	df = pd.DataFrame(result_list, columns = ['org_num', 'navn', 'google_profil', 'eier_bekreftet', 'komplett_profil', 'ringe_status'])
 	return df
 
 def extractionManager(input_array: np.ndarray) -> np.ndarray or str :
@@ -318,26 +317,62 @@ def extractionManager(input_array: np.ndarray) -> np.ndarray or str :
 	driver.get(linkBuilder(base_url, search_term))
 	mainWin = driver.current_window_handle  #* CATCHPA SOLVER
 	time.sleep(getShortBreak())
+	
+
+	# TODO [ ] Clean this awfull mess of a if-try-tree
 	if checkGoogleAlarmTrigger(driver):
-		return "CaptchaTriggered"
-	try:			 #[try A]	
-		if driver.find_element(By.CLASS_NAME, "osrp-blk"):
-			verify = driver.find_element(By.CLASS_NAME, "osrp-blk").text
-			alt_search_term = search_term
-			for ch in [' AS',' ASA', ' AB']:
-				if ch in search_term:
-					alt_search_term = search_term.replace(ch,"")
-			alt_verify = [re.sub(r"[^a-zA-Z0-9]+", ' ', k) for k in verify.split("\n")][0]
-			if re.search(search_term, verify, re.IGNORECASE):
-				is_reqistered = True
-			elif re.search(alt_search_term, verify, re.IGNORECASE):
-				is_reqistered = True
-			elif re.search(search_term, alt_verify, re.IGNORECASE) or re.search(alt_search_term, alt_verify, re.IGNORECASE):
-				is_reqistered = True
-			else:
-				is_reqistered = 'Usikkert'
-			
-			try:	#[try B]	
+		# return "CaptchaTriggered"
+		is_reqistered, is_claimed, has_info, = "CaptchaTriggered", "CaptchaTriggered", "CaptchaTriggered"
+		call_status = False
+		return np.array((org_num, search_term, is_reqistered, is_claimed, has_info, call_status), dtype = object)
+	else:
+		try:			 #[try A]	
+			if driver.find_element(By.CLASS_NAME, "osrp-blk"):
+				verify = driver.find_element(By.CLASS_NAME, "osrp-blk").text
+				alt_search_term = search_term
+				for ch in [' AS',' ASA', ' AB']:
+					if ch in search_term:
+						alt_search_term = search_term.replace(ch,"")
+				alt_verify = [re.sub(r"[^a-zA-Z0-9]+", ' ', k) for k in verify.split("\n")][0]
+				if re.search(search_term, verify, re.IGNORECASE):
+					is_reqistered = True
+				elif re.search(alt_search_term, verify, re.IGNORECASE):
+					is_reqistered = True
+				elif re.search(search_term, alt_verify, re.IGNORECASE) or re.search(alt_search_term, alt_verify, re.IGNORECASE):
+					is_reqistered = True
+				else:
+					is_reqistered = 'Usikkert'
+				
+				try:	#[try B]	
+					check = driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div')
+					check_info = check.text
+					if 'Add missing information' in check_info:
+								has_info = False
+					elif 'Legg til manglende informasjon' in check_info:
+						has_info = False
+					else:
+						if is_reqistered:
+							has_info = True
+						else:
+							has_info = False
+					check_claimed = check.get_attribute('innerHTML')
+					if 'cQhrTd' in check_claimed:
+						is_claimed = True
+					elif 'ndJ4N' in check_claimed:
+						is_claimed = False
+					else:
+						if is_reqistered == False:
+							is_claimed = False
+						else:
+							is_claimed = True
+
+				except NoSuchElementException: 	#[try B]	
+					has_info = True
+					is_claimed = True
+
+		except NoSuchElementException: 			#[try A]	
+			is_reqistered = False
+			try:		 #[try C]
 				check = driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div')
 				check_info = check.text
 				if 'Add missing information' in check_info:
@@ -359,39 +394,11 @@ def extractionManager(input_array: np.ndarray) -> np.ndarray or str :
 						is_claimed = False
 					else:
 						is_claimed = True
-
-			except NoSuchElementException: 	#[try B]	
-				has_info = True
-				is_claimed = True
-
-	except NoSuchElementException: 			#[try A]	
-		is_reqistered = False
-		try:		 #[try C]
-			check = driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div')
-			check_info = check.text
-			if 'Add missing information' in check_info:
-						has_info = False
-			elif 'Legg til manglende informasjon' in check_info:
+			except NoSuchElementException: 		 #[try C]
 				has_info = False
-			else:
-				if is_reqistered:
-					has_info = True
-				else:
-					has_info = False
-			check_claimed = check.get_attribute('innerHTML')
-			if 'cQhrTd' in check_claimed:
-				is_claimed = True
-			elif 'ndJ4N' in check_claimed:
 				is_claimed = False
-			else:
-				if is_reqistered == False:
-					is_claimed = False
-				else:
-					is_claimed = True
-		except NoSuchElementException: 		 #[try C]
-			has_info = False
-			is_claimed = False
-	return np.array((org_num, search_term, is_reqistered, is_claimed, has_info), dtype = object)
+		call_status = False
+		return np.array((org_num, search_term, is_reqistered, is_claimed, has_info, call_status), dtype = object)
 
 def googleExtractor(**kwargs: str):
 	'''
@@ -406,6 +413,7 @@ def googleExtractor(**kwargs: str):
 	file_name, chunksize, mode, tablename, start_limit, end_limit, input_array, long_break, short_break = getSettings(testmode_kwarg)
 	nested_input_array = makeChunks(input_array, chunksize)
 	infoPrint(nested_input_array, testmode_kwarg)
+
 	for chunk in nested_input_array:
 		with tqdm(total = len(nested_input_array)) as pbar1: 
 			with tqdm(total = len(input_array)) as pbar2:
@@ -413,255 +421,54 @@ def googleExtractor(**kwargs: str):
 				with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor: 
 					with tqdm(total = len(chunk)) as pbar3:
 						futures = [executor.submit(extractionManager, i) for i in chunk]
-						pbar3.update(1)  
-						
 						result_list = []
 						error_count = []
 						for future in as_completed(futures):
+							pbar3.update(1)  
+							
+
 							result = future.result()
-							if result != "CaptchaTriggered":
-								(error_count.append(result) if None in result else result_list.append(result))		
-							if future.result() == "CaptchaTriggered":
-								total_error_count+=1
-								executor.shutdown(wait=False)
-								print("\n\n\tERROR: shutdown was triggered!")
-								for f in futures:
-									if not f.done():
-										f.cancel()
-								break					
+							(error_count.append(result) if None in result else result_list.append(result))	
+							
+						# for future in as_completed(futures):
+						# 	result = future.result()
+						# 	if "CaptchaTriggered" not in result:
+						# 	# if result != "CaptchaTriggered":
+						# 		(error_count.append(result) if None in result else result_list.append(result))		
+						# 	if "CaptchaTriggered" in result:
+						# 	# if future.result() == "CaptchaTriggered":
+						# 		total_error_count+=1
+						# 		executor.shutdown(wait=False)
+						# 		print("\n\n\tERROR: shutdown was triggered!")
+						# 		for f in futures:
+						# 			if not f.done():
+						# 				f.cancel()
+						# 		break					
 						pbar1.update(1)
 						pbar2.update(chunksize) 					
 
 		df = makeDataframe(result_list)
 		print(f"\n{df}")
-		databaseManager(df, tablename)
+
+		databaseManager(df, tablename, to_user_api=True) #> TESTING new databaseManager()
+		# databaseManager(df, tablename)				 # OLD databaseManager(), pre testing
 
 		total_error_count += len(error_count)
 		if len(pbar1) != len(input_array):
 			time.sleep(long_break)
 
-		if future.result() == "CaptchaTriggered":
-			total_error_count+=1
-			executor.shutdown(wait=False)
-			print("\n\n\tERROR: shutdown was triggered!")
-			for f in futures:
-				if not f.done():
-					f.cancel()
-			break		
+		# if future.result() == "CaptchaTriggered":
+		# 	total_error_count+=1
+		# 	print("\n\n\tERROR: shutdown was triggered!")
+		# 	executor.shutdown(wait=False)
+		# 	for f in futures:
+		# 		if not f.done():
+		# 			f.cancel()
+		# 	break		
 
 	print(f"\terror count: {total_error_count}")
 	outroPrint()
 
 if __name__ == '__main__':
-	googleExtractor(testmode = True)
-	# googleExtractor(testmode = False)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#* BACKUPS WORKS REALLY WELL; [MAP] googleExtractor(), [OLD]googleExtractor(), extractionManager() 
-
-"""
-! [MAP] googleExtractor() 
-	with mapping (did not work properly)
-
-def googleExtractor(**kwargs):
-	'''
-		sets up all nessasary functions, 
-		then gets list of company names, 
-		then iterates through the list via multithreading: claimedStatus().
-	'''
-	introPrint()
-	testmode_kwarg = kwargs.get('testmode', None)
-	file_name, chunksize, mode, tablename, start_limit, end_limit, input_array, long_break, short_break = getSettings(testmode_kwarg)
-	nested_input_array = makeChunks(input_array, chunksize)
-	infoPrint(nested_input_array, testmode_kwarg)
-	
-	'''! [tqdm ALT 1]'''
-	with tqdm(total = len(nested_input_array)) as pbar: 
-
-		'''! [tqdm ALT 1]'''
-		with tqdm(total = len(input_array)) as pbar:
-			total_error_count = 0
-			for chunk in nested_input_array:
-				with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor:  
-					futures = list(tqdm(executor.map(extractionManager, chunk), total = len(chunk)))
-					result_list = []
-					error_count = []
-					for result in futures:
-						# ''' Error handling '''
-						# if result != "CaptchaTriggered":
-						if "CaptchaTriggered" not in result:
-							(error_count.append(result) if None in result else result_list.append(result))
-						else:
-							executor.shutdown(wait=False)
-							print("\n\n ERROR: shutdown was triggered!")
-							error_count.append(result)
-							for f in futures:
-								if not f.done():
-									f.cancel()
-							break
-
-					df = makeDataframe(result_list)
-					print(df)
-					databaseManager(df, tablename)
-					
-					'''! [tqdm ALT 1]'''
-					pbar.update(1) 
-
-					'''! [tqdm ALT 2]'''
-					pbar.update(chunksize) 
-
-					total_error_count += len(error_count)
-					if len(pbar) != len(input_array):
-						time.sleep(long_break)
-				
-		print(f"error count: {total_error_count}")
-		outroPrint()
-"""
-
-""" 
-! [OLD] googleExtractor() 
-
-def googleExtractor(**kwargs):
-	'''
-		sets up all nessasary functions, 
-		then gets list of company names, 
-		then iterates through the list via multithreading: claimedStatus().
-	'''
-	introPrint()
-	testmode_kwarg = kwargs.get('testmode', None)
-	file_name, chunksize, mode, tablename, start_limit, end_limit, input_array, long_break, short_break = getSettings(testmode_kwarg)
-	nested_input_array = makeChunks(input_array, chunksize)
-	infoPrint(nested_input_array, testmode_kwarg)
-	
-	'''! [tqdm ALT 1]'''
-	# with tqdm(total = len(nested_input_array)) as pbar: 
-
-	'''! [tqdm ALT 1]'''
-	with tqdm(total = len(input_array)) as pbar:
-
-		total_error_count = 0
-		for chunk in nested_input_array:
-			with concurrent.futures.ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor:		
-				results = list(tqdm(executor.map(extractionManager, chunk), total = len(chunk)))
-				status_list = [status for status in results if status is not None]
-				error_count = [status for status in results if status is 	 None]
-				df = makeDataframe(status_list)
-				print(df)
-				databaseManager(df, tablename)
-				
-				'''! [tqdm ALT 1]'''
-				# pbar.update(1) 
-
-				'''! [tqdm ALT 2]'''
-				pbar.update(chunksize) 
-
-				total_error_count += len(error_count)
-				if len(pbar) != len(input_array):
-					time.sleep(long_break)
-			
-	print(f"error count: {total_error_count}")
-	outroPrint()
-"""
-
-"""
-def extractionManager(input_array):
-	''' 
-		import list 
-		NB: remember to make sure it gets imported correctly 
-		chunk = [] # consists of 500-1000 company names.
-	'''
-	org_num = input_array[0]
-	search_term = input_array[1]
-
-	base_url = "https://www.google.com/search?q=" 
-	# print(f"{linkBuilder(base_url, search_term)}\n")
-	driver = getDriver()
-	driver.get(linkBuilder(base_url, search_term))
-	mainWin = driver.current_window_handle  #* CATCHPA SOLVER
-	
-
-	try:	
-		if driver.find_element(By.CLASS_NAME, "osrp-blk"):
-			verify = driver.find_element(By.CLASS_NAME, "osrp-blk").text
-			alt_search_term = search_term
-			for ch in [' AS',' ASA', ' AB']:
-				if ch in search_term:
-					alt_search_term = search_term.replace(ch,"")
-			alt_verify = [re.sub(r"[^a-zA-Z0-9]+", ' ', k) for k in verify.split("\n")][0]
-			if re.search(search_term, verify, re.IGNORECASE):
-				is_reqistered = True
-			elif re.search(alt_search_term, verify, re.IGNORECASE):
-				is_reqistered = True
-			elif re.search(search_term, alt_verify, re.IGNORECASE) or re.search(alt_search_term, alt_verify, re.IGNORECASE):
-				is_reqistered = True
-			else:
-				is_reqistered = 'Usikkert'
-			try:
-				check = driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div')
-				check_info = check.text
-				if 'Add missing information' in check_info:
-							has_info = False
-				elif 'Legg til manglende informasjon' in check_info:
-					has_info = False
-				else:
-					if is_reqistered:
-						has_info = True
-					else:
-						has_info = False
-				check_claimed = check.get_attribute('innerHTML')
-				if 'cQhrTd' in check_claimed:
-					is_claimed = True
-				elif 'ndJ4N' in check_claimed:
-					is_claimed = False
-				else:
-					if is_reqistered == False:
-						is_claimed = False
-					else:
-						is_claimed = True
-
-			except NoSuchElementException:
-				has_info = True
-				is_claimed = True
-	except NoSuchElementException:
-		is_reqistered = False
-		try:
-			check = driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div')
-			check_info = check.text
-			if 'Add missing information' in check_info:
-						has_info = False
-			elif 'Legg til manglende informasjon' in check_info:
-				has_info = False
-			else:
-				if is_reqistered:
-					has_info = True
-				else:
-					has_info = False
-			check_claimed = check.get_attribute('innerHTML')
-			if 'cQhrTd' in check_claimed:
-				is_claimed = True
-			elif 'ndJ4N' in check_claimed:
-				is_claimed = False
-			else:
-				if is_reqistered == False:
-					is_claimed = False
-				else:
-					is_claimed = True
-		except NoSuchElementException:
-			has_info = False
-			is_claimed = False
-			
-	return np.array((org_num, search_term, is_reqistered, is_claimed, has_info), dtype = object)
-"""
+	# googleExtractor(testmode = True)
+	googleExtractor(testmode = False)

@@ -1,20 +1,20 @@
 import re
-from inspect import currentframe, getframeinfo, stack
+from inspect import currentframe, stack
 
 # ___ local imports __________
-# from config import tablenames, settings, test_tablenames
 from config import tablenames, settings
-from postgres import databaseManager, cleanUp, fetchData, checkForTable, postLastUpdate, deleteData
+from postgres import fetchData
 
 
 ''' ____ NEW EXPERIMENTAL: parse tablename & settings  ____________________________'''
 
 def parseTablenames(file_name, **kwargs):
 	''' parses file specific tablename from settings --> settings'''
-	if kwargs.get('testmode', None):
-		return test_tablenames[file_name]
-	else:
-		return tablenames[file_name]
+	# if kwargs.get('testmode', None):
+	# 	return test_tablenames[file_name]
+	# else:
+	# 	return tablenames[file_name]
+	return tablenames[file_name]
 	
 def parseSettings(file_name):
 	''' parses file specific settings from settings --> settings'''

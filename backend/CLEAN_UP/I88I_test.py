@@ -56,7 +56,6 @@ from multiprocessing import Pool, Process
 from config import payload, tablenames, settings
 from postgres import databaseManager, getInputTable, checkIfMissing
 from file_manager import *
-from input_table import inputTable
 from base_extractor import genSearchTerm, pullRequest
 
 '''
