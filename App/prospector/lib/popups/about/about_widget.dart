@@ -40,7 +40,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                   filter: ImageFilter.blur(
                     sigmaX: 3,
                     sigmaY: 3,
-                    tileMode: TileMode.clamp,
+                    // tileMode: TileMode.clamp,
                   ),
                   child: InkWell(
                     hoverColor: Colors.transparent,

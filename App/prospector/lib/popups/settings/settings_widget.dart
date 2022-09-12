@@ -29,8 +29,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               child: ClipRect(
                 child: BackdropFilter(
                   filter: ImageFilter.blur(
-                    sigmaX: 10,
-                    sigmaY: 10,
+                    sigmaX: 3,
+                    sigmaY: 3,
                   ),
                   child: InkWell(
                     hoverColor: Colors.transparent,

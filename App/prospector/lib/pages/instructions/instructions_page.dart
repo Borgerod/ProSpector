@@ -68,7 +68,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                           fontFamily:
                                               FlutterFlowTheme.of(context)
                                                   .title1Family,
-                                          fontSize: 50,
+                                          fontSize: 30,
                                         ),
                                   ),
                                 ),
@@ -157,7 +157,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                                         FlutterFlowTheme.of(context)
                                                                             .subtitle1Family,
                                                                     fontSize:
-                                                                        30,
+                                                                        20,
                                                                   ),
                                                             ),
                                                             Spacer(),
@@ -206,7 +206,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                                         fontFamily:
                                                                             'Poppins',
                                                                         fontSize:
-                                                                            20,
+                                                                            12,
                                                                       ),
                                                                 ),
                                                               ),
@@ -401,7 +401,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                                         FlutterFlowTheme.of(context)
                                                                             .subtitle1Family,
                                                                     fontSize:
-                                                                        30,
+                                                                        20,
                                                                   ),
                                                             ),
                                                             Spacer(),
@@ -450,7 +450,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                                         fontFamily:
                                                                             'Poppins',
                                                                         fontSize:
-                                                                            20,
+                                                                            12,
                                                                       ),
                                                                 ),
                                                               ),
@@ -661,7 +661,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                                         FlutterFlowTheme.of(context)
                                                                             .subtitle1Family,
                                                                     fontSize:
-                                                                        30,
+                                                                        20,
                                                                   ),
                                                             ),
                                                             Spacer(),
@@ -710,7 +710,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                                         fontFamily:
                                                                             'Poppins',
                                                                         fontSize:
-                                                                            20,
+                                                                            12,
                                                                       ),
                                                                 ),
                                                               ),
@@ -911,7 +911,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                                         FlutterFlowTheme.of(context)
                                                                             .subtitle1Family,
                                                                     fontSize:
-                                                                        30,
+                                                                        20,
                                                                   ),
                                                             ),
                                                             Spacer(),
@@ -960,7 +960,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                                         fontFamily:
                                                                             'Poppins',
                                                                         fontSize:
-                                                                            20,
+                                                                            12,
                                                                       ),
                                                                 ),
                                                               ),
