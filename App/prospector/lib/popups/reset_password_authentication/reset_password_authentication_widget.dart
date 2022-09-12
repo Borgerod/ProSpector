@@ -1,12 +1,11 @@
 import 'package:prospector/flutter_flow/flutter_flow_icon_button.dart';
+import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
 import 'package:prospector/pages/login/login_page.dart';
-import 'dart:ui';
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class ResetPasswordAuthenticationWidget extends StatefulWidget {
   const ResetPasswordAuthenticationWidget({Key? key}) : super(key: key);
@@ -24,17 +23,6 @@ class _ResetPasswordAuthenticationWidgetState
   @override
   void initState() {
     super.initState();
-    // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LoginWidget(),
-        ),
-        (r) => false,
-      );
-    });
-
     emailController = TextEditingController();
   }
 
@@ -213,10 +201,10 @@ class _ResetPasswordAuthenticationWidgetState
                                     style: FlutterFlowTheme.of(context)
                                         .bodyText1
                                         .override(
-                                          fontFamily: 'Lexend Deca',
+                                          fontFamily: 'Poppins',
                                           color: FlutterFlowTheme.of(context)
                                               .secondaryText,
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.normal,
                                         ),
                                     keyboardType: TextInputType.emailAddress,

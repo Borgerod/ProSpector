@@ -1,12 +1,10 @@
-import 'package:prospector/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:prospector/flutter_flow/flutter_flow_language_selector.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
 import 'package:prospector/popups/reset_password/reset_password_widget.dart';
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'dart:ui';
 
 class SettingsWidget extends StatefulWidget {
   const SettingsWidget({Key? key}) : super(key: key);
@@ -17,12 +15,11 @@ class SettingsWidget extends StatefulWidget {
 
 class _SettingsWidgetState extends State<SettingsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Color.fromARGB(162, 79, 79, 79),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(
@@ -57,16 +54,26 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ),
             Center(
               child: Container(
-                color: FlutterFlowTheme.of(context).tertiaryColor,
-                height: 400,
+                height: 230,
                 width: 800,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).tertiaryColor,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 10,
+                      color: Color(0x33000000),
+                      offset: Offset(0, 2),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 20),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -78,7 +85,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               children: [
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      20, 20, 20, 20),
+                                      10, 10, 0, 10),
                                   child: Text(
                                     FFLocalizations.of(context).getText(
                                       'tppwmwmy' /* Settings */,
@@ -95,26 +102,32 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 20),
-                                  child: IconButton(
-                                    splashRadius: 1,
-                                    icon: Icon(
-                                      Icons.close,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 20,
+                                      0, 10, 0, 20),
+                                  child: Center(
+                                    child: IconButton(
+                                      splashRadius: 1,
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        size: 20,
+                                      ),
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                      },
                                     ),
-                                    onPressed: () async {
-                                      Navigator.pop(context);
-                                    },
                                   ),
                                 ),
                               ],
                             ),
+                            Divider(
+                              thickness: 1,
+                              color: FlutterFlowTheme.of(context).lineColor,
+                            ),
                             Expanded(
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    100, 50, 100, 0),
+                                    100, 20, 100, 20),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment:
@@ -180,14 +193,16 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                               backgroundColor:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
-                                              borderColor: Colors.transparent,
+                                              borderColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .boarderColor,
                                               dropdownColor:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
                                               dropdownIconColor:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryText,
-                                              borderRadius: 2,
+                                              borderRadius: 0,
                                               textStyle: FlutterFlowTheme.of(
                                                       context)
                                                   .subtitle2
@@ -251,12 +266,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                                     context)
                                                                 .primaryText,
                                                         fontSize: 15),
-                                                elevation: 3,
+                                                elevation: 0,
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .boarderColor,
-                                                  width: 2,
+                                                  width: 1,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(0),
@@ -270,7 +285,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
-                            Spacer(),
+                            // Spacer(),
                             Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
@@ -285,85 +300,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .tertiaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 10, 10, 10),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        elevation: 5,
-                                        child: Container(
-                                          width: 100,
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            border: Border.all(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
-                                              width: 1.5,
-                                            ),
-                                          ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'tmwzirro' /* Cancel */,
-                                                ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        10, 10, 0, 10),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        elevation: 5,
-                                        child: Container(
-                                          width: 100,
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryColor,
-                                          ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'a4ncm086' /* Save */,
-                                                ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
                                       ),
                                     ),
                                   ),

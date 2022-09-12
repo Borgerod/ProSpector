@@ -77,7 +77,7 @@ class _RenewListWidgetState extends State<RenewListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color(0x00FFFFFF),
+      backgroundColor: Color.fromARGB(162, 79, 79, 79),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: InkWell(
@@ -130,7 +130,15 @@ class _RenewListWidgetState extends State<RenewListWidget> {
                   width: 600,
                   height: 250,
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).cardColor,
+                    color: FlutterFlowTheme.of(context).tertiaryColor,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: Color(0x33000000),
+                        offset: Offset(0, 2),
+                        spreadRadius: 0,
+                      )
+                    ],
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
@@ -152,7 +160,7 @@ class _RenewListWidgetState extends State<RenewListWidget> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 0, 30),
+                                        0, 0, 0, 10),
                                     child: Text(
                                       FFLocalizations.of(context).getText(
                                         'x3f7fyl8' /* Renew Call List */,
@@ -169,7 +177,7 @@ class _RenewListWidgetState extends State<RenewListWidget> {
                                   ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 0, 40),
+                                        0, 0, 0, 20),
                                     child: Center(
                                       child: IconButton(
                                         splashRadius: 1,
@@ -186,6 +194,10 @@ class _RenewListWidgetState extends State<RenewListWidget> {
                                     ),
                                   ),
                                 ],
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: FlutterFlowTheme.of(context).lineColor,
                               ),
                               Expanded(
                                 child: Row(
@@ -244,8 +256,8 @@ class _RenewListWidgetState extends State<RenewListWidget> {
                                               border: Border.all(
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
-                                                width: 1.5,
+                                                        .secondaryText,
+                                                width: 1,
                                               ),
                                             ),
                                             child: Align(

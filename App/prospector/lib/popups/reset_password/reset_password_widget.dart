@@ -24,16 +24,6 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
   @override
   void initState() {
     super.initState();
-    // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LoginWidget(),
-        ),
-        (r) => false,
-      );
-    });
 
     confirmPasswordController = TextEditingController();
     confirmPasswordVisibility = false;
@@ -79,8 +69,8 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                 color: Colors.transparent,
                 elevation: 10,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: 600,
+                  height: 270,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).tertiaryColor,
                   ),
@@ -91,7 +81,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,7 +112,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                   Icons.close,
                                   color:
                                       FlutterFlowTheme.of(context).primaryText,
-                                  size: 30,
+                                  size: 20,
                                 ),
                                 onPressed: () async {
                                   Navigator.pop(context);
@@ -134,7 +124,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+                                EdgeInsetsDirectional.fromSTEB(30, 20, 30, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -188,16 +178,16 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                                 ? Icons.visibility_outlined
                                                 : Icons.visibility_off_outlined,
                                             color: Color(0xFF95A1AC),
-                                            size: 22,
+                                            size: 15,
                                           ),
                                         ),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
                                           .override(
-                                            fontFamily: 'Lexend Deca',
+                                            fontFamily: 'Poppins',
                                             color: Color(0xFFD6D8DA),
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal,
                                           ),
                                     ),
@@ -210,7 +200,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+                                EdgeInsetsDirectional.fromSTEB(30, 0, 30, 20),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -218,7 +208,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                   flex: 3,
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 0, 30),
+                                        0, 0, 0, 20),
                                     child: TextFormField(
                                       controller: confirmPasswordController,
                                       onFieldSubmitted: (_) async {
@@ -254,26 +244,26 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                         ),
                                         suffixIcon: InkWell(
                                           onTap: () => setState(
-                                            () => confirmPasswordVisibility =
-                                                !confirmPasswordVisibility,
+                                            () => newPasswordVisibility =
+                                                !newPasswordVisibility,
                                           ),
                                           focusNode:
                                               FocusNode(skipTraversal: true),
                                           child: Icon(
-                                            confirmPasswordVisibility
+                                            newPasswordVisibility
                                                 ? Icons.visibility_outlined
                                                 : Icons.visibility_off_outlined,
                                             color: Color(0xFF95A1AC),
-                                            size: 22,
+                                            size: 15,
                                           ),
                                         ),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
                                           .override(
-                                            fontFamily: 'Lexend Deca',
+                                            fontFamily: 'Poppins',
                                             color: Color(0xFFD6D8DA),
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal,
                                           ),
                                     ),
@@ -327,8 +317,8 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                   '973k67jf' /* Reset Password */,
                                 ),
                                 options: FFButtonOptions(
-                                  width: 200,
-                                  height: 40,
+                                  width: 150,
+                                  height: 30,
                                   color:
                                       FlutterFlowTheme.of(context).primaryColor,
                                   textStyle: FlutterFlowTheme.of(context)
@@ -337,6 +327,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                         fontFamily: 'Poppins',
                                         color: FlutterFlowTheme.of(context)
                                             .primaryBtnText,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
                                   elevation: 3,

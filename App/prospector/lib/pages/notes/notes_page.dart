@@ -1,12 +1,8 @@
-import 'package:prospector/components/menu_widget.dart';
 import 'package:prospector/components/home_button_widget.dart';
 import 'package:prospector/components/plain_background_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-// import 'package:prospector/home_page/home_page_widget.dart';
 import 'package:flutter/material.dart';
-
-import 'note_model.dart';
 
 class NotesWidget extends StatefulWidget {
   const NotesWidget({Key? key}) : super(key: key);
@@ -16,13 +12,17 @@ class NotesWidget extends StatefulWidget {
 }
 
 class _NotesWidgetState extends State<NotesWidget> {
-  TextEditingController? textController;
+  TextEditingController textController = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  late String valueFromTextField;
   @override
   void initState() {
     super.initState();
     textController = TextEditingController();
+  }
+
+  void textChange(TextEditingController textController) {
+    this.textController = textController;
   }
 
   @override
@@ -65,7 +65,47 @@ class _NotesWidgetState extends State<NotesWidget> {
                         child: Padding(
                           padding:
                               EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
-                          child: Notepad(),
+                          child: Container(
+                            color: FlutterFlowTheme.of(context).cardColor,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                border: Border.all(
+                                  color:
+                                      FlutterFlowTheme.of(context).boarderColor,
+                                  width: 5,
+                                ),
+                              ),
+                              child: new ConstrainedBox(
+                                constraints: BoxConstraints(),
+                                child: new Scrollbar(
+                                  child: new SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    reverse: true,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              10, 0, 10, 0),
+                                      child: SizedBox(
+                                        child: new TextField(
+                                          onChanged: (value) =>
+                                              textChange(textController),
+                                          controller: textController,
+                                          maxLines: 100,
+                                          decoration: new InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: '',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],

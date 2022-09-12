@@ -1,11 +1,8 @@
-import 'package:prospector/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:prospector/flutter_flow/flutter_flow_radio_button.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:prospector/pages/notes/note_model.dart';
+import 'dart:ui';
 
 class FeedbackWidget extends StatefulWidget {
   const FeedbackWidget({Key? key}) : super(key: key);
@@ -18,7 +15,6 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
   String? jobpositionValue;
   String? reasonValue;
   TextEditingController? companynameController;
-  TextEditingController? emailAddressController;
   TextEditingController? textController3;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -26,7 +22,6 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
   void initState() {
     super.initState();
     companynameController = TextEditingController();
-    emailAddressController = TextEditingController();
     textController3 = TextEditingController();
   }
 
@@ -34,7 +29,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Color.fromARGB(162, 79, 79, 79),
       body: InkWell(
         hoverColor: Colors.transparent,
         focusColor: Colors.transparent,
@@ -53,6 +48,11 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
                     sigmaY: 10,
                   ),
                   child: InkWell(
+                    hoverColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    splashFactory: NoSplash.splashFactory,
                     onTap: () async {
                       Navigator.pop(context);
                     },
@@ -100,7 +100,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
                               children: [
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      20, 20, 20, 50),
+                                      20, 20, 20, 30),
                                   child: Text(
                                     FFLocalizations.of(context).getText(
                                       'f86135rs' /* FeedBack */,
@@ -117,7 +117,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 40),
+                                      0, 0, 0, 20),
                                   child: IconButton(
                                     splashRadius: 1,
                                     icon: Icon(
@@ -132,6 +132,10 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
                                   ),
                                 ),
                               ],
+                            ),
+                            Divider(
+                              thickness: 1,
+                              color: FlutterFlowTheme.of(context).lineColor,
                             ),
                             Expanded(
                               child: Padding(
@@ -152,7 +156,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
                                         Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  0, 10, 0, 20),
+                                                  20, 10, 0, 20),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -533,111 +537,6 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
                                                       ),
                                                 ),
                                               ),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(30, 0, 30, 0),
-                                                  child: Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      'mlhg1hgy' /* Email Address */,
-                                                    ),
-                                                    textAlign: TextAlign.end,
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Poppins',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .thirdTextColor,
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                flex: 3,
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(0, 0, 0, 10),
-                                                  child: TextFormField(
-                                                    controller:
-                                                        emailAddressController,
-                                                    onFieldSubmitted:
-                                                        (_) async {
-                                                      setState(() => FFAppState()
-                                                              .emailAdress =
-                                                          emailAddressController!
-                                                              .text);
-                                                    },
-                                                    obscureText: false,
-                                                    decoration: InputDecoration(
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .boarderColor,
-                                                          width: 0,
-                                                        ),
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                .only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  0),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  0),
-                                                        ),
-                                                      ),
-                                                      focusedBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .boarderColor,
-                                                          width: 0,
-                                                        ),
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                .only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  0),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  0),
-                                                        ),
-                                                      ),
-                                                      filled: true,
-                                                      fillColor: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      contentPadding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(24, 24,
-                                                                  20, 24),
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Poppins',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryText,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
                                             ],
                                           ),
                                         ),
@@ -677,70 +576,64 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
                                                               width: 5,
                                                             ),
                                                           ),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        20,
-                                                                        20,
-                                                                        20,
-                                                                        20),
-                                                            child: Notepad(),
-
-                                                            //     TextFormField(
-                                                            //   controller:
-                                                            //       textController3,
-                                                            //   autofocus: true,
-                                                            //   obscureText:
-                                                            //       false,
-                                                            //   decoration:
-                                                            //       InputDecoration(
-                                                            //     hintStyle: FlutterFlowTheme.of(
-                                                            //             context)
-                                                            //         .bodyText2,
-                                                            //     enabledBorder:
-                                                            //         UnderlineInputBorder(
-                                                            //       borderSide:
-                                                            //           BorderSide(
-                                                            //         color: Color(
-                                                            //             0x00000000),
-                                                            //         width: 5,
-                                                            //       ),
-                                                            //       borderRadius:
-                                                            //           const BorderRadius
-                                                            //               .only(
-                                                            //         topLeft: Radius
-                                                            //             .circular(
-                                                            //                 4.0),
-                                                            //         topRight: Radius
-                                                            //             .circular(
-                                                            //                 4.0),
-                                                            //       ),
-                                                            //     ),
-                                                            //     focusedBorder:
-                                                            //         UnderlineInputBorder(
-                                                            //       borderSide:
-                                                            //           BorderSide(
-                                                            //         color: Color(
-                                                            //             0x00000000),
-                                                            //         width: 5,
-                                                            //       ),
-                                                            //       borderRadius:
-                                                            //           const BorderRadius
-                                                            //               .only(
-                                                            //         topLeft: Radius
-                                                            //             .circular(
-                                                            //                 4.0),
-                                                            //         topRight: Radius
-                                                            //             .circular(
-                                                            //                 4.0),
-                                                            //       ),
-                                                            //     ),
-                                                            //   ),
-                                                            //   style: FlutterFlowTheme
-                                                            //           .of(context)
-                                                            //       .bodyText1,
-                                                            // ),
+                                                          child:
+                                                              new ConstrainedBox(
+                                                            constraints:
+                                                                BoxConstraints(
+                                                              maxHeight: 230.0,
+                                                            ),
+                                                            child:
+                                                                new Scrollbar(
+                                                              child:
+                                                                  new SingleChildScrollView(
+                                                                scrollDirection:
+                                                                    Axis.vertical,
+                                                                reverse: true,
+                                                                child:
+                                                                    new ConstrainedBox(
+                                                                  constraints:
+                                                                      BoxConstraints(
+                                                                          // maxHeight:
+                                                                          // 200.0,
+                                                                          ),
+                                                                  child:
+                                                                      new Scrollbar(
+                                                                    child:
+                                                                        new SingleChildScrollView(
+                                                                      scrollDirection:
+                                                                          Axis.vertical,
+                                                                      reverse:
+                                                                          true,
+                                                                      child:
+                                                                          SizedBox(
+                                                                        height:
+                                                                            230.0,
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              10,
+                                                                              0,
+                                                                              10,
+                                                                              0),
+                                                                          child:
+                                                                              new TextField(
+                                                                            controller:
+                                                                                textController3,
+                                                                            maxLines:
+                                                                                100,
+                                                                            decoration:
+                                                                                new InputDecoration(
+                                                                              border: InputBorder.none,
+                                                                              hintText: '',
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -781,9 +674,19 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
                                                             .fromSTEB(
                                                                 10, 5, 10, 5),
                                                     child: InkWell(
+                                                      // TODO: made url include form data as subject, and message data as content
                                                       onTap: () async {
+                                                        String? subject =
+                                                            reasonValue;
+                                                        String body =
+                                                            textController3!
+                                                                .text;
+                                                        String company =
+                                                            companynameController!
+                                                                .text;
                                                         await launchURL(
-                                                            'mailto:prospector.feedback@gmail.com');
+                                                            // 'mailto:prospector.feedback@gmail.com?&body=$body');
+                                                            'mailto:prospector.feedback@gmail.com?subject=$subject, from $company, $jobpositionValue&body=$body');
                                                         Navigator.pop(context);
                                                       },
                                                       child: Material(

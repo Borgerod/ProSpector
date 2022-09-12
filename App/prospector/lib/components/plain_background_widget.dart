@@ -12,7 +12,7 @@ class _PlainBackgroundWidgetState extends State<PlainBackgroundWidget> {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      elevation: 50,
+      // elevation: 50,
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 1,

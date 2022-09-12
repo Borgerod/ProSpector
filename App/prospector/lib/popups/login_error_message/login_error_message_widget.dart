@@ -132,7 +132,7 @@ class _LoginErrorMessageWidgetState extends State<LoginErrorMessageWidget> {
                                       color: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w200,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),

@@ -1,13 +1,12 @@
-import 'package:prospector/components/home_button_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:prospector/components/menu_widget.dart';
 import 'package:prospector/components/plain_background_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:prospector/components/home_button_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CallListWidget extends StatefulWidget {
   const CallListWidget({Key? key}) : super(key: key);
@@ -23,27 +22,19 @@ class _CallListWidgetState extends State<CallListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      // backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       floatingActionButton: HomeButton(),
       body: InkWell(
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
         splashFactory: NoSplash.splashFactory,
         onTap: () => FocusScope.of(context).unfocus(),
-        child:
-
-            // Row(
-            //   mainAxisSize: MainAxisSize.max,
-            //   children: [
-            //     MenuWidget(),
-            Container(
+        child: Container(
           child: Expanded(
             child: Stack(
               children: [
                 PlainBackgroundWidget(),
                 Material(
                   color: Colors.transparent,
-                  // elevation: 50,
                   child: Container(
                     height: MediaQuery.of(context).size.height * 1,
                     decoration: BoxDecoration(
@@ -57,14 +48,13 @@ class _CallListWidgetState extends State<CallListWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      10, 0, 0, 0),
+                                      10, 0, 0, 10),
                                   child: Text(
                                     FFLocalizations.of(context).getText(
                                       'nhdfcp17' /* Call List */,
@@ -73,7 +63,7 @@ class _CallListWidgetState extends State<CallListWidget> {
                                         .title1
                                         .override(
                                           fontFamily: 'Poppins',
-                                          fontSize: 50,
+                                          fontSize: 30,
                                         ),
                                   ),
                                 ),
@@ -82,8 +72,8 @@ class _CallListWidgetState extends State<CallListWidget> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  20, 20, 20, 20),
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -430,12 +420,12 @@ class _JsonDataGridSource extends DataGridSource {
   }
 }
 
-class switchWidget extends StatefulWidget {
+class SwitchWidget extends StatefulWidget {
   @override
-  switchWidgetState createState() => switchWidgetState();
+  SwitchWidgetState createState() => SwitchWidgetState();
 }
 
-class switchWidgetState extends State<switchWidget> {
+class SwitchWidgetState extends State<SwitchWidget> {
   bool switchControl = false;
 
   Future<bool> saveSwitchState(bool value) async {

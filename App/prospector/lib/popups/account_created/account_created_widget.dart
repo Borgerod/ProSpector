@@ -68,8 +68,8 @@ class _AccountCreatedWidgetState extends State<AccountCreatedWidget> {
                 color: Colors.transparent,
                 elevation: 10,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: 500,
+                  height: 250,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).tertiaryColor,
                   ),
@@ -95,7 +95,7 @@ class _AccountCreatedWidgetState extends State<AccountCreatedWidget> {
                                       Icons.check_circle_outline,
                                       color: FlutterFlowTheme.of(context)
                                           .primaryColor,
-                                      size: 80,
+                                      size: 60,
                                     ),
                                   ),
                                 ],
@@ -122,7 +122,7 @@ class _AccountCreatedWidgetState extends State<AccountCreatedWidget> {
                                                   .subtitle1Family,
                                           color: FlutterFlowTheme.of(context)
                                               .primaryText,
-                                          fontSize: 20,
+                                          fontSize: 14,
                                         ),
                                   ),
                                 ],
@@ -161,6 +161,7 @@ class _AccountCreatedWidgetState extends State<AccountCreatedWidget> {
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryBtnText,
                                             fontWeight: FontWeight.w500,
+                                            fontSize: 14,
                                           ),
                                       borderSide: BorderSide(
                                         color: Colors.transparent,

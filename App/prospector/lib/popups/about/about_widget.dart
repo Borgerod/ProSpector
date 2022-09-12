@@ -94,7 +94,6 @@ class _AboutWidgetState extends State<AboutWidget> {
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                         child: Column(
-                          // mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Row(
@@ -120,7 +119,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 40),
+                                      0, 0, 0, 30),
                                   child: IconButton(
                                     splashRadius: 1,
                                     icon: Icon(
@@ -136,15 +135,10 @@ class _AboutWidgetState extends State<AboutWidget> {
                                 ),
                               ],
                             ),
-//
-//
-//
-//
-// _________________________________________________________________________________________________________
-//
-//
-//
-
+                            Divider(
+                              thickness: 1,
+                              color: FlutterFlowTheme.of(context).lineColor,
+                            ),
                             Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
@@ -224,6 +218,11 @@ class _AboutWidgetState extends State<AboutWidget> {
                                                     .primaryText,
                                           ),
                                         ),
+                                      ),
+                                      Divider(
+                                        thickness: 1,
+                                        color: FlutterFlowTheme.of(context)
+                                            .lineColor,
                                       ),
                                       ExpandableNotifier(
                                         initialExpanded: false,
@@ -868,12 +867,6 @@ class _AboutWidgetState extends State<AboutWidget> {
                                           fontWeight: FontWeight.w300,
                                         ),
                                   ),
-                                  // Column(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   children: [
-
-                                  //   ],
-                                  // ),
                                 ],
                               ),
                             ),

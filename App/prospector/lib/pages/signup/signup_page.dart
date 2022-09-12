@@ -1,11 +1,12 @@
+import 'dart:convert';
+
 import 'package:prospector/popups/account_created/account_created_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class SignupWidget extends StatefulWidget {
   const SignupWidget({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class _SignupWidgetState extends State<SignupWidget> {
     passwordVisibility = false;
   }
 
+  bool req_200 = false;
   bool isEmail(String input) => EmailValidator.validate(input);
   @override
   Widget build(BuildContext context) {
@@ -737,46 +739,114 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                                   ),
                                                                 );
                                                               });
-                                                          // if (!emailController!
-                                                          //     .text
-                                                          //     .contains('@')) {
-                                                          //   AlertDialog(
-                                                          //     backgroundColor:
-                                                          //         Color(
-                                                          //             0x00353E49),
-                                                          //     title: Text(
-                                                          //       "ERROR: Incorrect Email Address",
-                                                          //       style: FlutterFlowTheme.of(
-                                                          //               context)
-                                                          //           .bodyText1
-                                                          //           .override(
-                                                          //             fontFamily:
-                                                          //                 FlutterFlowTheme.of(context)
-                                                          //                     .bodyText1Family,
-                                                          //             color: Colors
-                                                          //                 .white,
-                                                          //           ),
-                                                          //     ),
-                                                          //   );
-                                                          // }
-                                                          // ;
                                                         } else {
-                                                          await Navigator.push(
-                                                            context,
-                                                            PageTransition(
-                                                                type:
-                                                                    PageTransitionType
-                                                                        .fade,
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                        0),
-                                                                reverseDuration:
-                                                                    Duration(
-                                                                        milliseconds:
-                                                                            0),
-                                                                child:
-                                                                    AccountCreatedWidget()),
-                                                          );
+                                                          String email =
+                                                              emailController!
+                                                                  .text;
+                                                          String username =
+                                                              usernameController!
+                                                                  .text;
+                                                          String password =
+                                                              passwordController!
+                                                                  .text;
+                                                          String workplace =
+                                                              workplaceController!
+                                                                  .text;
+                                                          Map data = {
+                                                            'brukernavn':
+                                                                username,
+                                                            'epost': email,
+                                                            'passord': password,
+                                                            'organisasjon':
+                                                                workplace,
+                                                          };
+                                                          print(data);
+                                                          var body =
+                                                              json.encode(data);
+                                                          // http://127.0.0.1:8000/users/?brukernavn=morendin@hotmail.com&epost=morendin&passord=Morendin123&organisasjon=morendinas
+                                                          // await http.post(Uri.parse(
+                                                          //     'http://127.0.0.1:8000/users/', body: body));
+                                                          var response =
+                                                              await http.post(
+                                                                  Uri.parse(
+                                                                      'http://127.0.0.1:8000/users/'),
+                                                                  headers: {
+                                                                    "Content-Type":
+                                                                        "application/json",
+                                                                    "accept":
+                                                                        "application/json",
+                                                                  },
+                                                                  body: body);
+                                                          print(body);
+                                                          print(response
+                                                              .statusCode);
+                                                          // await Navigator.push(
+                                                          //   context,
+                                                          //   PageTransition(
+                                                          //       type:
+                                                          //           PageTransitionType
+                                                          //               .fade,
+                                                          //       duration: Duration(
+                                                          //           milliseconds:
+                                                          //               0),
+                                                          //       reverseDuration:
+                                                          //           Duration(
+                                                          //               milliseconds:
+                                                          //                   0),
+                                                          //       child:
+                                                          //           AccountCreatedWidget()),
+                                                          // );
+                                                          // AlertDialog(
+                                                          //     title: Text(
+                                                          //         "unable to create account"));
+                                                          if (response
+                                                                  .statusCode ==
+                                                              200) {
+                                                            await Navigator
+                                                                .push(
+                                                              context,
+                                                              PageTransition(
+                                                                  type:
+                                                                      PageTransitionType
+                                                                          .fade,
+                                                                  duration: Duration(
+                                                                      milliseconds:
+                                                                          0),
+                                                                  reverseDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                              0),
+                                                                  child:
+                                                                      AccountCreatedWidget()),
+                                                            );
+                                                          } else {
+                                                            showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return AlertDialog(
+                                                                  contentTextStyle:
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyText1,
+                                                                  title: Text(
+                                                                      "Error!"),
+                                                                  content: Text(
+                                                                    "Unable to create account",
+                                                                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                        fontFamily:
+                                                                            FlutterFlowTheme.of(context)
+                                                                                .bodyText1Family,
+                                                                        fontSize:
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight.w300),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            );
+                                                          }
                                                         }
 
                                                         setState(() =>

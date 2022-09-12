@@ -99,11 +99,11 @@ class MenuWidgetState extends State<MenuWidget> {
   final routes = [
     'Instructions',
     'View Call List',
-    'Renew List',
-    'Notes',
-    'About',
-    'Settings',
-    'Feedback',
+    // 'Renew List',
+    // 'Notes',
+    // 'About',
+    // 'Settings',
+    // 'Feedback',
   ];
 
   final navigatorKey = GlobalKey<NavigatorState>();
@@ -125,31 +125,31 @@ class MenuWidgetState extends State<MenuWidget> {
         size: 15,
         color: FlutterFlowTheme.of(context).primaryText,
       ),
-      Icon(
-        Icons.playlist_add_sharp,
-        size: 15,
-        color: FlutterFlowTheme.of(context).primaryText,
-      ),
-      Icon(
-        Icons.sticky_note_2_sharp,
-        size: 15,
-        color: FlutterFlowTheme.of(context).primaryText,
-      ),
-      Icon(
-        Icons.info_sharp,
-        size: 15,
-        color: FlutterFlowTheme.of(context).primaryText,
-      ),
-      Icon(
-        Icons.settings,
-        size: 15,
-        color: FlutterFlowTheme.of(context).primaryText,
-      ),
-      Icon(
-        Icons.feedback_sharp,
-        size: 15,
-        color: FlutterFlowTheme.of(context).primaryText,
-      ),
+      // Icon(
+      //   Icons.playlist_add_sharp,
+      //   size: 15,
+      //   color: FlutterFlowTheme.of(context).primaryText,
+      // ),
+      // Icon(
+      //   Icons.sticky_note_2_sharp,
+      //   size: 15,
+      //   color: FlutterFlowTheme.of(context).primaryText,
+      // ),
+      // Icon(
+      //   Icons.info_sharp,
+      //   size: 15,
+      //   color: FlutterFlowTheme.of(context).primaryText,
+      // ),
+      // Icon(
+      //   Icons.settings,
+      //   size: 15,
+      //   color: FlutterFlowTheme.of(context).primaryText,
+      // ),
+      // Icon(
+      //   Icons.feedback_sharp,
+      //   size: 15,
+      //   color: FlutterFlowTheme.of(context).primaryText,
+      // ),
     ];
 
     final menu = Container(
@@ -170,7 +170,30 @@ class MenuWidgetState extends State<MenuWidget> {
 //
 //
 //
-//
+
+// Navigator(
+//                     key: navigatorKey,
+//                     initialRoute: '/',
+//                     onGenerateRoute: (settings) {
+//                       return PageRouteBuilder(
+//                         opaque: false,
+//                         pageBuilder: (BuildContext context,
+//                             Animation<double> animation,
+//                             Animation<double> secondaryAnimation) {
+//                           return Scaffold(
+//                             body: SafeArea(
+//                                 child:
+//                                     _getBodyWidget('default')),
+//                             drawer: isMenuFixed(context) ? null : MenuWidget(),
+//                           );
+//                         },
+//                         fullscreenDialog: true,
+//                         transitionDuration: const Duration(milliseconds: 0),
+//                         settings: settings,
+//                       );
+//                     },
+//                   ),
+
 // ______________________ ProSpector Logo [LIGHTMODE] __________________
                         // TODO MERGE LGIHTMODE AND DARKMODE ICONS
                         if (Theme.of(context).brightness == Brightness.light)
@@ -183,36 +206,51 @@ class MenuWidgetState extends State<MenuWidget> {
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height * 0.1,
                               decoration: BoxDecoration(),
-                              child: InkWell(
-                                //
-                                //
-                                onTap: () async {
-                                  Navigator.pop(context);
-                                  // TODO write if statement:
-                                  // todo if current page == homepage, then do nothing
-
-                                  // setState(() {
-                                  //   setBrightness(InterfaceBrightness.light);
-                                  // });
-
-                                  // await Navigator.of(context).pushReplacement(
-                                  //   PageTransition(
-                                  //     type: PageTransitionType.fade,
-                                  //     duration: Duration(milliseconds: 0),
-                                  //     reverseDuration: Duration(milliseconds: 0),
-                                  //     child: HomePageWidget(),
-                                  //   ),
-                                  // );
-                                },
-                                //
-                                //
-                                child: Image.asset(
-                                  'assets/images/prospector_title_light_[lightmode].png',
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 300,
-                                  fit: BoxFit.contain,
-                                ),
+                              child: Image.asset(
+                                'assets/images/logo_text_small[lightmode].png',
+                                width: MediaQuery.of(context).size.width,
+                                height: 300,
+                                fit: BoxFit.contain,
                               ),
+                              // InkWell(
+                              //   //
+                              //   //
+                              //   // onTap: () async {
+                              //   //   // ignore: unrelated_type_equality_checks
+                              //   //   if (ModalRoute.of(context)?.settings.name ==
+                              //   //       MainPageWidget) {
+                              //   //     await Navigator.of(context).pushReplacement(
+                              //   //       PageTransition(
+                              //   //         type: PageTransitionType.fade,
+                              //   //         duration: Duration(milliseconds: 0),
+                              //   //         reverseDuration:
+                              //   //             Duration(milliseconds: 0),
+                              //   //         child: HomeView(),
+                              //   //         // child: Scaffold(
+                              //   //         //   body: SafeArea(
+                              //   //         //       child:
+                              //   //         //           _getBodyWidget('HomeView')),
+
+                              //   //         //   // drawer: MenuWidget()
+                              //   //         //   drawer: isMenuFixed(context)
+                              //   //         //       ? null
+                              //   //         //       : MenuWidget(),
+                              //   //         // )
+
+                              //   //         // HomeView(),
+                              //   //       ),
+                              //   //     );
+                              //   //   }
+                              //   // },
+                              //   //
+                              // //   //
+                              //   child: Image.asset(
+                              //     'assets/images/logo_text_small[lightmode].png',
+                              //     width: MediaQuery.of(context).size.width,
+                              //     height: 300,
+                              //     fit: BoxFit.contain,
+                              //   ),
+                              // ),
                             ),
                           ),
 // ____________________________________________________________________
@@ -232,33 +270,53 @@ class MenuWidgetState extends State<MenuWidget> {
                               child: Visibility(
                                 visible: Theme.of(context).brightness ==
                                     Brightness.dark,
-                                child: InkWell(
-                                  //
-                                  //
-                                  onTap: () async {
-                                    Navigator.pop(context);
-                                    // setState(() {
-                                    //   setBrightness(InterfaceBrightness.dark);
-                                    // });
-
-                                    // await Navigator.of(context).pushReplacement(
-                                    //   PageTransition(
-                                    //     type: PageTransitionType.fade,
-                                    //     duration: Duration(milliseconds: 0),
-                                    //     reverseDuration: Duration(milliseconds: 0),
-                                    //     child: HomePageWidget(),
-                                    //   ),
-                                    // );
-                                  },
-                                  //
-                                  //
-                                  child: Image.asset(
-                                    'assets/images/prospector_title_light_[darkmode].png',
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 300,
-                                    fit: BoxFit.contain,
-                                  ),
+                                child: Image.asset(
+                                  'assets/images/logo_text_small[darkmode].png',
+                                  // 'assets/images/prospector_title_light_[darkmode].png',
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 300,
+                                  fit: BoxFit.contain,
                                 ),
+
+                                // child: InkWell(
+                                //   //
+                                //   //
+                                //   onTap: () async {
+                                //     if (ModalRoute.of(context)?.settings.name !=
+                                //         HomeView) {
+                                //       await Navigator.of(context)
+                                //           .pushReplacement(
+                                //         PageTransition(
+                                //             type: PageTransitionType.fade,
+                                //             duration: Duration(milliseconds: 0),
+                                //             reverseDuration:
+                                //                 Duration(milliseconds: 0),
+                                //             child: HomeView()
+                                //             // Scaffold(
+                                //             //   body: SafeArea(
+                                //             //       child: _getBodyWidget(
+                                //             //           'HomeView')),
+
+                                //             //   // drawer: MenuWidget()
+                                //             //   drawer: isMenuFixed(context).MenuWidget()
+                                //             //       ? null
+                                //             //       : MenuWidget(),
+                                //             // )
+                                //             // HomeView(),
+                                //             ),
+                                //       );
+                                //     }
+                                //   },
+                                //   //
+                                //   //
+                                //   child: Image.asset(
+                                //     'assets/images/logo_text_small[darkmode].png',
+                                //     // 'assets/images/prospector_title_light_[darkmode].png',
+                                //     width: MediaQuery.of(context).size.width,
+                                //     height: 300,
+                                //     fit: BoxFit.contain,
+                                //   ),
+                                // ),
                               ),
                             ),
                           ),
@@ -294,27 +352,160 @@ class MenuWidgetState extends State<MenuWidget> {
                                     navigatorKey.currentState
                                         ?.pushNamedAndRemoveUntil(
                                             pair[1].toString(), (r) => false);
+
+                                    // ?.pushNamed(pair[1].toString(),
+                                    //     arguments: (r) => false);
                                   },
-                                )
+                                ),
+                              ListTile(
+                                horizontalTitleGap: 0,
+                                minVerticalPadding: 0,
+                                dense: true,
+                                leading: Icon(
+                                  Icons.playlist_add_sharp,
+                                  size: 15,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                                title: Text(
+                                  'Renew List',
+                                  style: FlutterFlowTheme.of(context)
+                                      .subtitle1
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .subtitle1Family,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(PageRouteBuilder(
+                                      opaque: false,
+                                      pageBuilder:
+                                          (BuildContext context, _, __) =>
+                                              RenewListWidget()));
+                                },
+                              ),
+                              ListTile(
+                                horizontalTitleGap: 0,
+                                minVerticalPadding: 0,
+                                dense: true,
+                                leading: Icon(
+                                  Icons.sticky_note_2_sharp,
+                                  size: 15,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                                title: Text(
+                                  'Notes',
+                                  style: FlutterFlowTheme.of(context)
+                                      .subtitle1
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .subtitle1Family,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                ),
+                                onTap: () {
+                                  navigatorKey.currentState
+                                      ?.pushNamedAndRemoveUntil(
+                                          'Notes'.toString(), (r) => false);
+                                },
+                              ),
+                              ListTile(
+                                horizontalTitleGap: 0,
+                                minVerticalPadding: 0,
+                                dense: true,
+                                leading: Icon(
+                                  Icons.info_sharp,
+                                  size: 15,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                                title: Text(
+                                  'About',
+                                  style: FlutterFlowTheme.of(context)
+                                      .subtitle1
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .subtitle1Family,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(PageRouteBuilder(
+                                      opaque: false,
+                                      pageBuilder:
+                                          (BuildContext context, _, __) =>
+                                              AboutWidget()));
+                                },
+                              ),
+                              ListTile(
+                                horizontalTitleGap: 0,
+                                minVerticalPadding: 0,
+                                dense: true,
+                                leading: Icon(
+                                  Icons.settings,
+                                  size: 15,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                                title: Text(
+                                  'settings',
+                                  style: FlutterFlowTheme.of(context)
+                                      .subtitle1
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .subtitle1Family,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(PageRouteBuilder(
+                                      opaque: false,
+                                      pageBuilder:
+                                          (BuildContext context, _, __) =>
+                                              SettingsWidget()));
+                                },
+                              ),
+                              ListTile(
+                                horizontalTitleGap: 0,
+                                minVerticalPadding: 0,
+                                dense: true,
+                                leading: Icon(
+                                  Icons.feedback_sharp,
+                                  size: 15,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                                title: Text(
+                                  'Feedback',
+                                  style: FlutterFlowTheme.of(context)
+                                      .subtitle1
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .subtitle1Family,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(PageRouteBuilder(
+                                      opaque: false,
+                                      pageBuilder:
+                                          (BuildContext context, _, __) =>
+                                              FeedbackWidget()));
+                                },
+                              ),
                             ],
                           ),
                         ),
                       ],
                     ),
                     Spacer(),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: Container(
-                    //     child: ElevatedButton(
-                    //         onPressed: () => Navigator.of(context).push(
-                    //             PageRouteBuilder(
-                    //                 opaque: false,
-                    //                 pageBuilder:
-                    //                     (BuildContext context, _, __) =>
-                    //                         AboutWidget())),
-                    //         child: Text("try me bitch")),
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Divider(
@@ -510,16 +701,18 @@ _getBodyWidget(name) {
       return InstructionsWidget();
     case 'View Call List':
       return CallListWidget();
-    case 'Renew List':
-      return RenewListWidget();
+    // case 'Renew List':
+    //   return RenewListWidget();
     case 'Notes':
       return NotesWidget();
-    case 'About':
-      return AboutWidget();
-    case 'Settings':
-      return SettingsWidget();
-    case 'Feedback':
-      return FeedbackWidget();
+    // case 'About':
+    //   return AboutWidget();
+    // case 'Settings':
+    //   return SettingsWidget();
+    // case 'Feedback':
+    //   return FeedbackWidget();
+    case 'HomeView':
+      return HomeView();
     default:
       return HomeView();
   }

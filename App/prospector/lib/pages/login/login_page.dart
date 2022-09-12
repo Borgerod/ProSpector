@@ -1,11 +1,15 @@
 // import 'package:prospector/pages/home_page/main_page.dart';
 
+import 'dart:convert';
+
 import 'package:prospector/backend/api_requests/api_calls.dart';
+import 'package:prospector/components/menu_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/pages/main_page/main_page.dart';
 // import 'package:prospector/home_page/home_page_widget.dart';
 import 'package:prospector/popups/login_error_message/login_error_message_widget.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:prospector/pages/signup/signup_page.dart';
 // import 'dart:ui';
@@ -421,6 +425,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   FFAppState().password =
                                                       passwordController!.text);
                                             }
+
+                                            Map data = {
+                                              'username': emailController!.text,
+                                              'password':
+                                                  passwordController!.text,
+                                            };
+                                            print(data);
+                                            var body = json.encode(data);
                                             loginResponse =
                                                 await LoginCallCall.call(
                                               emailAddress:
@@ -428,8 +440,21 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               password:
                                                   passwordController!.text,
                                             );
-                                            if (mainButtonLoginCallResponse
-                                                .succeeded) {
+                                            var response = await http.post(
+                                                Uri.parse(
+                                                    'http://127.0.0.1:8000/login/token/'),
+                                                headers: {
+                                                  // "Content-Type":
+                                                  //     "application/x-www-form-urlencoded",
+                                                  'accept': 'application/json',
+                                                },
+                                                body: body);
+                                            print(response);
+                                            print(response.statusCode);
+
+                                            // if (mainButtonLoginCallResponse
+                                            //     .succeeded) {
+                                            if (response.statusCode == 307) {
                                               await Navigator
                                                   .pushAndRemoveUntil(
                                                 context,
@@ -439,7 +464,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       Duration(milliseconds: 0),
                                                   reverseDuration:
                                                       Duration(milliseconds: 0),
-                                                  child: MenuWidget(),
+
+                                                  child: new Scaffold(
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      body: MenuWidget()),
+
                                                   // child: MainPageWidget(),
                                                 ),
                                                 (r) => false,
