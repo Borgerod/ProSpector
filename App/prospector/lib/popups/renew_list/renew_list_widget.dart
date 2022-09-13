@@ -3,6 +3,7 @@ import 'package:prospector/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
+import 'package:http/http.dart' as http;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -283,6 +284,14 @@ class _RenewListWidgetState extends State<RenewListWidget> {
                                       child: InkWell(
                                         onTap: () async {
                                           // todo IMPLEMENT API CALL
+
+                                          var response = await http.post(
+                                            Uri.parse(
+                                                'http://127.0.0.1:8000/currentcallList/'),
+                                            headers: {
+                                              'accept': 'application/json',
+                                            },
+                                          );
 
                                           await LoginCallCall.call();
                                           Navigator.pop(context);
