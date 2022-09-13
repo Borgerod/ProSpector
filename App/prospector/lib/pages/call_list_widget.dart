@@ -186,10 +186,10 @@ class _JsonDataGridState extends State<JsonDataGrid> {
 
   Future generateProductList() async {
     var response = await http.get(Uri.parse(
-        // 'http://127.0.0.1:8000/callList?skip=0&limit=40')); //TODO gjør om på denne api linken
-        'http://127.0.0.1:8000/currentcallList'), headers: {
-      'accept': 'application/json',
-    });
+        'http://127.0.0.1:8000/callList?skip=0&limit=40')); //TODO gjør om på denne api linken
+    //     'http://127.0.0.1:8000/currentcallList'), headers: {
+    //   'accept': 'application/json',
+    // });
 
     var list = json
         .decode(utf8.decode(response.bodyBytes))

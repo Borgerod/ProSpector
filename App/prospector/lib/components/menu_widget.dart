@@ -1,11 +1,11 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prospector/pages/home/home_page.dart';
+import 'package:prospector/pages/home_page.dart';
 import 'package:prospector/pages/main_page/main_page.dart';
 import 'package:prospector/popups/about/about_widget.dart';
-import 'package:prospector/pages/call_list/call_list_widget.dart';
+import 'package:prospector/pages/call_list_widget.dart';
 import 'package:prospector/popups/feedback/feedback_widget.dart';
-import 'package:prospector/pages/instructions/instructions_page.dart';
-import 'package:prospector/pages/notes/notes_page.dart';
+import 'package:prospector/pages/instructions_page.dart';
+import 'package:prospector/pages/notes_page.dart';
 import 'package:prospector/popups/renew_list/renew_list_widget.dart';
 import 'package:prospector/popups/settings/settings_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';

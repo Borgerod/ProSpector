@@ -1,7 +1,7 @@
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
-import 'package:prospector/pages/login/login_page.dart';
+import 'package:prospector/pages/login_page.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 

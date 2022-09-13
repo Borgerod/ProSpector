@@ -6,12 +6,12 @@ import 'package:prospector/backend/api_requests/api_calls.dart';
 import 'package:prospector/components/menu_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/pages/main_page/main_page.dart';
+// import 'package:prospector/pages/main_page/main_page.dart';
 // import 'package:prospector/home_page/home_page_widget.dart';
 import 'package:prospector/popups/login_error_message/login_error_message_widget.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:prospector/pages/signup/signup_page.dart';
+import 'package:prospector/pages/signup_page.dart';
 // import 'dart:ui';
 import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
