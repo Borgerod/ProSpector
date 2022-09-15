@@ -4,7 +4,7 @@ from apis.version1.route_login import get_current_user_from_token
 # from db.db.repository.call_list import getOverview
 # from db.db.repository.call_list import getRowsBetween
 
-from db.repository.call_list import getOverview, getCurrentCallList, getRowsBetween, updateCallListStatus
+from db.repository.call_list import getOverview, getCurrentCallList, getRowsBetween, updateCallListStatus, renewList
 # from db.repository.call_list import getRowsBetween
 
 # from db.session import SessionLocal, get_db
@@ -69,3 +69,8 @@ async def update_item(org_num: int, db: Session = Depends(get_db)):
     return updateCallListStatus(db, org_num)
 
 
+@app.get("/RenewList")
+async def renew_list(token: str = Depends(OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")), db: Session = Depends(get_db)):
+    user = get_current_user_from_token(token, db)
+
+    return renewList(db, user)

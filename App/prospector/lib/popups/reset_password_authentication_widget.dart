@@ -42,6 +42,11 @@ class _ResetPasswordAuthenticationWidgetState
                     sigmaY: 10,
                   ),
                   child: InkWell(
+                    hoverColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    splashFactory: NoSplash.splashFactory,
                     onTap: () async {
                       Navigator.pop(context);
                     },

@@ -4,7 +4,6 @@ import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/components/home_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:prospector/globals.dart' as globals;
-import 'package:prospector/globals.dart';
 
 class NotesWidget extends StatefulWidget {
   const NotesWidget({Key? key}) : super(key: key);

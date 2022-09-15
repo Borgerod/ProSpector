@@ -415,6 +415,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   FFAppState().password =
                                                       passwordController!.text);
                                             }
+                                            globals.username =
+                                                emailController!.text;
+                                            globals.password =
+                                                passwordController!.text;
 
                                             Map data = {
                                               'username': emailController!.text,

@@ -10,6 +10,7 @@ class CallList(Base):
 	eier_bekreftet = Column(Boolean(), index=True)
 	komplett_profil = Column(Boolean(), index=True)
 	ringe_status = Column(Boolean(), index=True)
+	liste_id = Column(Integer, index=True)
 
 class CallListOverview(Base):
 	__tablename__ = "call_list_overview_mediavest"

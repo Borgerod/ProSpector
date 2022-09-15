@@ -191,84 +191,37 @@ class _JsonDataGridState extends State<JsonDataGrid> {
   late _JsonDataGridSource jsonDataGridSource;
   List<_Product> productlist = [];
   String accsess_token = globals.accsess_token;
-  String token_type = globals.token_type;
-  Uri url = Uri.parse('http://127.0.0.1:8000/currentcallList') as Uri;
-  // Uri url = Uri.parse('http://127.0.0.1:8000/currentcallList') as Uri;
-// http://127.0.0.1:8000/currentcallList
-// http://127.0.0.1:8000/ShowUser
-// http://127.0.0.1:8000/callList?skip=0&limit=40
-
   Future generateProductList() async {
-    final token = globals.accsess_token;
-    final headers = {
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Bearer $token',
-    };
-    Uri url = Uri.parse('http://127.0.0.1:8000/currentcallList');
-    var response = await http.get(url, headers: headers);
-    // Map<String, String>? data = {
-    //   "Accept": "application/json",
-    //   "Authorization": "Bearer $accsess_token",
-    // };
-    // // var body = json.encode(data);
-    // var response = await http.get(url, headers: {
-    //   'accept': 'application/json',
-    //   'Authorization': 'Bearer $accsess_token',
-    // });
-// 'Authorization': 'Bearer $accsess_token',
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGVrc2FuZGVyQGhvdG1haWwuY29tIiwiZXhwIjoxNjYzMTUyNTExfQ.ZowbVeYZ9yCaRL3oK5MeC-3-c3o5dOiQNMaj9H7G_H0
-    // var response = await http
-    //     .get(Uri.parse('http://127.0.0.1:8000/currentcallList'), headers: {
-    //   'accept':
-    //       'application/json, Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGVrc2FuZGVyQGhvdG1haWwuY29tIiwiZXhwIjoxNjYzMTUyNTExfQ.ZowbVeYZ9yCaRL3oK5MeC-3-c3o5dOiQNMaj9H7G_H0,'
-    // });
-    print(response.headers);
-    print(response.body);
-    print(response.statusCode);
+    Uri _url = Uri.parse('http://127.0.0.1:8000/currentcallList');
+    // Uri _url = Uri.parse('http://127.0.0.1:8000/callList?skip=672&limit=40');
 
-    // var call = GetCurrentCallListCall.call();
-
-    // var response = await http.get(Uri.parse(
-    //     'http://127.0.0.1:8000/currentcallList'), headers: {
-    //   'accept': 'application/json',
-    //   // 'Authorization': '$bearer',
-    // });
-
-    // print(call);
-
-    // var list = json
-    //     .decode(utf8.decode(response.bodyBytes))
-    //     .cast<Map<String, dynamic>>();
-
-    // //! Exception has occurred.
-    // //!   NoSuchMethodError (NoSuchMethodError: Class '_InternalLinkedHashMap<String, dynamic>' has no instance method 'cast' with matching arguments.
-    // //!   Receiver: _LinkedHashMap len:1
-    // //!   Tried calling: cast<Map<String, dynamic>>()
-    // //!   Found: cast<Y0, Y1>() => Map<Y0, Y1>)
-
-    // productlist =
-    //     await list.map<_Product>((json) => _Product.fromJson(json)).toList();
-    // jsonDataGridSource = _JsonDataGridSource(productlist);
-    // return productlist;
-    // // return response;
+    var response = await http
+        .get(_url, headers: {'Cookie': 'access_token=Bearer $accsess_token'});
+    var list = json
+        .decode(utf8.decode(response.bodyBytes))
+        .cast<Map<String, dynamic>>();
+    productlist =
+        await list.map<_Product>((json) => _Product.fromJson(json)).toList();
+    jsonDataGridSource = _JsonDataGridSource(productlist);
+    return productlist;
   }
 
-//* BACKUP BACKUP BACKUP
-  // Future generateProductList() async {
-  //   var response = await http.get(Uri.parse(
-  //       // 'http://127.0.0.1:8000/callList?skip=0&limit=40')); //TODO gjør om på denne api linken
-  //       'http://127.0.0.1:8000/currentcallList'), headers: {
-  //     'accept': 'application/json',
-  //   });
+// //* BACKUP BACKUP BACKUP
+//   Future generateProductList() async {
+//     var response = await http.get(Uri.parse(
+//         // 'http://127.0.0.1:8000/callList?skip=0&limit=40')); //TODO gjør om på denne api linken
+//         'http://127.0.0.1:8000/currentcallList'), headers: {
+//       'accept': 'application/json',
+//     });
 
-  //   var list = json
-  //       .decode(utf8.decode(response.bodyBytes))
-  //       .cast<Map<String, dynamic>>();
-  //   productlist =
-  //       await list.map<_Product>((json) => _Product.fromJson(json)).toList();
-  //   jsonDataGridSource = _JsonDataGridSource(productlist);
-  //   return productlist;
-  // }
+  // var list = json
+  //     .decode(utf8.decode(response.bodyBytes))
+  //     .cast<Map<String, dynamic>>();
+  // productlist =
+  //     await list.map<_Product>((json) => _Product.fromJson(json)).toList();
+  // jsonDataGridSource = _JsonDataGridSource(productlist);
+  // return productlist;
+//   }
 
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
@@ -390,7 +343,8 @@ class _Product {
         googleProfil: json['google_profil'],
         eierBekreftet: json['eier_bekreftet'],
         komplettProfil: json['komplett_profil'],
-        ringeStatus: json['ringe_status']);
+        ringeStatus: json['ringe_status'],
+        liste_id: json['liste_id']);
   }
   _Product({
     this.orgNum,
@@ -399,6 +353,7 @@ class _Product {
     this.eierBekreftet,
     this.komplettProfil,
     this.ringeStatus,
+    this.liste_id,
   });
 
   int? orgNum;
@@ -407,6 +362,7 @@ class _Product {
   bool? eierBekreftet;
   bool? komplettProfil;
   bool? ringeStatus;
+  int? liste_id;
 }
 
 class _JsonDataGridSource extends DataGridSource {
@@ -479,7 +435,7 @@ class _JsonDataGridSource extends DataGridSource {
             value: row.getCells()[5].value,
             onChanged: (value) {
               http.put(Uri.parse(
-                  "http://127.0.0.1:8000/callList/ringe_tatus?org_num=${row.getCells()[0].value}"));
+                  "http://127.0.0.1:8000/callList/ringe_status?org_num=${row.getCells()[0].value}"));
               final index = dataGridRows.indexOf(row);
               productlist[index].ringeStatus = value!;
               row.getCells()[5] =
@@ -522,6 +478,21 @@ class SwitchWidgetState extends State<SwitchWidget> {
       setState(() {
         saveSwitchState(value);
         switchControl = true;
+
+// //
+// //
+// //
+// //
+//         Future callStatusPutRequest(org_num) async {
+//           Uri _url = Uri.parse(
+//               'http://127.0.0.1:8000/callList/ringe_status?org_num=$org_num');
+//           var response =
+//               await http.put(_url, headers: {'accept': 'application/json'});
+//         }
+
+// //
+// //
+// //
       });
     } else {
       setState(() {

@@ -49,7 +49,7 @@ class MenuWidgetState extends State<MenuWidget> {
   bool toggle = false;
   WindowEffect effect = WindowEffect.aero;
   Color color = Platform.isWindows ? Color(0xCC222222) : Colors.transparent;
-  static get storage => FlutterSecureStorage();
+  // static get storage => FlutterSecureStorage();
   InterfaceBrightness brightness =
       Platform.isMacOS ? InterfaceBrightness.auto : InterfaceBrightness.dark;
 

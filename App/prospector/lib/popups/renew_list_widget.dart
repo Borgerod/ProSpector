@@ -6,6 +6,11 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
+import 'package:prospector/globals.dart';
+import 'package:prospector/popups/login_error_message_widget.dart';
+import 'package:prospector/popups/renewal_approved.dart';
+import 'package:prospector/popups/renewal_denied.dart';
+
 // class RenewListWidget extends StatefulWidget {
 //   const RenewListWidget({Key? key}) : super(key: key);
 
@@ -280,17 +285,39 @@ class _RenewListWidgetState extends State<RenewListWidget> {
                                           10, 10, 0, 10),
                                       child: InkWell(
                                         onTap: () async {
-                                          // todo IMPLEMENT API CALL
+                                          Uri _url = Uri.parse(
+                                              'http://127.0.0.1:8000/RenewList');
+                                          var response = await http.get(_url,
+                                              headers: {
+                                                'Cookie':
+                                                    'access_token=Bearer $accsess_token'
+                                              });
+                                          if (response.body == 'false') {
+                                            await Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                type: PageTransitionType.fade,
+                                                duration:
+                                                    Duration(milliseconds: 0),
+                                                reverseDuration:
+                                                    Duration(milliseconds: 0),
+                                                child: RenewalDeniedWidget(),
+                                              ),
+                                            );
+                                          } else {
+                                            await Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                type: PageTransitionType.fade,
+                                                duration:
+                                                    Duration(milliseconds: 0),
+                                                reverseDuration:
+                                                    Duration(milliseconds: 0),
+                                                child: RenewalApprovedWidget(),
+                                              ),
+                                            );
+                                          }
 
-                                          var response = await http.post(
-                                            Uri.parse(
-                                                'http://127.0.0.1:8000/currentcallList/'),
-                                            headers: {
-                                              'accept': 'application/json',
-                                            },
-                                          );
-
-                                          await LoginCallCall.call();
                                           Navigator.pop(context);
                                         },
                                         child: Material(

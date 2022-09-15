@@ -1,17 +1,15 @@
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
-import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
-class LoginErrorMessageWidget extends StatefulWidget {
-  const LoginErrorMessageWidget({Key? key}) : super(key: key);
+class RenewalApprovedWidget extends StatefulWidget {
+  const RenewalApprovedWidget({Key? key}) : super(key: key);
 
   @override
-  _LoginErrorMessageWidgetState createState() =>
-      _LoginErrorMessageWidgetState();
+  _RenewalApprovedWidgetState createState() => _RenewalApprovedWidgetState();
 }
 
-class _LoginErrorMessageWidgetState extends State<LoginErrorMessageWidget> {
+class _RenewalApprovedWidgetState extends State<RenewalApprovedWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -63,7 +61,7 @@ class _LoginErrorMessageWidgetState extends State<LoginErrorMessageWidget> {
                 elevation: 10,
                 child: Container(
                   width: 500,
-                  height: 200,
+                  height: 160,
                   // width: MediaQuery.of(context).size.width * 0.25,
                   // height: MediaQuery.of(context).size.height * 0.15,
                   decoration: BoxDecoration(
@@ -75,7 +73,7 @@ class _LoginErrorMessageWidgetState extends State<LoginErrorMessageWidget> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -88,7 +86,7 @@ class _LoginErrorMessageWidgetState extends State<LoginErrorMessageWidget> {
                               child: Icon(
                                 Icons.close,
                                 color: FlutterFlowTheme.of(context).primaryText,
-                                size: 24,
+                                size: 16,
                               ),
                             ),
                           ],
@@ -103,8 +101,9 @@ class _LoginErrorMessageWidgetState extends State<LoginErrorMessageWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Icon(
-                                Icons.cancel_outlined,
-                                color: FlutterFlowTheme.of(context).error,
+                                Icons.check_circle_outline_sharp,
+                                color:
+                                    FlutterFlowTheme.of(context).primaryColor,
                                 size: 60,
                               ),
                             ],
@@ -122,9 +121,7 @@ class _LoginErrorMessageWidgetState extends State<LoginErrorMessageWidget> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                               child: Text(
-                                FFLocalizations.of(context).getText(
-                                  'ugfxvysw' /* ERROR: Your email  or password... */,
-                                ),
+                                'Approved, Renewing List',
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
                                     .subtitle1
