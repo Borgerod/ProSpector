@@ -23,10 +23,10 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
         super().__init__(flows = flows, scheme_name = scheme_name, auto_error=auto_error)
 
     async def __call__(self, request: Request) -> Optional[str]:
-        # authorization: str = request.cookies.get(
-        #     "access_token"
+        authorization: str = request.cookies.get(
+            "access_token"
 
-        authorization: str = request.get(
+        # authorization: str = request.get(
             "access_token"    
         )  # changed to accept access token from httpOnly Cookie
 
