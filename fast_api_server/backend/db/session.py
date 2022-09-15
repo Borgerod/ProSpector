@@ -10,14 +10,14 @@ if settings.USE_SQLITE_DB == "True":
 	SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://backend.db"
 	
 	engine = create_engine(
-		SQLALCHEMY_DATABASE_URL, connect_args = {"check_same_thread": False}
+		SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
 	)
 else:
 	SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
 	engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 
-SessionLocal = sessionmaker(autocommit = False, autoflush = False, bind = engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def get_db() -> Generator:
@@ -26,12 +26,3 @@ def get_db() -> Generator:
         yield db
     finally:
         db.close()
-
-
-
-
-
-
-
-
-
