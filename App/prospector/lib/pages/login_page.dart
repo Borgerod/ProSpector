@@ -1,22 +1,14 @@
-// import 'package:prospector/pages/home_page/main_page.dart';
-
-import 'dart:convert';
-
-import 'package:prospector/backend/api_requests/api_calls.dart';
-import 'package:prospector/components/menu_widget.dart';
+import 'package:prospector/popups/login_error_message_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
+import 'package:prospector/backend/api_requests/api_calls.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-// import 'package:prospector/pages/main_page/main_page.dart';
-// import 'package:prospector/home_page/home_page_widget.dart';
-import 'package:prospector/popups/login_error_message/login_error_message_widget.dart';
-import 'package:http/http.dart' as http;
-
+import 'package:prospector/components/menu_widget.dart';
 import 'package:prospector/pages/signup_page.dart';
-// import 'dart:ui';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:flutter_acrylic/flutter_acrylic.dart';
-// import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'dart:convert';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:prospector/globals.dart' as globals;
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -32,7 +24,6 @@ class _LoginWidgetState extends State<LoginWidget> {
   TextEditingController? passwordController;
   late bool passwordVisibility;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   void initState() {
     super.initState();
@@ -48,7 +39,6 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     final bodyWidth = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right;
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: GestureDetector(
@@ -431,8 +421,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               'password':
                                                   passwordController!.text,
                                             };
-                                            print(data);
-                                            var body = json.encode(data);
+
                                             loginResponse =
                                                 await LoginCallCall.call(
                                               emailAddress:
@@ -440,21 +429,51 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               password:
                                                   passwordController!.text,
                                             );
-                                            var response = await http.post(
-                                                Uri.parse(
-                                                    'http://127.0.0.1:8000/login/token/'),
-                                                headers: {
-                                                  // "Content-Type":
-                                                  //     "application/x-www-form-urlencoded",
-                                                  'accept': 'application/json',
-                                                },
-                                                body: body);
-                                            print(response);
-                                            print(response.statusCode);
+                                            String username =
+                                                emailController!.text;
+                                            String password =
+                                                passwordController!.text;
+                                            var body = json.encode(data);
 
-                                            // if (mainButtonLoginCallResponse
-                                            //     .succeeded) {
-                                            if (response.statusCode == 307) {
+                                            var url =
+                                                'http://127.0.0.1:8000/login/token';
+                                            var request = http.MultipartRequest(
+                                                'POST', Uri.parse(url));
+                                            request.fields['username'] =
+                                                username;
+                                            request.fields['password'] =
+                                                password;
+                                            var response = await request.send();
+                                            final respStr = await response
+                                                .stream
+                                                .bytesToString();
+//
+//
+//
+//
+//
+
+                                            Map token_map =
+                                                json.decode(respStr);
+                                            if (response.statusCode == 200) {
+                                              // await _tokenStorage.write(
+                                              //     key: 'access_token',
+                                              //     value: token_map['access_token']);
+
+                                              // await _tokenStorage.write(
+                                              //     key: 'token_type',
+                                              //     value:
+                                              //         token_map['token_type']);
+
+                                              globals.accsess_token =
+                                                  token_map['access_token'];
+                                              globals.token_type =
+                                                  token_map['token_type'];
+//
+//
+//
+//
+//
                                               await Navigator
                                                   .pushAndRemoveUntil(
                                                 context,

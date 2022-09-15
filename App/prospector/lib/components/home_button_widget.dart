@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/pages/home_page.dart';
+import 'package:flutter/material.dart';
 
 class HomeButton extends StatelessWidget {
   @override

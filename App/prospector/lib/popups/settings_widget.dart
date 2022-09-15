@@ -2,7 +2,7 @@ import 'package:prospector/flutter_flow/flutter_flow_language_selector.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
-import 'package:prospector/popups/reset_password/reset_password_widget.dart';
+import 'package:prospector/popups/reset_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 

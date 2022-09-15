@@ -1,9 +1,7 @@
 // ignore_for_file: overridden_fields, annotate_overrides
-
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
 
 const kThemeModeKey = '__theme_mode__';
 SharedPreferences? _prefs;

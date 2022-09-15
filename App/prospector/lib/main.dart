@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'dart:io';
-import 'components/menu_widget.dart';
-import 'flutter_flow/flutter_flow_theme.dart';
-import 'flutter_flow/flutter_flow_util.dart';
-import 'flutter_flow/internationalization.dart';
-import 'index.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'flutter_flow/internationalization.dart';
+import 'flutter_flow/flutter_flow_theme.dart';
+import 'flutter_flow/flutter_flow_util.dart';
+import 'package:flutter/material.dart';
+import 'index.dart';
+import 'dart:io';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

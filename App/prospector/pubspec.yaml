@@ -71,6 +71,7 @@ dependencies:
   flutter_acrylic: ^1.0.0+2
   bitsdojo_window: ^0.1.4
   flutter_neumorphic: ^3.2.0
+  flutter_secure_storage: ^6.0.0
 
 dev_dependencies:
   flutter_launcher_icons: 0.9.3

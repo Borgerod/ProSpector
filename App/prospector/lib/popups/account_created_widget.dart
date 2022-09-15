@@ -18,16 +18,6 @@ class _AccountCreatedWidgetState extends State<AccountCreatedWidget> {
   @override
   void initState() {
     super.initState();
-    // On page load action.
-    // SchedulerBinding.instance.addPostFrameCallback((_) async {
-    //   await Navigator.pushAndRemoveUntil(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => LoginWidget(),
-    //     ),
-    //     (r) => false,
-    //   );
-    // });
   }
 
   @override

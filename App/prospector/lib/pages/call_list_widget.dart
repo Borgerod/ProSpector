@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:prospector/backend/api_requests/api_calls.dart';
 import 'package:prospector/components/plain_background_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
@@ -6,7 +9,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+// import 'package:http/HttpHeaders.contentTypeHeader.dart';
+import 'package:http/http.dart';
+
 import 'dart:convert';
+import 'package:prospector/globals.dart' as globals;
 
 class CallListWidget extends StatefulWidget {
   const CallListWidget({Key? key}) : super(key: key);
@@ -183,22 +190,85 @@ class JsonDataGrid extends StatefulWidget {
 class _JsonDataGridState extends State<JsonDataGrid> {
   late _JsonDataGridSource jsonDataGridSource;
   List<_Product> productlist = [];
+  String accsess_token = globals.accsess_token;
+  String token_type = globals.token_type;
+  Uri url = Uri.parse('http://127.0.0.1:8000/currentcallList') as Uri;
+  // Uri url = Uri.parse('http://127.0.0.1:8000/currentcallList') as Uri;
+// http://127.0.0.1:8000/currentcallList
+// http://127.0.0.1:8000/ShowUser
+// http://127.0.0.1:8000/callList?skip=0&limit=40
 
   Future generateProductList() async {
-    var response = await http.get(Uri.parse(
-        'http://127.0.0.1:8000/callList?skip=0&limit=40')); //TODO gjør om på denne api linken
+    final token = globals.accsess_token;
+    final headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Bearer $token',
+    };
+    Uri url = Uri.parse('http://127.0.0.1:8000/currentcallList');
+    var response = await http.get(url, headers: headers);
+    // Map<String, String>? data = {
+    //   "Accept": "application/json",
+    //   "Authorization": "Bearer $accsess_token",
+    // };
+    // // var body = json.encode(data);
+    // var response = await http.get(url, headers: {
+    //   'accept': 'application/json',
+    //   'Authorization': 'Bearer $accsess_token',
+    // });
+// 'Authorization': 'Bearer $accsess_token',
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGVrc2FuZGVyQGhvdG1haWwuY29tIiwiZXhwIjoxNjYzMTUyNTExfQ.ZowbVeYZ9yCaRL3oK5MeC-3-c3o5dOiQNMaj9H7G_H0
+    // var response = await http
+    //     .get(Uri.parse('http://127.0.0.1:8000/currentcallList'), headers: {
+    //   'accept':
+    //       'application/json, Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGVrc2FuZGVyQGhvdG1haWwuY29tIiwiZXhwIjoxNjYzMTUyNTExfQ.ZowbVeYZ9yCaRL3oK5MeC-3-c3o5dOiQNMaj9H7G_H0,'
+    // });
+    print(response.headers);
+    print(response.body);
+    print(response.statusCode);
+
+    // var call = GetCurrentCallListCall.call();
+
+    // var response = await http.get(Uri.parse(
     //     'http://127.0.0.1:8000/currentcallList'), headers: {
     //   'accept': 'application/json',
+    //   // 'Authorization': '$bearer',
     // });
 
-    var list = json
-        .decode(utf8.decode(response.bodyBytes))
-        .cast<Map<String, dynamic>>();
-    productlist =
-        await list.map<_Product>((json) => _Product.fromJson(json)).toList();
-    jsonDataGridSource = _JsonDataGridSource(productlist);
-    return productlist;
+    // print(call);
+
+    // var list = json
+    //     .decode(utf8.decode(response.bodyBytes))
+    //     .cast<Map<String, dynamic>>();
+
+    // //! Exception has occurred.
+    // //!   NoSuchMethodError (NoSuchMethodError: Class '_InternalLinkedHashMap<String, dynamic>' has no instance method 'cast' with matching arguments.
+    // //!   Receiver: _LinkedHashMap len:1
+    // //!   Tried calling: cast<Map<String, dynamic>>()
+    // //!   Found: cast<Y0, Y1>() => Map<Y0, Y1>)
+
+    // productlist =
+    //     await list.map<_Product>((json) => _Product.fromJson(json)).toList();
+    // jsonDataGridSource = _JsonDataGridSource(productlist);
+    // return productlist;
+    // // return response;
   }
+
+//* BACKUP BACKUP BACKUP
+  // Future generateProductList() async {
+  //   var response = await http.get(Uri.parse(
+  //       // 'http://127.0.0.1:8000/callList?skip=0&limit=40')); //TODO gjør om på denne api linken
+  //       'http://127.0.0.1:8000/currentcallList'), headers: {
+  //     'accept': 'application/json',
+  //   });
+
+  //   var list = json
+  //       .decode(utf8.decode(response.bodyBytes))
+  //       .cast<Map<String, dynamic>>();
+  //   productlist =
+  //       await list.map<_Product>((json) => _Product.fromJson(json)).toList();
+  //   jsonDataGridSource = _JsonDataGridSource(productlist);
+  //   return productlist;
+  // }
 
   List<GridColumn> getColumns() {
     List<GridColumn> columns;

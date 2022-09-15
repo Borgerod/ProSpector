@@ -1,30 +1,20 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prospector/pages/home_page.dart';
-import 'package:prospector/pages/main_page/main_page.dart';
-import 'package:prospector/popups/about/about_widget.dart';
-import 'package:prospector/pages/call_list_widget.dart';
-import 'package:prospector/popups/feedback/feedback_widget.dart';
-import 'package:prospector/pages/instructions_page.dart';
-import 'package:prospector/pages/notes_page.dart';
-import 'package:prospector/popups/renew_list/renew_list_widget.dart';
-import 'package:prospector/popups/settings/settings_widget.dart';
+import 'package:prospector/popups/renew_list_widget.dart';
+import 'package:prospector/popups/settings_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
+import 'package:prospector/popups/feedback_widget.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:prospector/popups/about_widget.dart';
+import 'package:prospector/pages/instructions_page.dart';
+import 'package:prospector/pages/call_list_widget.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'dart:io';
+import 'package:prospector/pages/notes_page.dart';
+import 'package:prospector/pages/home_page.dart';
 import 'package:quiver/iterables.dart';
-
-//! ISSUE DESCRIPTION -- HOME-BUTTON:
-// darkmode switch: fungerer som den skal
-// home button: når du trykker på homebutton så blir acrylic sin mode i menyen resettet tilbake til darkmode,
-//              mens alt det andre beholder moden sin.
-// potensielle grunner:
-//    - det er en state i homepage som overrider staten
-//    - staten blir ikke passet fra hvor den ble endret.
-//    - homebutton pusher en replacement, istedenfor å navigere tilbake til homepage.
-//        selvom det ikke burde ha en effekt på menu, siden menu er (skal være) konstant.
+import 'dart:io';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({Key? key}) : super(key: key);
@@ -59,9 +49,10 @@ class MenuWidgetState extends State<MenuWidget> {
   bool toggle = false;
   WindowEffect effect = WindowEffect.aero;
   Color color = Platform.isWindows ? Color(0xCC222222) : Colors.transparent;
-
+  static get storage => FlutterSecureStorage();
   InterfaceBrightness brightness =
       Platform.isMacOS ? InterfaceBrightness.auto : InterfaceBrightness.dark;
+
   @override
   void initState() {
     super.initState();
@@ -167,34 +158,6 @@ class MenuWidgetState extends State<MenuWidget> {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-//
-//
-//
-
-// Navigator(
-//                     key: navigatorKey,
-//                     initialRoute: '/',
-//                     onGenerateRoute: (settings) {
-//                       return PageRouteBuilder(
-//                         opaque: false,
-//                         pageBuilder: (BuildContext context,
-//                             Animation<double> animation,
-//                             Animation<double> secondaryAnimation) {
-//                           return Scaffold(
-//                             body: SafeArea(
-//                                 child:
-//                                     _getBodyWidget('default')),
-//                             drawer: isMenuFixed(context) ? null : MenuWidget(),
-//                           );
-//                         },
-//                         fullscreenDialog: true,
-//                         transitionDuration: const Duration(milliseconds: 0),
-//                         settings: settings,
-//                       );
-//                     },
-//                   ),
-
-// ______________________ ProSpector Logo [LIGHTMODE] __________________
                         // TODO MERGE LGIHTMODE AND DARKMODE ICONS
                         if (Theme.of(context).brightness == Brightness.light)
                           Padding(
@@ -212,52 +175,8 @@ class MenuWidgetState extends State<MenuWidget> {
                                 height: 300,
                                 fit: BoxFit.contain,
                               ),
-                              // InkWell(
-                              //   //
-                              //   //
-                              //   // onTap: () async {
-                              //   //   // ignore: unrelated_type_equality_checks
-                              //   //   if (ModalRoute.of(context)?.settings.name ==
-                              //   //       MainPageWidget) {
-                              //   //     await Navigator.of(context).pushReplacement(
-                              //   //       PageTransition(
-                              //   //         type: PageTransitionType.fade,
-                              //   //         duration: Duration(milliseconds: 0),
-                              //   //         reverseDuration:
-                              //   //             Duration(milliseconds: 0),
-                              //   //         child: HomeView(),
-                              //   //         // child: Scaffold(
-                              //   //         //   body: SafeArea(
-                              //   //         //       child:
-                              //   //         //           _getBodyWidget('HomeView')),
-
-                              //   //         //   // drawer: MenuWidget()
-                              //   //         //   drawer: isMenuFixed(context)
-                              //   //         //       ? null
-                              //   //         //       : MenuWidget(),
-                              //   //         // )
-
-                              //   //         // HomeView(),
-                              //   //       ),
-                              //   //     );
-                              //   //   }
-                              //   // },
-                              //   //
-                              // //   //
-                              //   child: Image.asset(
-                              //     'assets/images/logo_text_small[lightmode].png',
-                              //     width: MediaQuery.of(context).size.width,
-                              //     height: 300,
-                              //     fit: BoxFit.contain,
-                              //   ),
-                              // ),
                             ),
                           ),
-// ____________________________________________________________________
-//
-//
-//
-// ______________________ ProSpector Logo [DARKMODE] __________________
                         if (Theme.of(context).brightness == Brightness.dark)
                           Padding(
                             // padding: EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
@@ -277,55 +196,9 @@ class MenuWidgetState extends State<MenuWidget> {
                                   height: 300,
                                   fit: BoxFit.contain,
                                 ),
-
-                                // child: InkWell(
-                                //   //
-                                //   //
-                                //   onTap: () async {
-                                //     if (ModalRoute.of(context)?.settings.name !=
-                                //         HomeView) {
-                                //       await Navigator.of(context)
-                                //           .pushReplacement(
-                                //         PageTransition(
-                                //             type: PageTransitionType.fade,
-                                //             duration: Duration(milliseconds: 0),
-                                //             reverseDuration:
-                                //                 Duration(milliseconds: 0),
-                                //             child: HomeView()
-                                //             // Scaffold(
-                                //             //   body: SafeArea(
-                                //             //       child: _getBodyWidget(
-                                //             //           'HomeView')),
-
-                                //             //   // drawer: MenuWidget()
-                                //             //   drawer: isMenuFixed(context).MenuWidget()
-                                //             //       ? null
-                                //             //       : MenuWidget(),
-                                //             // )
-                                //             // HomeView(),
-                                //             ),
-                                //       );
-                                //     }
-                                //   },
-                                //   //
-                                //   //
-                                //   child: Image.asset(
-                                //     'assets/images/logo_text_small[darkmode].png',
-                                //     // 'assets/images/prospector_title_light_[darkmode].png',
-                                //     width: MediaQuery.of(context).size.width,
-                                //     height: 300,
-                                //     fit: BoxFit.contain,
-                                //   ),
-                                // ),
                               ),
                             ),
                           ),
-// ____________________________________________________________________
-//
-//
-//
-//
-
                         Padding(
                           padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                           child: Column(

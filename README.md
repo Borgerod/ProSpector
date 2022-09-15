@@ -9,26 +9,37 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 -  Steg 2: Skrape google maps etter --> Som ikke har en eier bekreftet (Står oppført som "eier du denne bedriften")
 -  Steg 2 tillegg: Skal også skrape etter bedrifter som har "mangelfull profil" ( har bekreftet eier men ingen innhold) 
 
-## TODO
-- [X] se om du finner boilerplates
-- [X] sjekk Compadability med google maps
-	- [ ] lag formel for PageToken
-- [ ] sjekk Compadability med gulesider 
-- [ ] sjekk Compadability med 1881
-- [ ] sjekk Compadability med proff.no
-
-
 
 ## TODO
+UI:
+ - [ ] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
+ - [ ] fix darkmode Issue on app Startup 
+ - [ ] make notes-state presistant  
+ - [ ] complete translation to Norwegian 
+ - [ ] write instructions 
+ - [ ] add: "press enter" function to LoginWidget{}
+
+API:
+- [ ] finish change-password api
+- [ ] finish/fix "view call list" / "renew list" button. 
+- [ ] 
+<!-- - [x] make api server -->
+
+
 extractor:
-- [ ] finish brreg
-- [ ] finish google
-- [ ] finish gulesider
+- [ ]
+<!-- - [x] finish brreg
+- [x] finsih proff
+- [x] finish 1881
+- [x] finish gulesider
+- [x] finish google -->
 
-user API:
-- [ ] finish output_table (output algorithm)
-- [ ] make user api 
-- [ ] make user-code
+backend:
+- [ ]
+<!-- - [x] Overview: manage user progress (call list)
+- [x] manage user login 
+- [x] password hasher  -->
+
 
 AWS:
 - [ ] uplaod db to aws 

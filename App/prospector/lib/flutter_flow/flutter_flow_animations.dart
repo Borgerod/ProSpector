@@ -1,8 +1,5 @@
-import 'dart:math';
-import 'dart:ui';
-
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 enum AnimationTrigger {
   onPageLoad,

@@ -1,8 +1,10 @@
-import 'package:prospector/components/home_button_widget.dart';
 import 'package:prospector/components/plain_background_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
+import 'package:prospector/components/home_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:prospector/globals.dart' as globals;
+import 'package:prospector/globals.dart';
 
 class NotesWidget extends StatefulWidget {
   const NotesWidget({Key? key}) : super(key: key);
@@ -19,10 +21,13 @@ class _NotesWidgetState extends State<NotesWidget> {
   void initState() {
     super.initState();
     textController = TextEditingController();
+    String note_text = globals.note_text;
+    textController.text = "$note_text";
   }
 
   void textChange(TextEditingController textController) {
     this.textController = textController;
+    globals.note_text = this.textController.text;
   }
 
   @override

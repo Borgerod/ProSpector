@@ -1,9 +1,8 @@
 import 'package:prospector/flutter_flow/flutter_flow_expanded_image_view.dart';
+import 'package:prospector/components/plain_background_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/components/plain_background_widget.dart';
 import 'package:prospector/components/home_button_widget.dart';
-import 'package:prospector/components/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class InstructionsWidget extends StatefulWidget {
