@@ -1,7 +1,6 @@
 
-import time
-
-from gulesider import errorManager; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
+import time; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
+from gulesider import errorManager 
 import requests
 import pandas as pd
 from tqdm import tqdm

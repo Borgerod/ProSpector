@@ -7,7 +7,6 @@ import 'package:prospector/pages/signup_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:convert';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:prospector/globals.dart' as globals;
 
 class LoginWidget extends StatefulWidget {
@@ -24,6 +23,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   TextEditingController? passwordController;
   late bool passwordVisibility;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -357,9 +357,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             child: Checkbox(
                                               value: checkboxListTileValue ??=
                                                   false,
-                                              onChanged: (newValue) => setState(
-                                                  () => checkboxListTileValue =
-                                                      newValue!),
+                                              onChanged: (newValue) =>
+                                                  setState(() {
+                                                checkboxListTileValue =
+                                                    newValue!;
+                                              }),
                                               activeColor:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryColor,

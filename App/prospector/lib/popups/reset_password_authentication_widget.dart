@@ -5,6 +5,8 @@ import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
+import 'package:prospector/popups/authentication_listener.dart';
+
 class ResetPasswordAuthenticationWidget extends StatefulWidget {
   const ResetPasswordAuthenticationWidget({Key? key}) : super(key: key);
 
@@ -67,19 +69,21 @@ class _ResetPasswordAuthenticationWidgetState
                 color: Colors.transparent,
                 elevation: 10,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: 600,
+                  height: 250,
+                  // width: MediaQuery.of(context).size.width * 0.25,
+                  // height: MediaQuery.of(context).size.height * 0.2,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).tertiaryColor,
                   ),
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 60),
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,13 +114,21 @@ class _ResetPasswordAuthenticationWidgetState
                                   Icons.close,
                                   color:
                                       FlutterFlowTheme.of(context).primaryText,
-                                  size: 30,
+                                  size: 20,
                                 ),
                                 onPressed: () async {
                                   Navigator.pop(context);
                                 },
                               ),
                             ],
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(20, 0, 20, 20),
+                          child: Divider(
+                            thickness: 1,
+                            color: FlutterFlowTheme.of(context).lineColor,
                           ),
                         ),
                         Row(
@@ -140,7 +152,7 @@ class _ResetPasswordAuthenticationWidgetState
                                             .bodyText1Family,
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryText,
-                                        fontSize: 20,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.normal,
                                       ),
                                 ),
@@ -225,8 +237,16 @@ class _ResetPasswordAuthenticationWidgetState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               FFButtonWidget(
-                                onPressed: () {
-                                  print('Button pressed ...');
+                                onPressed: () async {
+                                  // if () {
+                                  String email = emailController!.text;
+                                  await launchURL(
+                                      'http://127.0.0.1:8000/ResetPassword/Authentication/email=$email');
+                                  PeriodicRequester();
+                                  print(PeriodicRequester());
+                                  // Navigator.pop(context);
+                                  // todo should navigate to reset page???
+                                  // }
                                 },
                                 text: FFLocalizations.of(context).getText(
                                   'swysf1rz' /* Recover Password */,

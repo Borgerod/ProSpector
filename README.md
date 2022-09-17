@@ -12,12 +12,13 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 
 ## TODO
 UI:
- - [ ] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
+ - [X] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
  - [ ] fix darkmode Issue on app Startup 
- - [ ] make notes-state presistant  
+ - [X] (men liten små-issue) make notes-state presistant  
  - [ ] complete translation to Norwegian 
  - [ ] write instructions 
  - [ ] add: "press enter" function to LoginWidget{}
+ - [ ] finish "remember me" knapp 
 
 API:
 - [ ] finish change-password api

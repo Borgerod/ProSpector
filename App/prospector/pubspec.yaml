@@ -72,6 +72,9 @@ dependencies:
   bitsdojo_window: ^0.1.4
   flutter_neumorphic: ^3.2.0
   flutter_secure_storage: ^6.0.0
+  velocity_x: ^3.5.1
+  hive: 
+  hive_flutter: 
 
 dev_dependencies:
   flutter_launcher_icons: 0.9.3

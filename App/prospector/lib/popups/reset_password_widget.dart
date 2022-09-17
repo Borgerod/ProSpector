@@ -312,7 +312,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                   if (newPasswordController!.text ==
                                       confirmPasswordController!.text) {
                                     await launchURL(
-                                        'http://127.0.0.1:8000/resetpassword');
+                                        'http://127.0.0.1:8000/ResetPassword');
                                     Navigator.pop(context);
                                   }
                                 },

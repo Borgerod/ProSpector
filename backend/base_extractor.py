@@ -1,4 +1,3 @@
-
 '''
 	* from base_extractor import genSearchTerm, linkBuilder, pullRequest
 '''
