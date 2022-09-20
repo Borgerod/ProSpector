@@ -1,3 +1,5 @@
+import 'package:flutter/scheduler.dart';
+import 'package:prospector/components/window_title_bar.dart';
 import 'package:prospector/popups/renew_list_widget.dart';
 import 'package:prospector/popups/settings_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
@@ -14,7 +16,6 @@ import 'package:prospector/pages/notes_page.dart';
 import 'package:prospector/pages/home_page.dart';
 import 'package:quiver/iterables.dart';
 import 'dart:io';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({Key? key}) : super(key: key);
@@ -48,10 +49,8 @@ extension InterfaceBrightnessExtension on InterfaceBrightness {
 class MenuWidgetState extends State<MenuWidget> {
   bool toggle = false;
   WindowEffect effect = WindowEffect.aero;
-  Color color = Platform.isWindows ? Color(0xCC222222) : Colors.transparent;
-  // static get storage => FlutterSecureStorage();
-  InterfaceBrightness brightness =
-      Platform.isMacOS ? InterfaceBrightness.auto : InterfaceBrightness.dark;
+  Color color = Color(0xCC222222);
+  InterfaceBrightness brightness = InterfaceBrightness.dark;
 
   @override
   void initState() {
@@ -60,6 +59,7 @@ class MenuWidgetState extends State<MenuWidget> {
   }
 
   void setWindowEffect(WindowEffect? value) {
+    print('setWindowEffect: $brightness');
     Window.setEffect(
       effect: value!,
       color: this.color,
@@ -76,13 +76,16 @@ class MenuWidgetState extends State<MenuWidget> {
 
   void setBrightness(InterfaceBrightness brightness) {
     this.brightness = brightness;
-    if (this.brightness == InterfaceBrightness.dark) {
-      color = Platform.isWindows ? Color(0xCC222222) : Colors.transparent;
+    final theme = FlutterFlowTheme.themeMode;
+    if (theme == ThemeMode.dark) {
+      brightness = InterfaceBrightness.dark;
+      color = Color(0xCC222222);
     } else {
-      // color = Platform.isWindows ? Color(0x22DDDDDD) : Colors.transparent;
       color = Platform.isWindows
-          ? Color.fromARGB(120, 255, 255, 255)
+          ? color = Color.fromARGB(120, 255, 255, 255)
           : Colors.transparent;
+
+      brightness = InterfaceBrightness.light;
     }
     this.setWindowEffect(this.effect);
   }
@@ -90,11 +93,6 @@ class MenuWidgetState extends State<MenuWidget> {
   final routes = [
     'Instructions',
     'View Call List',
-    // 'Renew List',
-    // 'Notes',
-    // 'About',
-    // 'Settings',
-    // 'Feedback',
   ];
 
   final navigatorKey = GlobalKey<NavigatorState>();
@@ -116,346 +114,309 @@ class MenuWidgetState extends State<MenuWidget> {
         size: 15,
         color: FlutterFlowTheme.of(context).primaryText,
       ),
-      // Icon(
-      //   Icons.playlist_add_sharp,
-      //   size: 15,
-      //   color: FlutterFlowTheme.of(context).primaryText,
-      // ),
-      // Icon(
-      //   Icons.sticky_note_2_sharp,
-      //   size: 15,
-      //   color: FlutterFlowTheme.of(context).primaryText,
-      // ),
-      // Icon(
-      //   Icons.info_sharp,
-      //   size: 15,
-      //   color: FlutterFlowTheme.of(context).primaryText,
-      // ),
-      // Icon(
-      //   Icons.settings,
-      //   size: 15,
-      //   color: FlutterFlowTheme.of(context).primaryText,
-      // ),
-      // Icon(
-      //   Icons.feedback_sharp,
-      //   size: 15,
-      //   color: FlutterFlowTheme.of(context).primaryText,
-      // ),
     ];
 
     final menu = Container(
-        color: Colors.transparent,
-        child: SafeArea(
-            right: false,
-            child: Drawer(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                child: Column(
-                  children: [
-                    WindowTitleBarBox(child: MoveWindow()),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // TODO MERGE LGIHTMODE AND DARKMODE ICONS
-                        if (Theme.of(context).brightness == Brightness.light)
-                          Padding(
-                            // padding: EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(30, 0, 20, 20),
-
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              decoration: BoxDecoration(),
-                              child: Image.asset(
-                                'assets/images/logo_text_small[lightmode].png',
-                                width: MediaQuery.of(context).size.width,
-                                height: 300,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
-                        if (Theme.of(context).brightness == Brightness.dark)
-                          Padding(
-                            // padding: EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(30, 0, 20, 20),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              decoration: BoxDecoration(),
-                              child: Visibility(
-                                visible: Theme.of(context).brightness ==
-                                    Brightness.dark,
-                                child: Image.asset(
-                                  'assets/images/logo_text_small[darkmode].png',
-                                  // 'assets/images/prospector_title_light_[darkmode].png',
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 300,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          child: Column(
-                            children: <Widget>[
-                              for (final pair in zip([listIcons, routes]))
-                                ListTile(
-                                  horizontalTitleGap: 0,
-                                  minVerticalPadding: 0,
-                                  dense: true,
-                                  leading: pair[0] as Icon,
-                                  title: Text(
-                                    pair[1].toString(),
-                                    style: FlutterFlowTheme.of(context)
-                                        .subtitle1
-                                        .override(
-                                          fontFamily:
-                                              FlutterFlowTheme.of(context)
-                                                  .subtitle1Family,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                  ),
-                                  onTap: () {
-                                    navigatorKey.currentState
-                                        ?.pushNamedAndRemoveUntil(
-                                            pair[1].toString(), (r) => false);
-
-                                    // ?.pushNamed(pair[1].toString(),
-                                    //     arguments: (r) => false);
-                                  },
-                                ),
-                              ListTile(
-                                horizontalTitleGap: 0,
-                                minVerticalPadding: 0,
-                                dense: true,
-                                leading: Icon(
-                                  Icons.playlist_add_sharp,
-                                  size: 15,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                                title: Text(
-                                  'Renew List',
-                                  style: FlutterFlowTheme.of(context)
-                                      .subtitle1
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .subtitle1Family,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(PageRouteBuilder(
-                                      opaque: false,
-                                      pageBuilder:
-                                          (BuildContext context, _, __) =>
-                                              RenewListWidget()));
-                                },
-                              ),
-                              ListTile(
-                                horizontalTitleGap: 0,
-                                minVerticalPadding: 0,
-                                dense: true,
-                                leading: Icon(
-                                  Icons.sticky_note_2_sharp,
-                                  size: 15,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                                title: Text(
-                                  'Notes',
-                                  style: FlutterFlowTheme.of(context)
-                                      .subtitle1
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .subtitle1Family,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                ),
-                                onTap: () {
-                                  navigatorKey.currentState
-                                      ?.pushNamedAndRemoveUntil(
-                                          'Notes'.toString(), (r) => false);
-                                },
-                              ),
-                              ListTile(
-                                horizontalTitleGap: 0,
-                                minVerticalPadding: 0,
-                                dense: true,
-                                leading: Icon(
-                                  Icons.info_sharp,
-                                  size: 15,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                                title: Text(
-                                  'About',
-                                  style: FlutterFlowTheme.of(context)
-                                      .subtitle1
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .subtitle1Family,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(PageRouteBuilder(
-                                      opaque: false,
-                                      pageBuilder:
-                                          (BuildContext context, _, __) =>
-                                              AboutWidget()));
-                                },
-                              ),
-                              ListTile(
-                                horizontalTitleGap: 0,
-                                minVerticalPadding: 0,
-                                dense: true,
-                                leading: Icon(
-                                  Icons.settings,
-                                  size: 15,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                                title: Text(
-                                  'settings',
-                                  style: FlutterFlowTheme.of(context)
-                                      .subtitle1
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .subtitle1Family,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(PageRouteBuilder(
-                                      opaque: false,
-                                      pageBuilder:
-                                          (BuildContext context, _, __) =>
-                                              SettingsWidget()));
-                                },
-                              ),
-                              ListTile(
-                                horizontalTitleGap: 0,
-                                minVerticalPadding: 0,
-                                dense: true,
-                                leading: Icon(
-                                  Icons.feedback_sharp,
-                                  size: 15,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                                title: Text(
-                                  'Feedback',
-                                  style: FlutterFlowTheme.of(context)
-                                      .subtitle1
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .subtitle1Family,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(PageRouteBuilder(
-                                      opaque: false,
-                                      pageBuilder:
-                                          (BuildContext context, _, __) =>
-                                              FeedbackWidget()));
-                                },
-                              ),
-                            ],
+      color: Colors.transparent,
+      child: SafeArea(
+        right: false,
+        child: Drawer(
+          // width: 250,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Column(
+            children: [
+              WindowTitleBarBox(child: MoveWindow()),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (Theme.of(context).brightness == Brightness.light)
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(30, 0, 20, 20),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        decoration: BoxDecoration(),
+                        child: Image.asset(
+                          'assets/images/logo_text_small[lightmode].png',
+                          width: MediaQuery.of(context).size.width,
+                          height: 300,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  if (Theme.of(context).brightness == Brightness.dark)
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(30, 0, 20, 20),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        decoration: BoxDecoration(),
+                        child: Visibility(
+                          visible:
+                              Theme.of(context).brightness == Brightness.dark,
+                          child: Image.asset(
+                            'assets/images/logo_text_small[darkmode].png',
+                            width: MediaQuery.of(context).size.width,
+                            height: 300,
+                            fit: BoxFit.contain,
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Divider(
-                          // color: FlutterFlowTheme.of(context).primaryText,
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: Column(
+                      children: <Widget>[
+                        for (final pair in zip([listIcons, routes]))
+                          ListTile(
+                            horizontalTitleGap: 0,
+                            minVerticalPadding: 0,
+                            dense: true,
+                            leading: pair[0] as Icon,
+                            title: Text(
+                              pair[1].toString(),
+                              style: FlutterFlowTheme.of(context)
+                                  .subtitle1
+                                  .override(
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .subtitle1Family,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                            ),
+                            onTap: () {
+                              navigatorKey.currentState
+                                  ?.pushNamedAndRemoveUntil(
+                                      pair[1].toString(), (r) => false);
+                            },
                           ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'switch to ${(() {
-                              switch (brightness) {
-                                case InterfaceBrightness.light:
-                                  return 'lightmode';
-                                case InterfaceBrightness.dark:
-                                  return 'darkmode';
-                                default:
-                                  return 'auto';
-                              }
-                            })()}',
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          minVerticalPadding: 0,
+                          dense: true,
+                          leading: Icon(
+                            Icons.playlist_add_sharp,
+                            size: 15,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                          ),
+                          title: Text(
+                            'Renew List',
                             style:
                                 FlutterFlowTheme.of(context).subtitle1.override(
                                       fontFamily: FlutterFlowTheme.of(context)
                                           .subtitle1Family,
-                                      fontSize: 13,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.w300,
                                     ),
                           ),
-                          Neumorphic(
-                            style: NeumorphicStyle(
-                                shape: NeumorphicShape.convex,
-                                boxShape: NeumorphicBoxShape.roundRect(
-                                    BorderRadius.circular(30)),
-                                depth: 1,
-                                lightSource: LightSource.topLeft,
-                                color: Colors.transparent),
-                            child: SizedBox(
-                              height: 35,
-                              width: 35,
-                              child: IconButton(
-                                padding: EdgeInsets.zero,
-                                iconSize: 20,
-                                visualDensity: VisualDensity(),
-                                splashRadius: 1,
-                                icon: toggle
-                                    ? Icon(
-                                        Icons.dark_mode_sharp,
-                                      )
-                                    : Icon(
-                                        Icons.light_mode_sharp,
-                                      ),
-                                onPressed: () => setState(() {
-                                  toggle = !toggle;
-                                  if (Theme.of(context).brightness ==
-                                      Brightness.light) {
-                                    setDarkModeSetting(context, ThemeMode.dark);
-                                  } else {
-                                    setDarkModeSetting(
-                                        context, ThemeMode.light);
-                                  }
-
-                                  setBrightness(
-                                    brightness == InterfaceBrightness.dark
-                                        ? InterfaceBrightness.light
-                                        : InterfaceBrightness.dark,
-                                  );
-                                }),
-                              ),
-                            ),
+                          onTap: () {
+                            Navigator.of(context).push(PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) =>
+                                    RenewListWidget()));
+                          },
+                        ),
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          minVerticalPadding: 0,
+                          dense: true,
+                          leading: Icon(
+                            Icons.sticky_note_2_sharp,
+                            size: 15,
+                            color: FlutterFlowTheme.of(context).primaryText,
                           ),
-                        ],
+                          title: Text(
+                            'Notes',
+                            style:
+                                FlutterFlowTheme.of(context).subtitle1.override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .subtitle1Family,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                          ),
+                          onTap: () {
+                            navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                                'Notes'.toString(), (r) => false);
+                          },
+                        ),
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          minVerticalPadding: 0,
+                          dense: true,
+                          leading: Icon(
+                            Icons.info_sharp,
+                            size: 15,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                          ),
+                          title: Text(
+                            'About',
+                            style:
+                                FlutterFlowTheme.of(context).subtitle1.override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .subtitle1Family,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) =>
+                                    AboutWidget(),
+                              ),
+                            );
+                          },
+                        ),
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          minVerticalPadding: 0,
+                          dense: true,
+                          leading: Icon(
+                            Icons.settings,
+                            size: 15,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                          ),
+                          title: Text(
+                            'settings',
+                            style:
+                                FlutterFlowTheme.of(context).subtitle1.override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .subtitle1Family,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) =>
+                                    SettingsWidget(),
+                              ),
+                            );
+                          },
+                        ),
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          minVerticalPadding: 0,
+                          dense: true,
+                          leading: Icon(
+                            Icons.feedback_sharp,
+                            size: 15,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                          ),
+                          title: Text(
+                            'Feedback',
+                            style:
+                                FlutterFlowTheme.of(context).subtitle1.override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .subtitle1Family,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) =>
+                                    FeedbackWidget(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Divider(
+                    // color: FlutterFlowTheme.of(context).primaryText,
+                    ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'switch to ${(() {
+                        switch (brightness) {
+                          case InterfaceBrightness.light:
+                            return 'lightmode';
+                          case InterfaceBrightness.dark:
+                            return 'darkmode';
+                          default:
+                            return 'auto';
+                        }
+                      })()}',
+                      style: FlutterFlowTheme.of(context).subtitle1.override(
+                            fontFamily:
+                                FlutterFlowTheme.of(context).subtitle1Family,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w300,
+                          ),
+                    ),
+                    Neumorphic(
+                      style: NeumorphicStyle(
+                          shape: NeumorphicShape.convex,
+                          boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(30),
+                          ),
+                          depth: 1,
+                          lightSource: LightSource.topLeft,
+                          color: Colors.transparent),
+                      child: SizedBox(
+                        height: 35,
+                        width: 35,
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          iconSize: 20,
+                          visualDensity: VisualDensity(),
+                          splashRadius: 1,
+                          icon: toggle
+                              ? Icon(
+                                  Icons.dark_mode_sharp,
+                                )
+                              : Icon(
+                                  Icons.light_mode_sharp,
+                                ),
+                          onPressed: () => setState(
+                            () {
+                              toggle = !toggle;
+                              if (Theme.of(context).brightness ==
+                                  Brightness.light) {
+                                setDarkModeSetting(context, ThemeMode.dark);
+                              } else {
+                                setDarkModeSetting(context, ThemeMode.light);
+                              }
+
+                              setBrightness(
+                                brightness == InterfaceBrightness.dark
+                                    ? InterfaceBrightness.light
+                                    : InterfaceBrightness.dark,
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ],
-                ))));
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
     return Row(
       children: <Widget>[
         if (isMenuFixed(context)) menu,
@@ -476,8 +437,10 @@ class MenuWidgetState extends State<MenuWidget> {
                             Animation<double> secondaryAnimation) {
                           return Scaffold(
                             body: SafeArea(
-                                child:
-                                    _getBodyWidget(settings.name.toString())),
+                              child: _getBodyWidget(
+                                settings.name.toString(),
+                              ),
+                            ),
                             drawer: isMenuFixed(context) ? null : menu,
                           );
                         },
@@ -494,7 +457,9 @@ class MenuWidgetState extends State<MenuWidget> {
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(child: MoveWindow()),
+                          Expanded(
+                            child: MoveWindow(),
+                          ),
                           WindowTitleBar(brightness: brightness)
                         ],
                       ),
@@ -588,79 +553,5 @@ _getBodyWidget(name) {
       return HomeView();
     default:
       return HomeView();
-  }
-}
-
-class WindowTitleBar extends StatelessWidget {
-  final InterfaceBrightness brightness;
-  const WindowTitleBar({Key? key, required this.brightness}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (Theme.of(context).brightness == Brightness.light) {}
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        MinimizeWindowButton(
-          colors: WindowButtonColors(
-            iconNormal: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
-            iconMouseDown: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
-            iconMouseOver: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
-            normal: Colors.transparent,
-            mouseOver: Theme.of(context).brightness == Brightness.light
-                ? Color.fromARGB(70, 222, 222, 222)
-                : Color.fromARGB(45, 134, 134, 134),
-            mouseDown: Theme.of(context).brightness == Brightness.light
-                ? Color.fromARGB(45, 134, 134, 134)
-                : Color.fromARGB(140, 134, 134, 134),
-          ),
-        ),
-        MaximizeWindowButton(
-          colors: WindowButtonColors(
-            iconNormal: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
-            iconMouseDown: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
-            iconMouseOver: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
-            normal: Colors.transparent,
-            mouseOver: Theme.of(context).brightness == Brightness.light
-                ? Color.fromARGB(70, 222, 222, 222)
-                : Color.fromARGB(45, 134, 134, 134),
-            mouseDown: Theme.of(context).brightness == Brightness.light
-                ? Color.fromARGB(45, 134, 134, 134)
-                : Color.fromARGB(140, 134, 134, 134),
-          ),
-        ),
-        CloseWindowButton(
-          onPressed: () {
-            appWindow.close();
-          },
-          colors: WindowButtonColors(
-            iconNormal: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
-            iconMouseDown: Colors.white,
-            iconMouseOver: Colors.white,
-            normal: Colors.transparent,
-            mouseOver: Theme.of(context).brightness == Brightness.light
-                ? Color.fromARGB(200, 211, 47, 47)
-                : Color.fromARGB(200, 255, 57, 57),
-            mouseDown: Theme.of(context).brightness == Brightness.light
-                ? Color.fromARGB(255, 211, 47, 47)
-                : Color.fromARGB(255, 255, 57, 57),
-          ),
-        ),
-      ],
-    );
   }
 }

@@ -22,6 +22,22 @@ class _SignupWidgetState extends State<SignupWidget> {
   late bool passwordVisibility;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  //* NEW STUFF
+  late Color colorState = Color(0xFFD6D8DA); //Color(0xFF95A1AC);
+  late TextStyle labelColorState =
+      FlutterFlowTheme.of(context).bodyText1.override(
+            fontFamily: 'Poppins',
+            color: Color(0xFFD6D8DA),
+            fontSize: 12,
+            fontWeight: FontWeight.w300,
+          );
+  // late Color labelColorState = FlutterFlowTheme.of(context).thirdTextColor;
+  late String passwordlabelState = FFLocalizations.of(context).getText(
+    'u1vts5lp' /* Password */,
+  );
+
+  //* NEW STUFF
+
   @override
   void initState() {
     super.initState();
@@ -187,6 +203,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(0, 0, 0, 10),
                                                   child: TextFormField(
+                                                    cursorColor:
+                                                        Color(0xFFD6D8DA),
                                                     controller:
                                                         usernameController,
                                                     obscureText: false,
@@ -203,7 +221,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                               .bodyText1
                                                               .override(
                                                                 fontFamily:
-                                                                    'Lexend Deca',
+                                                                    'Poppins',
                                                                 color: Color(
                                                                     0xFFD6D8DA),
                                                                 fontSize: 12,
@@ -252,8 +270,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                             context)
                                                         .bodyText1
                                                         .override(
-                                                          fontFamily:
-                                                              'Lexend Deca',
+                                                          fontFamily: 'Poppins',
                                                           color:
                                                               Color(0xFFD6D8DA),
                                                           fontSize: 14,
@@ -280,8 +297,11 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(10, 0, 20, 0),
                                                 child: Tooltip(
-                                                  message:
-                                                      'Only use lowercase letters,\nDo not use spaces, numbers or special characters.',
+                                                  message: FFLocalizations.of(
+                                                          context)
+                                                      .getText(
+                                                    'ib1c322a' /* Only use lowercase letters */,
+                                                  ),
                                                   child: Icon(
                                                     Icons.home_work_sharp,
                                                     color: Color(0xFFD6D8DA),
@@ -295,6 +315,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(0, 0, 0, 10),
                                                   child: TextFormField(
+                                                    cursorColor:
+                                                        Color(0xFFD6D8DA),
                                                     autovalidateMode:
                                                         AutovalidateMode
                                                             .onUserInteraction,
@@ -302,7 +324,11 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                       if (validateWorkplace(
                                                               value!) !=
                                                           null) {
-                                                        return 'Workplace not filled correctly.';
+                                                        return FFLocalizations
+                                                                .of(context)
+                                                            .getText(
+                                                          'ib1c3g2a' /* Workplace not filled correctly */,
+                                                        );
                                                       }
                                                       return null;
                                                     },
@@ -311,8 +337,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                     onFieldSubmitted:
                                                         (_) async {
                                                       setState(() => FFAppState()
-                                                              .emailAdress =
-                                                          passwordController!
+                                                              .companyName =
+                                                          workplaceController!
                                                               .text);
                                                     },
                                                     obscureText: false,
@@ -329,7 +355,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                               .bodyText1
                                                               .override(
                                                                 fontFamily:
-                                                                    'Lexend Deca',
+                                                                    'Poppins',
                                                                 color: Color(
                                                                     0xFFD6D8DA),
                                                                 fontSize: 12,
@@ -378,8 +404,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                             context)
                                                         .bodyText1
                                                         .override(
-                                                          fontFamily:
-                                                              'Lexend Deca',
+                                                          fontFamily: 'Poppins',
                                                           color:
                                                               Color(0xFFD6D8DA),
                                                           fontSize: 14,
@@ -418,9 +443,15 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                       .fromSTEB(0, 0, 0, 10),
                                                   child: Form(
                                                     child: TextFormField(
+                                                      cursorColor:
+                                                          Color(0xFFD6D8DA),
                                                       validator: (value) {
                                                         if (!isEmail(value!)) {
-                                                          return 'Please enter a valid email.';
+                                                          return FFLocalizations
+                                                                  .of(context)
+                                                              .getText(
+                                                                  'in1c322a' /* Please enter a valid email. */
+                                                                  );
                                                         }
                                                         return null;
                                                       },
@@ -451,7 +482,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                                 .bodyText1
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Lexend Deca',
+                                                                      'Poppins',
                                                                   color: Color(
                                                                       0xFFD6D8DA),
                                                                   fontSize: 12,
@@ -504,7 +535,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                               .bodyText1
                                                               .override(
                                                                 fontFamily:
-                                                                    'Lexend Deca',
+                                                                    'Poppins',
                                                                 color: Color(
                                                                     0xFFD6D8DA),
                                                                 fontSize: 14,
@@ -523,6 +554,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                                             ],
                                           ),
                                         ),
+
+                                        // PASSWORD ________________________________________________
                                         Expanded(
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
@@ -532,8 +565,11 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(10, 0, 20, 0),
                                                 child: Tooltip(
-                                                  message:
-                                                      'Use atleast \n - one uppercase letter, \n - one lowercase letter, \n - one number',
+                                                  message: FFLocalizations.of(
+                                                          context)
+                                                      .getText(
+                                                    'ib1c3sna' /* password tooltip */,
+                                                  ),
                                                   child: Icon(
                                                     Icons.lock_sharp,
                                                     color: Color(0xFFD6D8DA),
@@ -547,12 +583,19 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(0, 0, 0, 10),
                                                   child: TextFormField(
+                                                    cursorColor:
+                                                        Color(0xFFD6D8DA),
                                                     validator: (value) {
                                                       if (validatePassword(
                                                               value!) !=
                                                           null) {
-                                                        return 'Please enter a strong password.';
+                                                        return FFLocalizations
+                                                                .of(context)
+                                                            .getText(
+                                                          'ib1c3s2a' /* Please enter a strong password. */,
+                                                        );
                                                       }
+
                                                       return null;
                                                     },
                                                     autovalidateMode:
@@ -571,25 +614,9 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                         !passwordVisibility,
                                                     decoration: InputDecoration(
                                                       labelText:
-                                                          FFLocalizations.of(
-                                                                  context)
-                                                              .getText(
-                                                        'u1vts5lp' /* Password */,
-                                                      ),
+                                                          passwordlabelState,
                                                       labelStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyText1
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Lexend Deca',
-                                                                color: Color(
-                                                                    0xFFD6D8DA),
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                              ),
+                                                          labelColorState,
                                                       enabledBorder:
                                                           UnderlineInputBorder(
                                                         borderSide: BorderSide(
@@ -650,10 +677,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                             context)
                                                         .bodyText1
                                                         .override(
-                                                          fontFamily:
-                                                              'Lexend Deca',
-                                                          color:
-                                                              Color(0xFFD6D8DA),
+                                                          fontFamily: 'Poppins',
+                                                          color: colorState,
                                                           fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -665,6 +690,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                             ],
                                           ),
                                         ),
+                                        // _________________________________________________________
                                         Expanded(
                                           child: Container(
                                             width: MediaQuery.of(context)
@@ -700,200 +726,190 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                     padding:
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                10, 5, 10, 5),
-                                                    child: InkWell(
-                                                      onTap: () async {
-                                                        if (emailController
-                                                                    ?.text ==
-                                                                "" ||
-                                                            workplaceController!
-                                                                    .text ==
-                                                                "" ||
-                                                            usernameController!
-                                                                    .text ==
-                                                                "" ||
-                                                            passwordController!
-                                                                    .text ==
-                                                                "") {
-                                                          showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return AlertDialog(
-                                                                  backgroundColor:
-                                                                      Color(
-                                                                          0x00353E49),
-                                                                  title: Text(
-                                                                    "Form is not properly filled ",
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyText1
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              FlutterFlowTheme.of(context).bodyText1Family,
-                                                                          color:
-                                                                              Colors.white,
-                                                                        ),
-                                                                  ),
-                                                                );
-                                                              });
-                                                        } else {
-                                                          String email =
-                                                              emailController!
-                                                                  .text;
-                                                          String username =
-                                                              usernameController!
-                                                                  .text;
-                                                          String password =
-                                                              passwordController!
-                                                                  .text;
-                                                          String workplace =
+                                                                10, 0, 10, 0),
+                                                    child: Container(
+                                                      width: 150,
+                                                      height: 30,
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          if (emailController?.text == "" ||
                                                               workplaceController!
-                                                                  .text;
-                                                          Map data = {
-                                                            'brukernavn':
-                                                                username,
-                                                            'epost': email,
-                                                            'passord': password,
-                                                            'organisasjon':
-                                                                workplace,
-                                                          };
-                                                          print(data);
-                                                          var body =
-                                                              json.encode(data);
-                                                          // http://127.0.0.1:8000/users/?brukernavn=morendin@hotmail.com&epost=morendin&passord=Morendin123&organisasjon=morendinas
-                                                          // await http.post(Uri.parse(
-                                                          //     'http://127.0.0.1:8000/users/', body: body));
-                                                          var response =
-                                                              await http.post(
-                                                                  Uri.parse(
-                                                                      'http://127.0.0.1:8000/users/'),
-                                                                  headers: {
-                                                                    "Content-Type":
-                                                                        "application/json",
-                                                                    "accept":
-                                                                        "application/json",
-                                                                  },
-                                                                  body: body);
-                                                          print(body);
-                                                          print(response
-                                                              .statusCode);
-                                                          // await Navigator.push(
-                                                          //   context,
-                                                          //   PageTransition(
-                                                          //       type:
-                                                          //           PageTransitionType
-                                                          //               .fade,
-                                                          //       duration: Duration(
-                                                          //           milliseconds:
-                                                          //               0),
-                                                          //       reverseDuration:
-                                                          //           Duration(
-                                                          //               milliseconds:
-                                                          //                   0),
-                                                          //       child:
-                                                          //           AccountCreatedWidget()),
-                                                          // );
-                                                          // AlertDialog(
-                                                          //     title: Text(
-                                                          //         "unable to create account"));
-                                                          if (response
-                                                                  .statusCode ==
-                                                              200) {
-                                                            await Navigator
-                                                                .push(
-                                                              context,
-                                                              PageTransition(
-                                                                  type:
-                                                                      PageTransitionType
-                                                                          .fade,
-                                                                  duration: Duration(
-                                                                      milliseconds:
-                                                                          0),
-                                                                  reverseDuration:
-                                                                      Duration(
-                                                                          milliseconds:
-                                                                              0),
-                                                                  child:
-                                                                      AccountCreatedWidget()),
-                                                            );
-                                                          } else {
+                                                                      .text ==
+                                                                  "" ||
+                                                              usernameController!
+                                                                      .text ==
+                                                                  "" ||
+                                                              passwordController!
+                                                                      .text ==
+                                                                  "") {
                                                             showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return AlertDialog(
-                                                                  contentTextStyle:
-                                                                      FlutterFlowTheme.of(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return AlertDialog(
+                                                                    backgroundColor:
+                                                                        Color(
+                                                                            0x00353E49),
+                                                                    title: Text(
+                                                                      FFLocalizations.of(
                                                                               context)
-                                                                          .bodyText1,
-                                                                  title: Text(
-                                                                      "Error!"),
-                                                                  content: Text(
-                                                                    "Unable to create account",
-                                                                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                        fontFamily:
-                                                                            FlutterFlowTheme.of(context)
-                                                                                .bodyText1Family,
-                                                                        fontSize:
-                                                                            14,
-                                                                        fontWeight:
-                                                                            FontWeight.w300),
-                                                                  ),
-                                                                );
-                                                              },
-                                                            );
-                                                          }
-                                                        }
-
-                                                        setState(() =>
-                                                            FFAppState()
-                                                                    .emailAdress =
+                                                                          .getText(
+                                                                        'ib1c3p2a' /* Form is not properly filled  */,
+                                                                      ),
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyText1
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                FlutterFlowTheme.of(context).bodyText1Family,
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+                                                                    ),
+                                                                  );
+                                                                });
+                                                          } else {
+                                                            String email =
                                                                 emailController!
-                                                                    .text);
-                                                        setState(() => FFAppState()
-                                                                .companyName =
-                                                            workplaceController!
-                                                                .text);
-                                                        setState(() => FFAppState()
-                                                                .userName =
-                                                            usernameController!
-                                                                .text);
-                                                      },
-                                                      child: Material(
-                                                        color:
-                                                            Colors.transparent,
-                                                        elevation: 5,
-                                                        child: Container(
-                                                          width: 150,
-                                                          height: 100,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Color(
-                                                                0xFF5D8387),
-                                                          ),
-                                                          child: Align(
-                                                            alignment:
-                                                                AlignmentDirectional(
-                                                                    0, 0),
-                                                            child: Text(
-                                                              FFLocalizations.of(
-                                                                      context)
-                                                                  .getText(
-                                                                '4dbf2i4h' /* Sign Up */,
-                                                              ),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyText1
-                                                                  .override(
-                                                                    fontFamily:
+                                                                    .text;
+                                                            String username =
+                                                                usernameController!
+                                                                    .text;
+                                                            String password =
+                                                                passwordController!
+                                                                    .text;
+                                                            String workplace =
+                                                                workplaceController!
+                                                                    .text;
+                                                            Map data = {
+                                                              'brukernavn':
+                                                                  username,
+                                                              'epost': email,
+                                                              'passord':
+                                                                  password,
+                                                              'organisasjon':
+                                                                  workplace,
+                                                            };
+                                                            print(data);
+                                                            var body = json
+                                                                .encode(data);
+
+                                                            var response =
+                                                                await http.post(
+                                                                    Uri.parse(
+                                                                        'http://127.0.0.1:8000/users/'),
+                                                                    headers: {
+                                                                      "Content-Type":
+                                                                          "application/json",
+                                                                      "accept":
+                                                                          "application/json",
+                                                                    },
+                                                                    body: body);
+                                                            print(body);
+                                                            print(response
+                                                                .statusCode);
+
+                                                            if (response
+                                                                    .statusCode ==
+                                                                200) {
+                                                              await Navigator
+                                                                  .push(
+                                                                context,
+                                                                PageTransition(
+                                                                    type: PageTransitionType
+                                                                        .fade,
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            0),
+                                                                    reverseDuration:
+                                                                        Duration(
+                                                                            milliseconds:
+                                                                                0),
+                                                                    child:
+                                                                        AccountCreatedWidget()),
+                                                              );
+                                                            } else {
+                                                              showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return AlertDialog(
+                                                                    contentTextStyle:
                                                                         FlutterFlowTheme.of(context)
-                                                                            .bodyText1Family,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
+                                                                            .bodyText1,
+                                                                    title: Text(
+                                                                        "Error!"),
+                                                                    content:
+                                                                        Text(
+                                                                      FFLocalizations.of(
+                                                                              context)
+                                                                          .getText(
+                                                                              'ibsc322a' /* Unable to create account */
+                                                                              ),
+                                                                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                          fontFamily: FlutterFlowTheme.of(context)
+                                                                              .bodyText1Family,
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w300),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              );
+                                                            }
+                                                          }
+
+                                                          setState(() => FFAppState()
+                                                                  .emailAdress =
+                                                              emailController!
+                                                                  .text);
+                                                          setState(() => FFAppState()
+                                                                  .companyName =
+                                                              workplaceController!
+                                                                  .text);
+                                                          setState(() => FFAppState()
+                                                                  .userName =
+                                                              usernameController!
+                                                                  .text);
+                                                        },
+                                                        child: Material(
+                                                          color: Colors
+                                                              .transparent,
+                                                          elevation: 5,
+                                                          child: Container(
+                                                            width: 150,
+                                                            height: 30,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  0xFF5D8387),
+                                                            ),
+                                                            child: Align(
+                                                              alignment:
+                                                                  AlignmentDirectional(
+                                                                      0, 0),
+                                                              child: Text(
+                                                                FFLocalizations.of(
+                                                                        context)
+                                                                    .getText(
+                                                                  '4dbf2i4h' /* Sign Up */,
+                                                                ),
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText1Family,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -929,29 +945,30 @@ class _SignupWidgetState extends State<SignupWidget> {
   String? validateWorkplace(String value) {
     RegExp regex = new RegExp(r'^[a-z]+$');
     if (value.isEmpty) {
-      return 'Please enter the name of your workplace';
+      return FFLocalizations.of(context)
+          .getText('in1c322b' /* Please enter the name of your workplace */);
     } else {
-      // if (regex.hasMatch(value) & !
       if (!regex.hasMatch(value)) {
-        return 'Workplace not filled correctly';
+        return FFLocalizations.of(context)
+            .getText('in1c322s' /* Workplace not filled correctly */);
       } else {
         return null;
       }
     }
   }
-}
 
-String? validatePassword(String value) {
-  RegExp regex =
-      // RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
-  if (value.isEmpty) {
-    return 'Please enter password';
-  } else {
-    if (!regex.hasMatch(value)) {
-      return 'Enter valid password';
+  String? validatePassword(String value) {
+    RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+    if (value.isEmpty) {
+      return FFLocalizations.of(context)
+          .getText('in1c322c' /* Please enter password */);
     } else {
-      return null;
+      if (!regex.hasMatch(value)) {
+        return FFLocalizations.of(context)
+            .getText('in1c322d' /* Enter valid password */);
+      } else {
+        return null;
+      }
     }
   }
 }

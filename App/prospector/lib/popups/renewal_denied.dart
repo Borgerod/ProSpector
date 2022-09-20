@@ -2,6 +2,8 @@ import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
+import 'package:prospector/flutter_flow/internationalization.dart';
+
 class RenewalDeniedWidget extends StatefulWidget {
   const RenewalDeniedWidget({Key? key}) : super(key: key);
 
@@ -62,8 +64,6 @@ class _RenewalDeniedWidgetState extends State<RenewalDeniedWidget> {
                 child: Container(
                   width: 500,
                   height: 180,
-                  // width: MediaQuery.of(context).size.width * 0.25,
-                  // height: MediaQuery.of(context).size.height * 0.15,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).tertiaryColor,
                   ),
@@ -120,7 +120,8 @@ class _RenewalDeniedWidgetState extends State<RenewalDeniedWidget> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                               child: Text(
-                                'Denied \n Please finish the current Call list before requesting a new one.',
+                                FFLocalizations.of(context).getText(
+                                    'x3f7fyl1' /*  Deniedproved, Please finish.. */),
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
                                     .subtitle1

@@ -64,8 +64,6 @@ class _LoginErrorMessageWidgetState extends State<LoginErrorMessageWidget> {
                 child: Container(
                   width: 500,
                   height: 200,
-                  // width: MediaQuery.of(context).size.width * 0.25,
-                  // height: MediaQuery.of(context).size.height * 0.15,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).tertiaryColor,
                   ),

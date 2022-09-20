@@ -1,13 +1,13 @@
-import 'package:prospector/popups/login_error_message_widget.dart';
+import 'package:flutter/material.dart';
+
+import 'package:prospector/popups/reset_password_authentication_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/backend/api_requests/api_calls.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/components/menu_widget.dart';
 import 'package:prospector/pages/signup_page.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:prospector/globals.dart' as globals;
+
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -18,11 +18,17 @@ class LoginWidget extends StatefulWidget {
 
 class _LoginWidgetState extends State<LoginWidget> {
   ApiCallResponse? loginResponse;
-  bool? checkboxListTileValue;
-  TextEditingController? emailController;
-  TextEditingController? passwordController;
+  bool? checkboxListTileValue; //! OLD
+  TextEditingController? emailController; //! OLD
+  TextEditingController? passwordController; //! OLD
   late bool passwordVisibility;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  // * NEW VARIABLES
+  TextEditingController email = TextEditingController(); //* email-controller
+  TextEditingController pass = TextEditingController(); //*  pass-controller
+  bool isChecked = false; //*                                rememberMe
+  late Box box1;
 
   @override
   void initState() {
@@ -30,8 +36,39 @@ class _LoginWidgetState extends State<LoginWidget> {
     emailController = TextEditingController();
     passwordController = TextEditingController();
     passwordVisibility = false;
+    createBox();
   }
 
+  void createBox() async {
+    // creating the Hive-database
+    // 'login_data' is what we call the database
+    box1 = await Hive.openBox('login_data');
+    // we use async to open the box as fast as possible upon laoding the page
+    // ! this is the function that gets the remembered login data and fills the forms upon page load
+    getData();
+  }
+
+  void getData() async {
+    // the job of this method is to get the "data" from "box1" [ from createBox() ]
+    // first we need to check if box1 has data
+    //
+    // it gets the "email"-key and checks if it is not null
+    if (box1.get('email') != null) {
+      // if true:
+      //      then the email-textcontroller is now: = 'email' value in box1
+      email.text = box1.get('email');
+      isChecked = true;
+      setState(() {});
+    }
+    // then does the same for "pass"
+    if (box1.get('pass') != null) {
+      pass.text = box1.get('pass');
+      isChecked = true;
+      setState(() {});
+    }
+  }
+
+  // _______________________________________________ USER INTERFACE ______________________________________________________
   @override
   Widget build(BuildContext context) {
     final bodyHeight =
@@ -79,6 +116,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              //! ##### TEMPORARY LOGIN BYPASS #####
                               // ElevatedButton(
                               //     style: ButtonStyle(
                               //       fixedSize: MaterialStateProperty.all(
@@ -94,6 +132,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                               //       // MainPageWidget()));
                               //     },
                               //     child: Text("temp login bypass")),
+                              //! ##### TEMPORARY LOGIN BYPASS #####
                               Expanded(
                                 flex: 2,
                                 child: Padding(
@@ -163,6 +202,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              // _________________  EMAIL ADDRESS __________________________
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -183,13 +223,20 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 0, 0, 10),
                                       child: TextFormField(
-                                        controller: emailController,
-                                        onFieldSubmitted: (_) async {
-                                          setState(() =>
-                                              FFAppState().emailAdress =
-                                                  passwordController!.text);
-                                        },
+                                        controller:
+                                            email, //* <--- email-controller
+                                        keyboardType:
+                                            TextInputType.emailAddress,
                                         obscureText: false,
+                                        cursorColor: Color(0xFFD6D8DA),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              color: Color(0xFFD6D8DA),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                            ),
                                         decoration: InputDecoration(
                                           labelText: FFLocalizations.of(context)
                                               .getText(
@@ -228,22 +275,21 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             ),
                                           ),
                                         ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Color(0xFFD6D8DA),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                        keyboardType:
-                                            TextInputType.emailAddress,
+                                        //? ______ TEMPORARLY DISABLED ______
+                                        // onFieldSubmitted: (_) async {
+                                        //   setState(() =>
+                                        //       FFAppState().emailAdress =
+                                        //           passwordController!.text);
+                                        // },
+                                        //? _________________________________
                                       ),
                                     ),
                                   ),
                                   Spacer(flex: 2),
                                 ],
                               ),
+                              // ___________________________________________________________
+                              // _________________  PASSWORD _______________________________
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
@@ -263,13 +309,19 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 0, 0, 10),
                                       child: TextFormField(
-                                        controller: passwordController,
-                                        onFieldSubmitted: (_) async {
-                                          setState(() =>
-                                              FFAppState().emailAdress =
-                                                  passwordController!.text);
-                                        },
+                                        controller: pass,
+                                        keyboardType:
+                                            TextInputType.visiblePassword,
                                         obscureText: !passwordVisibility,
+                                        cursorColor: Color(0xFFD6D8DA),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Lexend Deca',
+                                              color: Color(0xFFD6D8DA),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                            ),
                                         decoration: InputDecoration(
                                           labelText: 'Password',
                                           labelStyle:
@@ -321,26 +373,27 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             ),
                                           ),
                                         ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Color(0xFFD6D8DA),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                            ),
+                                        onFieldSubmitted: (value) async {
+                                          print(
+                                              "Login Event; Pressed Enter-key");
+                                          Login.callback(email, pass, isChecked,
+                                              box1, context);
+                                        },
                                       ),
                                     ),
                                   ),
                                   Spacer(flex: 2),
                                 ],
                               ),
+                              // ___________________________________________________________
+                              // _________________  LOGIN & REMEMBER ME ____________________
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Spacer(flex: 6),
+                                  // _________________  REMEMBER ME ________________________
                                   Container(
                                     width: 130,
                                     height: 100,
@@ -355,16 +408,25 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           Transform.scale(
                                             scale: .7,
                                             child: Checkbox(
-                                              value: checkboxListTileValue ??=
-                                                  false,
-                                              onChanged: (newValue) =>
-                                                  setState(() {
-                                                checkboxListTileValue =
-                                                    newValue!;
-                                              }),
+                                              value: //  The checkbox value is initially the basevalue
+                                                  isChecked, // of isChecked (bool isChecked = false;)
                                               activeColor:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryColor,
+                                              onChanged: (value) {
+                                                // when checkbox is checked/unchecked;
+                                                // the value (isChecked) is changed to "!isChecked"
+                                                // meaning isChecked is now -> "not" isChecked
+                                                // [ "!" means: "not" / "opposite" / "not equal" ]
+                                                // [    foo = !0  --> foo is: "not 0"            ]
+                                                // [    foo =! 0  --> is foo "not 0"?            ]
+                                                isChecked = !isChecked;
+                                                //* Our task:
+                                                //*   When the user presses "Login" buton:
+                                                //*       if (isChecked == true) => Then we are going
+                                                //*                                 to save the data
+                                                setState(() {});
+                                              },
                                             ),
                                           ),
                                           Text(
@@ -384,158 +446,39 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       ),
                                     ),
                                   ),
+                                  // _______________________________________________________
+
                                   Spacer(flex: 2),
+                                  // _________________  LOGIN BUTTON ME ____________________
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 0, 0),
-                                    child: FutureBuilder<ApiCallResponse>(
-                                      future: LoginCallCall.call(
-                                        password: passwordController!.text,
-                                        emailAddress: emailController!.text,
-                                      ),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 50,
-                                              height: 50,
-                                              child: CircularProgressIndicator(
-                                                color: Color(0xFF418D75),
+                                    child: InkWell(
+                                      onTap: () {
+                                        print("Button Click => Login Event");
+                                        Login.callback(email, pass, isChecked,
+                                            box1, context);
+                                      },
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        elevation: 5,
+                                        child: Container(
+                                          width: 150,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFF5D8387),
+                                          ),
+                                          child: Align(
+                                            alignment:
+                                                AlignmentDirectional(0, 0),
+                                            child: Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'bbpm2l2x' /* Login */,
                                               ),
-                                            ),
-                                          );
-                                        }
-                                        final mainButtonLoginCallResponse =
-                                            snapshot.data!;
-                                        return InkWell(
-                                          onTap: () async {
-                                            if (checkboxListTileValue!) {
-                                              setState(() =>
-                                                  FFAppState().emailAdress =
-                                                      emailController!.text);
-                                              setState(() =>
-                                                  FFAppState().password =
-                                                      passwordController!.text);
-                                            }
-                                            globals.username =
-                                                emailController!.text;
-                                            globals.password =
-                                                passwordController!.text;
-
-                                            Map data = {
-                                              'username': emailController!.text,
-                                              'password':
-                                                  passwordController!.text,
-                                            };
-
-                                            loginResponse =
-                                                await LoginCallCall.call(
-                                              emailAddress:
-                                                  emailController!.text,
-                                              password:
-                                                  passwordController!.text,
-                                            );
-                                            String username =
-                                                emailController!.text;
-                                            String password =
-                                                passwordController!.text;
-                                            var body = json.encode(data);
-
-                                            var url =
-                                                'http://127.0.0.1:8000/login/token';
-                                            var request = http.MultipartRequest(
-                                                'POST', Uri.parse(url));
-                                            request.fields['username'] =
-                                                username;
-                                            request.fields['password'] =
-                                                password;
-                                            var response = await request.send();
-                                            final respStr = await response
-                                                .stream
-                                                .bytesToString();
-//
-//
-//
-//
-//
-
-                                            Map token_map =
-                                                json.decode(respStr);
-                                            if (response.statusCode == 200) {
-                                              // await _tokenStorage.write(
-                                              //     key: 'access_token',
-                                              //     value: token_map['access_token']);
-
-                                              // await _tokenStorage.write(
-                                              //     key: 'token_type',
-                                              //     value:
-                                              //         token_map['token_type']);
-
-                                              globals.accsess_token =
-                                                  token_map['access_token'];
-                                              globals.token_type =
-                                                  token_map['token_type'];
-//
-//
-//
-//
-//
-                                              await Navigator
-                                                  .pushAndRemoveUntil(
-                                                context,
-                                                PageTransition(
-                                                  type: PageTransitionType.fade,
-                                                  duration:
-                                                      Duration(milliseconds: 0),
-                                                  reverseDuration:
-                                                      Duration(milliseconds: 0),
-
-                                                  child: new Scaffold(
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      body: MenuWidget()),
-
-                                                  // child: MainPageWidget(),
-                                                ),
-                                                (r) => false,
-                                              );
-                                            } else {
-                                              await Navigator.push(
-                                                context,
-                                                PageTransition(
-                                                  type: PageTransitionType.fade,
-                                                  duration:
-                                                      Duration(milliseconds: 0),
-                                                  reverseDuration:
-                                                      Duration(milliseconds: 0),
-                                                  child:
-                                                      LoginErrorMessageWidget(),
-                                                ),
-                                              );
-                                            }
-
-                                            setState(() {});
-                                          },
-                                          child: Material(
-                                            color: Colors.transparent,
-                                            elevation: 5,
-                                            child: Container(
-                                              width: 150,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                color: Color(0xFF5D8387),
-                                              ),
-                                              child: Align(
-                                                alignment:
-                                                    AlignmentDirectional(0, 0),
-                                                child: Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'bbpm2l2x' /* Login */,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
                                                       .bodyText1
                                                       .override(
                                                         fontFamily:
@@ -547,17 +490,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                     context)
                                                                 .primaryBtnText,
                                                       ),
-                                                ),
-                                              ),
                                             ),
                                           ),
-                                        );
-                                      },
+                                        ),
+                                      ),
                                     ),
                                   ),
+                                  //________________________________________________________
                                   Spacer(flex: 5),
                                 ],
                               ),
+
+                              // _________________  FORGOT PASSWORD ________________________
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0, 30, 0, 30),
@@ -566,21 +510,37 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        '3j5yksm2' /* Forgot your password? */,
+                                    InkWell(
+                                      child: Text(
+                                        FFLocalizations.of(context).getText(
+                                          '3j5yksm2' /* Forgot your password? */,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              color: Color(0xFFD6D8DA),
+                                              fontWeight: FontWeight.w300,
+                                            ),
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: Color(0xFFD6D8DA),
-                                            fontWeight: FontWeight.w300,
+                                      onTap: () async {
+                                        await Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.fade,
+                                            duration: Duration(milliseconds: 0),
+                                            reverseDuration:
+                                                Duration(milliseconds: 0),
+                                            child:
+                                                ResetPasswordAuthenticationWidget(),
                                           ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
                               ),
+                              // ___________________________________________________________
                             ],
                           ),
                         ),

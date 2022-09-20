@@ -49,16 +49,23 @@ Locale createLocale(String language) => language.contains('_')
     : Locale(language);
 
 final kTranslationsMap = <Map<String, Map<String, String>>>[
+  //  FFLocalizations.of(context).getText('' /*  */);
+
+  // 'ib1c322a': {
+  //     'en':'',
+  //     'nb':'',
+  //   },
+
   // Notes
   {
     '8mdtm5jj': {
       'en': 'Notes',
       'nb': 'Notater',
     },
-    'tp7ux297': {
-      'en': '[Some hint text...]',
-      'nb': '',
-    },
+    // 'tp7ux297': {
+    //   'en': '[Some hint text...]',
+    //   'nb': '',
+    // },
     'h2ktoqmf': {
       'en': 'Home',
       'nb': 'Hjem',
@@ -82,17 +89,29 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // RenewList
+
   {
+    'x3f7fyl2': {
+      'en':
+          'Denied \n Please finish the current Call list before requesting a new one.',
+      'nb':
+          'Avvist \n Vennligst fullfør gjeldende anropsliste før du ber om en ny.',
+    },
+    'x3f7fyl1': {
+      'en': 'Approved, Renewing List',
+      'nb': 'Godkjent, Fornyer listen',
+    },
     'x3f7fyl8': {
       'en': 'Renew Call List',
       'nb': 'Forny Ringelisten',
     },
     'b49vk2i6': {
       'en':
-          'Causion: You are about to replace the old call list, with a new one. \n\nAre you sure you want to proceed?. ',
+          'Causion: You are about to replace the old call list, with a new one. \n\nAre you sure you want to proceed?',
       'nb':
-          'Vær oppmerksom: Du er i ferd med å erstatte den gamle anropslisten med en ny.\n\nEr du sikker på at du vil fortsette?.',
+          'Vær oppmerksom: Du er i ferd med å erstatte den gamle anropslisten med en ny.\n\nEr du sikker på at du vil fortsette?',
     },
     'yvgcz68b': {
       'en': 'Cancel',
@@ -119,8 +138,9 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'obwwgp74': {
       'en':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'nb': '',
+          'Cross out the prospects from the call list as you call them.\n\n PS: \nPlease do not press the check box more than necessary, every time changes are made to the call list a request is sent to the database. The database has a limit on how many requests you can have in a year before the price rises, which could get expensive after a while. ',
+      'nb':
+          'Kryss ut prospektene fra ringelisten etterhvert som du ringer dem.\n\n PS: Vær snill å ikke trykk på checkboksen mer enn nødvendig, hver gang det gjøres endringer i ringelisten sendes det en forespørsel til databasen. Databasen har en grense på hvor mange forespørseler man kan ha i året før prisen stiger, som kan bli dyrt.',
     },
     'xnz45xlp': {
       'en': 'Step 2',
@@ -128,17 +148,19 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'rj07qb0g': {
       'en':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'nb': '',
+          'After you have crossed off the entire list, you can press "Renew CallList". \n\nNote that you can only renew the call list if you have crossed off all the prospects.',
+      'nb':
+          'Etter du har krysset ut hele listen, kan du trykke på "Forny Ringelisten".\n\nMerk at du kan bare fornye ringelisten om du har krysset ut alle prospektene.',
     },
     'tsty4p9e': {
-      'en': 'Step 3',
-      'nb': 'Steg 3',
+      'en': 'Important',
+      'nb': 'Viktig',
     },
     'uheh63gf': {
       'en':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'nb': '',
+          "When you renew the list, the prospects will be considered finished and removed from the database. \n\nSo be careful not to tick off prospects who haven't been called yet.",
+      'nb':
+          'Når du fornyer listen vil prospektene bli ansett som ferdigbehandlet og fjernet fra databasen. \n\nSå vær forsiktig å ikke kryss av prospektere som ikke enda er ringt.',
     },
     'n5u9bk2y': {
       'en': 'Step 4',
@@ -182,7 +204,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'dyovkwxn': {
       'en': 'Creator',
-      'nb': '',
+      'nb': 'Utvikler',
     },
     'q4mnsavs': {
       'en':
@@ -253,11 +275,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'zyhkv4uu': {
       'en': 'Password',
-      'nb': 'Språk',
+      'nb': 'Passord',
     },
     'lymob5pz': {
       'en': 'Change Password',
-      'nb': '',
+      'nb': 'Endre Passord',
     },
     'tmwzirro': {
       'en': 'Cancel',
@@ -276,79 +298,79 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   {
     'f86135rs': {
       'en': 'FeedBack',
-      'nb': '',
+      'nb': 'Tilbakemelding',
     },
     'jdxfccf5': {
       'en': 'What is your feedback related to?',
-      'nb': '',
+      'nb': 'Hva er tilbakemeldingen din knyttet til?',
     },
     '2tnwg56l': {
       'en': 'Issue/Bug',
-      'nb': '',
+      'nb': 'Problem/feil',
     },
     'y55lsx8h': {
       'en': 'Missing Feature',
-      'nb': '',
+      'nb': 'Manglende funksjon',
     },
     '18b4xxn1': {
       'en': 'User Experience',
-      'nb': '',
+      'nb': 'Brukererfaring',
     },
     'komfrau1': {
       'en': 'Legal',
-      'nb': '',
+      'nb': 'Juridisk',
     },
     'fyhytso7': {
       'en': 'Other',
-      'nb': '',
+      'nb': 'Annet',
     },
     'jv4mmqyf': {
       'en': 'What company do you represent?',
-      'nb': '',
+      'nb': 'Hvilket selskap representerer du?',
     },
     '3gpxhhxw': {
       'en': 'ExampleCompany AS',
-      'nb': '',
+      'nb': 'EksempelBedrift AS',
     },
     'zewan5yy': {
       'en': 'What is your job position?',
-      'nb': '',
+      'nb': 'Hva er arbeidsstillingen din',
     },
     'k8lvq4bg': {
       'en': 'Owner / Administration',
-      'nb': '',
+      'nb': 'Eier / Administrasjon',
     },
     'mf0kvfs9': {
       'en': 'IT / Development',
-      'nb': '',
+      'nb': 'It / Utvikling',
     },
     'gg4jng8j': {
       'en': 'Employee',
-      'nb': '',
+      'nb': 'Ansatt',
     },
     'i5da2rpx': {
       'en': 'Other',
-      'nb': '',
+      'nb': 'Annet',
     },
     'z05s1aqw': {
       'en': 'Message',
-      'nb': '',
+      'nb': 'Melding',
     },
     'mlhg1hgy': {
       'en': 'Email Address',
-      'nb': '',
+      'nb': 'Epostadresse',
     },
-    'wzputey6': {
-      'en': '[Some hint text...]',
-      'nb': '',
-    },
+    // 'wzputey6': {
+    //   'en': '[Some hint text...]',
+    //   'nb': '',
+    // },
     'c46l6cf6': {
       'en': 'Send',
-      'nb': '',
+      'nb': 'Send',
     },
     'laajsjau': {
       'en': 'Home',
-      'nb': '',
+      'nb': 'Hjem',
     },
   },
   // Login
@@ -387,7 +409,56 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
   },
   // Signup
+
   {
+    'in1c322b': {
+      'en': 'Please enter the name of your workplace.',
+      'nb': 'Fyll inn arbeidsplass',
+    },
+    'in1c322s': {
+      'en': 'Workplace not filled correctly.',
+      'nb': 'Arbeidsplass er ikke fyllt inn riktig',
+    },
+    'in1c322c': {
+      'en': 'Please enter password.',
+      'nb': 'Fyll inn passord.',
+    },
+    'in1c322d': {
+      'en': 'Please enter a valid password.',
+      'nb': 'Fyll inn en gyldig passord',
+    },
+    'in1c322a': {
+      'en': 'Please enter a valid email.',
+      'nb': 'Fyll inn en gyldig epost',
+    },
+    'ibsc322a': {
+      'en': 'Unable to create account',
+      'nb': 'Klarte ikke å opprette en konto',
+    },
+    'ib1c3p2a': {
+      'en': 'Form is not properly filled ',
+      'nb': 'Skjemaet er ikke riktig fylt inn',
+    },
+    'ib1c3g2a': {
+      'en': 'Workplace not filled correctly.',
+      'nb': 'Arbeidsplass er ikke riktig fyllt inn',
+    },
+    'ib1c322a': {
+      'en':
+          'Only use lowercase letters,\nDo not use spaces, numbers or special characters.',
+      'nb':
+          'Bruk bare små bokstaver,\nIkke bruk mellomrom, nummere eller spesielle bokstaver.',
+    },
+    'ib1c3s2a': {
+      'en': 'Please enter a strong password.',
+      'nb': 'Fyll inn et sterkere passord.',
+    },
+    'ib1c3sna': {
+      'en':
+          'Use atleast \n - one uppercase letter, \n - one lowercase letter, \n - one number\n',
+      'nb':
+          'Bruk minst \n -en stor bokstav, \n - en liten bokstav, \n - ett nummer\n',
+    },
     'ib1c3zui': {
       'en': 'Return To Login',
       'nb': 'Gå tilbake til pålogging',
@@ -429,7 +500,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'xzbndtx5': {
       'en': 'GET STARTED',
-      'nb': 'Gå tilbake til pålogging',
+      'nb': 'KOM I GANG',
     },
     '6bby3gm4': {
       'en': 'Home',
@@ -440,7 +511,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   {
     'ugfxvysw': {
       'en': 'ERROR: Your email  or password was incorrect, \nplease try again.',
-      'nb': 'Opprett Ny Konto',
+      'nb':
+          'ERROR: E-postadressen eller passordet ditt var feil, \nprøv igjen.',
     },
     'pshb00rr': {
       'en': 'Home',
@@ -451,23 +523,23 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   {
     'mkjs1git': {
       'en': 'Password Reset',
-      'nb': '',
+      'nb': 'Tilbakestill Passord',
     },
     'b6vxcqkd': {
       'en': 'New Password',
-      'nb': 'Passord',
+      'nb': 'Nytt Passord',
     },
     'lpsz5j9b': {
       'en': 'Confirm Password',
-      'nb': 'Passord',
+      'nb': 'Bekreft Passord',
     },
     'weidrreh': {
       'en': 'ERROR: Passwords did not match',
-      'nb': '',
+      'nb': 'ERROR: Passordene er forskjellige',
     },
     '973k67jf': {
       'en': 'Reset Password',
-      'nb': 'Gå tilbake til pålogging',
+      'nb': 'Tilbakestill',
     },
     'yus3tsue': {
       'en': 'Home',
@@ -478,11 +550,12 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   {
     'pkchmen5': {
       'en': 'Password Recovery',
-      'nb': '',
+      'nb': 'Passordgjenoppretting',
     },
     'xrdirw1y': {
       'en': 'To request password reset link, please enter your email',
-      'nb': 'Opprett Ny Konto',
+      'nb':
+          'Skriv inn e-postadressen din, for å be om lenke for tilbakestilling av passord',
     },
     'k0qg50zl': {
       'en': 'Email Address',
@@ -490,7 +563,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'swysf1rz': {
       'en': 'Recover Password',
-      'nb': 'Gå tilbake til pålogging',
+      'nb': 'Gjenopprett passord',
     },
     'c56q9stn': {
       'en': 'Home',
@@ -541,17 +614,29 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // CardSharp
   {
-    'dvjzirok': {
+    'dvjziro1': {
       'en': 'Step 1',
-      'nb': '',
+      'nb': 'Steg 1',
+    },
+    'dvjziro2': {
+      'en': 'Step 2',
+      'nb': 'Steg 2',
+    },
+    'dvjziro3': {
+      'en': 'Step 3',
+      'nb': 'Steg 3',
+    },
+    'dvjziro4': {
+      'en': 'Step 4',
+      'nb': 'Steg 4',
     },
     'jus2xblm': {
       'en': 'Cancel',
-      'nb': '',
+      'nb': 'Avbryt',
     },
     'thndjhfw': {
       'en': 'Save',
-      'nb': '',
+      'nb': 'Lagre',
     },
   },
   // Miscellaneous

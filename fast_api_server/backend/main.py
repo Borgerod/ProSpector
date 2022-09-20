@@ -7,6 +7,7 @@ from apis.version1.send_email import send_email_async
 # from db.db.repository.call_list import getRowsBetween
 
 from db.repository.call_list import getOverview, getCurrentCallList, getRowsBetween, updateCallListStatus, renewList
+from db.repository.users import changePassword
 # from db.repository.call_list import getRowsBetween
 
 # from db.session import SessionLocal, get_db
@@ -57,18 +58,18 @@ def get_callList(skip: int = 0, limit: int = 40, token: str = None, db: Session 
     return getRowsBetween(db, skip, limit)
 
 @app.get("/currentcallList")
-def get_callList(token: str = Depends(OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")), db: Session = Depends(get_db)):
+def get_callList(token: str = Depends(OAuth2PasswordBearerWithCookie(tokenUrl = "/login/token")), db: Session = Depends(get_db)):
     user = get_current_user_from_token(token, db)
     return getCurrentCallList(db, user)
 
 @app.get("/overView")
-def get_overview(token: str = Depends(OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")), db: Session = Depends(get_db)):
+def get_overview(token: str = Depends(OAuth2PasswordBearerWithCookie(tokenUrl = "/login/token")), db: Session = Depends(get_db)):
     user = get_current_user_from_token(token, db)
     overview = getOverview(db, user)
     return overview
 
 @app.get("/ShowUser")
-def get_user( token: str = Depends(OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")), db: Session = Depends(get_db)):
+def get_user( token: str = Depends(OAuth2PasswordBearerWithCookie(tokenUrl = "/login/token")), db: Session = Depends(get_db)):
     user = get_current_user_from_token(token, db)
     return user
 
@@ -76,22 +77,37 @@ def get_user( token: str = Depends(OAuth2PasswordBearerWithCookie(tokenUrl="/log
 async def update_item(org_num: int, db: Session = Depends(get_db)):
     return updateCallListStatus(db, org_num)
 
-
 @app.get("/RenewList")
-async def renew_list(token: str = Depends(OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")), db: Session = Depends(get_db)):
+async def renew_list(token: str = Depends(OAuth2PasswordBearerWithCookie(tokenUrl = "/login/token")), db: Session = Depends(get_db)):
     user = get_current_user_from_token(token, db)
-
     return renewList(db, user)
+
+@app.get("/ResetPassword/Authentication")
+async def send_email_asynchronous(email_to = None, verify_num = None):
+    await send_email_async(email_to, verify_num)
+    return 'Success'
+
+@app.put("/ResetPassword")
+async def post_email_auth():
+    isAuth = True
+    return isAuth
+
+@app.get('/ResetPassword')
+async def put_change_password(new_password = None, email = None, db: Session = Depends(get_db)):
+    if email == None:
+        try: 
+            user = get_user( token=Depends(OAuth2PasswordBearerWithCookie(tokenUrl = "/login/token")), db=db)
+            email = user.email    
+        except:
+            print("ResetPassword ERROR")
+    return changePassword(new_password, email, db)
+
 
 # @app.get("/ResetPassword")
 # async def renew_list(email: str, db: Session):
 
-    return renewList(db, user)
+    # return renewList(db, user)
 
-@app.get("/ResetPassword/Authentication")
-async def send_email_asynchronous(email = None):
-    await send_email_async('Email Authentication', email)
-    return 'Success'
 # async def send_email_asynchronous(email = None, Session = Depends(get_db)):
     # user_emial = get_user_email(email, db)
     # if user_emial:
@@ -102,13 +118,6 @@ async def send_email_asynchronous(email = None):
     #     return 'Failiure'
 
 
-
-
-@app.put("/ResetPassword/AuthenticationBool")
-async def post_email_auth():
-    isAuth = True
-    return isAuth
-    # await return isEmailAuthenticated()
 
 
 # @app.get("/ResetPassword/AuthenticationBool")
@@ -145,10 +154,25 @@ async def post_email_auth():
 
 
 
-html = """
-<p>Thanks for using Fastapi-mail</p> 
-"""
 
-@app.post("/email")
-async def simple_send() -> JSONResponse:
-    return await send_email_async()
+# @app.post("/email")
+# async def simple_send() -> JSONResponse:
+#     # return await send_email_async()
+#     await send_email_async('Hello World','someemail@gmail.com',
+#         {'title': 'Hello World'})
+#     return 'Success'
+
+
+
+# @app.get('/email')
+# async def send_email_asynchronous():
+#     await send_email_async('Hello World', 'borgerod@hotmail.com')
+#     return 'Success'
+
+    # return await changePassword(new_password, email, db)
+
+
+'''
+aleksander@hotmail.com
+Passord123
+'''

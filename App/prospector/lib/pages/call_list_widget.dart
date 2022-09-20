@@ -174,8 +174,6 @@ class _CallListWidgetState extends State<CallListWidget> {
               ],
             ),
           ),
-          // ),
-          // ],
         ),
       ),
     );
@@ -193,8 +191,6 @@ class _JsonDataGridState extends State<JsonDataGrid> {
   String accsess_token = globals.accsess_token;
   Future generateProductList() async {
     Uri _url = Uri.parse('http://127.0.0.1:8000/currentcallList');
-    // Uri _url = Uri.parse('http://127.0.0.1:8000/callList?skip=672&limit=40');
-
     var response = await http
         .get(_url, headers: {'Cookie': 'access_token=Bearer $accsess_token'});
     var list = json
@@ -213,7 +209,6 @@ class _JsonDataGridState extends State<JsonDataGrid> {
 //         'http://127.0.0.1:8000/currentcallList'), headers: {
 //       'accept': 'application/json',
 //     });
-
   // var list = json
   //     .decode(utf8.decode(response.bodyBytes))
   //     .cast<Map<String, dynamic>>();
@@ -432,6 +427,7 @@ class _JsonDataGridSource extends DataGridSource {
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: Checkbox(
+            activeColor: Color(0xFF48B892),
             value: row.getCells()[5].value,
             onChanged: (value) {
               http.put(Uri.parse(

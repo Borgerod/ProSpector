@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:prospector/flutter_flow/internationalization.dart';
@@ -13,9 +12,13 @@ import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/pages/login_page_test.dart'; //! TESTING
 import 'package:prospector/index.dart';
 
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
+
 Future<void> main() async {
-  await Hive.initFlutter(); //! TESTING
+  await Hive.initFlutter();
   await FlutterFlowTheme.initialize();
+  // await FlutterFlowTheme.initialize();
   await Window.initialize();
   if (Platform.isWindows) {
     await Window.hideWindowControls();
@@ -49,6 +52,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
+
   ThemeMode _themeMode = FlutterFlowTheme.themeMode;
   bool displaySplashImage = true;
 
@@ -61,10 +65,17 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void setLocale(String language) =>
-      setState(() => _locale = createLocale(language));
+  // void setLocale(String language) =>
+  //     setState(() => _locale = createLocale(language));
+  void setLocale(String language) {
+    // print(language);
+    return setState(() => _locale = createLocale(language));
+  }
+
   void setThemeMode(ThemeMode mode) => setState(() {
         _themeMode = mode;
+        // print(mode);
+        // print(_themeMode);
         FlutterFlowTheme.saveThemeMode(mode);
       });
 
@@ -87,9 +98,9 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: _themeMode,
-      home: ResetPasswordAuthenticationWidget(),
+      // home: ResetPasswordAuthenticationWidget(),
       // home: Login_Page(),
-      // home: LoginWidget(),
+      home: LoginWidget(),
       // home: MenuWidget(),
     );
   }

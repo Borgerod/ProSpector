@@ -1,30 +1,24 @@
-/*
- * Copyright (c) 2019 gomgom. https://www.gomgom.net
- *
- * Source code has been modified by FlutterFlow, Inc. and the below license 
- * applies only to this file. Adapted from "language_picker" pub.dev package.
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 import 'package:emoji_flag_converter/emoji_flag_converter.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// const kThemeModeKey = '__theme_mode__';
+// SharedPreferences? _prefs;
+
+// abstract class FlutterFlowLanguage {
+//   static Future initialize() async =>
+//       _prefs = await SharedPreferences.getInstance();
+//   static String get language {
+//     final language = _prefs?.getBool(kThemeModeKey);
+//     return _prefs.
+//   }
+// }
+
+// void setAppLanguage(BuildContext context, String language) =>
+//     MyApp.of(context).setLocale(language);
+
+// void setDarkModeSetting(BuildContext context, ThemeMode themeMode) =>
+//     MyApp.of(context).setThemeMode(themeMode);
 
 class FlutterFlowLanguageSelector extends StatelessWidget {
   const FlutterFlowLanguageSelector({

@@ -1,30 +1,42 @@
-import 'dart:math';
+import 'package:flutter/material.dart';
 import 'dart:ui';
 
+import 'package:prospector/popups/reset_password_authentication_widget.dart';
+import 'package:prospector/popups/reset_password_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/popups/insert_verification_code.dart';
-import 'package:flutter/material.dart';
 
-class ResetPasswordAuthenticationWidget extends StatefulWidget {
-  const ResetPasswordAuthenticationWidget({Key? key}) : super(key: key);
+class InsertVerificationCode extends StatefulWidget {
+  final Verify verify_num;
 
+  final Email email;
+
+  // const InsertVerificationCode(int verify_num, {Key? key}) : super(key: key);
+  InsertVerificationCode(
+      {Key? key, required this.verify_num, required this.email})
+      : super(key: key);
   @override
-  _ResetPasswordAuthenticationWidgetState createState() =>
-      _ResetPasswordAuthenticationWidgetState();
+  _InsertVerificationCodeState createState() =>
+      _InsertVerificationCodeState(verify_num: verify_num, email: email);
 }
 
-class _ResetPasswordAuthenticationWidgetState
-    extends State<ResetPasswordAuthenticationWidget> {
-  TextEditingController? emailController;
+class _InsertVerificationCodeState extends State<InsertVerificationCode> {
+  _InsertVerificationCodeState(
+      {Key? key, required this.verify_num, required this.email});
+  TextEditingController? verifi_num_controller;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  late Color colorState = FlutterFlowTheme.of(context).secondaryText;
+  late Color labelColorState = FlutterFlowTheme.of(context).secondaryText;
+  late String labelState = "Insert Verification Code Here";
+  final Verify verify_num;
+  final Email email;
 
   @override
   void initState() {
     super.initState();
-    emailController = TextEditingController();
+    verifi_num_controller = TextEditingController();
   }
 
   @override
@@ -71,7 +83,7 @@ class _ResetPasswordAuthenticationWidgetState
                 elevation: 10,
                 child: Container(
                   width: 600,
-                  height: 250,
+                  height: 200,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).tertiaryColor,
                   ),
@@ -92,9 +104,7 @@ class _ResetPasswordAuthenticationWidgetState
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     30, 15, 20, 0),
                                 child: Text(
-                                  FFLocalizations.of(context).getText(
-                                    'pkchmen5' /* Password Recovery */,
-                                  ),
+                                  'Password Recovery',
                                   style: FlutterFlowTheme.of(context)
                                       .title1
                                       .override(
@@ -134,30 +144,7 @@ class _ResetPasswordAuthenticationWidgetState
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    30, 0, 30, 0),
-                                child: Text(
-                                  FFLocalizations.of(context).getText(
-                                    'xrdirw1y' /* To request password reset link... */,
-                                  ),
-                                  textAlign: TextAlign.start,
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyText1
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodyText1Family,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ],
+                          children: [],
                         ),
                         Padding(
                           padding:
@@ -169,26 +156,26 @@ class _ResetPasswordAuthenticationWidgetState
                               Padding(
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-                                child: Icon(
-                                  Icons.email_sharp,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  size: 24,
-                                ),
                               ),
                               Expanded(
                                 flex: 3,
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 10),
+                                      0, 0, 80, 10),
                                   child: TextFormField(
-                                    controller: emailController,
+                                    keyboardType: TextInputType.number,
+                                    controller: verifi_num_controller,
                                     obscureText: false,
                                     decoration: InputDecoration(
-                                      labelText:
-                                          FFLocalizations.of(context).getText(
-                                        'k0qg50zl' /* Email Address */,
-                                      ),
+                                      labelText: labelState,
+                                      labelStyle: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            color: labelColorState,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal,
+                                          ),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -216,68 +203,74 @@ class _ResetPasswordAuthenticationWidgetState
                                         .bodyText1
                                         .override(
                                           fontFamily: 'Poppins',
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          fontSize: 12,
+                                          color: colorState,
+                                          fontSize: 20,
                                           fontWeight: FontWeight.normal,
                                         ),
-                                    keyboardType: TextInputType.emailAddress,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  String email = emailController!.text;
-                                  int verify_num = generateVerificationNumber();
-                                  await launchURL(
-                                      'http://127.0.0.1:8000/ResetPassword/Authentication?email_to=$email&verify_num=$verify_num');
-                                  await Navigator.pushReplacement(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      duration: Duration(milliseconds: 0),
-                                      reverseDuration:
-                                          Duration(milliseconds: 0),
-                                      child: InsertVerificationCode(
-                                        verify_num:
-                                            new Verify(verify_num.toString()),
-                                        email: new Email(email.toString()),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    30, 0, 30, 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    FFButtonWidget(
+                                      onPressed: () async {
+                                        String inserted_num =
+                                            verifi_num_controller!.text;
+                                        if (verify_num.verify_num ==
+                                            inserted_num) {
+                                          await Navigator.pushReplacement(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                              reverseDuration:
+                                                  Duration(milliseconds: 0),
+                                              child: ResetPasswordWidget(
+                                                  email: email),
+                                            ),
+                                          );
+                                        } else {
+                                          setState(
+                                            () {
+                                              colorState = Colors.red;
+                                              labelState =
+                                                  "INCORRECT VERIFICATION NUMBER.";
+                                              labelColorState = Colors.red;
+                                            },
+                                          );
+                                        }
+                                      },
+                                      text: "Verify",
+                                      options: FFButtonOptions(
+                                        width: 200,
+                                        height: 40,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryColor,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .subtitle2
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBtnText,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                        elevation: 3,
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(0),
                                       ),
                                     ),
-                                  );
-                                },
-                                text: FFLocalizations.of(context).getText(
-                                  'swysf1rz' /* Recover Password */,
-                                ),
-                                options: FFButtonOptions(
-                                  width: 200,
-                                  height: 40,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryColor,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .subtitle2
-                                      .override(
-                                        fontFamily: 'Poppins',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBtnText,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                  elevation: 3,
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(0),
+                                  ],
                                 ),
                               ),
                             ],
@@ -294,31 +287,4 @@ class _ResetPasswordAuthenticationWidgetState
       ),
     );
   }
-
-  int generateVerificationNumber() {
-    // var rng = Random();
-    // int gen_num = rng.nextInt(10000);
-    int rng(int min, int max) {
-      return min + Random().nextInt(max - min);
-    }
-
-    int gen_num = rng(100000, 999999);
-    print(gen_num);
-    // for (var i = 0; i < 10; i++) {
-
-    // gen_num.add(rng.nextInt(100));
-    return gen_num;
-  }
-}
-
-class Verify {
-  final String verify_num;
-
-  Verify(this.verify_num);
-}
-
-class Email {
-  final String email;
-
-  Email(this.email);
 }

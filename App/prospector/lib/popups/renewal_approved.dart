@@ -1,6 +1,8 @@
+import 'dart:ui';
+
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui';
+import 'package:prospector/flutter_flow/internationalization.dart';
 
 class RenewalApprovedWidget extends StatefulWidget {
   const RenewalApprovedWidget({Key? key}) : super(key: key);
@@ -62,8 +64,6 @@ class _RenewalApprovedWidgetState extends State<RenewalApprovedWidget> {
                 child: Container(
                   width: 500,
                   height: 160,
-                  // width: MediaQuery.of(context).size.width * 0.25,
-                  // height: MediaQuery.of(context).size.height * 0.15,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).tertiaryColor,
                   ),
@@ -121,7 +121,8 @@ class _RenewalApprovedWidgetState extends State<RenewalApprovedWidget> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                               child: Text(
-                                'Approved, Renewing List',
+                                FFLocalizations.of(context).getText(
+                                    'x3f7fyl1' /*  'Approved, Renewing List' */),
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
                                     .subtitle1

@@ -1,23 +1,33 @@
-import 'package:prospector/flutter_flow/flutter_flow_icon_button.dart';
-import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
-import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
-import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'dart:ui';
 
-class ResetPasswordWidget extends StatefulWidget {
-  const ResetPasswordWidget({Key? key}) : super(key: key);
+import 'package:prospector/flutter_flow/flutter_flow_icon_button.dart';
+import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
+import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
+import 'package:prospector/flutter_flow/flutter_flow_util.dart';
+import 'package:flutter/material.dart';
+import 'package:prospector/popups/reset_password_authentication_widget.dart';
 
+class ResetPasswordWidget extends StatefulWidget {
+  const ResetPasswordWidget({Key? key, required this.email}) : super(key: key);
+  final Email email;
   @override
-  _ResetPasswordWidgetState createState() => _ResetPasswordWidgetState();
+  _ResetPasswordWidgetState createState() => _ResetPasswordWidgetState(email);
 }
 
 class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
+  _ResetPasswordWidgetState(this.email, {Key? key});
   TextEditingController? confirmPasswordController;
-  late bool confirmPasswordVisibility;
   TextEditingController? newPasswordController;
-  late bool newPasswordVisibility;
+  final Email email;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  late bool confirmPasswordVisibility;
+  late bool newPasswordVisibility;
+  late Color colorState = FlutterFlowTheme.of(context).thirdTextColor;
+  late Color labelColorState = FlutterFlowTheme.of(context).thirdTextColor;
+  late String labelState = FFLocalizations.of(context).getText(
+    'lpsz5j9b' /* Confirm Password */,
+  );
 
   @override
   void initState() {
@@ -131,6 +141,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
+                                // PASSWORD ________________________________________________
                                 Expanded(
                                   flex: 3,
                                   child: Padding(
@@ -148,6 +159,9 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                         labelText:
                                             FFLocalizations.of(context).getText(
                                           'b6vxcqkd' /* New Password */,
+                                        ),
+                                        labelStyle: TextStyle(
+                                          color: Color(0xFFD6D8DA),
                                         ),
                                         enabledBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
@@ -196,6 +210,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                     ),
                                   ),
                                 ),
+                                //  __________________________________________________________
                               ],
                             ),
                           ),
@@ -221,10 +236,9 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                       },
                                       obscureText: !confirmPasswordVisibility,
                                       decoration: InputDecoration(
-                                        labelText:
-                                            FFLocalizations.of(context).getText(
-                                          'lpsz5j9b' /* Confirm Password */,
-                                        ),
+                                        labelText: labelState,
+                                        labelStyle:
+                                            TextStyle(color: labelColorState),
                                         enabledBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Color(0xFF95A1AC),
@@ -247,13 +261,13 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                         ),
                                         suffixIcon: InkWell(
                                           onTap: () => setState(
-                                            () => newPasswordVisibility =
-                                                !newPasswordVisibility,
+                                            () => confirmPasswordVisibility =
+                                                !confirmPasswordVisibility,
                                           ),
                                           focusNode:
                                               FocusNode(skipTraversal: true),
                                           child: Icon(
-                                            newPasswordVisibility
+                                            confirmPasswordVisibility
                                                 ? Icons.visibility_outlined
                                                 : Icons.visibility_off_outlined,
                                             color: Color(0xFF95A1AC),
@@ -265,7 +279,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                           .bodyText1
                                           .override(
                                             fontFamily: 'Poppins',
-                                            color: Color(0xFFD6D8DA),
+                                            color: colorState,
                                             fontSize: 12,
                                             fontWeight: FontWeight.normal,
                                           ),
@@ -283,37 +297,30 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              if (newPasswordController!.text !=
-                                  confirmPasswordController!.text)
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        30, 0, 30, 0),
-                                    child: Text(
-                                      FFLocalizations.of(context).getText(
-                                        'weidrreh' /* ERROR: Passwords did not match */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyText1Family,
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                    ),
-                                  ),
-                                ),
                               FFButtonWidget(
                                 onPressed: () async {
+                                  print(newPasswordController!.text);
+                                  print(confirmPasswordController!.text);
+                                  print(newPasswordController!.text ==
+                                      confirmPasswordController!.text);
                                   if (newPasswordController!.text ==
                                       confirmPasswordController!.text) {
-                                    await launchURL(
-                                        'http://127.0.0.1:8000/ResetPassword');
+                                    String newPass =
+                                        newPasswordController!.text;
+                                    String emailStr = email.email;
+                                    print(emailStr);
+                                    await http.get(
+                                      Uri.parse(
+                                          'http://127.0.0.1:8000/ResetPassword?new_password=$newPass&email=$emailStr'),
+                                    );
                                     Navigator.pop(context);
+                                  } else {
+                                    setState(() {
+                                      colorState = Colors.red;
+                                      labelState =
+                                          "INCORRECT VERIFICATION NUMBER.";
+                                      labelColorState = Colors.red;
+                                    });
                                   }
                                 },
                                 text: FFLocalizations.of(context).getText(

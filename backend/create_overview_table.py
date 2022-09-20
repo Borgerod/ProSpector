@@ -25,17 +25,18 @@ def createOverview(client_org = 'Mediavest'):
 					kunde_id,
 					er_ledig,
 					er_ferdig,
-					org_num_list
 					]
 		overview.append(list_cols)
 	overview = pd.DataFrame( overview,
 		columns = ['liste_id','liste_start',
 				   'liste_limit', 
 				   'kunde_id', 'er_ledig','er_ferdig',
-				   'org_num_liste'],)
+				   # 'org_num_liste'
+				   ],)
 	tablename = f'call_list_overview_{client_org}'
+	# print(overview)
 	databaseManager(overview, tablename, to_user_api=True)
-# createOverview(client_org = 'Mediavest')
+createOverview(client_org = 'mediavest')
 
 
 
@@ -59,5 +60,5 @@ def markCallListWithListID(client_org = 'Mediavest'):
 			
 	list_id_col = list_id_col[:len(df.index)]
 	df['liste_id'] = list_id_col
-	databaseManager(df, tablename, to_user_api=True)
-markCallListWithListID(client_org = 'Mediavest')
+	# databaseManager(df, tablename, to_user_api=True)
+# markCallListWithListID(client_org = 'Mediavest')

@@ -16,3 +16,4 @@ class ShowUser(BaseModel):
 
     class Config:  # to convert non dict obj to json
         orm_mode = True
+  

@@ -4,31 +4,39 @@ from db.models.call_list import CallList, CallListOverview
 def getRowsBetween(db: Session, start: int, limit: int):
     return db.query(CallList).offset(start).limit(limit).all()
 
-
-def getCurrentCallList(db, user):
+def getCurrentCallList(db, user):    
     current_list_info = getCurrentCallListInfo(db, user.id)
-    print(current_list_info.liste_id)
-    # for i in db.query(CallList)[current_list_info.liste_start:current_list_info.liste_limit]:
-    #     print(i.navn)
-    # return db.query(CallList)[current_list_info.liste_start:current_list_info.liste_limit]
-    return db.query(CallList).filter_by(liste_id = current_list_info.liste_id).all()
+    if current_list_info: 
+        print("has info")
+        return db.query(CallList).filter_by(liste_id = current_list_info.liste_id).all()
+    else:
+        print("has no info") 
+        assignNewList(db, user.id)
+        current_list_info = getCurrentCallListInfo(db, user.id)
+        return db.query(CallList).filter_by(liste_id = current_list_info.liste_id).all()
+        
 
-def getOverview(db: Session, user: int):
-    if checkIfCurrentLists(db, user.id):
-        if checkCurrentListStatus(db, kunde_id=user.id):
-            return "Error, Please finish the current Call list before requesting a new one."
-        updateCurrentListStatus(db, user.id)
-    overview = db.query(CallListOverview).filter_by(er_ledig = True, er_ferdig = False).first()
-    overview.er_ledig = False
-    overview.kunde_id = user.id 
-    db.commit()
-    return db.query(CallList)[overview.liste_start:overview.liste_limit]#.all()
+
+
+
+    # # print(current_list_info.liste_id)
+    # # for i in db.query(CallList)[current_list_info.liste_start:current_list_info.liste_limit]:
+    # #     print(i.navn)
+    # # return db.query(CallList)[current_list_info.liste_start:current_list_info.liste_limit]
+    # # return db.query(CallList).filter_by(liste_id = current_list_info.liste_id).all()
+
 
 def updateCurrentListStatus(db: Session, kunde_id: int):
     overview = db.query(CallListOverview).filter_by(kunde_id = str(kunde_id), er_ferdig = False).first()
     overview.er_ledig = True
     overview.er_ferdig = True
     db.commit()
+
+def assignNewList(db: Session, kunde_id: int):
+    newList = db.query(CallListOverview).filter_by(er_ledig = True, er_ferdig = False).first()
+    newList.kunde_id = kunde_id
+    db.commit() 
+    # return newList
 
 
 def checkIfCurrentLists(db: Session, kunde_id: int ):
@@ -59,14 +67,26 @@ def updateCallListStatus(db: Session, org_num: int):
     db.commit()
 
 def renewList(db: Session, user: int):
-    # print(db)
-    # print(user)
     if checkIfCurrentLists(db, user.id):
-        if checkCurrentListStatus(db, kunde_id=user.id):
-            # return "Denied, Please finish the current Call list before requesting a new one."
+        if checkCurrentListStatus(db, kunde_id = user.id):
             return False
         updateCurrentListStatus(db, user.id)
-        # return "Approved, all prospects have been called, --> renewing list"
+        assignNewList(db, user.id)
         return True
     return "Error, checkIfCurrentLists() failed!"
         # updateCurrentListStatus(db, user.id)
+
+
+
+
+#! [OLD] NOW SURE IF ITS NEEDED ANYMORE
+def getOverview(db: Session, user: int):
+    if checkIfCurrentLists(db, user.id):
+        if checkCurrentListStatus(db, kunde_id = user.id):
+            return "Error, Please finish the current Call list before requesting a new one."
+        updateCurrentListStatus(db, user.id)
+    overview = db.query(CallListOverview).filter_by(er_ledig = True, er_ferdig = False).first()
+    overview.er_ledig = False
+    overview.kunde_id = user.id 
+    db.commit()
+    return db.query(CallList)[overview.liste_start:overview.liste_limit]#.all()

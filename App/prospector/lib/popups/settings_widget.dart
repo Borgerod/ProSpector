@@ -1,10 +1,12 @@
-import 'package:prospector/flutter_flow/flutter_flow_language_selector.dart';
-import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
-import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
-import 'package:prospector/popups/reset_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
+
+import 'package:prospector/popups/reset_password_widget.dart';
+import 'package:prospector/popups/reset_password_authentication_widget.dart';
+import 'package:prospector/flutter_flow/flutter_flow_language_selector.dart';
+import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
+import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
+import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 
 class SettingsWidget extends StatefulWidget {
   const SettingsWidget({Key? key}) : super(key: key);
@@ -234,14 +236,15 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                         milliseconds: 0),
                                                     reverseDuration: Duration(
                                                         milliseconds: 0),
-                                                    child:
-                                                        ResetPasswordWidget(),
+                                                    child: ResetPasswordWidget(
+                                                        email: Email(
+                                                            "".toString())),
                                                   ),
                                                 );
                                               },
                                               text: FFLocalizations.of(context)
                                                   .getText(
-                                                'lymob5pz' /* Change Password */,
+                                                'lymob5pz' /* Change Password*/,
                                               ),
                                               icon: Icon(
                                                 Icons.keyboard_arrow_right,
@@ -253,6 +256,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primaryBackground,
+                                                // textStyle: TextStyle(),
                                                 textStyle: FlutterFlowTheme.of(
                                                         context)
                                                     .subtitle2
@@ -265,7 +269,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .primaryText,
-                                                        fontSize: 15),
+                                                        fontSize: 12),
                                                 elevation: 0,
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(

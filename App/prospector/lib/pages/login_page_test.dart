@@ -1,9 +1,20 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:flutter/services.dart';
+import 'package:prospector/backend/api_requests/api_calls.dart';
+import 'package:prospector/components/menu_widget.dart';
+import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
+import 'package:prospector/flutter_flow/flutter_flow_util.dart';
+import 'package:prospector/flutter_flow/internationalization.dart';
+import 'package:prospector/pages/main_page/home_page_backup.dart';
+import 'package:prospector/popups/login_error_message_widget.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
+import 'package:http/http.dart' as http;
+import 'package:prospector/globals.dart' as globals;
 
 import 'package:prospector/pages/signup_page.dart';
 
@@ -14,7 +25,7 @@ class Login_Page extends StatefulWidget {
 }
 
 class _Login_PageState extends State<Login_Page> {
-  // _____ VARIABLES ______
+  // // _____ VARIABLES ______
   bool isChecked = false; //* rememberMe checkbox
   TextEditingController email = TextEditingController(); //* email-controller
   TextEditingController pass = TextEditingController(); //*  pass-controller
@@ -106,8 +117,12 @@ class _Login_PageState extends State<Login_Page> {
                   // _________________  PASSWORD _______________________________
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: TextField(
-                      controller: pass, //* <--- pass-controller
+                    child: TextFormField(
+                      controller: pass, //* <--- password-controller
+                      onFieldSubmitted: (value) {
+                        print("Login Event; Pressed Enter-key");
+                        Login.callback(email, pass, isChecked, box1, context);
+                      },
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
@@ -120,7 +135,6 @@ class _Login_PageState extends State<Login_Page> {
                             borderRadius: new BorderRadius.circular(10.0),
                             borderSide: const BorderSide(color: Colors.blue)),
                         isDense: true,
-                        // Added this
                         contentPadding:
                             const EdgeInsets.fromLTRB(10, 20, 10, 10),
                       ),
@@ -135,8 +149,16 @@ class _Login_PageState extends State<Login_Page> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Remember Me",
-                        style: TextStyle(color: Colors.white),
+                        FFLocalizations.of(context).getText(
+                          'argrf05a' /* Remember me */,
+                        ),
+                        textAlign: TextAlign.center,
+                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).bodyText1Family,
+                              color:
+                                  FlutterFlowTheme.of(context).primaryBtnText,
+                            ),
                       ),
                       Checkbox(
                         value: //  The checkbox value is initially the basevalue
@@ -168,27 +190,40 @@ class _Login_PageState extends State<Login_Page> {
                   // ___________________________________________________________
                   HeightBox(10),
                   // _________________  LOGIN BUTTON ___________________________
-                  GestureDetector(
-                      onTap: () {
-                        print("Login Clicked Event");
-                        login(); // on tap --> run this method
-                      },
-                      child: "Login"
-                          .text
-                          .white
-                          .light
-                          .xl
-                          .makeCentered()
-                          .box
-                          .white
-                          .shadowOutline(outlineColor: Colors.grey)
-                          .color(Color(0XFFFF0772))
-                          .roundedLg
-                          .make()
-                          .w(150)
-                          .h(40)),
+                  InkWell(
+                    onTap: () {
+                      print("Button Click => Login Event");
+                      Login.callback(email, pass, isChecked, box1, context);
+                    },
+                    child: Material(
+                      color: Colors.transparent,
+                      elevation: 5,
+                      child: Container(
+                        width: 150,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF5D8387),
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional(0, 0),
+                          child: Text(
+                            FFLocalizations.of(context).getText(
+                              'bbpm2l2x' /* Login */,
+                            ),
+                            textAlign: TextAlign.center,
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .bodyText1Family,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBtnText,
+                                    ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   // ___________________________________________________________
-
                   const HeightBox(20),
                 ],
               ),
@@ -197,25 +232,5 @@ class _Login_PageState extends State<Login_Page> {
         ),
       ),
     );
-  }
-
-  void login() {
-    //* Doing the task:
-    //*   When the user presses "Login" buton:
-    //*       if (isChecked == true) => Then we are going
-    //*                                 to save the data
-
-    // checking if isChecked == true
-    if (isChecked) {
-      // if so: it puts the 'key' and 'value' of email and password in our box.
-      box1.put('email', email.text);
-      box1.put('pass', pass.text);
-      // the key can be named whatever but its best to use the same names
-      // the value comes from the textcontrollers
-    } else {
-      // purges box1 if rememberMe is not checked
-      box1.put('email', null);
-      box1.put('pass', null);
-    }
   }
 }

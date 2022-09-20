@@ -74,8 +74,10 @@ class _NotesWidgetState extends State<NotesWidget> {
                             child: Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
+                                // color: FlutterFlowTheme.of(context)
+                                //     .secondaryBackground,
                                 color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
+                                    .primaryBackground,
                                 border: Border.all(
                                   color:
                                       FlutterFlowTheme.of(context).boarderColor,
@@ -100,7 +102,6 @@ class _NotesWidgetState extends State<NotesWidget> {
                                           maxLines: 100,
                                           decoration: new InputDecoration(
                                             border: InputBorder.none,
-                                            hintText: '',
                                           ),
                                         ),
                                       ),
