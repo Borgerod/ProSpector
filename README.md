@@ -11,40 +11,38 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 
 
 ## TODO
-UI:
- - [X] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
- - [ ] fix darkmode Issue on app Startup 
- - [X] (men liten små-issue) make notes-state presistant  
- - [ ] complete translation to Norwegian 
- - [ ] write instructions 
- - [ ] add: "press enter" function to LoginWidget{}
- - [ ] finish "remember me" knapp 
+	UI:
+	- [X] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
+	- [ ] fix darkmode Issue on app Startup 
+	- [X] (men liten små-issue) make notes-state presistant  
+	- [ ] complete translation to Norwegian 
+	- [ ] write instructions 
+	- [ ] add: "press enter" function to LoginWidget{}
+	- [ ] finish "remember me" knapp 
 
-API:
-- [ ] finish change-password api
-- [ ] finish/fix "view call list" / "renew list" button. 
-- [ ] 
-<!-- - [x] make api server -->
+	API:
+	- [ ] finish change-password api
+	- [ ] finish/fix "view call list" / "renew list" button. 
+	- [ ] 
+	<!-- - [x] make api server -->
 
+	extractor:
+	- [ ]
+	<!-- - [x] finish brreg
+	- [x] finsih proff
+	- [x] finish 1881
+	- [x] finish gulesider
+	- [x] finish google -->
 
-extractor:
-- [ ]
-<!-- - [x] finish brreg
-- [x] finsih proff
-- [x] finish 1881
-- [x] finish gulesider
-- [x] finish google -->
+	backend:
+	- [ ]
+	<!-- - [x] Overview: manage user progress (call list)
+	- [x] manage user login 
+	- [x] password hasher  -->
 
-backend:
-- [ ]
-<!-- - [x] Overview: manage user progress (call list)
-- [x] manage user login 
-- [x] password hasher  -->
-
-
-AWS:
-- [ ] uplaod db to aws 
-- [ ] upload code to aws (if possible)
+	AWS:
+	- [ ] uplaod db to aws 
+	- [ ] upload code to aws (if possible)
 
 
 
@@ -61,20 +59,19 @@ De andre kriteriene er ikke viktig for oss da det tyder på at de har behov for 
 
 
 HIGHLIGT syntax
-# TODO Highlighted as a TODO
-# - This will also be highlighted as a TODO (Prefixed with a -)
-# This will be an unhighlighted comment
-# * This will be an highlighted (UNDEFINED) comment
-# ! This is another comment
-# - and again, continued highlighting
-# ? question
-# FIXME fixme comment
-# // undefined comment
-# # # hidden (Deprecated) comment 
-# # # hidden (Deprecated) comment 
+TODO Highlighted as a TODO
+- This will also be highlighted as a TODO (Prefixed with a -)
+This will be an unhighlighted comment
+* This will be an highlighted (UNDEFINED) comment
+! This is another comment
+- and again, continued highlighting
+? question
+FIXME fixme comment
+// undefined comment
+# # hidden (Deprecated) comment 
+# # hidden (Deprecated) comment 
+
 ### comment
 
-# rgba(235, 64, 52, 0.8)
-# rgba(235, 255, 145, 0.8)
 
 
