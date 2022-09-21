@@ -1,19 +1,21 @@
-# Mediavest_Scraper_bot
-Leads scraper (gule sider + google) for Mediavest AS
+# ProSpector
+Lead generation software, commissioned by Mediavest AS. <br />
+data source:  brreg.no  &nbsp;|&nbsp; extraction targets:  gulesider.no, 1881.no, proff.no and gooogle.com  <br />
 
 
 ## Rundown:
+#### [ENG] The software's tasks:
+So what we want to achieve is that you can retrieve lists of companies that have both paid advertisements in the catalogs and have a vacant, deficient or no profile on Google.
+- Step 1: Gulesider 1881, or proff.no after --> Companies with paid paid
+- Step 2: Scrape google maps for --> Which does not have an owner confirmed (Listed as "do you own this business")
+- Step 2 addition: Must also scrape for companies that have an "insufficient profile" (has confirmed the owner without content)
+
 #### [NO] Programvarens oppgaver:
 Så det vi vil få til er at man kan hente ut lister over bedrifter som har både betalt annonsering hos katalogene og har ledig, mangelfull eller ingen profil på Google.
 -  Steg 1: Gulesider 1881, eller proff.no etter --> Bedrifter med betalt oppføring
 -  Steg 2: Skrape google maps etter --> Som ikke har en eier bekreftet (Står oppført som "eier du denne bedriften")
 -  Steg 2 tillegg: Skal også skrape etter bedrifter som har "mangelfull profil" ( har bekreftet eier men ingen innhold) 
 
-#### [ENG] The software's tasks:
-So what we want to achieve is that you can retrieve lists of companies that have both paid advertisements in the catalogs and have a vacant, deficient or no profile on Google.
-- Step 1: Gulesider 1881, or proff.no after --> Companies with paid paid
-- Step 2: Scrape google maps for --> Which does not have an owner confirmed (Listed as "do you own this business")
-- Step 2 addition: Must also scrape for companies that have an "insufficient profile" (has confirmed the owner without content)
 
 
 
