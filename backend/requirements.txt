@@ -2,4 +2,3 @@ pip install environs
 pip install googlemaps
 pip install fake_headers
 pip install js2xml
-pip install

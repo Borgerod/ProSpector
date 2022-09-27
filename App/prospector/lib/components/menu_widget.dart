@@ -1,21 +1,21 @@
-import 'package:flutter/scheduler.dart';
+import 'dart:io';
+import 'package:quiver/iterables.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:flutter_acrylic/flutter_acrylic.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
+import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/components/window_title_bar.dart';
 import 'package:prospector/popups/renew_list_widget.dart';
 import 'package:prospector/popups/settings_widget.dart';
-import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/popups/feedback_widget.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:prospector/popups/about_widget.dart';
 import 'package:prospector/pages/instructions_page.dart';
 import 'package:prospector/pages/call_list_widget.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:prospector/pages/notes_page.dart';
 import 'package:prospector/pages/home_page.dart';
-import 'package:quiver/iterables.dart';
-import 'dart:io';
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({Key? key}) : super(key: key);
@@ -55,11 +55,21 @@ class MenuWidgetState extends State<MenuWidget> {
   @override
   void initState() {
     super.initState();
+    print(this.effect.toString());
+    setBrightness(brightness);
     this.setWindowEffect(this.effect);
+    if (Platform.isWindows) {
+      doWhenWindowReady(() {
+        appWindow
+          ..minSize = Size(1050, 650)
+          ..size = Size(1450, 750)
+          ..alignment = Alignment.center
+          ..show();
+      });
+    }
   }
 
   void setWindowEffect(WindowEffect? value) {
-    print('setWindowEffect: $brightness');
     Window.setEffect(
       effect: value!,
       color: this.color,
@@ -398,7 +408,7 @@ class MenuWidgetState extends State<MenuWidget> {
                               } else {
                                 setDarkModeSetting(context, ThemeMode.light);
                               }
-
+                              sleep(Duration(milliseconds: 200));
                               setBrightness(
                                 brightness == InterfaceBrightness.dark
                                     ? InterfaceBrightness.light

@@ -18,15 +18,16 @@ def getCurrentData():
 def getDateDiff():
 	return getCurrentData() - dt.datetime.strptime(getLastUpdate(col_name='brreg_table'), '%Y-%m-%d').date()
 
-def downloadJSON(url):
+def downloadJSON(json_file_name, url):
     """
     	Helper method handling downloading large files from `url` to `filename`. Returns a pointer to `filename`.
     """
-    chunkSize = 1024
+    chunk_size = 1024
     r = requests.get(url, stream=True)
-    with open('enheter_alle.json.gz', 'wb') as f:
+    with open(f'{json_file_name}', 'wb') as f:
+    # with open('enheter_alle.json.gz', 'wb') as f:
         pbar = tqdm( unit="B", total=int( r.headers['Content-Length'] ) )
-        for chunk in r.iter_content(chunk_size = chunkSize): 
+        for chunk in r.iter_content(chunk_size = chunk_size): 
             if chunk: # filter out keep-alive new chunks
                 pbar.update (len(chunk))
                 f.write(chunk)

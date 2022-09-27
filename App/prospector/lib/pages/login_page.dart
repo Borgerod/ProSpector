@@ -374,8 +374,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           ),
                                         ),
                                         onFieldSubmitted: (value) async {
-                                          print(
-                                              "Login Event; Pressed Enter-key");
+                                          // print("Login Event; Pressed Enter-key");
                                           Login.callback(email, pass, isChecked,
                                               box1, context);
                                         },
@@ -455,7 +454,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         0, 0, 0, 0),
                                     child: InkWell(
                                       onTap: () {
-                                        print("Button Click => Login Event");
+                                        // print("Button Click => Login Event");
                                         Login.callback(email, pass, isChecked,
                                             box1, context);
                                       },

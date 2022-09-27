@@ -29,7 +29,7 @@ def getCompanyInfoLinks(cont):
 	new_url = base_url + href
 	return new_url
 
-def getNewLinks(soup, url):
+def getNewLinks(soup):
 	'''
 	first: get full list of search results ['article', {'class':'CompanyResultListItem'}]
 	'''
@@ -40,8 +40,60 @@ def getNewLinks(soup, url):
 	except:
 		new_links = None
 	return new_links
+""" #! OLD GET DATA, KEEP IN CASE YOU NEED MORE DATA LATER
+	def getData(soup):
+		''' CHECK_PAYED_ENTRY'''
+		if soup.find('div', { 'class': "SearchWords company-tags--section" }):
+			has_payed_entry = True
 
-def getData(soup, url):
+			''' ORG_NUM '''
+			try:
+				org_num = soup.find("strong", text = "Org.nr:").next_sibling.text
+				org_num = int(org_num.replace(' ',''))
+			except:
+				org_num = None
+
+			''' GET_COMPANY_NAME '''
+			if [i for i in soup.find('h1', { 'role': "name" })]:
+				company_name = soup.find('h1', { 'role': "name" }).text
+			else:
+				company_name = []
+
+			''' GET_PHONE_NUMBER '''
+			try:
+				phone_number = [item.text for item in soup.find('div', { 'class': "phoneList"})][0]	
+			except:
+				phone_number = None
+
+			''' GET_STAFF '''
+			try:
+				staff = [i for i in soup.find('div', { 'class': "roles" })]
+			except TypeError:
+				staff = []
+
+			'''	MANAGER '''		
+			try:
+				manager = staff[0].find('div', { 'class': "rolename e-icon-user" }).text
+			except:
+				manager = None
+
+			'''	OWNER '''
+			if len(staff)>1:
+				if staff[1].find('div', { 'class': "rolename e-icon-user" }).text:
+					owner = staff[1].find('div', { 'class': "rolename e-icon-user" }).text
+				else:
+					owner = None
+			else:
+				owner = None
+
+			result = pd.DataFrame([[ org_num, company_name, has_payed_entry, phone_number,
+									manager, owner, ]], 
+					columns = [		'org_num', 'navn', 'betalt_oppføring', 'tlf', 'daglig_leder', 
+									'styreleder', ])
+			return result
+"""
+
+def getData(soup):
 	''' CHECK_PAYED_ENTRY'''
 	if soup.find('div', { 'class': "SearchWords company-tags--section" }):
 		has_payed_entry = True
@@ -59,40 +111,8 @@ def getData(soup, url):
 		else:
 			company_name = []
 
-		''' GET_PHONE_NUMBER '''
-		try:
-			phone_number = [item.text for item in soup.find('div', { 'class': "phoneList"})][0]	
-		except:
-			phone_number = None
-
-		''' GET_STAFF '''
-		try:
-			staff = [i for i in soup.find('div', { 'class': "roles" })]
-		except TypeError:
-			staff = []
-
-		'''	MANAGER '''		
-		try:
-			manager = staff[0].find('div', { 'class': "rolename e-icon-user" }).text
-		except:
-			manager = None
-
-		'''	OWNER '''
-		if len(staff)>1:
-			if staff[1].find('div', { 'class': "rolename e-icon-user" }).text:
-				owner = staff[1].find('div', { 'class': "rolename e-icon-user" }).text
-			else:
-				owner = None
-		else:
-			owner = None
-
-		result = pd.DataFrame([[ org_num, company_name, has_payed_entry, phone_number,
-								 manager, owner, ]], 
-				columns = [		'org_num', 'navn', 'betalt_oppføring', 'tlf', 'daglig_leder', 
-								'styreleder', ])
-		return result
-	else:
-		pass 
+	return pd.DataFrame([[ org_num, company_name, has_payed_entry,]], 
+				columns = ['org_num', 'navn', 'betalt_oppføring',])
 
 def makeChunks(input_array, chunksize):
 	return [input_array[i:i+chunksize] for i in range(0, len(input_array), chunksize)]  
@@ -122,7 +142,7 @@ def extractionManager(input_array):
 		base_url = 'https://www.gulesider.no'
 		url = linkBuilder(base_url, str(org_num))  		
 		soup = pullRequest(url) 
-		new_link = getNewLinks(soup, url)
+		new_link = getNewLinks(soup)
 		if new_link is None:
 			e = f'Error: "{search_term}" gave no search results'
 			errorManager(org_num, search_term, source, url, e)
@@ -130,15 +150,13 @@ def extractionManager(input_array):
 			soup = pullRequest(new_link)
 			if soup is None:
 				print("soup == None")
-			df = getData(soup, new_link)
+			df = getData(soup)
 			deleteData(org_num, tablename = "input_table") #* All inputs that are found can be deleted from input_table 
 			if df is not None:
 				return org_num, search_term
 		else:
 			e = 'unknown error in: gulesider.py -> extractionManager()'
 			errorManager(org_num, search_term, source, url, e)
-	else:
-		pass
 
 #* _____ MAIN __________________________
 def gulesiderExtractor(**kwargs):
@@ -233,34 +251,35 @@ TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP 
 
 
 #* [INACTIVE] def visabilityTest(data):
-	# '''
-	# BONUS TEST SYNLIGHET
-	# 	example link: https://nettsjekk.gulesider.no/?utm_source=gulesider&utm_medium=corefront&utm_campaign=netcheck&companyName=Felleskatalogen%20AS&phoneNumber=23%2016%2015%2050&street=Essendrops%20gate%203&postCode=0368&postArea=Oslo
-	# 	we should be able to get these from the proff_data.csv
-	# 		note: the parameters might need to be formated correctly
-	# 			--> replace(' ', '%20')
-	# 		Will use insomnia or charlie for further testing
-	# '''
+"""	'''
+	BONUS TEST SYNLIGHET
+		example link: https://nettsjekk.gulesider.no/?utm_source=gulesider&utm_medium=corefront&utm_campaign=netcheck&companyName=Felleskatalogen%20AS&phoneNumber=23%2016%2015%2050&street=Essendrops%20gate%203&postCode=0368&postArea=Oslo
+		we should be able to get these from the proff_data.csv
+			note: the parameters might need to be formated correctly
+				--> replace(' ', '%20')
+			Will use insomnia or charlie for further testing
+	'''
 
-	# ''' _____________ TEST INPUT _____________'''
-	# company_name = 'Felleskatalogen%20AS'
-	# tlf = '23%2016%2015%2050'
-	# address = 'Essendrops%20gate%203'
-	# post_code = '0368' 
-	# post_area = 'Oslo'
-	# base_url = 'https://nettsjekk.gulesider.no/?utm_source=gulesider&utm_medium=corefront&utm_campaign=netcheck&'
+	''' _____________ TEST INPUT _____________'''
+	company_name = 'Felleskatalogen%20AS'
+	tlf = '23%2016%2015%2050'
+	address = 'Essendrops%20gate%203'
+	post_code = '0368' 
+	post_area = 'Oslo'
+	base_url = 'https://nettsjekk.gulesider.no/?utm_source=gulesider&utm_medium=corefront&utm_campaign=netcheck&'
 	
 
-	# url = f'''
-	# {base_url}
-	# companyName={company_name}&
-	# phoneNumber={tlf}&
-	# street={address}&
-	# postCode={post_code}&
-	# postArea={post_area}
-	# '''
+	url = f'''
+	{base_url}
+	companyName={company_name}&
+	phoneNumber={tlf}&
+	street={address}&
+	postCode={post_code}&
+	postArea={post_area}
+	'''
 
-	# ''' Antall final url, dette skal sjekkes opp i.. '''
-	# fullname = 'Ole%20Nordmann'	  #---> will use randomly generated names if needed  
-	# email = 'example@hotmail.com' #---> will use randomly generated emails 
-	# final_url = f'{url}&fullName={fullname}&email={email}'
+	''' Antall final url, dette skal sjekkes opp i.. '''
+	fullname = 'Ole%20Nordmann'	  #---> will use randomly generated names if needed  
+	email = 'example@hotmail.com' #---> will use randomly generated emails 
+	final_url = f'{url}&fullName={fullname}&email={email}'
+"""

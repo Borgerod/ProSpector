@@ -22,14 +22,16 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 ## TODO
 #### UI:
    - [X] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
-   - [ ] Fix darkmode Issue on app Startup 
+   - [X] Fix darkmode Issue on app Startup [note: see small bugs]
    - [X] Make notes-state presistant [note: a small bug with loading]
-   - [ ] Complete translation to Norwegian 
-   - [ ] Write instructions 
-   - [ ] Add: "press enter" function to LoginWidget{}
-   - [ ] Finish "remember me" knapp 
-   - [ ] Increase min.windowsize 
-   - [ ] Change fontweight for bodytext in "renew list"   
+   - [X] Complete translation to Norwegian 
+   - [X] Write instructions 
+   - [X] Add: "press enter" function to LoginWidget{}
+   - [X] Finish "remember me" knapp 
+   - [ ] fix text borders in instructions
+   - [X] [ Low Prio ] Fix border Issue with popups
+   - [ ] [ Low Prio ] Increase min.windowsize 
+   - [X] [ Low Prio ] Change fontweight for bodytext in "renew list"   
    - [ ] [ Low Prio ] Make "Instructions from Supervisor" section in "Instructions"
    		- [ ] Add section editable for supervisors & other privilages
    		- [ ] Add Column "supervisor" in user-db 
@@ -38,11 +40,11 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [ ] [ Low Prio ] Make instructions look Nicer 
 
 ##### UI (small bugs):
-   - [ ] Loading issue with presistant satates [notes_page.dart]
-   - [ ] Laggy transition of light/darkmode    [menu_widget.dart]
-   - [ ] Acryllic allways opens in darkmode    [menu_widget.dart]
+   - [ ] Loading issue with presistant state   [notes_page.dart]
+   - [X] Laggy transition of light/darkmode    [menu_widget.dart]
+   - [X] Acryllic allways opens in darkmode    [menu_widget.dart]
    - [ ] Maximize window, often needs 2 clicks [window_title_bar.dart] (I think)
-   - [ ] Overflow in About in smallwindow      [about_widget.dart / main.dart]
+   - [X] Overflow in About in smallwindow      [about_widget.dart / main.dart]
    - [ ] ... [  ]
 
 

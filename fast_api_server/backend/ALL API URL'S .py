@@ -18,7 +18,7 @@ CMD COMMANDS:
 	set execuytionPolicy:
 		Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted
 '''
-
+""" 
 baseurl: http://127.0.0.1:8000/
 docs: http://127.0.0.1:8000/docs
 
@@ -81,3 +81,4 @@ put update ringe_status:
     curl -X 'PUT' \
       'http://127.0.0.1:8000/callList/ringe_tatus?org_num=810182482' \
       -H 'accept: application/json'
+"""

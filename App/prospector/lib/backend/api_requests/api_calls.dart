@@ -22,7 +22,7 @@ class Login {
     // First checks if email and password form is filled,
     // only continues if they are.
     if (_email.isNotEmpty && _pass.isNotEmpty) {
-      print("Form is filled");
+      // print("Form is filled");
       var request = http.MultipartRequest(
           'POST', Uri.parse('http://127.0.0.1:8000/login/token'));
       request.fields['username'] = _email;
@@ -38,16 +38,16 @@ class Login {
           // if so: it puts the 'key' and 'value' of email and password in our box.
           box1.put('email', email.text);
           box1.put('pass', pass.text);
-          print("Login Succsessfull");
-          print("do remember me");
+          // print("Login Succsessfull");
+          // print("do remember me");
           // the key can be named whatever but its best to use the same names
           // the value comes from the textcontrollers
         } else {
           // purges box1 if rememberMe is not checked
           box1.put('email', null);
           box1.put('pass', null);
-          print("Login Succsessfull");
-          print("do NOT remember me");
+          // print("Login Succsessfull");
+          // print("do NOT remember me");
         }
         await Navigator.pushAndRemoveUntil(
           context,

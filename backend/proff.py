@@ -1,6 +1,4 @@
-
 import time; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
-from gulesider import errorManager 
 import requests
 import pandas as pd
 from tqdm import tqdm
@@ -8,8 +6,9 @@ from bs4 import BeautifulSoup
 from multiprocessing import Pool
 
 ''' ___ local imports __________'''
-from config import tablenames
 from postgres import databaseManager, getInputTable, checkIfMissing, deleteData
+from gulesider import errorManager 
+from config import tablenames
 from file_manager import *
 
 def linkBuilder(base_url, term):

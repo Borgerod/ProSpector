@@ -42,7 +42,7 @@ def getRequest(url):
 	s.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36'
 	req = s.get(url, cookies = cookies, verify = True, allow_redirects = False)
 	a = getSoup(req).find('a',{'href' : True})
-	if not a['href'] == '#query':
+	if a['href'] != '#query':
 		url = 'https://www.1881.no/'+a['href']
 		return s.get(url, cookies = cookies, verify = True, allow_redirects = False) 
 
@@ -77,17 +77,18 @@ def extractionManager(input_array):
 	'''
 	org_num = input_array[0]
 	search_term = input_array[1]
-	source = '1881.py'
 	base_url = 'https://www.1881.no/?query='
 	url = linkBuilder(base_url, str(org_num))
 	req = getRequest(url)
 	if req:
 		soup = getSoup(req)
-		if not checkIfList(soup):
-			if not soup.find('div',{'class':'box text-section'}):
-				if not findPromoDiv(soup):
-					deleteData(org_num, tablename = "input_table") #* All inputs that are found can be deleted from input_table  
-					return org_num, search_term
+		''' #! USIKKER PÅ OM DENNE VIL KJØRE!!
+		'''
+		if not checkIfList(soup) and not soup.find('div',{'class':'box text-section'}) and not findPromoDiv(soup):
+			# if not soup.find('div',{'class':'box text-section'}):
+			# if not findPromoDiv(soup):
+			deleteData(org_num, tablename = "input_table") #* All inputs that are found can be deleted from input_table  
+			return org_num, search_term
 				
 def getSettings(kwargs):
 	''' 
@@ -95,13 +96,12 @@ def getSettings(kwargs):
 	'''
 	file_name = 'I88I'
 	chunksize = parseSettings(file_name)['chunk_size']
-	input_array = (getInputTable(file_name))[['org_num', 'navn']].to_numpy() #![ORIGINAL] temporary disabled B/C input_table might be corrupt by faulty versions
-	# input_array = (getInputTable('brreg_table'))[['org_num', 'navn']].to_numpy() #TEMP --- while testing
+	input_array = (getInputTable(file_name))[['org_num', 'navn']].to_numpy()
 	
 	''' 
 		making adjustments to settings based on **kawrg: "testmode" 
 	'''
-	if kwargs: # if kwargs.get('testmode', None):
+	if kwargs: 
 		mode = 'Test Mode'
 		tablename = '1881_test_output_table' #? [ALT] tablename = parseTablenames('1881', testmode = True)
 		start_limit, end_limit = 674000, 674500
@@ -109,7 +109,7 @@ def getSettings(kwargs):
 	else:
 		mode = 'Publish Mode' #? [ALT]: mode = 'Final Mode'
 		tablename = '1881_output_table' #? [ALT] tablename = parseTablenames('1881', testmode = False)
-		start_limit, end_limit = 674000, None 				#TEMP while testing 
+		start_limit, end_limit = 674000, None 				#! TEMP while testing 
 		input_array = input_array[start_limit : end_limit]	
 	return file_name, chunksize, mode, tablename, start_limit, end_limit, input_array
 

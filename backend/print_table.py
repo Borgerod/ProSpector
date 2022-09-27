@@ -76,12 +76,12 @@ tablename = 'call_list'
 call_list = fetchData(tablename, to_user_api=True)
 # callStatus = call_list.query().filter_by(org_num = str(827411582)).first()
 # callStatus = call_list.query('org_num == 827411582')
-# print(callStatus)
+print(call_list)
 
 # test_df = call_list.iloc[600:640]
 # print(test_df)
 # print(call_list)
-print(call_list.query('ringe_status == True'))
+# print(call_list.query('ringe_status == True'))
 
 # cleanUp(tablename, to_user_api=True)
 # df = concatData(df, old_df)

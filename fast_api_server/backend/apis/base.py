@@ -1,6 +1,8 @@
+from fastapi import APIRouter
+
+''' Local Imports '''
 from apis.version1 import route_login
 from apis.version1 import route_users
-from fastapi import APIRouter
 
 
 api_router = APIRouter()

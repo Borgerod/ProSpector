@@ -31,10 +31,12 @@ Future<void> main() async {
   if (Platform.isWindows) {
     doWhenWindowReady(() {
       appWindow
-        // ..minSize = Size(640, 360)
-        // ..size = Size(720, 540)
+        // // ..minSize = Size(640, 360)
+        // // ..size = Size(720, 540)
         ..minSize = Size(954, 580)
         ..size = Size(954, 580)
+        // ..minSize = Size(954, 650)
+        // ..size = Size(954, 650)
         ..alignment = Alignment.center
         ..show();
     });
@@ -54,6 +56,7 @@ class _MyAppState extends State<MyApp> {
   Locale? _locale;
 
   ThemeMode _themeMode = FlutterFlowTheme.themeMode;
+
   bool displaySplashImage = true;
 
   @override
@@ -98,8 +101,10 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: _themeMode,
+
       // home: ResetPasswordAuthenticationWidget(),
       // home: Login_Page(),
+
       home: LoginWidget(),
       // home: MenuWidget(),
     );

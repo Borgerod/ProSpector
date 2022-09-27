@@ -148,6 +148,7 @@ class _RenewListWidgetState extends State<RenewListWidget> {
                                                 .secondaryText,
                                             fontSize: 13,
                                             lineHeight: 1,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                     ),
                                   ),
