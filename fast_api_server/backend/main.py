@@ -2,7 +2,7 @@ from fastapi import FastAPI,  Depends
 
 from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
 from sqlalchemy.orm import Session
-from mangum import Mangum 
+# from mangum import Mangum 
 
 
 ''' Local Imports '''
@@ -32,7 +32,7 @@ def start_application():
     return app
 
 app = start_application()
-handler = Mangum(app)
+# handler = Mangum(app)
 
 @app.on_event("startup")
 async def app_startup():
