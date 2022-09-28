@@ -2,6 +2,8 @@ from fastapi import FastAPI,  Depends
 
 from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
 from sqlalchemy.orm import Session
+from mangum import Mangum 
+
 
 ''' Local Imports '''
 from core.config import settings
@@ -19,7 +21,7 @@ TOKEN_URL = "/login/token"
 
 def include_router(app):
     app.include_router(api_router)
-
+    
 def create_tables():
     Base.metadata.create_all(bind = engine)
 
@@ -30,6 +32,7 @@ def start_application():
     return app
 
 app = start_application()
+handler = Mangum(app)
 
 @app.on_event("startup")
 async def app_startup():
