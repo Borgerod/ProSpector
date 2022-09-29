@@ -1,6 +1,5 @@
 // Export pages
 export 'pages/notes_page.dart' show NotesWidget;
-export 'pages/main_page/main_page.dart' show HomePageWidget;
 export 'pages/call_list_widget.dart' show CallListWidget;
 export 'popups/renew_list_widget.dart' show RenewListWidget;
 export 'pages/instructions_page.dart' show InstructionsWidget;

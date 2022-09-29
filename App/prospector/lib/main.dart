@@ -9,16 +9,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:prospector/flutter_flow/internationalization.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/pages/login_page_test.dart'; //! TESTING
+import 'package:prospector/pages/loading_page.dart';
 import 'package:prospector/index.dart';
-
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
   await FlutterFlowTheme.initialize();
-  // await FlutterFlowTheme.initialize();
   await Window.initialize();
   if (Platform.isWindows) {
     await Window.hideWindowControls();
@@ -44,7 +40,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
   @override
   State<MyApp> createState() => _MyAppState();
 
@@ -68,45 +63,47 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  // void setLocale(String language) =>
-  //     setState(() => _locale = createLocale(language));
   void setLocale(String language) {
-    // print(language);
     return setState(() => _locale = createLocale(language));
   }
 
   void setThemeMode(ThemeMode mode) => setState(() {
         _themeMode = mode;
-        // print(mode);
-        // print(_themeMode);
         FlutterFlowTheme.saveThemeMode(mode);
       });
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Prospector',
-      localizationsDelegates: [
-        FFLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      locale: _locale,
-      supportedLocales: const [
-        Locale('en'),
-        Locale('nb'),
-      ],
-      theme: ThemeData(brightness: Brightness.light),
-      darkTheme: ThemeData(brightness: Brightness.dark),
-      themeMode: _themeMode,
+        debugShowCheckedModeBanner: false,
+        title: 'Prospector',
+        localizationsDelegates: [
+          FFLocalizationsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        locale: _locale,
+        supportedLocales: const [
+          Locale('en'),
+          Locale('nb'),
+        ],
+        theme: ThemeData(brightness: Brightness.light),
+        darkTheme: ThemeData(brightness: Brightness.dark),
+        themeMode: _themeMode,
+        home: FutureBuilder(
+          future: _processingData(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return LoadingScreen();
+            } else {
+              return const LoginWidget();
+            }
+          },
+        ));
+  }
 
-      // home: ResetPasswordAuthenticationWidget(),
-      // home: Login_Page(),
-
-      home: LoginWidget(),
-      // home: MenuWidget(),
-    );
+  Future _processingData() {
+    return new Future.delayed(const Duration(seconds: 0), () => "1");
   }
 }

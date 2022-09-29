@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:prospector/components/plain_background_widget.dart';
+import 'package:prospector/components/home_button_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/components/home_button_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:prospector/globals.dart' as globals;
 
 class NotesWidget extends StatefulWidget {
@@ -20,8 +21,8 @@ class _NotesWidgetState extends State<NotesWidget> {
   void initState() {
     super.initState();
     textController = TextEditingController();
-    String note_text = globals.note_text;
-    textController.text = "$note_text";
+    String noteText = globals.note_text;
+    textController.text = "$noteText";
   }
 
   void textChange(TextEditingController textController) {

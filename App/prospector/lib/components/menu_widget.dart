@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 import 'package:quiver/iterables.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
@@ -131,7 +133,6 @@ class MenuWidgetState extends State<MenuWidget> {
       child: SafeArea(
         right: false,
         child: Drawer(
-          // width: 250,
           backgroundColor: Colors.transparent,
           elevation: 0,
           child: Column(
@@ -348,9 +349,7 @@ class MenuWidgetState extends State<MenuWidget> {
               Spacer(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Divider(
-                    // color: FlutterFlowTheme.of(context).primaryText,
-                    ),
+                child: Divider(),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
@@ -465,7 +464,6 @@ class MenuWidgetState extends State<MenuWidget> {
                   children: [
                     WindowTitleBarBox(
                       child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Expanded(
                             child: MoveWindow(),
@@ -484,55 +482,6 @@ class MenuWidgetState extends State<MenuWidget> {
     );
   }
 }
-// // Container(
-// //   child:
-
-// //   Expanded(
-// //     child: Container(
-// //       child: Stack(
-// //         alignment: AlignmentDirectional.topStart,
-// //         children: [
-// //           Expanded(
-// //             child: Navigator(
-// //               // key: navigatorKey,
-// //               initialRoute: '/',
-// //               onGenerateRoute: (settings) {
-// //                 return MaterialPageRoute(
-// //                     builder: (context) {
-// //                       return
-// //                           // Scaffold(
-// //                           //   body:
-// //                           SafeArea(
-// //                               child:
-// //                                   _getBodyWidget(settings.name.toString())
-// //                               // ),
-// //                               // drawer: isMenuFixed(context) ? null : menu,
-// //                               );
-// //                     },
-// //                     settings: settings);
-// //               },
-// //             ),
-// //           ),
-// //           Stack(
-// //             children: [
-// //               WindowTitleBarBox(
-// //                 child: Row(
-// //                   // mainAxisAlignment: MainAxisAlignment.start,
-// //                   children: [
-// //                     Expanded(child: MoveWindow()),
-// //                     WindowTitleBar(brightness: brightness)
-// //                   ],
-// //                 ),
-// //               ),
-// //             ],
-// //           ),
-// //         ],
-// //       ),
-// //     ),
-// //   ),
-// // );
-//   }
-// }
 
 class RedeemConfirmationScreen extends StatelessWidget {
   @override
@@ -549,16 +498,8 @@ _getBodyWidget(name) {
       return InstructionsWidget();
     case 'View Call List':
       return CallListWidget();
-    // case 'Renew List':
-    //   return RenewListWidget();
     case 'Notes':
       return NotesWidget();
-    // case 'About':
-    //   return AboutWidget();
-    // case 'Settings':
-    //   return SettingsWidget();
-    // case 'Feedback':
-    //   return FeedbackWidget();
     case 'HomeView':
       return HomeView();
     default:

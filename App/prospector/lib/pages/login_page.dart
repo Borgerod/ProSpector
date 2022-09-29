@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:prospector/popups/reset_password_authentication_widget.dart';
-import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
-import 'package:prospector/backend/api_requests/api_calls.dart';
-import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/pages/signup_page.dart';
-
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
+
+import 'package:prospector/popups/reset_password_authentication_widget.dart';
+import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
+import 'package:prospector/flutter_flow/flutter_flow_util.dart';
+import 'package:prospector/backend/api_requests/api_calls.dart';
+import 'package:prospector/pages/signup_page.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -17,10 +17,6 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
-  ApiCallResponse? loginResponse;
-  bool? checkboxListTileValue; //! OLD
-  TextEditingController? emailController; //! OLD
-  TextEditingController? passwordController; //! OLD
   late bool passwordVisibility;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -33,8 +29,6 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   void initState() {
     super.initState();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
     passwordVisibility = false;
     createBox();
   }
@@ -116,23 +110,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              //! ##### TEMPORARY LOGIN BYPASS #####
-                              // ElevatedButton(
-                              //     style: ButtonStyle(
-                              //       fixedSize: MaterialStateProperty.all(
-                              //           Size(150, 40)),
-                              //       backgroundColor: MaterialStateProperty.all(
-                              //           Color(0x3E22282F)),
-                              //     ),
-                              //     onPressed: () async {
-                              //       await Navigator.of(context).pushReplacement(
-                              //           MaterialPageRoute(
-                              //               builder: (BuildContext context) =>
-                              //                   MenuWidget()));
-                              //       // MainPageWidget()));
-                              //     },
-                              //     child: Text("temp login bypass")),
-                              //! ##### TEMPORARY LOGIN BYPASS #####
                               Expanded(
                                 flex: 2,
                                 child: Padding(
@@ -454,7 +431,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         0, 0, 0, 0),
                                     child: InkWell(
                                       onTap: () {
-                                        // print("Button Click => Login Event");
                                         Login.callback(email, pass, isChecked,
                                             box1, context);
                                       },

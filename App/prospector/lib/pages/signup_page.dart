@@ -1,11 +1,13 @@
-import 'package:prospector/popups/account_created_widget.dart';
-import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
-import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:ui';
+
+import 'package:email_validator/email_validator.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:prospector/popups/account_created_widget.dart';
+import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
+import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 
 class SignupWidget extends StatefulWidget {
   const SignupWidget({Key? key}) : super(key: key);

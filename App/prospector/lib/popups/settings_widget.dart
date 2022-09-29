@@ -256,7 +256,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primaryBackground,
-                                                // textStyle: TextStyle(),
                                                 textStyle: FlutterFlowTheme.of(
                                                         context)
                                                     .subtitle2
@@ -289,7 +288,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
-                            // Spacer(),
                             Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),

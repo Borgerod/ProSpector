@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+import 'dart:ui';
+
 import 'package:prospector/flutter_flow/flutter_flow_radio_button.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/material.dart';
-import 'dart:ui';
 
 class FeedbackWidget extends StatefulWidget {
   const FeedbackWidget({Key? key}) : super(key: key);

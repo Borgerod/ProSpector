@@ -15,7 +15,6 @@ class HomeButton extends StatelessWidget {
       elevation: 8,
       child: InkWell(
         onTap: () async {
-          // Navigator.pop(context);
           Navigator.of(context).pushReplacement(
             PageTransition(
                 type: PageTransitionType.fade,
@@ -23,8 +22,6 @@ class HomeButton extends StatelessWidget {
                 reverseDuration: Duration(milliseconds: 0),
                 child: HomeView()),
           );
-          // TODO write if statement:
-          // if current page == homepage, then do nothing
         },
         child: Icon(
           Icons.home,

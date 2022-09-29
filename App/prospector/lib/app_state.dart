@@ -1,5 +1,6 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:shared_preferences/shared_preferences.dart';
-import 'flutter_flow/lat_lng.dart';
 
 class FFAppState {
   static final FFAppState _instance = FFAppState._internal();
@@ -154,14 +155,4 @@ class FFAppState {
     prefs.setStringList('ff_completedListIDs',
         _completedListIDs.map((x) => x.toString()).toList());
   }
-}
-
-LatLng? _latLngFromString(String? val) {
-  if (val == null) {
-    return null;
-  }
-  final split = val.split(',');
-  final lat = double.parse(split.first);
-  final lng = double.parse(split.last);
-  return LatLng(lat, lng);
 }

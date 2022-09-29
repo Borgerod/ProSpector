@@ -1,12 +1,15 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:math';
 import 'dart:ui';
+
+import 'package:flutter/material.dart';
 
 import 'package:prospector/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/popups/insert_verification_code.dart';
-import 'package:flutter/material.dart';
 
 class ResetPasswordAuthenticationWidget extends StatefulWidget {
   const ResetPasswordAuthenticationWidget({Key? key}) : super(key: key);
@@ -238,9 +241,9 @@ class _ResetPasswordAuthenticationWidgetState
                               FFButtonWidget(
                                 onPressed: () async {
                                   String email = emailController!.text;
-                                  int verify_num = generateVerificationNumber();
+                                  int verifyNum = generateVerificationNumber();
                                   await launchURL(
-                                      'http://127.0.0.1:8000/ResetPassword/Authentication?email_to=$email&verify_num=$verify_num');
+                                      'http://127.0.0.1:8000/ResetPassword/Authentication?email_to=$email&verify_num=$verifyNum');
                                   await Navigator.pushReplacement(
                                     context,
                                     PageTransition(
@@ -250,7 +253,7 @@ class _ResetPasswordAuthenticationWidgetState
                                           Duration(milliseconds: 0),
                                       child: InsertVerificationCode(
                                         verify_num:
-                                            new Verify(verify_num.toString()),
+                                            new Verify(verifyNum.toString()),
                                         email: new Email(email.toString()),
                                       ),
                                     ),
@@ -296,18 +299,12 @@ class _ResetPasswordAuthenticationWidgetState
   }
 
   int generateVerificationNumber() {
-    // var rng = Random();
-    // int gen_num = rng.nextInt(10000);
     int rng(int min, int max) {
       return min + Random().nextInt(max - min);
     }
 
-    int gen_num = rng(100000, 999999);
-    print(gen_num);
-    // for (var i = 0; i < 10; i++) {
-
-    // gen_num.add(rng.nextInt(100));
-    return gen_num;
+    int genNum = rng(100000, 999999);
+    return genNum;
   }
 }
 

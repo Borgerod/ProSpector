@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:ui';
 
-import 'package:prospector/backend/api_requests/api_calls.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/popups/renewal_approved.dart';
@@ -18,7 +17,7 @@ class RenewListWidget extends StatefulWidget {
 }
 
 class _RenewListWidgetState extends State<RenewListWidget> {
-  ApiCallResponse? callList;
+  // ApiCallResponse? callList;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

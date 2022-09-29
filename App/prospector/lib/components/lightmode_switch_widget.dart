@@ -85,7 +85,6 @@ class _LightmodeSwitchWidgetState extends State<LightmodeSwitchWidget>
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.transparent,
-                // color: FlutterFlowTheme.of(context).tertiaryColor,
                 border: Border.all(
                   color: Color(0x0E000000),
                   width: 5,
@@ -122,10 +121,6 @@ class _LightmodeSwitchWidgetState extends State<LightmodeSwitchWidget>
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           if (Theme.of(context).brightness == Brightness.dark)
-                            // Padding(
-                            //   padding:
-                            //       EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                            //   child:
                             InkWell(
                               onTap: () async {
                                 if (animationsMap[
@@ -144,8 +139,6 @@ class _LightmodeSwitchWidgetState extends State<LightmodeSwitchWidget>
                               child: Container(
                                 width: 40,
                                 height: 20,
-                                // width: 70,
-                                // height: 35,
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryBackground,
@@ -195,10 +188,6 @@ class _LightmodeSwitchWidgetState extends State<LightmodeSwitchWidget>
                                                       .tertiaryColor,
                                               borderRadius:
                                                   BorderRadius.circular(20),
-                                              // border: Border.all(
-                                              //   color: Color(0x3C000000),
-                                              //   width: 2,
-                                              // ),
                                             ),
                                           ),
                                         ).animated([
@@ -213,11 +202,6 @@ class _LightmodeSwitchWidgetState extends State<LightmodeSwitchWidget>
                               ),
                             ),
                           if (Theme.of(context).brightness == Brightness.light)
-
-                            // Padding(
-                            //   padding:
-                            //       EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                            // child:
                             InkWell(
                               onTap: () async {
                                 if (animationsMap[
@@ -268,9 +252,6 @@ class _LightmodeSwitchWidgetState extends State<LightmodeSwitchWidget>
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 0, 10, 0),
                                       child: Row(
-                                        // mainAxisSize: MainAxisSize.max,
-                                        // mainAxisAlignment:
-                                        //     MainAxisAlignment.start,
                                         children: [
                                           Container(
                                             width: 20,

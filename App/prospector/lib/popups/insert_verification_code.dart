@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, unused_element
+
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
@@ -13,7 +15,6 @@ class InsertVerificationCode extends StatefulWidget {
 
   final Email email;
 
-  // const InsertVerificationCode(int verify_num, {Key? key}) : super(key: key);
   InsertVerificationCode(
       {Key? key, required this.verify_num, required this.email})
       : super(key: key);
@@ -220,10 +221,10 @@ class _InsertVerificationCodeState extends State<InsertVerificationCode> {
                                   children: [
                                     FFButtonWidget(
                                       onPressed: () async {
-                                        String inserted_num =
+                                        String insertedNum =
                                             verifi_num_controller!.text;
                                         if (verify_num.verify_num ==
-                                            inserted_num) {
+                                            insertedNum) {
                                           await Navigator.pushReplacement(
                                             context,
                                             PageTransition(

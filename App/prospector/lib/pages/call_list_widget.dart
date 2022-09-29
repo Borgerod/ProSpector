@@ -1,18 +1,16 @@
-import 'dart:io';
+// ignore_for_file: non_constant_identifier_names
 
-import 'package:prospector/backend/api_requests/api_calls.dart';
-import 'package:prospector/components/plain_background_widget.dart';
-import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
-import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector/components/home_button_widget.dart';
+import 'package:flutter/material.dart';
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-// import 'package:http/HttpHeaders.contentTypeHeader.dart';
-import 'package:http/http.dart';
 
-import 'dart:convert';
+import 'package:prospector/components/plain_background_widget.dart';
+import 'package:prospector/components/home_button_widget.dart';
+import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
+import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/globals.dart' as globals;
 
 class CallListWidget extends StatefulWidget {
@@ -121,43 +119,7 @@ class _CallListWidgetState extends State<CallListWidget> {
                                           child: Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(20, 20, 20, 20),
-                                              child: JsonDataGrid()
-
-                                              // FutureBuilder<
-                                              //     ApiCallResponse>(
-                                              //   future: GetCurrentCallListCall
-                                              //       .call(),
-                                              //   builder: (context, snapshot) {
-                                              //     // Customize what your widget looks like when it's loading.
-                                              //     if (!snapshot.hasData) {
-                                              //       return Center(
-                                              //         child: SizedBox(
-                                              //           width: 50,
-                                              //           height: 50,
-                                              //           child:
-                                              //               CircularProgressIndicator(
-                                              //             color:
-                                              //                 Color(0xFF418D75),
-                                              //           ),
-                                              //         ),
-                                              //       );
-                                              //     }
-                                              //     final contentRowGetCurrentCallListResponse =
-                                              //         snapshot.data!;
-                                              //     return Row(
-                                              //       mainAxisSize:
-                                              //           MainAxisSize.max,
-                                              //       mainAxisAlignment:
-                                              //           MainAxisAlignment
-                                              //               .spaceEvenly,
-                                              //       crossAxisAlignment:
-                                              //           CrossAxisAlignment
-                                              //               .stretch,
-                                              //       children: [],
-                                              //     );
-                                              //   },
-                                              // ),
-                                              ),
+                                              child: JsonDataGrid()),
                                         ),
                                       ),
                                     ),
@@ -201,22 +163,6 @@ class _JsonDataGridState extends State<JsonDataGrid> {
     jsonDataGridSource = _JsonDataGridSource(productlist);
     return productlist;
   }
-
-// //* BACKUP BACKUP BACKUP
-//   Future generateProductList() async {
-//     var response = await http.get(Uri.parse(
-//         // 'http://127.0.0.1:8000/callList?skip=0&limit=40')); //TODO gjør om på denne api linken
-//         'http://127.0.0.1:8000/currentcallList'), headers: {
-//       'accept': 'application/json',
-//     });
-  // var list = json
-  //     .decode(utf8.decode(response.bodyBytes))
-  //     .cast<Map<String, dynamic>>();
-  // productlist =
-  //     await list.map<_Product>((json) => _Product.fromJson(json)).toList();
-  // jsonDataGridSource = _JsonDataGridSource(productlist);
-  // return productlist;
-//   }
 
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
@@ -474,37 +420,12 @@ class SwitchWidgetState extends State<SwitchWidget> {
       setState(() {
         saveSwitchState(value);
         switchControl = true;
-
-// //
-// //
-// //
-// //
-//         Future callStatusPutRequest(org_num) async {
-//           Uri _url = Uri.parse(
-//               'http://127.0.0.1:8000/callList/ringe_status?org_num=$org_num');
-//           var response =
-//               await http.put(_url, headers: {'accept': 'application/json'});
-//         }
-
-// //
-// //
-// //
       });
     } else {
       setState(() {
         saveSwitchState(value);
         switchControl = false;
       });
-    }
-    getSwitchValues() async {
-      switchControl = await getSwitchState();
-      setState(() {});
-    }
-
-    @override
-    initState() {
-      super.initState();
-      getSwitchValues();
     }
   }
 

@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'dart:ui';
 
-import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
-import 'package:flutter/material.dart';
 import 'package:prospector/flutter_flow/internationalization.dart';
+import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 
 class RenewalApprovedWidget extends StatefulWidget {
   const RenewalApprovedWidget({Key? key}) : super(key: key);

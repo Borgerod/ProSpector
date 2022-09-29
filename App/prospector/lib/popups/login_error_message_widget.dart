@@ -1,7 +1,8 @@
-import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
-import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
+
+import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
+import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 
 class LoginErrorMessageWidget extends StatefulWidget {
   const LoginErrorMessageWidget({Key? key}) : super(key: key);

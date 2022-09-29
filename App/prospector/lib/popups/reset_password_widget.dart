@@ -1,12 +1,14 @@
+// ignore_for_file: unused_element
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:ui';
 
+import 'package:prospector/popups/reset_password_authentication_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:prospector/flutter_flow/flutter_flow_widgets.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/material.dart';
-import 'package:prospector/popups/reset_password_authentication_widget.dart';
 
 class ResetPasswordWidget extends StatefulWidget {
   const ResetPasswordWidget({Key? key, required this.email}) : super(key: key);

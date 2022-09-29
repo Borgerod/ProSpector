@@ -1,24 +1,5 @@
 import 'package:emoji_flag_converter/emoji_flag_converter.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-// const kThemeModeKey = '__theme_mode__';
-// SharedPreferences? _prefs;
-
-// abstract class FlutterFlowLanguage {
-//   static Future initialize() async =>
-//       _prefs = await SharedPreferences.getInstance();
-//   static String get language {
-//     final language = _prefs?.getBool(kThemeModeKey);
-//     return _prefs.
-//   }
-// }
-
-// void setAppLanguage(BuildContext context, String language) =>
-//     MyApp.of(context).setLocale(language);
-
-// void setDarkModeSetting(BuildContext context, ThemeMode themeMode) =>
-//     MyApp.of(context).setThemeMode(themeMode);
 
 class FlutterFlowLanguageSelector extends StatelessWidget {
   const FlutterFlowLanguageSelector({
