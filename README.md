@@ -70,8 +70,9 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [ ] ...
 
 #### AWS:
-   - [ ] uplaod db to aws 
+   - [X] uplaod db to aws 
    - [ ] upload code to aws (if possible)
+   - [ ] Test if RDS works without postgres. 
 
 
 
