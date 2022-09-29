@@ -104,6 +104,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future _processingData() {
-    return new Future.delayed(const Duration(seconds: 0), () => "1");
+    return new Future.delayed(const Duration(seconds: 5), () => "1");
   }
 }

@@ -37,7 +37,7 @@ class _CallListWidgetState extends State<CallListWidget> {
           child: Expanded(
             child: Stack(
               children: [
-                PlainBackgroundWidget(),
+                // PlainBackgroundWidget(),
                 Material(
                   color: Colors.transparent,
                   child: Container(
@@ -48,7 +48,7 @@ class _CallListWidgetState extends State<CallListWidget> {
                     child: Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(30, 100, 30, 30),
                       child: Column(
-                        mainAxisSize: MainAxisSize.max,
+                        // mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -75,7 +75,9 @@ class _CallListWidgetState extends State<CallListWidget> {
                               ],
                             ),
                           ),
-                          Expanded(
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height * 0.75,
                             child: Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
@@ -86,26 +88,28 @@ class _CallListWidgetState extends State<CallListWidget> {
                                   Expanded(
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          10, 10, 10, 10),
+                                          0, 0, 0, 0),
+                                      // 10, 10, 10, 10),
                                       child: Material(
                                         color: Colors.transparent,
                                         elevation: 5,
+                                        // child: Expanded(
                                         child: Container(
                                           width:
                                               MediaQuery.of(context).size.width,
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              1,
-                                          constraints: BoxConstraints(
-                                            maxWidth: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            maxHeight: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                1,
-                                          ),
+                                              0.70,
+                                          // constraints: BoxConstraints(
+                                          //   maxWidth: MediaQuery.of(context)
+                                          //       .size
+                                          //       .width,
+                                          //   maxHeight: MediaQuery.of(context)
+                                          //           .size
+                                          //           .height *
+                                          //       1,
+                                          // ),
                                           decoration: BoxDecoration(
                                             color: FlutterFlowTheme.of(context)
                                                 .cardColor,
@@ -120,6 +124,7 @@ class _CallListWidgetState extends State<CallListWidget> {
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(20, 20, 20, 20),
                                               child: JsonDataGrid()),
+                                          // ),
                                         ),
                                       ),
                                     ),
@@ -403,15 +408,12 @@ class SwitchWidgetState extends State<SwitchWidget> {
   Future<bool> saveSwitchState(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("switchState", value);
-    print('Switch Value saved $value');
     return prefs.setBool("switchState", value);
   }
 
   Future<bool> getSwitchState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isSwitchedFT = prefs.getBool("switchState") ?? false;
-    print(isSwitchedFT);
-
     return isSwitchedFT;
   }
 

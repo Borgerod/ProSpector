@@ -351,7 +351,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           ),
                                         ),
                                         onFieldSubmitted: (value) async {
-                                          // print("Login Event; Pressed Enter-key");
                                           Login.callback(email, pass, isChecked,
                                               box1, context);
                                         },

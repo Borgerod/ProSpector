@@ -57,7 +57,6 @@ class MenuWidgetState extends State<MenuWidget> {
   @override
   void initState() {
     super.initState();
-    print(this.effect.toString());
     setBrightness(brightness);
     this.setWindowEffect(this.effect);
     if (Platform.isWindows) {
@@ -431,10 +430,44 @@ class MenuWidgetState extends State<MenuWidget> {
         if (isMenuFixed(context)) menu,
         Expanded(
           child: Container(
-            child: Stack(
-              alignment: AlignmentDirectional.topStart,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 10,
+                  color: Color(0x33000000),
+                  offset: Offset(-10, 0),
+                )
+              ],
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: Image.asset(
+                  getImage(context),
+                ).image,
+              ),
+            ),
+            child: Column(
+              // alignment: AlignmentDirectional.topStart,
+
               children: [
-                Expanded(
+                // Column(
+                //   children: [
+                WindowTitleBarBox(
+                  child: Row(
+                    // crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: MoveWindow(),
+                      ),
+                      WindowTitleBar(brightness: brightness)
+                    ],
+                  ),
+                ),
+                //   ],
+                // ),
+                // Expanded(
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.95,
                   child: Navigator(
                     key: navigatorKey,
                     initialRoute: '/',
@@ -460,20 +493,21 @@ class MenuWidgetState extends State<MenuWidget> {
                     },
                   ),
                 ),
-                Stack(
-                  children: [
-                    WindowTitleBarBox(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: MoveWindow(),
-                          ),
-                          WindowTitleBar(brightness: brightness)
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+
+                // Stack(
+                //   children: [
+                //     WindowTitleBarBox(
+                //       child: Row(
+                //         children: [
+                //           Expanded(
+                //             child: MoveWindow(),
+                //           ),
+                //           WindowTitleBar(brightness: brightness)
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
@@ -481,16 +515,24 @@ class MenuWidgetState extends State<MenuWidget> {
       ],
     );
   }
-}
 
-class RedeemConfirmationScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.5),
-    );
+  String getImage(context) {
+    if (Theme.of(context).brightness == Brightness.light) {
+      return 'assets/images/light2.png';
+    } else {
+      return 'assets/images/dark3.png';
+    }
   }
 }
+
+// class RedeemConfirmationScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white.withOpacity(0.5),
+//     );
+//   }
+// }
 
 _getBodyWidget(name) {
   switch (name) {

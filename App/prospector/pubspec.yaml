@@ -75,6 +75,7 @@ dependencies:
   velocity_x: ^3.5.1
   hive: 
   hive_flutter: 
+  msix: ^2.8.18
 
 dev_dependencies:
   flutter_launcher_icons: 0.9.3

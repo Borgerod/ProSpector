@@ -17,15 +17,15 @@ class _PlainBackgroundWidgetState extends State<PlainBackgroundWidget> {
         height: MediaQuery.of(context).size.height * 1,
         decoration: BoxDecoration(
           color: Color(0xFF0C0C0A),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 10,
-              color: Color(0x33000000),
-              offset: Offset(-10, 0),
-            )
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     blurRadius: 10,
+          //     color: Color(0x33000000),
+          //     offset: Offset(-10, 0),
+          //   )
+          // ],
         ),
-        child: Stack(
+        child: Column(
           children: [
             Image.asset(
               'assets/images/darkmode_plain.png',

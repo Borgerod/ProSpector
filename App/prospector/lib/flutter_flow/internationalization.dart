@@ -360,10 +360,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Email Address',
       'nb': 'Epostadresse',
     },
-    // 'wzputey6': {
-    //   'en': '[Some hint text...]',
-    //   'nb': '',
-    // },
     'c46l6cf6': {
       'en': 'Send',
       'nb': 'Send',

@@ -794,7 +794,6 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                               'organisasjon':
                                                                   workplace,
                                                             };
-                                                            print(data);
                                                             var body = json
                                                                 .encode(data);
 
@@ -809,9 +808,6 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                                           "application/json",
                                                                     },
                                                                     body: body);
-                                                            print(body);
-                                                            print(response
-                                                                .statusCode);
 
                                                             if (response
                                                                     .statusCode ==
