@@ -43,3 +43,7 @@ aiosqlite
 
 #seedir to print tree structure of folders
 seedir
+
+
+#other
+psycopg2

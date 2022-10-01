@@ -66,16 +66,21 @@ class _ProgressBarCallState extends State<ProgressBarCall> {
     new Timer.periodic(
       Duration(milliseconds: delay * 180),
       (Timer timer) {
-        setState(
-          () {
-            if (_value == 1) {
-              timer.cancel();
-            } else {
-              _value += 0.01;
-            }
-          },
-        );
+        setStateIfMounted(timer);
       },
     );
+  }
+
+  void setStateIfMounted(timer) {
+    if (!mounted)
+      setState(
+        () {
+          if (_value == 1) {
+            timer.cancel();
+          } else {
+            _value += 0.01;
+          }
+        },
+      );
   }
 }
