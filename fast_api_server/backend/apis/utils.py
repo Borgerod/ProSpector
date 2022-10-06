@@ -24,10 +24,10 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
         )  # changed to accept access token from httpOnly Cookie
 
         scheme, param = get_authorization_scheme_param(authorization)
-        print()
-        print(request.cookies)
-        print(authorization)
-        print()
+        # print()
+        # print(request.cookies)
+        # print(authorization)
+        # print()
         if not authorization or scheme.lower() != "bearer":
             if self.auto_error:
                 raise HTTPException(
