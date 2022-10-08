@@ -53,21 +53,12 @@ class _ProgressBarCallState extends State<ProgressBarCall> {
   double _value = 0;
   @override
   Widget build(BuildContext context) {
-    checkIndicator(5);
+    checkIndicator();
     return LinearProgressIndicator(
       backgroundColor: Colors.grey,
       color: Color(0xFF5D8387),
       minHeight: 5,
       value: _value,
-    );
-  }
-
-  void checkIndicator(delay) {
-    new Timer.periodic(
-      Duration(milliseconds: delay * 180),
-      (Timer timer) {
-        setStateIfMounted(timer);
-      },
     );
   }
 
@@ -78,9 +69,22 @@ class _ProgressBarCallState extends State<ProgressBarCall> {
           if (_value == 1) {
             timer.cancel();
           } else {
-            _value += 0.01;
+            _value += 1;
           }
         },
       );
+  }
+
+  void checkIndicator({delay = 5}) {
+    new Timer.periodic(Duration(milliseconds: delay * 500), (Timer timer) {
+      setState(() {
+        if (_value == 1) {
+          timer.cancel();
+          setStateIfMounted(timer);
+        } else {
+          _value = _value + 0.1;
+        }
+      });
+    });
   }
 }

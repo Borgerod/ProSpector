@@ -446,14 +446,9 @@ class MenuWidgetState extends State<MenuWidget> {
               ),
             ),
             child: Column(
-              // alignment: AlignmentDirectional.topStart,
-
               children: [
-                // Column(
-                //   children: [
                 WindowTitleBarBox(
                   child: Row(
-                    // crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
                         child: MoveWindow(),
@@ -462,9 +457,6 @@ class MenuWidgetState extends State<MenuWidget> {
                     ],
                   ),
                 ),
-                //   ],
-                // ),
-                // Expanded(
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.95,
@@ -493,21 +485,6 @@ class MenuWidgetState extends State<MenuWidget> {
                     },
                   ),
                 ),
-
-                // Stack(
-                //   children: [
-                //     WindowTitleBarBox(
-                //       child: Row(
-                //         children: [
-                //           Expanded(
-                //             child: MoveWindow(),
-                //           ),
-                //           WindowTitleBar(brightness: brightness)
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),
@@ -524,15 +501,6 @@ class MenuWidgetState extends State<MenuWidget> {
     }
   }
 }
-
-// class RedeemConfirmationScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white.withOpacity(0.5),
-//     );
-//   }
-// }
 
 _getBodyWidget(name) {
   switch (name) {

@@ -25,7 +25,7 @@ class _SignupWidgetState extends State<SignupWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   //* NEW STUFF
-  late Color colorState = Color(0xFFD6D8DA); //Color(0xFF95A1AC);
+  late Color colorState = Color(0xFFD6D8DA);
   late TextStyle labelColorState =
       FlutterFlowTheme.of(context).bodyText1.override(
             fontFamily: 'Poppins',
@@ -33,12 +33,9 @@ class _SignupWidgetState extends State<SignupWidget> {
             fontSize: 12,
             fontWeight: FontWeight.w300,
           );
-  // late Color labelColorState = FlutterFlowTheme.of(context).thirdTextColor;
   late String passwordlabelState = FFLocalizations.of(context).getText(
     'u1vts5lp' /* Password */,
   );
-
-  //* NEW STUFF
 
   @override
   void initState() {

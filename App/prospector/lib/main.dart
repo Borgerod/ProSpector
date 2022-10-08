@@ -75,35 +75,36 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Prospector',
-        localizationsDelegates: [
-          FFLocalizationsDelegate(),
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        locale: _locale,
-        supportedLocales: const [
-          Locale('en'),
-          Locale('nb'),
-        ],
-        theme: ThemeData(brightness: Brightness.light),
-        darkTheme: ThemeData(brightness: Brightness.dark),
-        themeMode: _themeMode,
-        home: FutureBuilder(
-          future: _processingData(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return LoadingScreen();
-            } else {
-              return const LoginWidget();
-            }
-          },
-        ));
+      debugShowCheckedModeBanner: false,
+      title: 'Prospector',
+      localizationsDelegates: [
+        FFLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      locale: _locale,
+      supportedLocales: const [
+        Locale('en'),
+        Locale('nb'),
+      ],
+      theme: ThemeData(brightness: Brightness.light),
+      darkTheme: ThemeData(brightness: Brightness.dark),
+      themeMode: _themeMode,
+      home: FutureBuilder(
+        future: _processingData(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingScreen();
+          } else {
+            return const LoginWidget();
+          }
+        },
+      ),
+    );
   }
 
   Future _processingData() {
-    return new Future.delayed(const Duration(seconds: 5), () => "1");
+    return new Future.delayed(const Duration(seconds: 5), () => 1);
   }
 }

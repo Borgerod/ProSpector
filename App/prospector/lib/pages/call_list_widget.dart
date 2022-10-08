@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -26,120 +24,50 @@ class _CallListWidgetState extends State<CallListWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       floatingActionButton: HomeButton(),
-      body: InkWell(
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
-        splashFactory: NoSplash.splashFactory,
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Container(
-          child: Expanded(
-            child: Stack(
-              children: [
-                // PlainBackgroundWidget(),
-                Material(
-                  color: Colors.transparent,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 1,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(30, 100, 30, 30),
-                      child: Column(
-                        // mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10, 0, 0, 10),
-                                  child: Text(
-                                    FFLocalizations.of(context).getText(
-                                      'nhdfcp17' /* Call List */,
-                                    ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .title1
-                                        .override(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 30,
-                                        ),
-                                  ),
-                                ),
-                              ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: Image.asset(
+              getImage(context),
+            ).image,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(30, 100, 30, 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                      child: Text(
+                        FFLocalizations.of(context).getText(
+                          'nhdfcp17' /* Call List */,
+                        ),
+                        style: FlutterFlowTheme.of(context).title1.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 30,
                             ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.75,
-                            child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 0),
-                                      // 10, 10, 10, 10),
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        elevation: 5,
-                                        // child: Expanded(
-                                        child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.70,
-                                          // constraints: BoxConstraints(
-                                          //   maxWidth: MediaQuery.of(context)
-                                          //       .size
-                                          //       .width,
-                                          //   maxHeight: MediaQuery.of(context)
-                                          //           .size
-                                          //           .height *
-                                          //       1,
-                                          // ),
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .cardColor,
-                                            border: Border.all(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .boarderColor,
-                                              width: 0,
-                                            ),
-                                          ),
-                                          child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(20, 20, 20, 20),
-                                              child: JsonDataGrid()),
-                                          // ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                  child: Container(
+                      color: FlutterFlowTheme.of(context).cardColor,
+                      child: JsonDataGrid()),
+                ),
+              ),
+            ],
           ),
         ),
       ),

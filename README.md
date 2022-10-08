@@ -19,7 +19,20 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 
 
 
+
+
+
 ## TODO
+
+#### BEFORE DEMO RELEASE:
+''' Todo list of bugs that occored upon compiling '''
+   - [ ] Fix Login button error [high prio] (ROOT BUG)
+   - [ ] Fix loading screen bug [low prio] (Unknown)
+   - [ ] fix Expanded - Stack bug [high prio] (ROOT BUG)
+   - [ ] fix plain_background error [medium prio] (RESIDUAL BUG)
+   - [ ] 
+
+
 #### UI:
    - [X] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
    - [X] Fix darkmode Issue on app Startup [note: see small bugs]
