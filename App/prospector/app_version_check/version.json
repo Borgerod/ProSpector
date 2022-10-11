@@ -1,0 +1,10 @@
+{
+"name":"ProSpector",
+"version":  0.9,
+"description":  [
+    "pre-release"
+],
+"macos_file_name": "",
+"windows_file_name":  "installers/windows/setup.exe",
+"linux_file_name":  ""
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
+import 'package:prospector/components/update_widget.dart';
 
 import 'package:prospector/popups/reset_password_authentication_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
@@ -173,6 +174,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                           ),
                         ),
                         Spacer(flex: 10),
+                        //!  _________________  CHECK FOR UPDATES __________________________
+                        Container(
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                              UpdateWidget(),
+                            ])),
+
+                        //!  _________________  LOGIN FORM __________________________
                         Container(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,

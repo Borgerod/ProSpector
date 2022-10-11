@@ -11,6 +11,7 @@ import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/pages/loading_page.dart';
 import 'package:prospector/index.dart';
+import 'package:prospector/components/update_widget.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
@@ -91,16 +92,21 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: _themeMode,
-      home: FutureBuilder(
-        future: _processingData(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingScreen();
-          } else {
-            return const LoginWidget();
-          }
-        },
-      ),
+      //! TEMP - remove later
+      home: LoginWidget(),
+
+      //! KEEP THIS
+      //  home: FutureBuilder(
+      //   future: _processingData(),
+      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       // if (UpdateWidget.) {}
+      //       return LoadingScreen();
+      //     } else {
+      //       return const LoginWidget();
+      //     }
+      //   },
+      // ),
     );
   }
 

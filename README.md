@@ -26,12 +26,13 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 
 #### BEFORE DEMO RELEASE:
 ''' Todo list of bugs that occored upon compiling '''
-   - [ ] Fix Login button error [high prio] (ROOT BUG)
-   - [ ] Fix loading screen bug [low prio] (Unknown)
-   - [ ] fix Expanded - Stack bug [high prio] (ROOT BUG)
-   - [ ] fix plain_background error [medium prio] (RESIDUAL BUG)
-   - [ ] 
-
+   - [X] Fix Login button error [high prio] (ROOT BUG)
+   - [X] Fix loading screen bug [low prio] (Unknown)
+   - [X] fix Expanded - Stack bug [high prio] (ROOT BUG)
+   - [X] fix plain_background error [medium prio] (RESIDUAL BUG)
+   - [X] Add installer
+   - [ ] Implement update-function
+   - [ ] ...
 
 #### UI:
    - [X] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
@@ -51,6 +52,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [ ] [ Low Prio ] Clean up files (but first verify functionality, then backup)
    - [ ] [ Low Prio ] Maybe add splash screen / loading screen
    - [ ] [ Low Prio ] Make instructions look Nicer 
+   - [ ] ...
 
 ##### UI (small bugs):
    - [ ] Loading issue with presistant state   [notes_page.dart]
@@ -58,7 +60,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [X] Acryllic allways opens in darkmode    [menu_widget.dart]
    - [ ] Maximize window, often needs 2 clicks [window_title_bar.dart] (I think)
    - [X] Overflow in About in smallwindow      [about_widget.dart / main.dart]
-   - [ ] ... [  ]
+   - [ ] ...
 
 
 #### API:
@@ -85,7 +87,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 #### AWS:
    - [X] uplaod db to aws 
    - [ ] upload code to aws (if possible)
-   - [ ] Test if RDS works without postgres. 
+   - [X] Test if RDS works without postgres. 
 
 
 
