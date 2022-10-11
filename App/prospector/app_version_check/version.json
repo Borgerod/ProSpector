@@ -1,8 +1,8 @@
 {
 "name":"ProSpector",
-"version":  1.1,
+"version":  1.2,
 "description":  [
-    "pre-release"
+    "reorganized update-function"
 ],
 "macos_file_name": "",
 "windows_file_name":  "installers/windows/setup.exe",
