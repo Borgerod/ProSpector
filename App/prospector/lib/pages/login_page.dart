@@ -34,30 +34,30 @@ class _LoginWidgetState extends State<LoginWidget> {
   // * NEW VARIABLES
   TextEditingController email = TextEditingController(); //* email-controller
   TextEditingController pass = TextEditingController(); //*  pass-controller
-  double currentVersion = 1.0;
+  // double currentVersion = 1.0;
   bool isChecked = false; //*                                rememberMe
   late Box box1;
-  late Box versionBox;
+  // late Box versionBox;
 
   @override
   void initState() {
     super.initState();
     passwordVisibility = false;
     createBox();
-    createVersionBox();
+    // createVersionBox();
   }
 
-  void createVersionBox() async {
-    versionBox = await Hive.openBox('version');
-    getVersion();
-  }
+  // void createVersionBox() async {
+  //   versionBox = await Hive.openBox('version');
+  //   getVersion();
+  // }
 
-  void getVersion() async {
-    if (versionBox.get('current_version') != null) {
-      currentVersion = versionBox.get('current_version');
-      setState(() {});
-    }
-  }
+  // void getVersion() async {
+  //   if (versionBox.get('current_version') != null) {
+  //     currentVersion = versionBox.get('current_version');
+  //     setState(() {});
+  //   }
+  // }
 
   void createBox() async {
     // creating the Hive-database
@@ -137,12 +137,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                       children: [
                         Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(60, 20, 20, 0),
+                              EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              ShowUpdateDialogue(),
                               Expanded(
                                 flex: 2,
                                 child: Padding(
@@ -205,7 +206,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                             ],
                           ),
                         ),
-                        Spacer(flex: 10),
+                        // Spacer(flex: 10),
+                        Spacer(flex: 1),
                         // Container(
                         //   child: FutureBuilder<bool>(
                         //       // future: _checkForUpdates(),
@@ -213,7 +215,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         //     return getUpdateDialogueOrLoginForm();
                         //   }),
                         // ),
-                        Spacer(flex: 2),
+                        // Spacer(flex: 2),
                         _loginForm(),
                         Spacer(
                           flex: 1,
@@ -230,46 +232,47 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 
-  Future<Map<String, dynamic>> loadJsonFromGithub() async {
-    final response = await http.read(Uri.parse(
-        "https://raw.githubusercontent.com/Borgerod/post_install_app_update_test/main/app/app_version_check/version.json"));
-    return jsonDecode(response);
-  }
+  // Future<Map<String, dynamic>> loadJsonFromGithub() async {
+  //   final response = await http.read(Uri.parse(
+  //       "https://raw.githubusercontent.com/Borgerod/post_install_app_update_test/main/app/app_version_check/version.json"));
+  //   return jsonDecode(response);
+  // }
 
-  bool updateAvailable = false;
-  Map<String, dynamic> versionJson = {};
-  double version = 0.0;
+  // bool updateAvailable = false;
+  // Map<String, dynamic> versionJson = {};
+  // double version = 0.0;
 
-  Future<void> checkForUpdates() async {
-    Map<String, dynamic> _versionJson = await loadJsonFromGithub();
-    double _version = _versionJson['version'];
-    bool _updateAvailable = false;
+  // Future<void> checkForUpdates() async {
+  //   Map<String, dynamic> _versionJson = await loadJsonFromGithub();
+  //   double _version = _versionJson['version'];
+  //   bool _updateAvailable = false;
 
-    if (_version > ApplicationConfig.currentVersion) {
-      // updateAvailable = Future.value(true) as bool;
-      updateAvailable = true;
-      // Future.value(true) as bool;
-    } else {
-      updateAvailable = false;
-      // Future.value(false) as bool;
-    }
+  //   if (_version > ApplicationConfig.currentVersion) {
+  //     // updateAvailable = Future.value(true) as bool;
+  //     updateAvailable = true;
+  //     // Future.value(true) as bool;
+  //   } else {
+  //     updateAvailable = false;
+  //     // Future.value(false) as bool;
+  //   }
 
-    _loginForm() {}
-  }
+  //   _loginForm() {}
+  // }
 
-  getUpdateDialogueOrLoginForm() {
-    checkForUpdates();
-    if (version > ApplicationConfig.currentVersion) {
-      // if (snapshot.data == true) {
-      sleep(Duration(seconds: 1));
-      // return showMessage();
-      return ShowUpdateDialogue();
-    }
-    if (version < ApplicationConfig.currentVersion) {
-      // if (snapshot.data != true) {
-      return _loginForm();
-    }
-  }
+  // getUpdateDialogueOrLoginForm() {
+  //   checkForUpdates();
+  //   // if (version > ApplicationConfig.currentVersion) {
+  //   if (updateAvailable == true) {
+  //     sleep(Duration(seconds: 1));
+  //     // return showMessage();
+  //     return ShowUpdateDialogue();
+  //   }
+  //   if (updateAvailable == false) {
+  //     // if (version < ApplicationConfig.currentVersion) {
+  //     // if (snapshot.data != true) {
+  //     return _loginForm();
+  //   }
+  // }
 
   Widget _loginForm() {
     return Container(
@@ -534,7 +537,6 @@ class _LoginWidgetState extends State<LoginWidget> {
             ),
           ),
           // ___________________________________________________________
-          ShowUpdateDialogue()
         ],
       ),
     );
