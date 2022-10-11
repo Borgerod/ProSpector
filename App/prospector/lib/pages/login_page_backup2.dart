@@ -34,29 +34,14 @@ class _LoginWidgetState extends State<LoginWidget> {
   // * NEW VARIABLES
   TextEditingController email = TextEditingController(); //* email-controller
   TextEditingController pass = TextEditingController(); //*  pass-controller
-  double currentVersion = 1.0;
   bool isChecked = false; //*                                rememberMe
   late Box box1;
-  late Box versionBox;
 
   @override
   void initState() {
     super.initState();
     passwordVisibility = false;
     createBox();
-    createVersionBox();
-  }
-
-  void createVersionBox() async {
-    versionBox = await Hive.openBox('version');
-    getVersion();
-  }
-
-  void getVersion() async {
-    if (versionBox.get('current_version') != null) {
-      currentVersion = versionBox.get('current_version');
-      setState(() {});
-    }
   }
 
   void createBox() async {
@@ -206,15 +191,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                           ),
                         ),
                         Spacer(flex: 10),
-                        // Container(
-                        //   child: FutureBuilder<bool>(
-                        //       // future: _checkForUpdates(),
-                        //       builder: (context, snapshot) {
-                        //     return getUpdateDialogueOrLoginForm();
-                        //   }),
-                        // ),
+                        Container(
+                          child: FutureBuilder<bool>(
+                              // future: _checkForUpdates(),
+                              builder: (context, snapshot) {
+                            return getUpdateDialogueOrLoginForm();
+                          }),
+                        ),
                         Spacer(flex: 2),
-                        _loginForm(),
                         Spacer(
                           flex: 1,
                         ),
@@ -230,17 +214,17 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 
-  Future<Map<String, dynamic>> loadJsonFromGithub() async {
-    final response = await http.read(Uri.parse(
-        "https://raw.githubusercontent.com/Borgerod/post_install_app_update_test/main/app/app_version_check/version.json"));
-    return jsonDecode(response);
-  }
+  // Future<bool> _checkForUpdates() async {
+  //   final versionJson = await loadJsonFromGithub();
+  //   final version = versionJson['version'];
+  //   if (version > ApplicationConfig.currentVersion) {
+  //     return Future.value(true);
+  //   } else {
+  //     return Future.value(true);
+  //   }
+  // }
 
-  bool updateAvailable = false;
-  Map<String, dynamic> versionJson = {};
-  double version = 0.0;
-
-  Future<void> checkForUpdates() async {
+  Future<void> _checkForUpdates() async {
     Map<String, dynamic> _versionJson = await loadJsonFromGithub();
     double _version = _versionJson['version'];
     bool _updateAvailable = false;
@@ -254,24 +238,127 @@ class _LoginWidgetState extends State<LoginWidget> {
       // Future.value(false) as bool;
     }
 
-    _loginForm() {}
+    setState(() {
+      this.updateAvailable = _updateAvailable;
+      this.versionJson = _versionJson;
+      this.version = _version;
+    });
   }
 
   getUpdateDialogueOrLoginForm() {
-    checkForUpdates();
+    _checkForUpdates();
     if (version > ApplicationConfig.currentVersion) {
       // if (snapshot.data == true) {
       sleep(Duration(seconds: 1));
-      // return showMessage();
-      return ShowUpdateDialogue();
+      return showMessage();
     }
     if (version < ApplicationConfig.currentVersion) {
       // if (snapshot.data != true) {
-      return _loginForm();
+      return loginForm();
     }
   }
 
-  Widget _loginForm() {
+  bool updateAvailable = false;
+  Map<String, dynamic> versionJson = {};
+  double version = 0.0;
+
+  showMessage() {
+    return FutureBuilder<Map<String, dynamic>>(
+      // future: loadJsonFromGithub(),
+      builder: (context, snapshot) {
+        print("showMessage future == ${version}");
+        return Container(
+            child: Column(
+          children: [
+            Text(
+              "Latest Version ${version}",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(height: 5),
+            Text(
+              "What's new:",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              "${versionJson['description']}",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: 20),
+            Center(
+              child: ElevatedButton.icon(
+                  onPressed: () {
+                    // Navigator.pop(context);
+                    if (Platform.isMacOS) {
+                      downloadNewVersion(versionJson["macos_file_name"]);
+                    }
+                    if (Platform.isWindows) {
+                      downloadNewVersion(versionJson["windows_file_name"]);
+                    }
+                  },
+                  icon: const Icon(Icons.update),
+                  label: const Text("Update")),
+            ),
+            SizedBox(height: 150),
+          ],
+        ));
+      },
+    );
+  }
+
+  bool isDownloading = false;
+  double downloadProgress = 0;
+  String downloadedFilePath = "";
+
+  Future downloadNewVersion(String appPath) async {
+    final fileName = appPath.split("/").last;
+    isDownloading = true;
+    setState(() {});
+
+    final dio = Dio();
+
+    downloadedFilePath =
+        "${(await getApplicationDocumentsDirectory()).path}/$fileName";
+    await dio.download(
+      "https://raw.githubusercontent.com/Borgerod/ProSpector/main/App/prospector/app_version_check/$appPath",
+      downloadedFilePath,
+      onReceiveProgress: (received, total) {
+        final progress = (received / total) * 100;
+        debugPrint('Rec: $received , Total: $total, $progress%');
+        downloadProgress = double.parse(progress.toStringAsFixed(1));
+        setState(() {});
+      },
+    );
+    debugPrint("File Downloaded Path: $downloadedFilePath");
+    if (Platform.isWindows) {
+      await openExeFile(downloadedFilePath);
+    }
+    isDownloading = false;
+    setState(() {});
+  }
+
+  Future<void> openExeFile(String filePath) async {
+    await Process.start(filePath, ["-t", "-l", "1000"]).then((value) {});
+  }
+
+  Future<Map<String, dynamic>> loadJsonFromGithub() async {
+    final response = await http.read(Uri.parse(
+        "https://raw.githubusercontent.com/Borgerod/ProSpector/main/App/prospector/app_version_check/version.json"));
+    return jsonDecode(response);
+  }
+
+  loginForm() {
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -493,7 +580,42 @@ class _LoginWidgetState extends State<LoginWidget> {
 
               Spacer(flex: 2),
               // _________________  LOGIN BUTTON ME ____________________
-              loginButton(),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                child: InkWell(
+                  onTap: () {
+                    Login.callback(email, pass, isChecked, box1, context);
+                  },
+                  child: Material(
+                    color: Colors.transparent,
+                    elevation: 5,
+                    child: Container(
+                      width: 150,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF5D8387),
+                      ),
+                      child: Align(
+                        alignment: AlignmentDirectional(0, 0),
+                        child: Text(
+                          FFLocalizations.of(context).getText(
+                            'bbpm2l2x' /* Login */,
+                          ),
+                          textAlign: TextAlign.center,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyText1
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyText1Family,
+                                color:
+                                    FlutterFlowTheme.of(context).primaryBtnText,
+                              ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               //________________________________________________________
               Spacer(flex: 5),
             ],
@@ -534,43 +656,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             ),
           ),
           // ___________________________________________________________
-          ShowUpdateDialogue()
         ],
-      ),
-    );
-  }
-
-  Padding loginButton() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-      child: InkWell(
-        onTap: () {
-          Login.callback(email, pass, isChecked, box1, context);
-        },
-        child: Material(
-          color: Colors.transparent,
-          elevation: 5,
-          child: Container(
-            width: 150,
-            height: 30,
-            decoration: BoxDecoration(
-              color: Color(0xFF5D8387),
-            ),
-            child: Align(
-              alignment: AlignmentDirectional(0, 0),
-              child: Text(
-                FFLocalizations.of(context).getText(
-                  'bbpm2l2x' /* Login */,
-                ),
-                textAlign: TextAlign.center,
-                style: FlutterFlowTheme.of(context).bodyText1.override(
-                      fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                      color: FlutterFlowTheme.of(context).primaryBtnText,
-                    ),
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }

@@ -9,9 +9,9 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:prospector/components/update_widget.dart';
 
-// class ApplicationConfig {
-//   static double currentVersion = 1.0;
-// }
+class ApplicationConfig {
+  static double currentVersion = 1.0;
+}
 
 class ShowUpdateDialogue extends StatefulWidget {
   const ShowUpdateDialogue({Key? key, this.versionJson}) : super(key: key);
