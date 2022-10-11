@@ -25,7 +25,7 @@ class _UpdateWidgetState extends State<UpdateWidget> {
   String downloadedFilePath = "";
   Future<Map<String, dynamic>> loadJsonFromGithub() async {
     final response = await http.read(Uri.parse(
-        "https://raw.githubusercontent.com/Borgerod/ProSpector/tree/main/App/prospector/app_version_check/version.json"));
+        "https://raw.githubusercontent.com/Borgerod/ProSpector/main/App/prospector/app_version_check/version.json"));
     return jsonDecode(response);
   }
 
