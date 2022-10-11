@@ -93,20 +93,20 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: _themeMode,
       //! TEMP - remove later
-      home: LoginWidget(),
+      // home: LoginWidget(),
 
       //! KEEP THIS
-      //  home: FutureBuilder(
-      //   future: _processingData(),
-      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       // if (UpdateWidget.) {}
-      //       return LoadingScreen();
-      //     } else {
-      //       return const LoginWidget();
-      //     }
-      //   },
-      // ),
+      home: FutureBuilder(
+        future: _processingData(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // if (UpdateWidget.) {}
+            return LoadingScreen();
+          } else {
+            return const LoginWidget();
+          }
+        },
+      ),
     );
   }
 

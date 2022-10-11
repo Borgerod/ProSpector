@@ -1,14 +1,24 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:prospector/components/update_widget.dart';
+// import 'package:prospector/components/update_widget_test.dart';
 
 import 'package:prospector/popups/reset_password_authentication_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/backend/api_requests/api_calls.dart';
 import 'package:prospector/pages/signup_page.dart';
+import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:prospector/components/update_widget.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -71,6 +81,13 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     final bodyWidth = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right;
+    //
+    //
+    // Future stats = _checkForUpdates();
+    // print("updatestatus ===> ${_checkForUpdates()}");
+//
+//
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: GestureDetector(
@@ -174,362 +191,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                           ),
                         ),
                         Spacer(flex: 10),
-                        //!  _________________  CHECK FOR UPDATES __________________________
                         Container(
-                            child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                              UpdateWidget(),
-                            ])),
-
-                        //!  _________________  LOGIN FORM __________________________
-                        Container(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              // _________________  EMAIL ADDRESS __________________________
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Spacer(flex: 2),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        10, 0, 20, 0),
-                                    child: Icon(
-                                      Icons.person_sharp,
-                                      color: Color(0xFFD6D8DA),
-                                      size: 18,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 10),
-                                      child: TextFormField(
-                                        controller:
-                                            email, //* <--- email-controller
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        obscureText: false,
-                                        cursorColor: Color(0xFFD6D8DA),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Color(0xFFD6D8DA),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                        decoration: InputDecoration(
-                                          labelText: FFLocalizations.of(context)
-                                              .getText(
-                                            'jy7dyfri' /* Email Address */,
-                                          ),
-                                          labelStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyText1
-                                                  .override(
-                                                    fontFamily: 'Lexend Deca',
-                                                    color: Color(0xFFD6D8DA),
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0xFF95A1AC),
-                                              width: 2,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0xFF95A1AC),
-                                              width: 2,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                        ),
-                                        //? ______ TEMPORARLY DISABLED ______
-                                        // onFieldSubmitted: (_) async {
-                                        //   setState(() =>
-                                        //       FFAppState().emailAdress =
-                                        //           passwordController!.text);
-                                        // },
-                                        //? _________________________________
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer(flex: 2),
-                                ],
-                              ),
-                              // ___________________________________________________________
-                              // _________________  PASSWORD _______________________________
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Spacer(flex: 2),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        10, 0, 20, 0),
-                                    child: Icon(
-                                      Icons.lock_sharp,
-                                      color: Color(0xFFD6D8DA),
-                                      size: 18,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 10),
-                                      child: TextFormField(
-                                        controller: pass,
-                                        keyboardType:
-                                            TextInputType.visiblePassword,
-                                        obscureText: !passwordVisibility,
-                                        cursorColor: Color(0xFFD6D8DA),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Color(0xFFD6D8DA),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                        decoration: InputDecoration(
-                                          labelText: 'Password',
-                                          labelStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyText1
-                                                  .override(
-                                                    fontFamily: 'Lexend Deca',
-                                                    color: Color(0xFFD6D8DA),
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0xFF95A1AC),
-                                              width: 2,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0xFF95A1AC),
-                                              width: 2,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          suffixIcon: InkWell(
-                                            onTap: () => setState(
-                                              () => passwordVisibility =
-                                                  !passwordVisibility,
-                                            ),
-                                            focusNode:
-                                                FocusNode(skipTraversal: true),
-                                            child: Icon(
-                                              passwordVisibility
-                                                  ? Icons.visibility_outlined
-                                                  : Icons
-                                                      .visibility_off_outlined,
-                                              color: Color(0xFF95A1AC),
-                                              size: 22,
-                                            ),
-                                          ),
-                                        ),
-                                        onFieldSubmitted: (value) async {
-                                          Login.callback(email, pass, isChecked,
-                                              box1, context);
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer(flex: 2),
-                                ],
-                              ),
-                              // ___________________________________________________________
-                              // _________________  LOGIN & REMEMBER ME ____________________
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Spacer(flex: 6),
-                                  // _________________  REMEMBER ME ________________________
-                                  Container(
-                                    width: 130,
-                                    height: 100,
-                                    decoration: BoxDecoration(),
-                                    child: Theme(
-                                      data: ThemeData(
-                                        unselectedWidgetColor:
-                                            Color(0xFFD6D8DA),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Transform.scale(
-                                            scale: .7,
-                                            child: Checkbox(
-                                              value: //  The checkbox value is initially the basevalue
-                                                  isChecked, // of isChecked (bool isChecked = false;)
-                                              activeColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryColor,
-                                              onChanged: (value) {
-                                                // when checkbox is checked/unchecked;
-                                                // the value (isChecked) is changed to "!isChecked"
-                                                // meaning isChecked is now -> "not" isChecked
-                                                // [ "!" means: "not" / "opposite" / "not equal" ]
-                                                // [    foo = !0  --> foo is: "not 0"            ]
-                                                // [    foo =! 0  --> is foo "not 0"?            ]
-                                                isChecked = !isChecked;
-                                                //* Our task:
-                                                //*   When the user presses "Login" buton:
-                                                //*       if (isChecked == true) => Then we are going
-                                                //*                                 to save the data
-                                                setState(() {});
-                                              },
-                                            ),
-                                          ),
-                                          Text(
-                                            FFLocalizations.of(context).getText(
-                                              'argrf05a' /* Remember Me */,
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .title3
-                                                .override(
-                                                  fontFamily: 'Poppins',
-                                                  color: Color(0xFFD6D8DA),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  // _______________________________________________________
-
-                                  Spacer(flex: 2),
-                                  // _________________  LOGIN BUTTON ME ____________________
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 0, 0),
-                                    child: InkWell(
-                                      onTap: () {
-                                        Login.callback(email, pass, isChecked,
-                                            box1, context);
-                                      },
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        elevation: 5,
-                                        child: Container(
-                                          width: 150,
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFF5D8387),
-                                          ),
-                                          child: Align(
-                                            alignment:
-                                                AlignmentDirectional(0, 0),
-                                            child: Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'bbpm2l2x' /* Login */,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyText1Family,
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryBtnText,
-                                                      ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  //________________________________________________________
-                                  Spacer(flex: 5),
-                                ],
-                              ),
-
-                              // _________________  FORGOT PASSWORD ________________________
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0, 30, 0, 30),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    InkWell(
-                                      child: Text(
-                                        FFLocalizations.of(context).getText(
-                                          '3j5yksm2' /* Forgot your password? */,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Color(0xFFD6D8DA),
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                      onTap: () async {
-                                        await Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            duration: Duration(milliseconds: 0),
-                                            reverseDuration:
-                                                Duration(milliseconds: 0),
-                                            child:
-                                                ResetPasswordAuthenticationWidget(),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // ___________________________________________________________
-                            ],
-                          ),
+                          child: FutureBuilder<bool>(
+                              // future: _checkForUpdates(),
+                              builder: (context, snapshot) {
+                            return getUpdateDialogueOrLoginForm();
+                          }),
                         ),
+                        Spacer(flex: 2),
                         Spacer(
                           flex: 1,
                         ),
@@ -541,6 +210,453 @@ class _LoginWidgetState extends State<LoginWidget> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  // Future<bool> _checkForUpdates() async {
+  //   final versionJson = await loadJsonFromGithub();
+  //   final version = versionJson['version'];
+  //   if (version > ApplicationConfig.currentVersion) {
+  //     return Future.value(true);
+  //   } else {
+  //     return Future.value(true);
+  //   }
+  // }
+
+  Future<void> _checkForUpdates() async {
+    Map<String, dynamic> _versionJson = await loadJsonFromGithub();
+    double _version = _versionJson['version'];
+    bool _updateAvailable = false;
+
+    if (_version > ApplicationConfig.currentVersion) {
+      // updateAvailable = Future.value(true) as bool;
+      updateAvailable = true;
+      // Future.value(true) as bool;
+    } else {
+      updateAvailable = false;
+      // Future.value(false) as bool;
+    }
+
+    setState(() {
+      this.updateAvailable = _updateAvailable;
+      this.versionJson = _versionJson;
+      this.version = _version;
+    });
+  }
+
+  getUpdateDialogueOrLoginForm() {
+    _checkForUpdates();
+    if (version > ApplicationConfig.currentVersion) {
+      // if (snapshot.data == true) {
+      sleep(Duration(seconds: 1));
+      return showMessage();
+    }
+    if (version < ApplicationConfig.currentVersion) {
+      // if (snapshot.data != true) {
+      return loginForm();
+    }
+  }
+
+  bool updateAvailable = false;
+  Map<String, dynamic> versionJson = {};
+  double version = 0.0;
+
+  showMessage() {
+    return FutureBuilder<Map<String, dynamic>>(
+      // future: loadJsonFromGithub(),
+      builder: (context, snapshot) {
+        print("showMessage future == ${version}");
+        return Container(
+            child: Column(
+          children: [
+            Text(
+              "Latest Version ${version}",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(height: 5),
+            Text(
+              "What's new:",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              "${versionJson['description']}",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: 20),
+            Center(
+              child: ElevatedButton.icon(
+                  onPressed: () {
+                    // Navigator.pop(context);
+                    if (Platform.isMacOS) {
+                      downloadNewVersion(versionJson["macos_file_name"]);
+                    }
+                    if (Platform.isWindows) {
+                      downloadNewVersion(versionJson["windows_file_name"]);
+                    }
+                  },
+                  icon: const Icon(Icons.update),
+                  label: const Text("Update")),
+            ),
+            SizedBox(height: 150),
+          ],
+        ));
+      },
+    );
+  }
+
+  bool isDownloading = false;
+  double downloadProgress = 0;
+  String downloadedFilePath = "";
+
+  Future downloadNewVersion(String appPath) async {
+    final fileName = appPath.split("/").last;
+    isDownloading = true;
+    setState(() {});
+
+    final dio = Dio();
+
+    downloadedFilePath =
+        "${(await getApplicationDocumentsDirectory()).path}/$fileName";
+    await dio.download(
+      "https://raw.githubusercontent.com/Borgerod/ProSpector/main/App/prospector/app_version_check/$appPath",
+      downloadedFilePath,
+      onReceiveProgress: (received, total) {
+        final progress = (received / total) * 100;
+        debugPrint('Rec: $received , Total: $total, $progress%');
+        downloadProgress = double.parse(progress.toStringAsFixed(1));
+        setState(() {});
+      },
+    );
+    debugPrint("File Downloaded Path: $downloadedFilePath");
+    if (Platform.isWindows) {
+      await openExeFile(downloadedFilePath);
+    }
+    isDownloading = false;
+    setState(() {});
+  }
+
+  Future<void> openExeFile(String filePath) async {
+    await Process.start(filePath, ["-t", "-l", "1000"]).then((value) {});
+  }
+
+  Future<Map<String, dynamic>> loadJsonFromGithub() async {
+    final response = await http.read(Uri.parse(
+        "https://raw.githubusercontent.com/Borgerod/ProSpector/main/App/prospector/app_version_check/version.json"));
+    return jsonDecode(response);
+  }
+
+  loginForm() {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // _________________  EMAIL ADDRESS __________________________
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(flex: 2),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 0, 20, 0),
+                child: Icon(
+                  Icons.person_sharp,
+                  color: Color(0xFFD6D8DA),
+                  size: 18,
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                  child: TextFormField(
+                    controller: email, //* <--- email-controller
+                    keyboardType: TextInputType.emailAddress,
+                    obscureText: false,
+                    cursorColor: Color(0xFFD6D8DA),
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Poppins',
+                          color: Color(0xFFD6D8DA),
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                        ),
+                    decoration: InputDecoration(
+                      labelText: FFLocalizations.of(context).getText(
+                        'jy7dyfri' /* Email Address */,
+                      ),
+                      labelStyle:
+                          FlutterFlowTheme.of(context).bodyText1.override(
+                                fontFamily: 'Lexend Deca',
+                                color: Color(0xFFD6D8DA),
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                              ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF95A1AC),
+                          width: 2,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF95A1AC),
+                          width: 2,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
+                        ),
+                      ),
+                    ),
+                    //? ______ TEMPORARLY DISABLED ______
+                    // onFieldSubmitted: (_) async {
+                    //   setState(() =>
+                    //       FFAppState().emailAdress =
+                    //           passwordController!.text);
+                    // },
+                    //? _________________________________
+                  ),
+                ),
+              ),
+              Spacer(flex: 2),
+            ],
+          ),
+          // ___________________________________________________________
+          // _________________  PASSWORD _______________________________
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Spacer(flex: 2),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 0, 20, 0),
+                child: Icon(
+                  Icons.lock_sharp,
+                  color: Color(0xFFD6D8DA),
+                  size: 18,
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                  child: TextFormField(
+                    controller: pass,
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: !passwordVisibility,
+                    cursorColor: Color(0xFFD6D8DA),
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Lexend Deca',
+                          color: Color(0xFFD6D8DA),
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                        ),
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      labelStyle:
+                          FlutterFlowTheme.of(context).bodyText1.override(
+                                fontFamily: 'Lexend Deca',
+                                color: Color(0xFFD6D8DA),
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                              ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF95A1AC),
+                          width: 2,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF95A1AC),
+                          width: 2,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
+                        ),
+                      ),
+                      suffixIcon: InkWell(
+                        onTap: () => setState(
+                          () => passwordVisibility = !passwordVisibility,
+                        ),
+                        focusNode: FocusNode(skipTraversal: true),
+                        child: Icon(
+                          passwordVisibility
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          color: Color(0xFF95A1AC),
+                          size: 22,
+                        ),
+                      ),
+                    ),
+                    onFieldSubmitted: (value) async {
+                      Login.callback(email, pass, isChecked, box1, context);
+                    },
+                  ),
+                ),
+              ),
+              Spacer(flex: 2),
+            ],
+          ),
+          // ___________________________________________________________
+          // _________________  LOGIN & REMEMBER ME ____________________
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Spacer(flex: 6),
+              // _________________  REMEMBER ME ________________________
+              Container(
+                width: 130,
+                height: 100,
+                decoration: BoxDecoration(),
+                child: Theme(
+                  data: ThemeData(
+                    unselectedWidgetColor: Color(0xFFD6D8DA),
+                  ),
+                  child: Row(
+                    children: [
+                      Transform.scale(
+                        scale: .7,
+                        child: Checkbox(
+                          value: //  The checkbox value is initially the basevalue
+                              isChecked, // of isChecked (bool isChecked = false;)
+                          activeColor:
+                              FlutterFlowTheme.of(context).primaryColor,
+                          onChanged: (value) {
+                            // when checkbox is checked/unchecked;
+                            // the value (isChecked) is changed to "!isChecked"
+                            // meaning isChecked is now -> "not" isChecked
+                            // [ "!" means: "not" / "opposite" / "not equal" ]
+                            // [    foo = !0  --> foo is: "not 0"            ]
+                            // [    foo =! 0  --> is foo "not 0"?            ]
+                            isChecked = !isChecked;
+                            //* Our task:
+                            //*   When the user presses "Login" buton:
+                            //*       if (isChecked == true) => Then we are going
+                            //*                                 to save the data
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      Text(
+                        FFLocalizations.of(context).getText(
+                          'argrf05a' /* Remember Me */,
+                        ),
+                        style: FlutterFlowTheme.of(context).title3.override(
+                              fontFamily: 'Poppins',
+                              color: Color(0xFFD6D8DA),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // _______________________________________________________
+
+              Spacer(flex: 2),
+              // _________________  LOGIN BUTTON ME ____________________
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                child: InkWell(
+                  onTap: () {
+                    Login.callback(email, pass, isChecked, box1, context);
+                  },
+                  child: Material(
+                    color: Colors.transparent,
+                    elevation: 5,
+                    child: Container(
+                      width: 150,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF5D8387),
+                      ),
+                      child: Align(
+                        alignment: AlignmentDirectional(0, 0),
+                        child: Text(
+                          FFLocalizations.of(context).getText(
+                            'bbpm2l2x' /* Login */,
+                          ),
+                          textAlign: TextAlign.center,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyText1
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyText1Family,
+                                color:
+                                    FlutterFlowTheme.of(context).primaryBtnText,
+                              ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              //________________________________________________________
+              Spacer(flex: 5),
+            ],
+          ),
+
+          // _________________  FORGOT PASSWORD ________________________
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 30),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  child: Text(
+                    FFLocalizations.of(context).getText(
+                      '3j5yksm2' /* Forgot your password? */,
+                    ),
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Poppins',
+                          color: Color(0xFFD6D8DA),
+                          fontWeight: FontWeight.w300,
+                        ),
+                  ),
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 0),
+                        reverseDuration: Duration(milliseconds: 0),
+                        child: ResetPasswordAuthenticationWidget(),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          // ___________________________________________________________
+        ],
       ),
     );
   }

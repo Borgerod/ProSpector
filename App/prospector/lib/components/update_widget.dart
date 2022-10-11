@@ -20,176 +20,220 @@ class UpdateWidget extends StatefulWidget {
 }
 
 class _UpdateWidgetState extends State<UpdateWidget> {
-  bool isDownloading = false;
-  double downloadProgress = 0;
-  String downloadedFilePath = "";
-  Future<Map<String, dynamic>> loadJsonFromGithub() async {
-    final response = await http.read(Uri.parse(
-        "https://raw.githubusercontent.com/Borgerod/ProSpector/main/App/prospector/app_version_check/version.json"));
-    return jsonDecode(response);
-  }
-
-  Future<void> openExeFile(String filePath) async {
-    await Process.start(filePath, ["-t", "-l", "1000"]).then((value) {});
-  }
-
-  Future<void> openDMGFile(String filePath) async {
-    await Process.start(
-        "MOUNTDEV=\$(hdiutil mount '$filePath' | awk '/dev.disk/{print\$1}')",
-        []).then((value) {
-      debugPrint("Value: $value");
-    });
-  }
-
-  Future downloadNewVersion(String appPath) async {
-    final fileName = appPath.split("/").last;
-    isDownloading = true;
-    setState(() {});
-
-    final dio = Dio();
-
-    downloadedFilePath =
-        "${(await getApplicationDocumentsDirectory()).path}/$fileName";
-    await dio.download(
-      "https://raw.githubusercontent.com/Borgerod/ProSpector/tree/main/App/prospector/app_version_check/$appPath",
-      downloadedFilePath,
-      onReceiveProgress: (received, total) {
-        final progress = (received / total) * 100;
-        debugPrint('Rec: $received , Total: $total, $progress%');
-        downloadProgress = double.parse(progress.toStringAsFixed(1));
-        setState(() {});
-      },
-    );
-    debugPrint("File Downloaded Path: $downloadedFilePath");
-    if (Platform.isWindows) {
-      await openExeFile(downloadedFilePath);
-    }
-    isDownloading = false;
-    setState(() {});
-  }
-
-  showUpdateDialog(Map<String, dynamic> versionJson) {
-    final version = versionJson['version'];
-    final updates = versionJson['description'] as List;
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return SimpleDialog(
-            contentPadding: const EdgeInsets.all(10),
-            title: Text("Latest Version $version"),
-            children: [
-              Text("What's new in $version"),
-              const SizedBox(
-                height: 5,
-              ),
-              ...updates
-                  .map((e) => Row(
-                        children: [
-                          Container(
-                            width: 4,
-                            height: 4,
-                            decoration: BoxDecoration(
-                                color: Colors.grey[400],
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "$e",
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ))
-                  .toList(),
-              const SizedBox(
-                height: 10,
-              ),
-              if (version > ApplicationConfig.currentVersion)
-                TextButton.icon(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      if (Platform.isMacOS) {
-                        downloadNewVersion(versionJson["macos_file_name"]);
-                      }
-                      if (Platform.isWindows) {
-                        downloadNewVersion(versionJson["windows_file_name"]);
-                      }
-                    },
-                    icon: const Icon(Icons.update),
-                    label: const Text("Update")),
-            ],
-          );
-        });
-  }
-
-  // Future<void>
-  Future _checkForUpdates() async {
-    final versionJson = await loadJsonFromGithub();
-    debugPrint("Response: $versionJson");
-    final version = versionJson['version'];
-    final updates = versionJson['description'] as List;
-    if (version > ApplicationConfig.currentVersion)
-      // showUpdateDialog(versionJson);
-      return versionJson;
-    else
-      return null;
-  }
-
-  // Future<List<dynamic>> output = _checkForUpdates();
-  // ignore: non_constant_identifier_names
-  // bool update_available = output[0];
-  // Map<String, dynamic> versionJson = output[1];
   @override
   Widget build(BuildContext context) {
-    // showUpdateDialog(versionJson);
-    if (_checkForUpdates() == true) {
-      // if (update_available == true) {
-      return showUpdateDialog(_checkForUpdates() as Map<String, dynamic>);
-    } else {
-      return Container();
-    }
-    ;
-    // return ElevatedButton(
-    //   onPressed: _checkForUpdates,
-    //   child: const Icon(Icons.update),
-    // );
-
-    // Scaffold(
-    //   appBar: AppBar(
-    //     title: Text(widget.title),
-    //   ),
-    //   body: Center(
-    //     child: Stack(
-    //       children: [
-    //         Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             Text(
-    //               'Current Version is ${ApplicationConfig.currentVersion}',
-    //             ),
-    //             if (!isDownloading && downloadedFilePath != "")
-    //               Text("File Downloaded in $downloadedFilePath")
-    //           ],
-    //         ),
-    //         if (isDownloading)
-    //           Container(
-    //             width: MediaQuery.of(context).size.width,
-    //             height: MediaQuery.of(context).size.height,
-    //             color: Colors.black.withOpacity(0.3),
-    //             child: Column(
-    //               mainAxisAlignment: MainAxisAlignment.center,
-    //               children: [
-    //                 const CircularProgressIndicator(),
-    //                 Text(downloadProgress.toStringAsFixed(1) + " %")
-    //               ],
-    //             ),
-    //           )
-    //       ],
-    //     ),
-    //   ),
-    // );
+    print("I AM HERE");
+    return (Container(child: Text("I AM HERE")));
   }
+
+// class _UpdateWidgetState extends State<UpdateWidget> {
+//   bool isDownloading = false;
+//   double downloadProgress = 0;
+//   String downloadedFilePath = "";
+//   Future<Map<String, dynamic>> loadJsonFromGithub() async {
+//     final response = await http.read(Uri.parse(
+//         "https://raw.githubusercontent.com/Borgerod/ProSpector/main/App/prospector/app_version_check/version.json"));
+//     return jsonDecode(response);
+//   }
+
+//   Future<void> openExeFile(String filePath) async {
+//     await Process.start(filePath, ["-t", "-l", "1000"]).then((value) {});
+//   }
+
+//   Future<void> openDMGFile(String filePath) async {
+//     await Process.start(
+//         "MOUNTDEV=\$(hdiutil mount '$filePath' | awk '/dev.disk/{print\$1}')",
+//         []).then((value) {
+//       debugPrint("Value: $value");
+//     });
+//   }
+
+//   Future downloadNewVersion(String appPath) async {
+//     final fileName = appPath.split("/").last;
+//     isDownloading = true;
+//     setState(() {});
+
+//     final dio = Dio();
+
+//     downloadedFilePath =
+//         "${(await getApplicationDocumentsDirectory()).path}/$fileName";
+//     await dio.download(
+//       "https://raw.githubusercontent.com/Borgerod/ProSpector/tree/main/App/prospector/app_version_check/$appPath",
+//       downloadedFilePath,
+//       onReceiveProgress: (received, total) {
+//         final progress = (received / total) * 100;
+//         debugPrint('Rec: $received , Total: $total, $progress%');
+//         downloadProgress = double.parse(progress.toStringAsFixed(1));
+//         setState(() {});
+//       },
+//     );
+//     debugPrint("File Downloaded Path: $downloadedFilePath");
+//     if (Platform.isWindows) {
+//       await openExeFile(downloadedFilePath);
+//     }
+//     isDownloading = false;
+//     setState(() {});
+//   }
+
+//   // showUpdateDialog() async {
+//   showUpdateDialog(Map<String, dynamic> versionJson) {
+//     // final versionJson = getVersion();
+//     final version = versionJson['version'];
+//     final updates = versionJson['description'] as List;
+
+//     // final int versionJson = (await getVersion());
+//     // final version = (await getVersion())['version'];
+//     // final updates = (await getVersion())['description'] as List;
+//     // final macos_file = (await getVersion())['macos_file_name'];
+//     // final windows_file = (await getVersion())['windows_file_name'];
+//     return showDialog(
+//         context: context,
+//         builder: (context) {
+//           return SimpleDialog(
+//             contentPadding: const EdgeInsets.all(10),
+//             title: Text("Latest Version $version"),
+//             children: [
+//               Text("What's new in $version"),
+//               const SizedBox(
+//                 height: 5,
+//               ),
+//               ...updates
+//                   .map((e) => Row(
+//                         children: [
+//                           Container(
+//                             width: 4,
+//                             height: 4,
+//                             decoration: BoxDecoration(
+//                                 color: Colors.grey[400],
+//                                 borderRadius: BorderRadius.circular(20)),
+//                           ),
+//                           const SizedBox(
+//                             width: 10,
+//                           ),
+//                           Text(
+//                             "$e",
+//                             style: TextStyle(
+//                               color: Colors.grey[600],
+//                             ),
+//                           ),
+//                         ],
+//                       ))
+//                   .toList(),
+//               const SizedBox(
+//                 height: 10,
+//               ),
+//               if (version > ApplicationConfig.currentVersion)
+//                 TextButton.icon(
+//                     onPressed: () {
+//                       Navigator.pop(context);
+//                       if (Platform.isMacOS) {
+//                         // downloadNewVersion(macos_file);
+//                         downloadNewVersion(versionJson["macos_file_name"]);
+//                       }
+//                       if (Platform.isWindows) {
+//                         downloadNewVersion(versionJson["windows_file_name"]);
+//                         // downloadNewVersion(windows_file);
+//                       }
+//                     },
+//                     icon: const Icon(Icons.update),
+//                     label: const Text("Update")),
+//             ],
+//           );
+//         });
+//   }
+
+//   // Future<void>
+//   Future<dynamic> _checkForUpdates() async {
+//     final versionJson = await loadJsonFromGithub();
+//     debugPrint("Response: $versionJson");
+//     final version = versionJson['version'];
+//     final updates = versionJson['description'] as List;
+//     if (version > ApplicationConfig.currentVersion)
+//       // showUpdateDialog(versionJson);
+//       // return versionJson;
+//       return showUpdateDialog(versionJson);
+//     else
+//       return null;
+//   }
+
+//   // Future<List<dynamic>> output = _checkForUpdates();
+//   // ignore: non_constant_identifier_names
+//   // bool update_available = output[0];
+//   // Map<String, dynamic> versionJson = output[1];
+
+//   Future<Map<String, dynamic>> getVersion() async {
+//     final versionJson = await loadJsonFromGithub();
+//     return versionJson;
+//   }
+
+//   // final Map<String, dynamic> versionJson = getVersion() as Map<String, dynamic>;
+//   @override
+//   Widget build(BuildContext context) {
+//     print("I AM HERE");
+//     return (Container(child: Text("I AM HERE")));
+
+//     // return Container(
+//     //   child: FutureBuilder(
+//     //     future: getVersion(),
+//     //     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+//     //       if (snapshot.data != null) {
+//     //         // Map<String, dynamic> myMap = Map.from(snapshot.data) ;
+//     //         Map<String, dynamic> myMap = snapshot.data as Map<String, dynamic>;
+//     //         print("SUCSESS");
+//     //         return showUpdateDialog(myMap);
+//     //       }
+//     //       print("FAIL");
+//     //       return Text("");
+//     //     },
+//     //   ),
+//     // );
+
+//     // ;
+//     // if (_checkForUpdates() == true) {
+//     //   // if (update_available == true) {
+//     //   return showUpdateDialog(_checkForUpdates() as Map<String, dynamic>);
+//     // } else {
+//     //   return Container();
+//     // }
+//     // ;
+//     // return ElevatedButton(
+//     //   onPressed: _checkForUpdates,
+//     //   child: const Icon(Icons.update),
+//     // );
+
+//     // Scaffold(
+//     //   appBar: AppBar(
+//     //     title: Text(widget.title),
+//     //   ),
+//     //   body: Center(
+//     //     child: Stack(
+//     //       children: [
+//     //         Column(
+//     //           mainAxisAlignment: MainAxisAlignment.center,
+//     //           children: [
+//     //             Text(
+//     //               'Current Version is ${ApplicationConfig.currentVersion}',
+//     //             ),
+//     //             if (!isDownloading && downloadedFilePath != "")
+//     //               Text("File Downloaded in $downloadedFilePath")
+//     //           ],
+//     //         ),
+//     //         if (isDownloading)
+//     //           Container(
+//     //             width: MediaQuery.of(context).size.width,
+//     //             height: MediaQuery.of(context).size.height,
+//     //             color: Colors.black.withOpacity(0.3),
+//     //             child: Column(
+//     //               mainAxisAlignment: MainAxisAlignment.center,
+//     //               children: [
+//     //                 const CircularProgressIndicator(),
+//     //                 Text(downloadProgress.toStringAsFixed(1) + " %")
+//     //               ],
+//     //             ),
+//     //           )
+//     //       ],
+//     //     ),
+//     //   ),
+//     // );
+//   }
 }
