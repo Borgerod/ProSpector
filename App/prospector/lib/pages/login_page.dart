@@ -1,24 +1,14 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
-import 'package:prospector/components/update_widget.dart';
-// import 'package:prospector/components/update_widget_test.dart';
 
+import 'package:prospector/components/update_widget.dart';
 import 'package:prospector/popups/reset_password_authentication_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector/backend/api_requests/api_calls.dart';
 import 'package:prospector/pages/signup_page.dart';
-import 'package:http/http.dart' as http;
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
-import 'package:prospector/components/update_widget.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -42,20 +32,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     super.initState();
     passwordVisibility = false;
     createBox();
-    // createVersionBox();
   }
-
-  // void createVersionBox() async {
-  //   versionBox = await Hive.openBox('version');
-  //   getVersion();
-  // }
-
-  // void getVersion() async {
-  //   if (versionBox.get('current_version') != null) {
-  //     currentVersion = versionBox.get('current_version');
-  //     setState(() {});
-  //   }
-  // }
 
   void createBox() async {
     // creating the Hive-database
@@ -94,12 +71,6 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     final bodyWidth = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right;
-    //
-    //
-    // Future stats = _checkForUpdates();
-    // print("updatestatus ===> ${_checkForUpdates()}");
-//
-//
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -204,16 +175,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             ],
                           ),
                         ),
-                        // Spacer(flex: 10),
                         Spacer(flex: 1),
-                        // Container(
-                        //   child: FutureBuilder<bool>(
-                        //       // future: _checkForUpdates(),
-                        //       builder: (context, snapshot) {
-                        //     return getUpdateDialogueOrLoginForm();
-                        //   }),
-                        // ),
-                        // Spacer(flex: 2),
                         _loginForm(),
                         Spacer(
                           flex: 1,
@@ -229,48 +191,6 @@ class _LoginWidgetState extends State<LoginWidget> {
       ),
     );
   }
-
-  // Future<Map<String, dynamic>> loadJsonFromGithub() async {
-  //   final response = await http.read(Uri.parse(
-  //       "https://raw.githubusercontent.com/Borgerod/post_install_app_update_test/main/app/app_version_check/version.json"));
-  //   return jsonDecode(response);
-  // }
-
-  // bool updateAvailable = false;
-  // Map<String, dynamic> versionJson = {};
-  // double version = 0.0;
-
-  // Future<void> checkForUpdates() async {
-  //   Map<String, dynamic> _versionJson = await loadJsonFromGithub();
-  //   double _version = _versionJson['version'];
-  //   bool _updateAvailable = false;
-
-  //   if (_version > ApplicationConfig.currentVersion) {
-  //     // updateAvailable = Future.value(true) as bool;
-  //     updateAvailable = true;
-  //     // Future.value(true) as bool;
-  //   } else {
-  //     updateAvailable = false;
-  //     // Future.value(false) as bool;
-  //   }
-
-  //   _loginForm() {}
-  // }
-
-  // getUpdateDialogueOrLoginForm() {
-  //   checkForUpdates();
-  //   // if (version > ApplicationConfig.currentVersion) {
-  //   if (updateAvailable == true) {
-  //     sleep(Duration(seconds: 1));
-  //     // return showMessage();
-  //     return ShowUpdateDialogue();
-  //   }
-  //   if (updateAvailable == false) {
-  //     // if (version < ApplicationConfig.currentVersion) {
-  //     // if (snapshot.data != true) {
-  //     return _loginForm();
-  //   }
-  // }
 
   Widget _loginForm() {
     return Container(

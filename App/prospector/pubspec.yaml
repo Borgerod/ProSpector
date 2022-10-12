@@ -69,17 +69,24 @@ dependencies:
   syncfusion_flutter_datagrid: ^20.2.48
   flutter_quill: ^6.0.0
   flutter_acrylic: ^1.0.0+2
-  bitsdojo_window: ^0.1.4
+  # bitsdojo_window: ^0.1.4
   flutter_neumorphic: ^3.2.0
   flutter_secure_storage: ^6.0.0
   velocity_x: ^3.5.1
   hive: 
   hive_flutter: 
-  msix: ^2.8.18
+  # msix: ^2.8.18
   dio: ^4.0.6
+  open_file: ^3.2.1
+  file_picker: ^4.6.1
+  bitsdojo_window: ^0.1.2
+  process_run: ^0.12.3+2
+  workmanager: ^0.5.0
+
 
 dev_dependencies:
   flutter_launcher_icons: 0.9.3
+  msix: ^2.8.18
 
   flutter_test:
     sdk: flutter

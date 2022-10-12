@@ -32,6 +32,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [X] fix plain_background error [medium prio] (RESIDUAL BUG)
    - [X] Add installer
    - [ ] Implement update-function
+   - [ ] Add function that starts fastAPI server upon app-launch 
    - [ ] ...
 
 #### UI:

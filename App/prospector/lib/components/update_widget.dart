@@ -1,5 +1,6 @@
 // source: https://towardsdev.com/in-app-update-in-flutter-desktop-using-github-4b9c6a281510
 // https://www.youtube.com/watch?v=XvwX-hmYv0E&ab_channel=RetroPortalStudio
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -8,12 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
-import 'package:prospector/flutter_flow/internationalization.dart';
 
-// class ApplicationConfig {
-//   static double currentVersion = 1.0;
-// }
+import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 
 class ShowUpdateDialogue extends StatefulWidget {
   const ShowUpdateDialogue({
@@ -42,7 +39,6 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
   void createVersionBox() async {
     versionBox = await Hive.openBox('version');
     getVersion();
-    // versionBox.put('current_version', 1.0);  //! reset versionBox (might not work)
   }
 
   void getVersion() async {
@@ -137,8 +133,6 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
                 height: 10,
               ),
               if (showDownloadButton == true)
-                // if (version > currentVersion)
-                // ApplicationConfig.currentVersion)
                 TextButton.icon(
                     onPressed: () {
                       Navigator.pop(context);
@@ -160,7 +154,6 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
     final jsonVal = await loadJsonFromGithub();
     debugPrint("Response: $jsonVal");
     showUpdateDialog(jsonVal);
-    // if (jsonVal['version'] > ApplicationConfig.currentVersion) {
     if (jsonVal['version'] > currentVersion) {
       setState(() {
         showDownloadButton = true;
@@ -172,33 +165,13 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // Center(
-        // child:
-        Stack(
+    return Stack(
       children: [
-        // if (isDownloading)
-        //   Container(
-        //     width: MediaQuery.of(context).size.width,
-        //     height: MediaQuery.of(context).size.height,
-        //     color: Colors.black.withOpacity(0.3),
-        //     child: Column(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [
-        //         const CircularProgressIndicator(),
-        //         Text(downloadProgress.toStringAsFixed(1) + " %")
-        //       ],
-        //     ),
-        //   ),
         Padding(
-          // padding: const EdgeInsets.all(0.0),
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // Spacer(
-              //   flex: 3,
-              // ),
               TextButton(
                 style: ButtonStyle(
                   fixedSize: MaterialStateProperty.all(Size(100, 40)),
@@ -208,9 +181,6 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
                 onPressed: _checkForUpdates,
                 child: const Icon(Icons.update, color: Colors.white),
               ),
-
-              // ),
-              // Spacer(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Column(
@@ -237,21 +207,13 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
                 ),
               ),
               if (isDownloading)
-                // Container(
-                //   width: MediaQuery.of(context).size.width,
-                //   height: MediaQuery.of(context).size.height,
-                //   color: Colors.black.withOpacity(0.3),
-                //   child:
-
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const CircularProgressIndicator(color: Colors.white
-                            // color: Color(0xFF5D8387),
-                            ),
+                        const CircularProgressIndicator(color: Colors.white),
                         SizedBox(
                           width: 20,
                         ),
@@ -274,7 +236,6 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
           ),
         ),
       ],
-      // ),
     );
   }
 }
