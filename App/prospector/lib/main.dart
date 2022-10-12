@@ -65,8 +65,9 @@ Future<void> runServer() async {
 
   var absPath =
       // p.absolute('build', 'windows', 'runner', 'Release', 'run_server.bat');
-      p.absolute('build', 'windows', 'runner', 'Release', 'launch.vbs');
-
+      p.absolute('run_server.bat');
+  // p.absolute('build', 'windows', 'runner', 'Release', 'launch.vbs');
+  // p.absolute('launch.vbs');
   FilePickerResult? result = FilePickerResult([
     PlatformFile(
         path: absPath,
