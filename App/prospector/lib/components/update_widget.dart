@@ -42,6 +42,7 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
   void createVersionBox() async {
     versionBox = await Hive.openBox('version');
     getVersion();
+    // versionBox.put('current_version', 1.0);  //! reset versionBox (might not work)
   }
 
   void getVersion() async {
@@ -164,7 +165,6 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
       setState(() {
         showDownloadButton = true;
         currentVersion = jsonVal['version'];
-        // ApplicationConfig.currentVersion = jsonVal['version'];
         versionBox.put('current_version', jsonVal['version']);
       });
     }

@@ -34,10 +34,8 @@ class _LoginWidgetState extends State<LoginWidget> {
   // * NEW VARIABLES
   TextEditingController email = TextEditingController(); //* email-controller
   TextEditingController pass = TextEditingController(); //*  pass-controller
-  // double currentVersion = 1.0;
   bool isChecked = false; //*                                rememberMe
   late Box box1;
-  // late Box versionBox;
 
   @override
   void initState() {
