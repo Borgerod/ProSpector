@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 
@@ -31,9 +30,7 @@ class LoadingScreen extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(50, 50, 50, 50),
-              child: Container(
-                  // child: ProgressBarCall(),
-                  ),
+              child: Container(),
             ),
           ),
         ),
@@ -41,50 +38,3 @@ class LoadingScreen extends StatelessWidget {
     );
   }
 }
-
-// class ProgressBarCall extends StatefulWidget {
-//   const ProgressBarCall({Key? key}) : super(key: key);
-
-//   @override
-//   _ProgressBarCallState createState() => _ProgressBarCallState();
-// }
-
-// class _ProgressBarCallState extends State<ProgressBarCall> {
-//   double _value = 0;
-//   @override
-//   Widget build(BuildContext context) {
-//     // checkIndicator();
-//     return LinearProgressIndicator(
-//       backgroundColor: Colors.grey,
-//       color: Color(0xFF5D8387),
-//       minHeight: 5,
-//       value: _value,
-//     );
-//   }
-
-//   void setStateIfMounted(timer) {
-//     if (!mounted)
-//       setState(
-//         () {
-//           if (_value == 1) {
-//             timer.cancel();
-//           } else {
-//             _value += 1;
-//           }
-//         },
-//       );
-//   }
-
-  // void checkIndicator({delay = 5}) {
-  //   new Timer.periodic(Duration(milliseconds: delay * 500), (Timer timer) {
-  //     setState(() {
-  //       if (_value == 1) {
-  //         timer.cancel();
-  //         setStateIfMounted(timer);
-  //       } else {
-  //         _value = _value + 0.1;
-  //       }
-  //     });
-  //   });
-  // }
-// }

@@ -112,7 +112,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ShowUpdateDialogue(),
+                              //! TEMP
+                              // ShowUpdateDialogue(),
                               Expanded(
                                 flex: 2,
                                 child: Padding(
@@ -260,13 +261,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ),
                       ),
                     ),
-                    //? ______ TEMPORARLY DISABLED ______
-                    // onFieldSubmitted: (_) async {
-                    //   setState(() =>
-                    //       FFAppState().emailAdress =
-                    //           passwordController!.text);
-                    // },
-                    //? _________________________________
                   ),
                 ),
               ),
@@ -474,8 +468,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             width: 150,
             height: 30,
             decoration: BoxDecoration(
-              // color: Color(0xFF5D8387),
-              color: Color.fromARGB(255, 255, 0, 0),
+              color: Color(0xFF5D8387),
             ),
             child: Align(
               alignment: AlignmentDirectional(0, 0),

@@ -7,8 +7,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as p;
-import 'package:process_run/shell_run.dart';
-import 'package:workmanager/workmanager.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:prospector/flutter_flow/internationalization.dart';
@@ -18,9 +16,6 @@ import 'package:prospector/pages/loading_page.dart';
 import 'package:prospector/index.dart';
 
 Future<void> main() async {
-  // await shell.run(
-  //     'cd build/windows/runner/Release/api_server/server_backend/fast_api_server/backend');
-
   await runServer();
   await Hive.initFlutter();
   await FlutterFlowTheme.initialize();
@@ -48,26 +43,12 @@ Future<void> main() async {
   }
 }
 
-// Future<void> runServer() async {
-//   var shell = Shell();
-//   await shell.run(
-//       'cd build/windows/runner/Release/api_server/server_backend/fast_api_server/backend && uvicorn main:app --reload');
-// }
-
 Future<void> runServer() async {
   /*
    Runs FastAPI Server when called on startup
   */
   String? filePath = '';
-  // build\windows\runner\Release','run_server.bat
-
-// C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\
-
-  var absPath =
-      // p.absolute('build', 'windows', 'runner', 'Release', 'run_server.bat');
-      p.absolute('run_server.bat');
-  // p.absolute('build', 'windows', 'runner', 'Release', 'launch.vbs');
-  // p.absolute('launch.vbs');
+  var absPath = p.absolute('run_server.bat');
   FilePickerResult? result = FilePickerResult([
     PlatformFile(
         path: absPath,
@@ -132,15 +113,10 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: _themeMode,
-      //! TEMP - remove later
-      // home: LoginWidget(),
-
-      //! KEEP THIS
       home: FutureBuilder(
         future: _processingData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // if (UpdateWidget.) {}
             return LoadingScreen();
           } else {
             return const LoginWidget();
