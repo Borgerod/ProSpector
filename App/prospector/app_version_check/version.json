@@ -1,8 +1,9 @@
 {
 "name":"ProSpector",
-"version":  1.4,
+"version":  1.5,
 "description":  [
-    "added setup.exe"
+    "Remote Update test",
+    "changed color of login-button"
 ],
 "macos_file_name": "",
 "windows_file_name":  "installers/windows/setup.exe",
