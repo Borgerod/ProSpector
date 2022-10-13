@@ -112,8 +112,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              //! TEMP
-                              // ShowUpdateDialogue(),
+                              ShowUpdateDialogue(),
                               Expanded(
                                 flex: 2,
                                 child: Padding(
