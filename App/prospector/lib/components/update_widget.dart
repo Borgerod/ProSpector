@@ -25,25 +25,25 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
   bool isDownloading = false;
   double downloadProgress = 0;
   String downloadedFilePath = "";
-  double currentVersion = 1.0;
+  double currentVersion = 0.9;
   bool showDownloadButton = false;
 
-  late Box versionBox;
+  late Box vbox;
 
   @override
   void initState() {
     super.initState();
-    createVersionBox();
+    createvbox();
   }
 
-  void createVersionBox() async {
-    versionBox = await Hive.openBox('version');
+  void createvbox() async {
+    vbox = await Hive.openBox('versions');
     getVersion();
   }
 
   void getVersion() async {
-    if (versionBox.get('current_version') != null) {
-      currentVersion = versionBox.get('current_version');
+    if (vbox.get('current') != null) {
+      currentVersion = vbox.get('current');
       setState(() {});
     }
   }
@@ -158,7 +158,7 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
       setState(() {
         showDownloadButton = true;
         currentVersion = jsonVal['version'];
-        versionBox.put('current_version', jsonVal['version']);
+        vbox.put('current', jsonVal['versions']);
       });
     }
   }
