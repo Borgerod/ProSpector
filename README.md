@@ -34,6 +34,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [ ] Implement update-function
    - [ ] Add function that starts fastAPI server upon app-launch 
    - [ ] change update function to change "current version" to 1.X+1 after the installation was sucsessfull. 
+   - [X] make sure that server-terminal opens either in background / minimized or behind UI   
    - [ ] ...
 
 #### UI:
