@@ -32,7 +32,7 @@ Name: "norwegian"; MessagesFile: "compiler:Languages\Norwegian.isl"
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
-[Files]
+[Files]       
 Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\bitsdojo_window_windows_plugin.lib"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\closer_test.bat"; DestDir: "{app}"; Flags: ignoreversion
@@ -44,6 +44,7 @@ Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospect
 Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\prospector.exp"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\prospector.lib"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\run_server.bat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\start.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\url_launcher_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\runner\Release\api_server\*"; DestDir: "{app}\api_server"; Flags: ignoreversion recursesubdirs createallsubdirs
