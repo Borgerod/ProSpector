@@ -467,7 +467,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             width: 150,
             height: 30,
             decoration: BoxDecoration(
-              color: Color(0xFF5D8387),
+              color: Color.fromARGB(255, 93, 131, 135),
             ),
             child: Align(
               alignment: AlignmentDirectional(0, 0),

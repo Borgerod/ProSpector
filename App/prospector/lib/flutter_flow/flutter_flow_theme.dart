@@ -104,7 +104,7 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color lineColor = Color(0xFFE0E3E7);
   late Color boarderColor = Color(0x19000000);
   late Color handleColor = Color(0x80000000);
-  late Color tertiaryGradient = Color(0xFF1E2227);
+  late Color tertiaryGradient = Color.fromRGBO(30, 34, 39, 1);
   late Color menuColor = Color(0x1FFFFFFF);
   late Color customColor1 = Color(0xFFE5BFA4);
   late Color darkmode = Color(0x83FFFFFF);
