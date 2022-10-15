@@ -306,7 +306,8 @@ class _JsonDataGridSource extends DataGridSource {
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: Checkbox(
-            activeColor: Color(0xFF48B892),
+            activeColor: Color.fromRGBO(30, 167, 169, 1),
+            // activeColor: Color(0xFF48B892),
             value: row.getCells()[5].value,
             onChanged: (value) {
               http.put(Uri.parse(
@@ -364,7 +365,8 @@ class SwitchWidgetState extends State<SwitchWidget> {
     return Switch(
       onChanged: toggleSwitch,
       value: switchControl,
-      activeColor: Colors.greenAccent,
+      activeColor: FlutterFlowTheme.of(context).primaryColor,
+      // activeColor: Colors.greenAccent,
       activeTrackColor: Colors.grey[400],
       inactiveThumbColor: Colors.grey[200],
       inactiveTrackColor: Colors.grey,

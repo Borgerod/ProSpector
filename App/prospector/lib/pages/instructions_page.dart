@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prospector/components/menu_widget.dart';
 
 import 'package:prospector/flutter_flow/flutter_flow_expanded_image_view.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
@@ -15,9 +16,13 @@ class InstructionsWidget extends StatefulWidget {
 
 class _InstructionsWidgetState extends State<InstructionsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  late String imageOne;
+  late String imageTwo;
+  late String imageThree;
 
   @override
   Widget build(BuildContext context) {
+    setImages();
     return Scaffold(
       key: scaffoldKey,
       //* __ COLOR __
@@ -39,7 +44,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 3,
+                // flex: 3,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -155,22 +160,25 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
                                                                 10, 0, 20, 0),
-                                                    child: Text(
-                                                      FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'obwwgp74' /* Lorem ipsum dolor sit amet, co... */,
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      child: Text(
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'obwwgp74' /* Lorem ipsum dolor sit amet, co... */,
+                                                        ),
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyText2
+                                                            .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300),
                                                       ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyText2
-                                                          .override(
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w300),
                                                     ),
                                                   ),
                                                 ),
@@ -192,7 +200,11 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                               .cardColor,
                                                         ),
                                                         child: Image.asset(
-                                                          'assets/images/callList_checkboxes.JPG',
+                                                          imageOne,
+                                                          //  if (this == InterfaceBrightness.light){
+
+                                                          // },
+                                                          // 'assets/images/callList_checkboxes.JPG',
                                                           width: MediaQuery.of(
                                                                   context)
                                                               .size
@@ -309,22 +321,25 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
                                                                 10, 0, 20, 0),
-                                                    child: Text(
-                                                      FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'rj07qb0g' /* Lorem ipsum dolor sit amet, co... */,
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      child: Text(
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'rj07qb0g' /* Lorem ipsum dolor sit amet, co... */,
+                                                        ),
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyText2
+                                                            .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300),
                                                       ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyText2
-                                                          .override(
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w300),
                                                     ),
                                                   ),
                                                 ),
@@ -335,85 +350,90 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
                                                                 10, 0, 0, 0),
-                                                    child: Container(
-                                                      width: 100,
-                                                      height: 100,
-                                                      constraints:
-                                                          BoxConstraints(
-                                                        maxWidth: 100,
-                                                        maxHeight: 100,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            blurRadius: 4,
-                                                            color: Color(
-                                                                0x33000000),
-                                                            offset:
-                                                                Offset(0, 2),
-                                                            spreadRadius: 5,
-                                                          )
-                                                        ],
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .cardColor,
-                                                        shape:
-                                                            BoxShape.rectangle,
-                                                      ),
-                                                      child: InkWell(
-                                                        onTap: () async {
-                                                          await Navigator.push(
-                                                            context,
-                                                            PageTransition(
-                                                              type:
-                                                                  PageTransitionType
-                                                                      .fade,
-                                                              child:
-                                                                  FlutterFlowExpandedImageView(
-                                                                image:
-                                                                    Image.asset(
-                                                                  'assets/images/tick_all_prospects.jpg',
-                                                                  width: MediaQuery.of(
+                                                    child: Material(
+                                                      elevation: 5,
+                                                      child: Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        constraints:
+                                                            BoxConstraints(
+                                                          maxWidth: 100,
+                                                          maxHeight: 100,
+                                                        ),
+                                                        // decoration: BoxDecoration(
+                                                        //   boxShadow: [
+                                                        //     BoxShadow(
+                                                        //       blurRadius: 4,
+                                                        //       color: Color(
+                                                        //           0x33000000),
+                                                        //       offset:
+                                                        //           Offset(0, 2),
+                                                        //       spreadRadius: 5,
+                                                        //     )
+                                                        //   ],
+                                                        //   color:
+                                                        //       FlutterFlowTheme.of(
+                                                        //               context)
+                                                        //           .cardColor,
+                                                        //   shape:
+                                                        //       BoxShape.rectangle,
+                                                        // ),
+                                                        child: InkWell(
+                                                          onTap: () async {
+                                                            await Navigator
+                                                                .push(
+                                                              context,
+                                                              PageTransition(
+                                                                type:
+                                                                    PageTransitionType
+                                                                        .fade,
+                                                                child:
+                                                                    FlutterFlowExpandedImageView(
+                                                                  image: Image
+                                                                      .asset(
+                                                                    imageTwo,
+                                                                    // 'assets/images/tick_all_prospects.jpg',
+                                                                    width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width,
+                                                                    height: MediaQuery.of(context)
+                                                                            .size
+                                                                            .height *
+                                                                        1,
+                                                                    fit: BoxFit
+                                                                        .contain,
+                                                                  ),
+                                                                  allowRotation:
+                                                                      false,
+                                                                  tag:
+                                                                      'instructionImageTag2',
+                                                                  useHeroAnimation:
+                                                                      true,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                          child: Hero(
+                                                            tag:
+                                                                'instructionImageTag2',
+                                                            transitionOnUserGestures:
+                                                                true,
+                                                            child: Image.asset(
+                                                              imageTwo,
+                                                              // 'assets/images/tick_all_prospects.jpg',
+                                                              width:
+                                                                  MediaQuery.of(
                                                                           context)
                                                                       .size
                                                                       .width,
-                                                                  height: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .height *
-                                                                      1,
-                                                                  fit: BoxFit
-                                                                      .contain,
-                                                                ),
-                                                                allowRotation:
-                                                                    false,
-                                                                tag:
-                                                                    'instructionImageTag2',
-                                                                useHeroAnimation:
-                                                                    true,
-                                                              ),
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  1,
+                                                              fit: BoxFit.fill,
                                                             ),
-                                                          );
-                                                        },
-                                                        child: Hero(
-                                                          tag:
-                                                              'instructionImageTag2',
-                                                          transitionOnUserGestures:
-                                                              true,
-                                                          child: Image.asset(
-                                                            'assets/images/tick_all_prospects.jpg',
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            height: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height *
-                                                                1,
-                                                            fit: BoxFit.fill,
                                                           ),
                                                         ),
                                                       ),
@@ -528,22 +548,25 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
                                                                 10, 0, 30, 0),
-                                                    child: Text(
-                                                      FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'uheh63gf' /* Lorem ipsum dolor sit amet, co... */,
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      child: Text(
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'uheh63gf' /* Lorem ipsum dolor sit amet, co... */,
+                                                        ),
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyText2
+                                                            .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300),
                                                       ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyText2
-                                                          .override(
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w300),
                                                     ),
                                                   ),
                                                 ),
@@ -554,39 +577,44 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
                                                                 0, 0, 0, 0),
-                                                    child: Container(
-                                                      constraints:
-                                                          BoxConstraints.expand(
-                                                              width: double
-                                                                  .infinity,
-                                                              height: double
-                                                                  .infinity),
-                                                      decoration: BoxDecoration(
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            blurRadius: 4,
-                                                            color: Color(
-                                                                0x33000000),
-                                                            offset:
-                                                                Offset(0, 2),
-                                                            spreadRadius: 5,
-                                                          )
-                                                        ],
-                                                        shape:
-                                                            BoxShape.rectangle,
-                                                      ),
-                                                      child: Image.asset(
-                                                        'assets/images/renew_callList.JPG',
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            1,
-                                                        fit: BoxFit.cover,
+                                                    child: Material(
+                                                      elevation: 5,
+                                                      child: Container(
+                                                        constraints:
+                                                            BoxConstraints.expand(
+                                                                width: double
+                                                                    .infinity,
+                                                                height: double
+                                                                    .infinity),
+                                                        // decoration:
+                                                        //     BoxDecoration(
+                                                        //   boxShadow: [
+                                                        //     BoxShadow(
+                                                        //       blurRadius: 4,
+                                                        //       color: Color(
+                                                        //           0x33000000),
+                                                        //       offset:
+                                                        //           Offset(0, 2),
+                                                        //       spreadRadius: 5,
+                                                        //     )
+                                                        //   ],
+                                                        //   shape: BoxShape
+                                                        //       .rectangle,
+                                                        // ),
+                                                        child: Image.asset(
+                                                          imageThree,
+                                                          // 'assets/images/renew_callList.JPG',
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              1,
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -643,5 +671,24 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
         ),
       ),
     );
+  }
+
+  void setImages() {
+    // if (this == InterfaceBrightness.light) {
+    // if (InterfaceBrightness.values == light) {
+    if (Theme.of(context).brightness == Brightness.light) {
+      setState(() {
+        imageOne = 'assets/images/callList_checkboxes_light.JPG';
+        imageTwo = 'assets/images/tick_all_prospects_light.jpg';
+        imageThree = 'assets/images/renew_callList_light.JPG';
+      });
+    } else {
+      setState(() {
+        imageOne = 'assets/images/callList_checkboxes.JPG';
+        imageTwo = 'assets/images/tick_all_prospects.jpg';
+        imageThree = 'assets/images/renew_callList.JPG';
+      });
+    }
+    ;
   }
 }

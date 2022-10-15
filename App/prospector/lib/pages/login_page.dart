@@ -372,6 +372,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                               isChecked, // of isChecked (bool isChecked = false;)
                           activeColor:
                               FlutterFlowTheme.of(context).primaryColor,
+
                           onChanged: (value) {
                             // when checkbox is checked/unchecked;
                             // the value (isChecked) is changed to "!isChecked"
@@ -467,7 +468,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             width: 150,
             height: 30,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 93, 131, 135),
+              color: FlutterFlowTheme.of(context).primaryColor,
             ),
             child: Align(
               alignment: AlignmentDirectional(0, 0),

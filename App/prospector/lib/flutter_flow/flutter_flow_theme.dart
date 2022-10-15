@@ -91,7 +91,9 @@ DeviceSize getDeviceSize(BuildContext context) {
 }
 
 class LightModeTheme extends FlutterFlowTheme {
-  late Color primaryColor = const Color(0xFF48B892);
+  late Color primaryColor = Color.fromRGBO(30, 167, 169, 1);
+  // late Color primaryColor = const Color(0xFF48B892);
+  // late Color primaryColor = const Color(0xFF418D75);
   late Color secondaryColor = const Color(0xFFFFFFFF);
   late Color tertiaryColor = const Color(0xFFFFFFFF);
   late Color alternate = const Color(0xFF5D8387);
@@ -309,7 +311,8 @@ class DesktopTypography extends Typography {
 }
 
 class DarkModeTheme extends FlutterFlowTheme {
-  late Color primaryColor = const Color(0xFF418D75);
+  // late Color primaryColor = const Color(0xFF418D75);
+  late Color primaryColor = Color.fromRGBO(30, 167, 169, 1);
   late Color secondaryColor = const Color(0xFFFFD14D);
   late Color tertiaryColor = const Color(0xFF14181B);
   late Color alternate = const Color(0xFFEBE4EE);

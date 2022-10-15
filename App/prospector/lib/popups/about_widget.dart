@@ -666,7 +666,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                                                         BoxDecoration(
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .alternate,
+                                                                          .primaryColor,
                                                                       boxShadow: [
                                                                         BoxShadow(
                                                                           blurRadius:
@@ -709,7 +709,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                                                         BoxDecoration(
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .alternate,
+                                                                          .primaryColor,
                                                                       boxShadow: [
                                                                         BoxShadow(
                                                                           blurRadius:
@@ -753,7 +753,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                                                         BoxDecoration(
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .alternate,
+                                                                          .primaryColor,
                                                                       boxShadow: [
                                                                         BoxShadow(
                                                                           blurRadius:
@@ -797,7 +797,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                                                         BoxDecoration(
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .alternate,
+                                                                          .primaryColor,
                                                                       boxShadow: [
                                                                         BoxShadow(
                                                                           blurRadius:

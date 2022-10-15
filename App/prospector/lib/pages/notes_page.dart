@@ -91,6 +91,8 @@ class _NotesWidgetState extends State<NotesWidget> {
                                   10, 0, 10, 0),
                               child: SizedBox(
                                 child: new TextField(
+                                  cursorColor:
+                                      FlutterFlowTheme.of(context).primaryColor,
                                   onChanged: (value) =>
                                       textChange(textController),
                                   controller: textController,

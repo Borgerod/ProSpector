@@ -7,19 +7,3 @@ String getImage(context) {
     return 'assets/images/darkmode_plain.png';
   }
 }
-
-class PlainBackgroundWidget extends StatefulWidget {
-  const PlainBackgroundWidget({Key? key}) : super(key: key);
-
-  @override
-  _PlainBackgroundWidgetState createState() => _PlainBackgroundWidgetState();
-}
-
-class _PlainBackgroundWidgetState extends State<PlainBackgroundWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.amber,
-    );
-  }
-}

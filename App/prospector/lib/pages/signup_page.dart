@@ -881,8 +881,11 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                             height: 30,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: Color(
-                                                                  0xFF5D8387),
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .primaryColor,
+                                                              // color: Color(
+                                                              //     0xFF5D8387),
                                                             ),
                                                             child: Align(
                                                               alignment:
