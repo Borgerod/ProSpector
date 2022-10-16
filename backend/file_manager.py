@@ -10,10 +10,6 @@ from postgres import fetchData
 
 def parseTablenames(file_name, **kwargs):
 	''' parses file specific tablename from settings --> settings'''
-	# if kwargs.get('testmode', None):
-	# 	return test_tablenames[file_name]
-	# else:
-	# 	return tablenames[file_name]
 	return tablenames[file_name]
 	
 def parseSettings(file_name):
@@ -28,7 +24,6 @@ def getLineNumber():
 
 def getFilePath():
 	''' gets current filepath --> filepath '''
-	# return getframeinfo(currentframe()).filename
 	return stack()[1].filename 
 
 def getRelativePath():

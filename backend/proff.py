@@ -106,11 +106,6 @@ def proffExtractor(**kwargs):
 	''' making adjustments if testmode '''
 	if kwargs.get('testmode', None):
 		input_array = input_array[:1000]
-	# ! parseTableNames are no longer in use
-	# 	tablename = parseTablenames(file_name, testmode = False) # gets tablename based on filename, [filename + "_table" = tablename] e.g. gulesider.py -> gulesider_table.
-	# else:
-	# 	parseTablenames(file_name, testmode = False)
-
 	print(f"chunksize: {chunksize}")
 	print(f"input length: {len(input_array)}")
 	nested_input_array = makeChunks(input_array, chunksize) 
