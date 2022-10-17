@@ -61,7 +61,7 @@ pd.options.display.width = 2000					# Whole	   (dataframe display border)
 
 # tablename = 'call_list_test'
 
-tablename = 'google_input_table'
+# tablename = 'google_input_table'
 # # df = fetchData(tablename, to_user_api=False)
 # df = fetchData(tablename)
 
@@ -74,13 +74,13 @@ tablename = 'google_input_table'
 
 tablename = 'call_list'
 call_list = fetchData(tablename, to_user_api=True)
-# callStatus = call_list.query().filter_by(org_num = str(827411582)).first()
-# callStatus = call_list.query('org_num == 827411582')
-print(call_list)
+# callStatus = call_list.query().filter_by(org_num = str(925296236)).first()
+callStatus = call_list.query('org_num == 925296236')
+# print(callStatus)
 
 # test_df = call_list.iloc[600:640]
 # print(test_df)
-# print(call_list)
+print(call_list)
 # print(call_list.query('ringe_status == True'))
 
 # cleanUp(tablename, to_user_api=True)

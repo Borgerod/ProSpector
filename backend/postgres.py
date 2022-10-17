@@ -1,3 +1,4 @@
+import time
 import pandas as pd 
 import psycopg2
 from sqlalchemy import create_engine
@@ -78,7 +79,11 @@ def insertData(df, tablename, **kwargs):
 	if tablename == 'brreg_table':
 		df.to_sql(f"{tablename}", engine, if_exists = 'append', index = False)
 	else:
-		df.to_sql(f"{tablename}", engine, if_exists = 'replace', index = False)
+		try:
+			df.to_sql(f"{tablename}", engine, if_exists = 'replace', index = False)
+		except psycopg2.ProgrammingError:
+			time.sleep(0.2)
+			df.to_sql(f"{tablename}", engine, if_exists = 'replace', index = False)
 	curr.close()
 	conn.close()
 
@@ -152,7 +157,6 @@ def cleanUp(tablename, **kwargs):
 	curr = getCursor(conn)
 	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')
 	df.to_sql(f'{tablename}', engine, if_exists = 'replace', index = False)
-	print(df)
 	curr.close()
 	conn.close()
 
@@ -273,7 +277,11 @@ def databaseManager(df, tablename, **kwargs):
 			df = concatData(df, old_df)
 		except:
 			pass
-		insertData(df, tablename, to_user_api=True)	
+		try:
+			insertData(df, tablename, to_user_api=True)	
+			print(f"Succeeded to insert data in {tablename}")
+		except: 
+			print(f"Faled to insert data in {tablename}")
 	else:	
 		if 'brreg_table' not in tablename:
 			old_df = pd.DataFrame()
@@ -285,4 +293,31 @@ def databaseManager(df, tablename, **kwargs):
 				df = concatData(df, old_df)
 			except:
 				pass
-		insertData(df, tablename)
+		try:	
+			insertData(df, tablename)
+			
+			print("Succeeded to insert data")
+		except: 
+			print("Faled to insert data")
+
+
+def googleDatabaseManager(df, tablename, **kwargs):
+	''' 
+		desc: the file's main function 
+		does: gets connection, runs if statement, then sends table straight to insertData()
+			  if tablename is NOT 'brreg_table': runs the "concat(old_df, new_df)" routine.
+			  if tablename is 'brreg_table': does nothing.
+	'''
+	if kwargs.get('to_user_api', None):		
+		old_df = pd.DataFrame()
+		try:
+			old_df = fetchData(tablename, to_user_api=True)
+		except:
+			pass
+		df = concatData(df, old_df)
+		try:
+			insertData(df, tablename, to_user_api=True)	
+			print(f"Succeeded to insert data in {tablename}")
+		except: 
+			time.sleep(0.2)
+			insertData(df, tablename, to_user_api=True)

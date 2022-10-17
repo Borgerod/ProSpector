@@ -15,7 +15,7 @@ from selenium.webdriver.common.by import By
 '''___ local imports __________
 '''
 from file_manager import *
-from postgres import databaseManager
+from postgres import cleanUp, databaseManager, googleDatabaseManager
 from recaptcha_solver import Recaptcha as Recaptcha
 
 def makeChunks(input_array: np.ndarray , chunksize: int) -> list[np.ndarray]:
@@ -136,7 +136,9 @@ class Extration(ThreadPoolExecutor):
 			result_list = [self.org_num, self.search_term, self.is_reqistered, self.is_claimed, self.has_info, False]
 			df = makeDataframe([result_list])
 			# print(df)
-			databaseManager(df, Settings().getTablename, to_user_api = True)
+			# databaseManager(df, S.getTablename, to_user_api = True)
+			googleDatabaseManager(df, S.getTablename, to_user_api = True)
+			
 
 	def setTableName(self, tablename):
 		self.tablename = tablename
@@ -229,12 +231,15 @@ class Settings:
 			print("HAS KWARGS")
 			self.mode = 'Test Mode'
 			self.tablename = 'call_list_test'
-			self.start_limit, self.end_limit = 330, 335
+			# self.start_limit, self.end_limit = 330, 335
+			self.start_limit, self.end_limit = 7099, 7110
 		else:
 			print("HAS NO KWARGS")
 			self.mode = 'Publish Mode'
 			self.tablename = 'call_list'
-			self.start_limit, self.end_limit = 7099, None 
+			# self.start_limit, self.end_limit = 7099, None 
+			self.start_limit, self.end_limit = 7099, 7110
+
 		self.setInputArray()
 			
 	def setInputArray(self):
@@ -291,6 +296,7 @@ def googleExtractor(**kwargs: str):
 	S.setSettings(**kwargs)
 	_, chunksize, _, _, _, _, input_array, long_break, _ = S.getSettings
 	print(S.getSettings)
+	print(Settings().getTablename)
 
 
 	nested_input_array = makeChunks(input_array, chunksize)
@@ -301,7 +307,6 @@ def googleExtractor(**kwargs: str):
 			with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor: 
 				for chunk in nested_input_array:
 					_ = list(tqdm(executor.map(Extration, chunk), total = len(chunk)))
-					# list(tqdm(executor.map(Extration, chunk), total=len(chunk)))
 					pbar2.update(chunksize) 	
 					pbar1.update(1)
 		if len(pbar1) != len(nested_input_array):
@@ -312,7 +317,9 @@ if __name__ == '__main__':
 	S = Settings()
 	Print = Print() 
 	Driver = Driver()
-	googleExtractor(testmode = True)
+	# googleExtractor(testmode = True)
+	googleExtractor(testmode = False)
+	
 	
 
 
