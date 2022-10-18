@@ -18,11 +18,17 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 
 
 
-
-
+## PreView
+![splash](https://user-images.githubusercontent.com/97392841/196432180-2d0efdcc-454c-4e0d-9cf7-bf4a69deff40.JPG)
+![login](https://user-images.githubusercontent.com/97392841/196432256-8e8a61f5-e17e-441d-a379-459c75cd80ba.JPG)
+![home_dark](https://user-images.githubusercontent.com/97392841/196432172-647b9794-2bb8-4eac-9def-712fde47d625.JPG)
+![home_light](https://user-images.githubusercontent.com/97392841/196432176-0f9200b6-9bed-486f-acb0-d437c7657047.JPG)
+![call_list](https://user-images.githubusercontent.com/97392841/196432170-9e15c096-1b69-4e22-b15a-2886a6755434.JPG)
+![about](https://user-images.githubusercontent.com/97392841/196432168-89580045-b235-4ffe-80a5-54caaa37da55.JPG)
 
 
 ## TODO
+
 
 #### BEFORE DEMO RELEASE:
 ''' Todo list of bugs that occored upon compiling '''
