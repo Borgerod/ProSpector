@@ -1,5 +1,5 @@
 # ProSpector
-Lead generation software, commissioned by Mediavest AS. <br />
+SaaS Lead generation software, commissioned by Mediavest AS. <br />
 data source:  brreg.no  &nbsp;|&nbsp; extraction targets:  gulesider.no, 1881.no, proff.no and gooogle.com  <br />
 
 
@@ -33,7 +33,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [X] Add installer
    - [X] Implement update-function
    - [X] Add function that starts fastAPI server upon app-launch 
-   - [ ] change update function to change "current version" to 1.X+1 after the installation was sucsessfull. 
+   - [X] change update function to change "current version" to 1.X+1 after the installation was sucsessfull. 
    - [X] make sure that server-terminal opens either in background / minimized or behind UI   
    - [ ] ...
 
@@ -45,31 +45,31 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [X] Write instructions 
    - [X] Add: "press enter" function to LoginWidget{}
    - [X] Finish "remember me" knapp 
-   - [ ] fix text borders in instructions
+   - [X] fix text borders in instructions
    - [X] [ Low Prio ] Fix border Issue with popups
-   - [ ] [ Low Prio ] Increase min.windowsize 
+   - [X] [ Low Prio ] Increase min.windowsize 
    - [X] [ Low Prio ] Change fontweight for bodytext in "renew list"   
    - [ ] [ Low Prio ] Make "Instructions from Supervisor" section in "Instructions"
    		- [ ] Add section editable for supervisors & other privilages
    		- [ ] Add Column "supervisor" in user-db 
-   - [ ] [ Low Prio ] Clean up files (but first verify functionality, then backup)
-   - [ ] [ Low Prio ] Maybe add splash screen / loading screen
-   - [ ] [ Low Prio ] Make instructions look Nicer 
+   - [X] [ Low Prio ] Clean up files (but first verify functionality, then backup)
+   - [X] [ Low Prio ] Maybe add splash screen / loading screen
+   - [X] [ Low Prio ] Make instructions look Nicer 
    - [ ] ...
 
 ##### UI (small bugs):
-   - [ ] Loading issue with presistant state   [notes_page.dart]
+   - [X] Loading issue with presistant state   [notes_page.dart]
    - [X] Laggy transition of light/darkmode    [menu_widget.dart]
    - [X] Acryllic allways opens in darkmode    [menu_widget.dart]
-   - [ ] Maximize window, often needs 2 clicks [window_title_bar.dart] (I think)
+   - [X] Maximize window, often needs 2 clicks [window_title_bar.dart] (I think)
    - [X] Overflow in About in smallwindow      [about_widget.dart / main.dart]
    - [ ] ...
 
 
 #### API:
    - [x] Make api server
-   - [ ] Finish change-password api
-   - [ ] Finish/fix "view call list" / "renew list" button. 
+   - [X] Finish change-password api
+   - [X] Finish/fix "view call list" / "renew list" button. 
    - [ ] ...
 
 
