@@ -5,7 +5,7 @@ if %ERRORLEVEL% neq 0 goto NoPython
 
 ::runServer
 echo Python exist, running server...
-run_server.bat
+echo run_server.bat
 exit
 
 ::NoPython
