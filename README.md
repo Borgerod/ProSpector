@@ -34,6 +34,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 ''' Todo list of bugs that occored upon compiling '''
    - [ ] add to .bat add uvicorn to path
    - [ ] add a python checker in setup.exe
+   - [ ] Make gtihub repo private and give installer access key (or something like that)
    - [X] Fix Login button error [high prio] (ROOT BUG)
    - [X] Fix loading screen bug [low prio] (Unknown)
    - [X] fix Expanded - Stack bug [high prio] (ROOT BUG)
