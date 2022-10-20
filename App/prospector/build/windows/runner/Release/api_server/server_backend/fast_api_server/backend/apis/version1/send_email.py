@@ -11,6 +11,7 @@ class Envs:
     MAIL_PORT = int(os.getenv('MAIL_PORT'))
     MAIL_SERVER = os.getenv('MAIL_SERVER')
     MAIL_FROM_NAME = os.getenv('MAIN_FROM_NAME')
+    # print(MAIL_USERNAME, MAIL_PASSWORD, MAIL_SERVER)
 
 conf = ConnectionConfig(
     MAIL_USERNAME=Envs.MAIL_USERNAME,
@@ -19,9 +20,14 @@ conf = ConnectionConfig(
     MAIL_PORT=Envs.MAIL_PORT,
     MAIL_SERVER=Envs.MAIL_SERVER,
     MAIL_FROM_NAME=Envs.MAIL_FROM_NAME,
-    MAIL_TLS=True,
-    MAIL_SSL=False,
-    USE_CREDENTIALS=True,
+    # MAIL_TLS=True,
+    # MAIL_SSL=False,
+    # USE_CREDENTIALS=True,
+
+    MAIL_STARTTLS = True,
+    MAIL_SSL_TLS = False,
+    USE_CREDENTIALS = True,
+    VALIDATE_CERTS = True
 )
 
 async def send_email_async(email_to: str, verify_num):
@@ -32,6 +38,9 @@ async def send_email_async(email_to: str, verify_num):
         subtype = 'javascript',
         html = build_auth_email(verify_num),)
     fm = FastMail(conf)
+    # print(conf)
+    # print(conf.MAIL_SSL_TLS)
+    # print(conf.MAIL_SSL)
 
     await fm.send_message(message)
 
