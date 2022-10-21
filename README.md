@@ -30,6 +30,28 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 ## TODO
 
 
+#### POST CLIENT-MEETING TODO:
+
+   Overall: 
+   - [ ] Fix the changes done to gitignore to ignore unnessasary stuff
+
+   Database:
+   - [ ] Remove rows in "call_list" that has [true, true, true]
+
+   Backend:
+   - [X] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
+      - [ ] add tag on input_list from BRREG: "if Organisasjonsform == "Norskregistrert utenlandsk foretak": check & confirm org_num"
+   - [ ] 
+   
+   Frontend:
+   - [ ] Add copy function to the call list table 
+   - [ ] 
+
+   bugs:
+   - [1] : Prospects with "Usikker" seems to have the wrong org_num
+   - [2] : 
+
+
 #### BEFORE DEMO RELEASE:
 ''' Todo list of bugs that occored upon compiling '''
    - [ ] add to .bat add uvicorn to path

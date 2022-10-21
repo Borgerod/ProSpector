@@ -102,6 +102,7 @@ class Extration(ThreadPoolExecutor):
 	def __init__(self, i):
 		t = Thread(target=self.getData(i))
 		t.start()
+		self.rowData = None
 
 	def getData(self, input_array: np.ndarray) -> np.ndarray or str:
 		''' 
@@ -133,12 +134,41 @@ class Extration(ThreadPoolExecutor):
 				except NoSuchElementException:  #* [try C]
 					self.has_info = False
 					self.is_claimed = False	
+			self.cheeckForTrippelTrue()
+			
+			# result_list = [self.org_num, self.search_term, self.is_reqistered, self.is_claimed, self.has_info, False]
+			# df = makeDataframe([result_list])
+			# print(f"{df}")
+			# time.sleep(0.1)
+			# databaseManager(df, S.getTablename, to_user_api = True)
+			#! _______________TEMP: WHILE TESTING _______________
+			# googleDatabaseManager(df, S.getTablename, to_user_api = True)
+			# return df
+	# 		self.setRowData(df)
+	
+	# def setRowData(self, df):
+	# 	self.rowData = df
+
+	# @property
+	# def getRowData(self):
+	# 	return self.rowData 
+	#! ____________________________________________________________  
+
+		# TODO: [ ] add function that;  Removes prospects from "call_list" that is [true, true, true]
+	def cheeckForTrippelTrue(self):
+		'''
+			checks if prospect values are: [true, true, true]
+				will ignore if true, else it adds to DB.
+		'''
+		if not (self.is_reqistered and self.is_claimed and self.has_info) or self.is_reqistered == 'Usikkert':
 			result_list = [self.org_num, self.search_term, self.is_reqistered, self.is_claimed, self.has_info, False]
 			df = makeDataframe([result_list])
-			# print(df)
-			# databaseManager(df, S.getTablename, to_user_api = True)
+			# print(f"{df}\n")
 			googleDatabaseManager(df, S.getTablename, to_user_api = True)
-			
+			# databaseManager(df, S.getTablename, to_user_api = True)
+	
+
+
 
 	def setTableName(self, tablename):
 		self.tablename = tablename
@@ -298,29 +328,64 @@ def googleExtractor(**kwargs: str):
 	print(S.getSettings)
 	print(Settings().getTablename)
 
+	#! ___________ TEMP: WHILE TESTING ______________________
+	input_array = np.array([
+		[812338862, 'Saval B.V.'],
+       	[812372262, 'OMV PETROM S.A.'],
+		[812398652, 'HÅRSTRÅET AS'],
+       	[812479792, 'WORKFORCE INTERNATIONAL CONTRACTORS LTD'],
+       	[925294853, 'THW INSTRUMENTATION LTD'],
+       	[925296236, 'NORDIC SAFETY ENGINEERING AS'],
+       	[925305405, 'HÅVARDSHOLM MASKIN AS'],
+       	[925310336, 'U.S. DIRECT E-COMMERCE LIMITED'],
+       	[925315923, 'OLE CHRISTIAN ELVERHØY'],
+       	[925321974, 'EIDET DRIFT AS'],
+       	[925322490, 'TRAVEL HOLDING AS'],
+		])
+	# master_df = pd.DataFrame(columns = ['org_num', 'navn', 'google_profil', 'eier_bekreftet', 'komplett_profil', 'ringe_status'])
+	#! _______________________________________________________
 
 	nested_input_array = makeChunks(input_array, chunksize)
 	Print.info(len(nested_input_array))
 
-	with tqdm(total = len(nested_input_array)) as pbar1: 
-		with tqdm(total = len(input_array)) as pbar2:
-			with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor: 
-				for chunk in nested_input_array:
-					_ = list(tqdm(executor.map(Extration, chunk), total = len(chunk)))
-					pbar2.update(chunksize) 	
-					pbar1.update(1)
-		if len(pbar1) != len(nested_input_array):
-			time.sleep(long_break)
+
+	#! TEMP: DISABLING TQDM
+	with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor: 
+		for chunk in nested_input_array:
+			_ = list(tqdm(executor.map(Extration, chunk), total = len(chunk)))
+
+	# with tqdm(total = len(nested_input_array)) as pbar1: 
+	# 	with tqdm(total = len(input_array)) as pbar2:
+	# 		with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor: 
+	# 			for chunk in nested_input_array:
+	# 				_ = list(tqdm(executor.map(Extration, chunk), total = len(chunk)))
+	# 				pbar2.update(chunksize) 	
+	# 				pbar1.update(1)
+					# df = Extration.getRowData() 				#! TEMP: WHILE TESTING
+					# master_df = pd.concat(master_df, df) 		#! TEMP: WHILE TESTING
+			# print("\n")											#! TEMP: WHILE TESTING
+		#! TEMP: DISABLING LONG BREAK
+		# if len(pbar1) != len(nested_input_array):
+		# 	time.sleep(long_break)
 	Print.outro()
 
 if __name__ == '__main__':
 	S = Settings()
 	Print = Print() 
 	Driver = Driver()
-	# googleExtractor(testmode = True)
-	googleExtractor(testmode = False)
+	googleExtractor(testmode = True)
+	# googleExtractor(testmode = False)
 	
 	
+
+
+
+
+
+
+
+
+
 
 
 ''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''

@@ -279,9 +279,13 @@ def databaseManager(df, tablename, **kwargs):
 			pass
 		try:
 			insertData(df, tablename, to_user_api=True)	
-			print(f"Succeeded to insert data in {tablename}")
+			# print(f"Succeeded to insert data in {tablename}")
+			# print(f" {df.navn} Succeeded, {tablename}")
+			print(f"Succeeded, {tablename}")
 		except: 
-			print(f"Faled to insert data in {tablename}")
+			print(f"Failed, {tablename}")
+			# print(f" {df.navn} Faled, {tablename}")
+			# print(f"Faled to insert data in {tablename}")
 	else:	
 		if 'brreg_table' not in tablename:
 			old_df = pd.DataFrame()
@@ -316,8 +320,12 @@ def googleDatabaseManager(df, tablename, **kwargs):
 			pass
 		df = concatData(df, old_df)
 		try:
-			insertData(df, tablename, to_user_api=True)	
-			print(f"Succeeded to insert data in {tablename}")
+			insertData(df, tablename, to_user_api=True)
+			print(f"Succeeded, {tablename}")	
+			# print(f"Succeeded to insert data in {tablename}")
 		except: 
 			time.sleep(0.2)
-			insertData(df, tablename, to_user_api=True)
+			try:
+				insertData(df, tablename, to_user_api=True)
+			except: 
+				print(f"Succeeded, {tablename}")
