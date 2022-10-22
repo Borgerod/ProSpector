@@ -6,6 +6,12 @@ from datetime import datetime as dt
 # ___ local imports ________
 from config import payload
 
+'''
+	#! SOON TO BE REPLACED WITH SQL-folder
+'''
+
+
+
 
 def parseConfig_to_User_API():
 	dbname = payload['dbname2']
@@ -313,12 +319,19 @@ def googleDatabaseManager(df, tablename, **kwargs):
 			  if tablename is 'brreg_table': does nothing.
 	'''
 	if kwargs.get('to_user_api', None):		
+		# old_df = pd.DataFrame()
+		# old_df = pd.DataFrame(columns = ['org_num', 'navn', 'google_profil', 'eier_bekreftet', 'komplett_profil', 'ringe_status'])
 		old_df = pd.DataFrame()
 		try:
 			old_df = fetchData(tablename, to_user_api=True)
 		except:
+			# old_df = pd.DataFrame()	
 			pass
-		df = concatData(df, old_df)
+		try: 
+			df = concatData(df, old_df)
+		except:
+			pass
+		# print(df)
 		try:
 			insertData(df, tablename, to_user_api=True)
 			print(f"Succeeded, {tablename}")	
@@ -329,3 +342,34 @@ def googleDatabaseManager(df, tablename, **kwargs):
 				insertData(df, tablename, to_user_api=True)
 			except: 
 				print(f"Succeeded, {tablename}")
+
+
+# #* TEST 
+# def sqlTest(df, tablename, **kwargs):
+# 	if kwargs.get('to_user_api', None):
+# 		conn = getConnection(to_user_api=True)
+# 		dbname, host, user, password = parseConfig_to_User_API()
+# 	else:
+# 		conn = getConnection()
+# 		dbname, host, user, password = parseConfig()
+# 	curr = getCursor(conn)
+# 	engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}')	
+	
+# 	call_list = engine.Table(f'{tablename}',
+# 		engine.Column('org_num', engine.Integer, engine.ForeignKey('org_num.id'), primary_key=True),
+# 		engine.Column('navn', engine.Integer, engine.ForeignKey('navn.id'), primary_key=True),
+# 		engine.Column('google_profil', engine.Integer, engine.ForeignKey('google_profil.id'), primary_key=True),
+# 		engine.Column('eier_bekreftet', engine.Integer, engine.ForeignKey('eier_bekreftet.id'), primary_key=True),
+# 		engine.Column('komplett_profil', engine.Integer, engine.ForeignKey('komplett_profil.id'), primary_key=True),
+# 		engine.Column('ringe_status', engine.Integer, engine.ForeignKey('ringe_status.id'), primary_key=True),
+# 	)
+
+# 	ins = call_list.insert().values(
+# 		org_num = df.org_num,
+# 		navn = df.navn,
+# 		google_profil = df.google_profil,
+# 		eier_bekreftet = df.eier_bekreftet,
+# 		komplett_profil = df.komplett_profil,
+# 		ringe_status = df.ringe_status,
+# 	)
+# 	engine.engine.execute(ins)

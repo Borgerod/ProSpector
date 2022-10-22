@@ -1,3 +1,4 @@
+from SQL.db_query import getAll
 from postgres import *
 import pandas as pd
 
@@ -34,7 +35,7 @@ def createOverview(client_org = 'Mediavest'):
 				   ],)
 	tablename = f'call_list_overview_{client_org}'
 	databaseManager(overview, tablename, to_user_api=True)
-createOverview(client_org = 'mediavest')
+# createOverview(client_org = 'mediavest')
 
 
 
@@ -58,3 +59,24 @@ def markCallListWithListID(client_org = 'Mediavest'):
 			
 	list_id_col = list_id_col[:len(df.index)]
 	df['liste_id'] = list_id_col
+
+
+# TEMP remove all tripple ture's
+import SQL.db as db
+from SQL.add_row import getSession
+from sqlalchemy import  create_engine, Column, String, Integer, Boolean
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from SQL.config import settings
+
+session = getSession()
+
+engine = create_engine(settings.DATABASE_URL)
+
+def removeAllTripples():
+	df = getAll()
+	print(df)
+	# df = df[~((df.google_profil == 'true') & (df.eier_bekreftet == True) & (df.komplett_profil == True))]
+	# tablename = 'call_list'
+	# df.to_sql(f"{tablename}", engine, if_exists = 'replace', index = False)
+removeAllTripples()

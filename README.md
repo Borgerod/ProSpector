@@ -36,7 +36,8 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [ ] Fix the changes done to gitignore to ignore unnessasary stuff
 
    Database:
-   - [ ] Remove rows in "call_list" that has [true, true, true]
+   - [ ] Remove prospects in "call_list" that has [true, true, true]
+   - [ ] Reset liste_id 
 
    Backend:
    - [X] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
