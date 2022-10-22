@@ -160,26 +160,7 @@ class Extration(ThreadPoolExecutor):
 					self.has_info = False
 					self.is_claimed = False	
 			self.cheeckForTrippelTrue()
-			
-			# result_list = [self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False]
-			# df = makeDataframe([result_list])
-			# print(f"{df}")
-			# time.sleep(0.1)
-			# databaseManager(df, S.getTablename, to_user_api = True)
-			#! _______________TEMP: WHILE TESTING _______________
-			# googleDatabaseManager(df, S.getTablename, to_user_api = True)
-			# return df
-	# 		self.setRowData(df)
-	
-	# def setRowData(self, df):
-	# 	self.rowData = df
 
-	# @property
-	# def getRowData(self):
-	# 	return self.rowData 
-	#! ____________________________________________________________  
-
-		# TODO: [ ] add function that;  Removes prospects from "call_list" that is [true, true, true]
 	def cheeckForTrippelTrue(self):
 		'''
 			checks if prospect values are: [true, true, true]
@@ -282,7 +263,6 @@ class Settings:
 			print("HAS KWARGS")
 			self.mode = 'Test Mode'
 			self.tablename = 'call_list_test'
-			# self.start_limit, self.end_limit = 330, 335
 			self.start_limit, self.end_limit = 8800, 8810
 		else:
 			print("HAS NO KWARGS")
@@ -340,39 +320,14 @@ def googleExtractor(**kwargs: str):
 		stops process if Captcha is triggered, finally sends a df of results to database.
 	'''
 	Print.intro()
-	# testmode_kwarg = kwargs.get('testmode', None)
-	# _, chunksize, _, tablename, _, _, input_array, long_break, _= getSettings(testmode_kwarg)
-	
 	S.setSettings(**kwargs)
 	_, chunksize, _, _, _, _, input_array, long_break, _ = S.getSettings
 	print(S.getSettings)
 	print(Settings().getTablename)
 
-	# #! ___________ TEMP: WHILE TESTING ______________________
-	# input_array = np.array([
-	# 	[812338862, 'Saval B.V.'],
-    #    	[812372262, 'OMV PETROM S.A.'],
-	# 	[812398652, 'HÅRSTRÅET AS'],
-    #    	[812479792, 'WORKFORCE INTERNATIONAL CONTRACTORS LTD'],
-    #    	[925294853, 'THW INSTRUMENTATION LTD'],
-    #    	[925296236, 'NORDIC SAFETY ENGINEERING AS'],
-    #    	[925305405, 'HÅVARDSHOLM MASKIN AS'],
-    #    	[925310336, 'U.S. DIRECT E-COMMERCE LIMITED'],
-    #    	[925315923, 'OLE CHRISTIAN ELVERHØY'],
-    #    	[925321974, 'EIDET DRIFT AS'],
-    #    	[925322490, 'TRAVEL HOLDING AS'],
-	# 	])
-	# # master_df = pd.DataFrame(columns = ['org_num', 'navn', 'google_profil', 'eier_bekreftet', 'komplett_profil', 'ringe_status'])
-	# #! _______________________________________________________
 
 	nested_input_array = makeChunks(input_array, chunksize)
 	Print.info(len(nested_input_array))
-
-
-	#! TEMP: DISABLING TQDM
-	# with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor: 
-	# 	for chunk in nested_input_array:
-	# 		_ = list(tqdm(executor.map(Extration, chunk), total = len(chunk)))
 
 	with tqdm(total = len(nested_input_array)) as pbar1: 
 		with tqdm(total = len(input_array)) as pbar2:
@@ -381,10 +336,8 @@ def googleExtractor(**kwargs: str):
 					_ = list(tqdm(executor.map(Extration, chunk), total = len(chunk)))
 					pbar2.update(chunksize) 	
 					pbar1.update(1)
-					# df = Extration.getRowData() 				#! TEMP: WHILE TESTING
-					# master_df = pd.concat(master_df, df) 		#! TEMP: WHILE TESTING
-			# print("\n")											#! TEMP: WHILE TESTING
-		# #! TEMP: DISABLING LONG BREAK
+		
+		##!: DISABLING LONG BREAK
 		# if len(pbar1) != len(nested_input_array):
 		# 	time.sleep(long_break)
 	Print.outro()
