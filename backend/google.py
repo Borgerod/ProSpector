@@ -29,12 +29,10 @@ from threading import Thread
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from sqlalchemy.orm import Session
 
 '''___ local imports __________
 '''
 from file_manager import *
-from postgres import cleanUp, databaseManager, googleDatabaseManager
 from recaptcha_solver import Recaptcha as Recaptcha
 
 '''___ TEST IMPORTS __________
