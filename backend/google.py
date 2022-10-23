@@ -1,8 +1,9 @@
-''' #* TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
+
+# todo [ ] move to code_workshop while not running 
+
+
+''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 '''	
-
-
-
 #! ____ ERROR LOG _______________________________________________________________________________________________ !#
 
 - [1] error on line, 192: 
@@ -12,12 +13,38 @@
 	# 			
 #! ______________________________________________________________________________________________________________ !#
 
+#* ____ OVER ALL PLAN FOR REWORK ________________________________________________________________________________ *#
+
+    ___ THE ISSUE ___
+    Not satisfied with how multithreading is done (in regards to OOP).
+        They way Extraction is dependent on ThreadWithReturnValues are confusing to read, 
+        and also possibly not nessasary anymore since extracted values does not leave (returned out of) the class anymore. 
+
+    ___ THE PLAN ___
+    will remodel Extraction, and maybe remove ThreadWithReturnValue:
+        Extraction Remodel:
+            - Extracted values should be stored in __init__
+            - If returning __init__ values are nessasary, then;
+                 they should be returned via @property 
+             
+                
+
+# TODO [ ] NOTE: google sometimes comes with a suggestion when no searchresult is found,
+# TODO		e.g. "OLE ALEKSANDER BERGELIEN maps" gave a suggestion on "Bergelien Bygg AS"
+# TODO		 implement this to Extraction
+
+#* ______________________________________________________________________________________________________________ *#
 
 
 '''
-''' #* TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
+''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 
-import time; START = time.perf_counter() #Since it also takes time to Import libs, I allways START the timer asap. 
+
+
+from pprint import pp
+import time
+from pprint import pprint 
+from SQL.db_query import getTest; START = time.perf_counter() #Since it also takes time to Import libs, I allways START the timer asap. 
 import re
 import os
 import numpy as np
@@ -108,56 +135,194 @@ class Driver:
 		options.add_argument('--disable-blink-features=AutomationControlled')
 		return options
 
-class ThreadWithReturnValue(Thread):
-	def __init__(self, group = None, target = None, name = None, args = (), kwargs = {}):
-		Thread.__init__(self, group, target, name, args, kwargs)
-		self._return = None
+# class ThreadWithReturnValue(Thread):
+# 	def __init__(self, group = None, target = None, name = None, args = (), kwargs = {}):
+# 		Thread.__init__(self, group, target, name, args, kwargs)
+# 		self._return = None
 
-	def run(self):
-		if self._target is not None:
-			self._return = self._target(*self._args, **self._kwargs)
+# 	def run(self):
+# 		if self._target is not None:
+# 			self._return = self._target(*self._args, **self._kwargs)
 
-	def join(self, *args):
-		Thread.join(self, *args)
-		return self._return
+# 	def join(self, *args):
+# 		Thread.join(self, *args)
+# 		return self._return
 
 class Extration(ThreadPoolExecutor):	
-	def __init__(self, i):
-		t = Thread(target=self.getData(i))
-		t.start()
-		self.rowData = None
+# class Extration:	
+	def __init__(self, input_array):#, google_profil, eier_bekreftet, komplett_profil, ringe_status, liste_id):
+		self.org_num = input_array[0]
+		self.navn = input_array[1]
+		# self.org_num = org_num
+		# self.navn = navn
+		self.google_profil = None
+		self.eier_bekreftet = None
+		self.komplett_profil = None
+		self.ringe_status = False
+		self.liste_id = None
+		self.check = None
+		self.getData(input_array)
+
 
 	def getData(self, input_array: np.ndarray) -> np.ndarray or str:
 		''' 
+			NOTE: input_array = chunks 
 			gets driver, builds url ,calls captcha solver, tries to find certain elements,
 			finally returns array of bools or a error string
 		'''
 		self.setOrgNumAndSearchTerm(input_array)
 		driver = Driver.prepDriver("https://www.google.com/search?q=" , self.search_term)
 		if self.checkGoogleAlarmTrigger(driver):
+			'''
+				Safty mechanism; 
+				checks if google's flooding alarms are triggered and blocks accsess to search results, 
+				if so Extraction will set extracted values for prospects to "CaptchaTriggered" then skip to next
+				# todo [ ] it should also throw an error or otherwisse stop the process. or maybe set a pause-timer on 24 hours. 
+			'''
 			self.alarmTriggerAction()
+			
 		else:
 			self.driver = driver
+			# body = self.driver.find_element(By.TAG_NAME("Body")).get_attribute("innerHTML")
+			# body = self.driver.find_element(By.TAG_NAME("Body"))
+			# 
+			
+			if self.search_term == 'OLE ALEKSANDER BERGELIEN':
+				# body = self.driver.find_element(By.CLASS_NAME, "nGydZ").get_attribute("innerHTML") 
+
+				# body = self.driver.find_element(By.CLASS_NAME, "TQc1id hSOk2e rhstc4").get_attribute("innerHTML") 
+				# body = self.driver.find_element(By.XPATH, './/*[@id="rhs"]/block-component').get_attribute("innerHTML") 
+				# body = self.driver.find_element(By.CSS_SELECTOR, )
+				# url = driver.find_element_by_xpath('//a[@href="'+url+'"]')
+				url = self.driver.find_elements(By.XPATH, '//a')
+				for i in url:
+					print(i.get_attribute("innerHTML"))
+					print(i.get_attribute("outerHTML"))
+
+
+
+				
+				# pprint(url)
 			try: 								#! [try A]
 				self.tryVerification()
-				try:							#? [try B] 
-					check = self.getOverview()
-					self.checkHasInfo(check)
-					self.checkClaimedStatus(check)
-				except NoSuchElementException:  #? [try B]    
-					self.has_info = True
-					self.is_claimed = True
+			except NoSuchElementException:      #! [try A]  
+				self.checkAlternatives()
+				# self.is_registered = False
+		
+
+
+
+
+
+
+
+		#* ____________________________________________________________________________________
+		'''
+		sjekker om bedrift er registrert / if is_registered == True
+		'''
+		if self.is_registered:
+			'''
+			gets overview section from profile
+			'''
+			try:
+				self.setOverview()
+			except NoSuchElementException:
+				self.check = None
+		# _____________________________
+		'''
+		sjekker om bedriften har INFO
+		'''
+		try:							#? [try B] 
+			self.checkHasInfo()
+		except AttributeError: 			#? [try B]
+			if self.check:
+				self.has_info = True
+			else:
+				self.has_info = False
+		# _____________________________
+
+		'''
+		sjekker om bedriften er CLAIMED
+		'''
+		try:							#* [try C]
+			self.checkClaimedStatus()
+		except AttributeError:  		#* [try C]	
+			if self.check:
+				'''
+					hvis:
+						- knapp ikke er der
+						- overview er der
+				'''
+				self.is_claimed = True
+			else:
+				'''
+					hvis:
+						- knapp ikke er der
+						- overview ikke er der
+				'''
+				self.is_claimed = False
+		# print(f"{self.search_term} => {self.is_claimed}\n")
+		# * ____________________________________________________________________________________
+
+
+
+
+
+		'''
+		sjekker om alle er true eller ikke 
+		'''	
+		# self.cheeckForTrippelTrue()	
+
+
+
+
+
+
+	def checkAlternatives(self):
+		'''
+			checks the "See results about" suggestion, 
+			before deciding if is_registerede is false or not. 
+		'''
+
+		# See results about
+		# if self.search_term == 'OLE ALEKSANDER BERGELIEN':
+			# element = self.driver.find_element(By.CLASS_NAME, "GyAeWb").text
 			
-			except NoSuchElementException:      #! [try A]    
-				self.is_registered = False
-				try:							#* [try C]
-					check = self.getOverview()
-					self.checkHasInfo(check)
-					self.checkClaimedStatus(check)
-				except NoSuchElementException:  #* [try C]
-					self.has_info = False
-					self.is_claimed = False	
-			self.cheeckForTrippelTrue()
+			# Bergelien Bygg AS
+			# check_claimed = self.check.get_attribute('outerHTML')
+			# element = self.driver.find_element(By.CLASS_NAME, "g VjDLd wF4fFd g-blk")
+			# body = self.driver.FindElement(By.ByTagName("Body"))
+
+			# element = self.driver.find_element(By.CLASS_NAME, "TQc1id hSOk2e rhstc4")
+			# TQc1id hSOk2e rhstc4
+			# pprint.pprint(body)
+		# try:
+		# 	html = self.driver.page_source
+		# 	if 'See results about' in html:
+		# 		print(f"{self.search_term} => {True}\n")
+		# 	else:
+		# 		print(f"{self.search_term} => {False}\n")
+			
+		
+		# 	# element = self.driver.find_element(By.CLASS_NAME, "TQc1id hSOk2e rhstc4").text
+		# 	# print(f"{self.search_term} => {element}\n")
+		# 	# self.driver.find_element(By.XPATH, '//*[@id="rhs"]/block-component/div/div[1]/div/div/div/div[1]/div/div/div[2]/div/a')
+		# except:
+		# 	print(f"{self.search_term} => found no classname\n")
+		# try:
+		# 	element = self.driver.find_element(By.CLASS_NAME, "xpdopen")
+		# 	print(f"{self.search_term} => {element}\n")
+		# 	# self.driver.find_element(By.XPATH, '//*[@id="rhs"]/block-component/div/div[1]/div/div/div/div[1]/div/div/div[2]/div/a')
+		# except:
+		# 	print(f"{self.search_term} => found no classname\n")
+		# try:
+		# 	element = self.driver.find_element(By.XPATH, '//*[@id="rhs"]')
+		# 	print(f"{self.search_term} => {element}\n")
+		# except:
+		# 	print(f"{self.search_term} => found no xpath\n")
+		self.is_registered = False
+		# //*[@id="rhs"]/block-component/div/div[1]/div/div/div/div[1]/div/div/div[2]/div/a
+
 
 	def cheeckForTrippelTrue(self):
 		'''
@@ -165,13 +330,21 @@ class Extration(ThreadPoolExecutor):
 				will ignore if true, else it adds to DB.
 		'''
 		if not (self.is_registered and self.is_claimed and self.has_info) or self.is_registered == 'Usikkert':
+			# print(pd.DataFrame([self.org_num, self.navn, self.is_registered, self.is_claimed, self.has_info]))
 			session = getSession()
-			row = db.CallList(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False)
+			#! TEMP WHILE TESTING 
+			row = db.CallListTest(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False)
+			# row = db.CallList(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False)
+			#error - IntegrityError:
 			session.add(row)
 			session.commit()
+		#! TEMP while testing
+		else:
+			print(f"NOTE: {self.search_term} was trippel true")
 
-	def setTableName(self, tablename):
-		self.tablename = tablename
+	#! deprecated 
+	# def setTableName(self, tablename):
+	# 	self.tablename = tablename
 		
 	def setOrgNumAndSearchTerm(self, input_array: np.ndarray) -> None:
 		self.org_num = input_array[0]
@@ -212,11 +385,11 @@ class Extration(ThreadPoolExecutor):
 		else:
 			self.is_registered = 'Usikkert'			
 
-	def checkHasInfo(self, check) -> None:
+	def checkHasInfo(self) -> None:
 		'''
 			=> sets self.has_info
 		'''
-		check_info = check.text
+		check_info = self.check.text
 		if 'Add missing information' in check_info or 'Legg til manglende informasjon' in check_info:
 			self.has_info = False
 		elif self.is_registered:
@@ -224,20 +397,26 @@ class Extration(ThreadPoolExecutor):
 		else:
 			self.has_info = False
 
-	def checkClaimedStatus(self, check):
+	def checkClaimedStatus(self) -> None:
 		'''
 			=> sets self.is_claimed
 		'''
-		check_claimed = check.get_attribute('innerHTML')
-		if 'cQhrTd' in check_claimed or 'ndJ4N' in check_claimed:
+		check_claimed = self.check.get_attribute('innerHTML')
+		if 'cQhrTd' in check_claimed:
 			self.is_claimed = True
-		elif self.is_registered:
-			self.is_claimed = True
-		else:
-			self.is_claimed = False
+		elif self.driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]//span[2]/span/a'):
+			if 'cQhrTd' in self.check.get_attribute('innerHTML'):
+				self.is_claimed = True
+			else: 
+				self.is_claimed = False
 
-	def getOverview(self, ) -> any:
-		return self.driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div')
+	def setOverview(self):	
+		'''
+			Changed getOverview to setOverview
+		'''
+		# self.check = self.driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div') #! IKKE FJERN DENNE
+		self.check = self.driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]')
+
 
 	def checkGoogleAlarmTrigger(self, driver: webdriver) -> bool:
 		html = driver.page_source
@@ -326,18 +505,26 @@ def googleExtractor(**kwargs: str):
 
 	nested_input_array = makeChunks(input_array, chunksize)
 	Print.info(len(nested_input_array))
+	with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor: 
+		for chunk in nested_input_array:
+			_ = list(tqdm(executor.map(Extration, chunk), total = len(chunk)))
 
-	with tqdm(total = len(nested_input_array)) as pbar1: 
-		with tqdm(total = len(input_array)) as pbar2:
-			with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor: 
-				for chunk in nested_input_array:
-					_ = list(tqdm(executor.map(Extration, chunk), total = len(chunk)))
-					pbar2.update(chunksize) 	
-					pbar1.update(1)
+	#! TEMP WHILE TESTING
+	# with tqdm(total = len(nested_input_array)) as pbar1: 
+	# 	with tqdm(total = len(input_array)) as pbar2:
+	# 		with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor: 
+	# 			for chunk in nested_input_array:
+	# 				_ = list(tqdm(executor.map(Extration, chunk), total = len(chunk)))
+	# 				pbar2.update(chunksize) 	
+	# 				pbar1.update(1)
 		
 		##!: DISABLING LONG BREAK
 		# if len(pbar1) != len(nested_input_array):
 		# 	time.sleep(long_break)
+	
+	# print()
+	# print(getTest())
+	# print()
 	Print.outro()
 
 if __name__ == '__main__':
@@ -408,6 +595,7 @@ if __name__ == '__main__':
 
 '''#! [ ] --Empty error log
 '''
+
 ##! ______________________________________________
 
 

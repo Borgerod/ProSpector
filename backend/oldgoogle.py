@@ -1,9 +1,8 @@
-
-# todo [ ] move to code_workshop while not running 
-
-
-''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
+''' #* TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 '''	
+
+
+
 #! ____ ERROR LOG _______________________________________________________________________________________________ !#
 
 - [1] error on line, 192: 
@@ -13,31 +12,10 @@
 	# 			
 #! ______________________________________________________________________________________________________________ !#
 
-#* ____ OVER ALL PLAN FOR REWORK ________________________________________________________________________________ *#
-
-    ___ THE ISSUE ___
-    Not satisfied with how multithreading is done (in regards to OOP).
-        They way Extraction is dependent on ThreadWithReturnValues are confusing to read, 
-        and also possibly not nessasary anymore since extracted values does not leave (returned out of) the class anymore. 
-
-    ___ THE PLAN ___
-    will remodel Extraction, and maybe remove ThreadWithReturnValue:
-        Extraction Remodel:
-            - Extracted values should be stored in __init__
-            - If returning __init__ values are nessasary, then;
-                 they should be returned via @property 
-             
-                
-
-
-
-#* ______________________________________________________________________________________________________________ *#
 
 
 '''
-''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
-
-
+''' #* TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 
 import time; START = time.perf_counter() #Since it also takes time to Import libs, I allways START the timer asap. 
 import re
@@ -143,150 +121,43 @@ class ThreadWithReturnValue(Thread):
 		Thread.join(self, *args)
 		return self._return
 
-# class Extration(ThreadPoolExecutor):	
-class Extration:	
-	def __init__(self, org_num, navn, google_profil, eier_bekreftet, komplett_profil, ringe_status, liste_id):
-		self.org_num = org_num
-		self.navn = navn
-		self.google_profil = google_profil
-		self.eier_bekreftet = eier_bekreftet
-		self.komplett_profil = komplett_profil
-		self.ringe_status = ringe_status
-		self.liste_id = liste_id
-		# self.driver = get
-		self.check = None
-
+class Extration(ThreadPoolExecutor):	
+	def __init__(self, i):
+		t = Thread(target=self.getData(i))
+		t.start()
+		self.rowData = None
 
 	def getData(self, input_array: np.ndarray) -> np.ndarray or str:
 		''' 
-			NOTE: input_array = chunks 
 			gets driver, builds url ,calls captcha solver, tries to find certain elements,
 			finally returns array of bools or a error string
 		'''
 		self.setOrgNumAndSearchTerm(input_array)
 		driver = Driver.prepDriver("https://www.google.com/search?q=" , self.search_term)
 		if self.checkGoogleAlarmTrigger(driver):
-			'''
-				Safty mechanism; 
-				checks if google's flooding alarms are triggered and blocks accsess to search results, 
-				if so Extraction will set extracted values for prospects to "CaptchaTriggered" then skip to next
-				# todo [ ] it should also throw an error or otherwisse stop the process. or maybe set a pause-timer on 24 hours. 
-			'''
 			self.alarmTriggerAction()
-
 		else:
 			self.driver = driver
 			try: 								#! [try A]
 				self.tryVerification()
+				try:							#? [try B] 
+					check = self.getOverview()
+					self.checkHasInfo(check)
+					self.checkClaimedStatus(check)
+				except NoSuchElementException:  #? [try B]    
+					self.has_info = True
+					self.is_claimed = True
+			
 			except NoSuchElementException:      #! [try A]    
 				self.is_registered = False
-			
-
-		'''
-		sjekker om bedrift er registrert / if is_registered == True
-		'''
-		if self.is_registered:
-			'''
-			gets overview section from profile
-			'''
-			# self.check = self.getOverview()    #! mulig denne vil raise en error 
-			self.setOverview()  #sets self.check #! mulig denne vil raise en error 
-		# _____________________________
-		'''
-		sjekker om bedriften har INFO
-		'''
-		try:							#? [try B] 
-			self.checkHasInfo(check)
-		except NoSuchElementException:  #? [try B]
-			if self.check:
-				self.has_info = True
-			else:
-				self.has_info = False
-		# _____________________________
-
-		'''
-		sjekker om bedriften er CLAIMED
-		'''
-		try:							#* [try C]
-			self.checkClaimedStatus(check)
-		except NoSuchElementException:  #* [try C]			
-			if self.check:
-				self.is_claimed = True
-			else:
-				self.is_claimed = False	
-		
-		'''
-		sjekker om alle er true eller ikke 
-		'''	
-		self.cheeckForTrippelTrue()	
-
-
-		
-		# # self.has_info = False
-
-
-		# 	#!________________________________________________________________
-		# 	'''
-		# 		if is_registered == True 
-		# 		Hvis Bedriften er registrert
-		# 	'''
-		# 	try:							#? [try B] 
-		# 		check = self.getOverview()
-		# 		'''
-		# 		sjekker om bedriften MANGLER info eller er claimed
-		# 		'''
-		# 		self.checkHasInfo(check)
-		# 		self.checkClaimedStatus(check)
-			
-		# 	except NoSuchElementException:  #? [try B]    
-		# 		'''
-		# 		bedriften har all info og er claimed
-		# 		'''
-		# 		self.has_info = True
-		# 		self.is_claimed = True
-			
-			
-		# 	'''
-		# 		if is_registered == False 
-		# 		Hvis Bedriften IKKE er registrert
-		# 	'''
-		# 	try:							#* [try C]
-		# 		'''
-		# 		Bare i tilfelle; sjekker om bedriften MANGLER info eller er claimed
-		# 		'''
-		# 		check = self.getOverview()
-		# 		self.checkHasInfo(check)
-		# 		self.checkClaimedStatus(check)
-		# 	except NoSuchElementException:  #* [try C]
-		# 		'''
-		# 		hvis den ikke har en google profil, 
-		# 		så er den verken claimed eller har info
-		# 		'''
-		# 		self.has_info = False
-		# 		self.is_claimed = False	
-		# 	self.cheeckForTrippelTrue()	
-		# # else:
-		# # 	self.driver = driver
-		# # 	try: 								#! [try A]
-		# # 		self.tryVerification()
-		# # 		try:							#? [try B] 
-		# # 			check = self.getOverview()
-		# # 			self.checkHasInfo(check)
-		# # 			self.checkClaimedStatus(check)
-		# # 		except NoSuchElementException:  #? [try B]    
-		# # 			self.has_info = True
-		# # 			self.is_claimed = True
-			
-		# # 	except NoSuchElementException:      #! [try A]    
-		# # 		self.is_registered = False
-		# # 		try:							#* [try C]
-		# # 			check = self.getOverview()
-		# # 			self.checkHasInfo(check)
-		# # 			self.checkClaimedStatus(check)
-		# # 		except NoSuchElementException:  #* [try C]
-		# # 			self.has_info = False
-		# # 			self.is_claimed = False	
-		# # 	self.cheeckForTrippelTrue()
+				try:							#* [try C]
+					check = self.getOverview()
+					self.checkHasInfo(check)
+					self.checkClaimedStatus(check)
+				except NoSuchElementException:  #* [try C]
+					self.has_info = False
+					self.is_claimed = False	
+			self.cheeckForTrippelTrue()
 
 	def cheeckForTrippelTrue(self):
 		'''
@@ -295,16 +166,12 @@ class Extration:
 		'''
 		if not (self.is_registered and self.is_claimed and self.has_info) or self.is_registered == 'Usikkert':
 			session = getSession()
-			#! TEMP WHILE TESTING 
-			row = db.CallListTest(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False)
-			# row = db.CallList(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False)
-			
+			row = db.CallList(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False)
 			session.add(row)
 			session.commit()
 
-	#! deprecated 
-	# def setTableName(self, tablename):
-	# 	self.tablename = tablename
+	def setTableName(self, tablename):
+		self.tablename = tablename
 		
 	def setOrgNumAndSearchTerm(self, input_array: np.ndarray) -> None:
 		self.org_num = input_array[0]
@@ -345,13 +212,11 @@ class Extration:
 		else:
 			self.is_registered = 'Usikkert'			
 
-	# def checkHasInfo(self, check) -> None:
-	def checkHasInfo(self) -> None:
+	def checkHasInfo(self, check) -> None:
 		'''
 			=> sets self.has_info
 		'''
-		# check_info = check.text
-		check_info = self.check.text
+		check_info = check.text
 		if 'Add missing information' in check_info or 'Legg til manglende informasjon' in check_info:
 			self.has_info = False
 		elif self.is_registered:
@@ -359,13 +224,11 @@ class Extration:
 		else:
 			self.has_info = False
 
-	# def checkClaimedStatus(self, check):
-	def checkClaimedStatus(self) -> None:
+	def checkClaimedStatus(self, check):
 		'''
 			=> sets self.is_claimed
 		'''
-		check_claimed = self.check.get_attribute('innerHTML')
-		# check_claimed = check.get_attribute('innerHTML')
+		check_claimed = check.get_attribute('innerHTML')
 		if 'cQhrTd' in check_claimed or 'ndJ4N' in check_claimed:
 			self.is_claimed = True
 		elif self.is_registered:
@@ -373,15 +236,8 @@ class Extration:
 		else:
 			self.is_claimed = False
 
-	# def getOverview(self, ) -> any:	
-	# 	return self.driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div')
-
-	def setOverview(self):	
-		'''
-			Changed getOverview to setOverview
-		'''
-		self.check = self.driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div')
-
+	def getOverview(self, ) -> any:
+		return self.driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-overview"]/div[2]/div/div/div/div/div/div[5]/div/div/div')
 
 	def checkGoogleAlarmTrigger(self, driver: webdriver) -> bool:
 		html = driver.page_source
@@ -461,23 +317,23 @@ def googleExtractor(**kwargs: str):
 		runs setup, then gets array of company names, then iterates through the list via ThreadPoolExecutor: extractionManager()
 		stops process if Captcha is triggered, finally sends a df of results to database.
 	'''
-	# Print.intro()
-	# S.setSettings(**kwargs)
-	# _, chunksize, _, _, _, _, input_array, long_break, _ = S.getSettings
-	# print(S.getSettings)
-	# print(Settings().getTablename)
+	Print.intro()
+	S.setSettings(**kwargs)
+	_, chunksize, _, _, _, _, input_array, long_break, _ = S.getSettings
+	print(S.getSettings)
+	print(Settings().getTablename)
 
 
-	# nested_input_array = makeChunks(input_array, chunksize)
-	# Print.info(len(nested_input_array))
+	nested_input_array = makeChunks(input_array, chunksize)
+	Print.info(len(nested_input_array))
 
-	# with tqdm(total = len(nested_input_array)) as pbar1: 
-	# 	with tqdm(total = len(input_array)) as pbar2:
+	with tqdm(total = len(nested_input_array)) as pbar1: 
+		with tqdm(total = len(input_array)) as pbar2:
 			with ThreadPoolExecutor(max_workers=min(32, (os.cpu_count() or 1) + 4)) as executor: 
 				for chunk in nested_input_array:
 					_ = list(tqdm(executor.map(Extration, chunk), total = len(chunk)))
-					# pbar2.update(chunksize) 	
-					# pbar1.update(1)
+					pbar2.update(chunksize) 	
+					pbar1.update(1)
 		
 		##!: DISABLING LONG BREAK
 		# if len(pbar1) != len(nested_input_array):
@@ -552,7 +408,6 @@ if __name__ == '__main__':
 
 '''#! [ ] --Empty error log
 '''
-
 ##! ______________________________________________
 
 
