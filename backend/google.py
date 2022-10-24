@@ -4,13 +4,21 @@
 
 ''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 '''	
+#! STIAN KJELDSAND gives an error because3 of 	ElementNotInteractableException , look into that	
+
+
+
 #! ____ ERROR LOG _______________________________________________________________________________________________ !#
 
 - [1] error on line, 192: 
 	if not (self.is_registered and self.is_claimed and self.has_info) or self.is_registered == 'Usikkert':
 		AttributeError: 'Extration' object has no attribute 'is_reqistered'
 	#* Error suddenly dissapeared for some reason.. ¯\_(ツ)_/¯
-	# 			
+	# 	
+	# 
+	# 
+	#  STIAN KJELDSAND         error           False            False         False
+	
 #! ______________________________________________________________________________________________________________ !#
 
 #* ____ OVER ALL PLAN FOR REWORK ________________________________________________________________________________ *#
@@ -54,8 +62,16 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 from threading import Thread  
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+
+from selenium.webdriver.support import ui
+from selenium import webdriver
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+
 
 '''___ local imports __________
 '''
@@ -109,16 +125,32 @@ class Driver:
 	def getDriver(self) -> webdriver:
 		return webdriver.Chrome(options = self.getDriverOptions)
 
+	# def linkBuilder(self, english_res_extention: str, base_url: str, search_term: str) -> str:
+	# 	if search_term == 'OLE ALEKSANDER BERGELIEN':
+	# 		print(english_res_extention + base_url + search_term + ' maps')
+	# 	return english_res_extention + base_url + search_term + ' maps'
+
+	# def prepDriver(self, base_url, search_term):
+	# 	driver = self.getDriver()
+	# 	english_res_extention = "https://www.google.com/setprefs?sig=0_uH3W1kJTr26Rp8z0zGD-F5RIznI%3D&source=en_ignored_notification&prev="
+	# 	driver.get(self.linkBuilder(english_res_extention, base_url, search_term))
+		
+	# 	driver.current_window_handle  #* CATCHPA SOLVER
+	# 	time.sleep(S.getShortBreak)
+	# 	return driver
 	def linkBuilder(self, base_url: str, search_term: str) -> str:
-		return base_url + search_term + ' maps'
+		# if search_term == 'OLE ALEKSANDER BERGELIEN':
+			# print( base_url + search_term + ' maps&hl=en')
+		return base_url + search_term + ' maps&hl=en'
 
 	def prepDriver(self, base_url, search_term):
 		driver = self.getDriver()
-		driver.get(self.linkBuilder(base_url, search_term))
+		english_res_extention = "https://www.google.com/setprefs?sig=0_uH3W1kJTr26Rp8z0zGD-F5RIznI%3D&source=en_ignored_notification&prev="
+		driver.get(self.linkBuilder( base_url, search_term))
+		
 		driver.current_window_handle  #* CATCHPA SOLVER
 		time.sleep(S.getShortBreak)
 		return driver
-
 	@property
 	def getDriverOptions(self) -> webdriver.ChromeOptions:
 		options = webdriver.ChromeOptions()
@@ -147,6 +179,8 @@ class Driver:
 # 	def join(self, *args):
 # 		Thread.join(self, *args)
 # 		return self._return
+
+
 
 class Extration(ThreadPoolExecutor):	
 # class Extration:	
@@ -187,29 +221,53 @@ class Extration(ThreadPoolExecutor):
 			# body = self.driver.find_element(By.TAG_NAME("Body"))
 			# 
 			
-			if self.search_term == 'OLE ALEKSANDER BERGELIEN':
+			# if self.search_term == 'OLE ALEKSANDER BERGELIEN':
 				# body = self.driver.find_element(By.CLASS_NAME, "nGydZ").get_attribute("innerHTML") 
 
 				# body = self.driver.find_element(By.CLASS_NAME, "TQc1id hSOk2e rhstc4").get_attribute("innerHTML") 
 				# body = self.driver.find_element(By.XPATH, './/*[@id="rhs"]/block-component').get_attribute("innerHTML") 
 				# body = self.driver.find_element(By.CSS_SELECTOR, )
 				# url = driver.find_element_by_xpath('//a[@href="'+url+'"]')
-				url = self.driver.find_elements(By.XPATH, '//a')
-				for i in url:
-					print(i.get_attribute("innerHTML"))
-					print(i.get_attribute("outerHTML"))
-
-
-
 				
-				# pprint(url)
+				# '''
+				# 	setning: 	Bergelien Bygg AS
+				# 	Href: 		/search?q=Bergelien+Bygg+AS+Building+firm+in+Veggli&si=AC1wQDCb48pJOhjniU-CPpWXcWQCAuOVlcIjSvs_FGbLklR5diRIgw2TlZZpOBe5gWxXFjciO4rMvDSv6aTTIyeXG8v40Ssm-ChMqSz8my2aJ76BN_w-cKBE_grudZzY3z-r5nKMWSKJP6MvXMOOafnChZDbPzWO3AY-wZQfgaT5YGtsOtYRb0AvOeAfg5gfdDywEb9TVOzx&sa=X&ved=2ahUKEwjCgaKbxfb6AhWrSfEDHeR1BD4Q6RN6BAg4EAE
+
+				# 	MULIG LØSNING:
+				# 	url extention for å få engelsk resultat:
+				# 	/setprefs?sig=0_uH3W1kJTr26Rp8z0zGD-F5RIznI%3D&source=en_ignored_notification&prev=
+				# 	https://www.google.com/search?q=OLE+ALEKSANDER+BERGELIEN+maps&hl=en
+				# '''
+
+				##! _______________________________ KEEP THIS_________________________________
+				
+				
+				# from selenium.webdriver.common.action_chains import ActionChains
+				# accept_button = driver.find_element(By.XPATH, '//*[@id="L2AGLb"]')
+				# ActionChains(driver).move_to_element(accept_button).perform()
+				# accept_button.click()
+				# time.sleep(1)
+				# # 
+				# # a = self.driver.find_element(By.CLASS_NAME, 'M3LVze')
+				# # print(a.get_attribute("outerHTML"))
+				# # print(a.get_attribute("innerHTML"))
+				# # print(a.text)
+				# suggestion = self.driver.find_element(By.CLASS_NAME, 'M3LVze').click()
+				##! _______________________________ KEEP THIS_________________________________
+				
+
+
 			try: 								#! [try A]
 				self.tryVerification()
 			except NoSuchElementException:      #! [try A]  
-				self.checkAlternatives()
+				try:
+					self.checkIfSuggestion()
+				except NoSuchElementException:
+					self.is_registered = False
+			# print(f"{self.search_term} ==> {self.is_registered}")
+				# self.checkAlternatives()
 				# self.is_registered = False
-		
-
+			
 
 
 
@@ -271,10 +329,38 @@ class Extration(ThreadPoolExecutor):
 		'''
 		sjekker om alle er true eller ikke 
 		'''	
-		# self.cheeckForTrippelTrue()	
+		self.cheeckForTrippelTrue()	
 
 
-
+	def checkIfSuggestion(self):
+		try:
+			# accept_button = self.driver.find_element(By.XPATH, '//*[@id="L2AGLb"]')
+			# ActionChains(self.driver).move_to_element(accept_button).perform()
+			accept_button = ui.WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(By.XPATH, '//*[@id="L2AGLb"]'))
+			accept_button.click()
+			time.sleep(1)
+		except:
+			time.sleep(5)
+			accept_button = self.driver.find_element(By.XPATH, '//*[@id="L2AGLb"]')
+			ActionChains(self.driver).move_to_element(accept_button).perform()
+			accept_button.click()
+			time.sleep(1)
+		try:
+			self.driver.find_element(By.CLASS_NAME, 'M3LVze').click()
+			self.tryVerification()
+		except ElementNotInteractableException:
+			try:
+				time.sleep(5)
+				# self.driver.find_element(By.CLASS_NAME, 'M3LVze').click()
+				# self.tryVerification()
+				self.checkIfSuggestion()
+			except ElementNotInteractableException:
+				print(f"except ElementNotInteractableException occored for {self.search_term}")
+				# self.is_registered = False
+				self.is_registered = "error"
+			# print("error occoured: ElementNotInteractableException")
+			# self.checkIfSuggestion()
+		
 
 
 
@@ -320,7 +406,7 @@ class Extration(ThreadPoolExecutor):
 		# 	print(f"{self.search_term} => {element}\n")
 		# except:
 		# 	print(f"{self.search_term} => found no xpath\n")
-		self.is_registered = False
+		# self.is_registered = False
 		# //*[@id="rhs"]/block-component/div/div[1]/div/div/div/div[1]/div/div/div[2]/div/a
 
 
@@ -333,11 +419,14 @@ class Extration(ThreadPoolExecutor):
 			# print(pd.DataFrame([self.org_num, self.navn, self.is_registered, self.is_claimed, self.has_info]))
 			session = getSession()
 			#! TEMP WHILE TESTING 
-			row = db.CallListTest(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False)
-			# row = db.CallList(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False)
-			#error - IntegrityError:
-			session.add(row)
-			session.commit()
+			try:
+				row = db.CallListTest(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False)
+				# row = db.CallList(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False)
+				#error - IntegrityError:
+				session.add(row)
+				session.commit()
+			except:
+				print(f"{self.search_term} already exsist")
 		#! TEMP while testing
 		else:
 			print(f"NOTE: {self.search_term} was trippel true")
@@ -358,10 +447,22 @@ class Extration(ThreadPoolExecutor):
 			Tries to verify if company is registered, with multiple search variations. 
 			=> sets self.is_registered
 		'''
-		if self.getVerify():
-			verify = self.getVerify()
-			self.checkRegistered(verify, self.getAltVerify(verify), self.getAltSearchTerms())
-	
+		try:
+			if self.getVerify():
+				verify = self.getVerify()
+				self.checkRegistered(verify, self.getAltVerify(verify), self.getAltSearchTerms())	
+		except ElementNotInteractableException:
+			time.sleep(1)
+			self.tryVerification()
+		# except NoSuchElementException:
+		# 	self.is_registered = False
+
+			# print(f""" 
+			# ERROR WITH {self.searchterm}:
+			# 	ElementNotInteractableException exception triggered, 
+			# 	url: {}
+			# """)
+
 	def getAltSearchTerms(self):
 		alt_search_term = self.search_term
 		for ch in [' AS',' ASA', ' AB']:
@@ -522,17 +623,17 @@ def googleExtractor(**kwargs: str):
 		# if len(pbar1) != len(nested_input_array):
 		# 	time.sleep(long_break)
 	
-	# print()
-	# print(getTest())
-	# print()
+	print()
+	print(getTest())
+	print()
 	Print.outro()
 
 if __name__ == '__main__':
 	S = Settings()
 	Print = Print() 
 	Driver = Driver()
-	googleExtractor(testmode = True)
-	# googleExtractor(testmode = False)
+	# googleExtractor(testmode = True)
+	googleExtractor(testmode = False)
 	
 
 
