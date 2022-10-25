@@ -43,6 +43,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [X] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
       - [ ] add tag on input_list from BRREG: "if Organisasjonsform == "Norskregistrert utenlandsk foretak": check & confirm org_num"
    - [ ] Add function that detects googles "search-suggestion", parse & extract
+   - [ ] replace "replace if row exsist" function with an update function
      
      Extractor Optimization:
       ''' Use practises from "clean code" to optimize and objectify the code
