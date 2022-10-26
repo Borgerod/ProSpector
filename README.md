@@ -10,12 +10,25 @@ So what we want to achieve is that you can retrieve lists of companies that have
 - Step 2: Scrape google maps for --> Which does not have an owner confirmed (Listed as "do you own this business")
 - Step 2 addition: Must also scrape for companies that have an "insufficient profile" (has confirmed the owner without content)
 
+   ##### The software structure, simply explained:
+      The shop             : App (frontend)  : /App
+      The back-office      : App (backend)   : /fast_api_server/*
+      The delivery truck   : Api             : /fast_api_server/main.py
+      The Warehouse        : Cloud storage   : [AWS](https://aws.amazon.com/)
+      The Manifacturer     : Data Extractor  : /backend
+
 #### [NO] Programvarens oppgaver:
 Så det vi vil få til er at man kan hente ut lister over bedrifter som har både betalt annonsering hos katalogene og har ledig, mangelfull eller ingen profil på Google.
 -  Steg 1: Gulesider 1881, eller proff.no etter --> Bedrifter med betalt oppføring
 -  Steg 2: Skrape google maps etter --> Som ikke har en eier bekreftet (Står oppført som "eier du denne bedriften")
 -  Steg 2 tillegg: Skal også skrape etter bedrifter som har "mangelfull profil" ( har bekreftet eier men ingen innhold) 
 
+   ##### The software structure, simply explained:
+      Butikken    : App (frontend)  : /App
+      Bakrommet   : App (backend)   : /fast_api_server/*
+      varebil     : Api             : /fast_api_server/main.py
+      Lageret     : Cloud storage   : [AWS](https://aws.amazon.com/)
+      Fabrikken   : Data Extractor  : /backend
 
 
 ## PreView
@@ -42,7 +55,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    Backend:
    - [X] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
       - [ ] add tag on input_list from BRREG: "if Organisasjonsform == "Norskregistrert utenlandsk foretak": check & confirm org_num"
-   - [ ] Add function that detects googles "search-suggestion", parse & extract
+   - [X] Add function that detects googles "search-suggestion", parse & extract
    - [ ] replace "replace if row exsist" function with an update function
      
      Extractor Optimization:

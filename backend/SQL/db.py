@@ -12,6 +12,7 @@ from SQL.config import settings
 
 # connect with db 
 engine = create_engine(settings.DATABASE_URL)
+
 # manage tables
 base = declarative_base()
 
