@@ -51,12 +51,14 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    Database:
    - [ ] Remove prospects in "call_list" that has [true, true, true]
    - [ ] Reset liste_id 
+   - [ ] add phone_numbers to your user database
 
    Backend:
    - [X] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
       - [ ] add tag on input_list from BRREG: "if Organisasjonsform == "Norskregistrert utenlandsk foretak": check & confirm org_num"
    - [X] Add function that detects googles "search-suggestion", parse & extract
    - [ ] replace "replace if row exsist" function with an update function
+   - [X] make phone_verification-backend 
      
      Extractor Optimization:
       ''' Use practises from "clean code" to optimize and objectify the code
@@ -67,6 +69,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    
    Frontend:
    - [ ] Add copy function to the call list table
+   - [ ] add phone_verification to your app 
 
    bugs:
    - [1] : Prospects with "Usikker" seems to have the wrong org_num
