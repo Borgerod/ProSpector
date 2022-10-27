@@ -14,3 +14,4 @@ class User(Base):
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
     org =  Column(String, nullable=False, index=True) #workplace
+    phone_number = Column(String, nullable=False, index=True)

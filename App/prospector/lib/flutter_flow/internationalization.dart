@@ -407,6 +407,15 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // Signup
 
   {
+    'in1c022c': {
+      'en': 'Please enter the your phone number.',
+      'nb': 'Vennligst fyll inn ditt telefonnummer.',
+    },
+    'in1c922d': {
+      'en': "Phonenumber not filled correctly, hint: don't use spaces.",
+      'nb':
+          'Telefonnummeret er ikke fyllt inn riktig, hint: Ikke bruk mellomrom',
+    },
     'in1c322b': {
       'en': 'Please enter the name of your workplace.',
       'nb': 'Fyll inn arbeidsplass',
@@ -455,6 +464,12 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb':
           'Bruk minst \n -en stor bokstav, \n - en liten bokstav, \n - ett nummer\n',
     },
+    'ib1c32na': {
+      'en':
+          'Be sure to add your country code to your phone number \n e.g.: +471234567\n',
+      'nb':
+          'Venligst legg landskoden til telefonnummeret, \n f.eks.: +471234567\n',
+    },
     'ib1c3zui': {
       'en': 'Return To Login',
       'nb': 'Gå tilbake til pålogging',
@@ -463,7 +478,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Create Account',
       'nb': 'Opprett Ny Konto',
     },
-    'chjotsyn': {
+    'cjdsadsl': {
+      'en': 'Telefonnummer',
+      'nb': 'Phone Number',
+    },
+    '4dbf2i422': {
       'en': 'Username',
       'nb': 'Brukernavn',
     },

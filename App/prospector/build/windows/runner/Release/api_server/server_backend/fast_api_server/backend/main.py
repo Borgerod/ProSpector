@@ -1,8 +1,11 @@
 from fastapi import FastAPI,  Depends
 
-from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
+from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+from requests import delete
 from sqlalchemy.orm import Session
+# from apis.version1.send_email import send_email_async
 
+#! TEMPORARLY DISABLED EMAIL 
 
 ''' Local Imports '''
 from core.config import settings
@@ -12,7 +15,6 @@ from db.repository.users import changePassword
 from db.repository.call_list import getOverview, getCurrentCallList, getRowsBetween, updateCallListStatus, renewList
 from db.utils import check_db_disconnected, check_db_connected
 from apis.version1.route_login import get_current_user_from_token
-from apis.version1.send_email import send_email_async
 from apis.utils import OAuth2PasswordBearerWithCookie
 from apis.base import api_router
 
@@ -49,6 +51,15 @@ def get_call_list(token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)
     user = get_current_user_from_token(token, db)
     return getCurrentCallList(db, user)
 
+@app.put("/callList/ringe_status")
+async def update_item(org_num: int, db: Session = Depends(get_db)):
+    return updateCallListStatus(db, org_num)
+
+@app.get("/RenewList")
+async def renew_list(token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)), db: Session = Depends(get_db)):
+    user = get_current_user_from_token(token, db)
+    return renewList(db, user)
+
 @app.get("/overView")
 def get_overview(token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)), db: Session = Depends(get_db)):
     user = get_current_user_from_token(token, db)
@@ -60,18 +71,9 @@ def get_user( token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)), d
     user = get_current_user_from_token(token, db)
     return user
 
-@app.put("/callList/ringe_status")
-async def update_item(org_num: int, db: Session = Depends(get_db)):
-    return updateCallListStatus(db, org_num)
-
-@app.get("/RenewList")
-async def renew_list(token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)), db: Session = Depends(get_db)):
-    user = get_current_user_from_token(token, db)
-    return renewList(db, user)
-
 @app.get("/ResetPassword/Authentication")
 async def send_email_asynchronous(email_to = None, verify_num = None):
-    await send_email_async(email_to, verify_num)
+    # await send_email_async(email_to, verify_num)
     return 'Success'
 
 @app.put("/ResetPassword")
@@ -88,3 +90,59 @@ async def put_change_password(new_password = None, email = None, db: Session = D
         except:
             print("ResetPassword ERROR")
     return changePassword(new_password, email, db)
+
+
+# #> _____________New API: phone_verification _____________
+
+@app.post("/verification/phone/recieve_code")
+async def recieve_otp_code_async(otp_code:str = None):
+    '''
+    gets otp_code from user input (in app)
+    '''
+    return otp_code
+
+# @app.delete("/users/{email}")
+# async def delete_user(email: str, db: Session):
+#     delete_user_by_email(email, db)
+
+
+
+
+# # NOTE: litt usikker på om det skal være get / put / post
+# @app.get("/verification/phone/send_verification")
+# async def send_sms_asynchronous(sms_to = None):
+#     '''
+#     send sms to user to verify phone number
+#     '''
+#     await send_sms_async(sms_to)
+#     return 'Pending'
+
+# @app.get("/verification/phone/send_verification")
+# async def put_change_password(phone_number = None, otp_code = None, db: Session = Depends(get_db)):
+#     '''
+#     send sms with otp_code to user, for verifying phone number
+#     '''
+#     await send_sms_async(sms_to, otp_code)
+#     return 'Success'
+
+
+# # NOTE: litt usikker på om det skal være get / put / post
+# @app.post("/verification/phone/recieve_code")
+# async def recieve_otp_code_asynchronous(phone_number = None, otp_code = None):
+#     '''
+#     gets otp_code from user input (in app)
+#     '''
+#     # await recieve_otp_code_async(sms_to = None, otp_code = None)
+#     is_valid = await Verification().checkVerificationCode(otp_code = None)
+#     if is_valid:
+#        await create_new_user_asynchronous()
+#         create_user(user: UserCreate, db: Session = Depends(get_db)):
+
+
+#     # return 'Success'
+
+
+# @app.post("/users/user_creation")
+# async def create_new_user_asynchronous():
+#      create_user(user: UserCreate, db: Session = Depends(get_db)):
+

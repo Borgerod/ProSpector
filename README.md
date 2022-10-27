@@ -59,7 +59,10 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [X] Add function that detects googles "search-suggestion", parse & extract
    - [ ] replace "replace if row exsist" function with an update function
    - [X] make phone_verification-backend 
-     
+   - [ ] integrate phone_verification-backend to fast-api-server
+   - [ ] make sure if you need an if statement to restrict to one account pr phone number 
+
+
      Extractor Optimization:
       ''' Use practises from "clean code" to optimize and objectify the code
        - [X] Refine Extractor in Google.py

@@ -11,7 +11,8 @@ def create_new_user(user: UserCreate, db: Session):
         hashed_password = Hasher.get_password_hash(user.passord),
         is_active = True,
         is_superuser = False,
-        org = user.organisasjon
+        org = user.organisasjon,
+        phone_number = user.telefon_nummer
     )
     db.add(user)
     db.commit()
@@ -28,3 +29,8 @@ def changePassword(new_password: str, email: str, db: Session):
     db.commit()  
     return 'Success'
 
+
+def delete_user_by_phone_number(phone_number: str, db: Session):
+    user = db.query(User).filter(User.phone_number == phone_number).first()
+    db.delete(user)
+    db.commit()   
