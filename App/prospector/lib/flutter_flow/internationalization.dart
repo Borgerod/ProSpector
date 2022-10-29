@@ -437,8 +437,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Fyll inn en gyldig epost',
     },
     'ibsc322a': {
-      'en': 'Unable to create account',
+      'en': 'Unable to create account. \n Please make sure that ',
       'nb': 'Klarte ikke å opprette en konto',
+    },
+    'ibsc322b': {
+      'en':
+          'Unable to send verification code, \n please wait one moment then try again',
+      'nb':
+          'Klarte ikke å sende verifiseringskoden, \n vennligst vent et øyeblikk og prøv igjen',
     },
     'ib1c3p2a': {
       'en': 'Form is not properly filled ',
@@ -507,11 +513,38 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+  // PhoneVerification
+  {
+    '3ebfpqc1': {
+      'en': 'Verify phone number',
+      'nb': 'Verifiser telefonnummeret',
+    },
+    '3ebfpqc2': {
+      'en': 'Please, enter the verification code sent to your phone',
+      'nb': 'Vennligst skriv inn Verifiseringskoden som ble sendt til deg',
+    },
+    '3ebfpqc3': {
+      'en': 'CODE',
+      'nb': 'KODE',
+    },
+    '3ebfpqc4': {
+      'en': 'VERIFY',
+      'nb': 'VERIFISER',
+    },
+    '3ebfpqc5': {
+      'en': 'Invalid Code',
+      'nb': 'Ugyldig kode',
+    },
+    '3ebfpqc6': {
+      'en': 'Please try again',
+      'nb': 'Vennligst prøv igjen',
+    },
+  },
   // AccountCreated
   {
     '3ebfpqcc': {
       'en': 'Your account has been created successfully!',
-      'nb': 'Opprett Ny Konto',
+      'nb': 'Kontoen din er opprettet!',
     },
     'xzbndtx5': {
       'en': 'GET STARTED',

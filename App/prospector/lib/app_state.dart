@@ -50,6 +50,8 @@ class FFAppState {
 
   String emailAdress = '';
 
+  String phoneNumber = '';
+
   String _Language = '';
   String get Language => _Language;
   set Language(String _value) {

@@ -1,8 +1,11 @@
-from fastapi import FastAPI,  Depends
+from fastapi import FastAPI,  Depends, Request
 
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+from psycopg2 import IntegrityError
 from requests import delete
 from sqlalchemy.orm import Session
+
+from schemas.users import ShowUser, UserCreate
 # from apis.version1.send_email import send_email_async
 
 #! TEMPORARLY DISABLED EMAIL 
@@ -11,12 +14,13 @@ from sqlalchemy.orm import Session
 from core.config import settings
 from db.base import Base
 from db.session import get_db, engine
-from db.repository.users import changePassword
+from db.repository.users import UnicornException, changePassword, create_new_user
 from db.repository.call_list import getOverview, getCurrentCallList, getRowsBetween, updateCallListStatus, renewList
 from db.utils import check_db_disconnected, check_db_connected
 from apis.version1.route_login import get_current_user_from_token
 from apis.utils import OAuth2PasswordBearerWithCookie
 from apis.base import api_router
+
 
 TOKEN_URL = "/login/token"
 
@@ -101,6 +105,13 @@ async def recieve_otp_code_async(otp_code:str = None):
     '''
     return otp_code
 
+@app.get("/verification/phone/send_code")
+async def send_otp_code_async(phone_number:str = None):
+    '''
+    gets otp_code from user input (in app)
+    '''
+    return phone_number
+
 # @app.delete("/users/{email}")
 # async def delete_user(email: str, db: Session):
 #     delete_user_by_email(email, db)
@@ -145,4 +156,36 @@ async def recieve_otp_code_async(otp_code:str = None):
 # @app.post("/users/user_creation")
 # async def create_new_user_asynchronous():
 #      create_user(user: UserCreate, db: Session = Depends(get_db)):
+
+
+
+
+# # #> _____________TEST _________________________________________________________________________________
+# from fastapi.responses import JSONResponse
+
+
+
+# # @router.exception_handler(UnicornException)
+# @app.exception_handler(UnicornException)
+# async def unicorn_exception_handler(request: Request, exc: UnicornException):
+#     return JSONResponse(
+#         status_code=418,
+#         content={"message": f"Oops! {exc.name} did something. There goes a rainbow..."},
+#     )
+
+
+# ''' test NEW user creation route ++ phone verification
+# '''
+# @app.post("/", response_model = ShowUser)
+# async def create_user(user:UserCreate, db: Session = Depends(get_db)):
+#     try:
+#         user = create_new_user(user = user, db = db)
+#         return user 
+#     except IntegrityError as e:
+#         raise UnicornException(response_model=e)
+
+
+
+
+# # #> ___________________________________________________________________________________________________
 

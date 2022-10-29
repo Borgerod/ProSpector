@@ -1,5 +1,7 @@
+from phonenumbers import PhoneNumber
 from pydantic import BaseModel
 from pydantic import EmailStr
+# from pydantic import PhoneNumber
 
 class UserCreate(BaseModel):
     brukernavn: str

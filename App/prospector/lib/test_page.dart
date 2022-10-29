@@ -8,6 +8,9 @@ import 'package:http/http.dart' as http;
 import 'package:prospector/popups/account_created_widget.dart';
 import 'package:prospector/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector/flutter_flow/flutter_flow_util.dart';
+import 'package:prospector/popups/phone_verification_widget.dart';
+
+// TODO: look into this parameter (TextFormField): errorStyle:, & errorBorder:,
 
 class TestPage extends StatefulWidget {
   const TestPage({Key? key}) : super(key: key);
@@ -23,11 +26,13 @@ class _TestPageState extends State<TestPage> {
   TextEditingController? phoneNumberController;
   TextEditingController? countryCodeController;
   TextEditingController? passwordController;
-
   late bool passwordVisibility;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  String phone_number = '';
 
-  //* NEW STUFF
+  bool req_200 = false;
+  bool isEmail(String input) => EmailValidator.validate(input);
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   late Color colorState = Color(0xFFD6D8DA);
   late TextStyle labelColorState =
       FlutterFlowTheme.of(context).bodyText1.override(
@@ -36,10 +41,9 @@ class _TestPageState extends State<TestPage> {
             fontSize: 12,
             fontWeight: FontWeight.w300,
           );
-  late String passwordlabelState = FFLocalizations.of(context).getText(
-    'u1vts5lp' /* Password */,
-  );
-  var phone_number = String;
+  late String passwordlabelState =
+      FFLocalizations.of(context).getText('u1vts5lp' /* Password */
+          );
 
   @override
   void initState() {
@@ -48,14 +52,68 @@ class _TestPageState extends State<TestPage> {
     workplaceController = TextEditingController();
     emailController = TextEditingController();
     phoneNumberController = TextEditingController();
-    // countryCodeController = TextEditingController();
     final countryCodeController = TextEditingController(text: "+47");
     passwordController = TextEditingController();
     passwordVisibility = false;
   }
 
-  bool req_200 = false;
-  bool isEmail(String input) => EmailValidator.validate(input);
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //       key: scaffoldKey,
+  //       backgroundColor: Colors.transparent,
+  //       body: GestureDetector(
+  //           onTap: () => FocusScope.of(context).unfocus(),
+  //           child: Stack(children: [
+  //             Align(
+  //               alignment: AlignmentDirectional(0.02, -0.08),
+  //               child: ClipRect(
+  //                 child: BackdropFilter(
+  //                   filter: ImageFilter.blur(
+  //                     sigmaX: 10,
+  //                     sigmaY: 10,
+  //                   ),
+  //                   child: InkWell(
+  //                     onTap: () async {
+  //                       Navigator.pop(context);
+  //                     },
+  //                     child: Container(
+  //                       width: MediaQuery.of(context).size.width,
+  //                       height: MediaQuery.of(context).size.height * 1,
+  //                       decoration: BoxDecoration(
+  //                         color: Colors.transparent,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //             Align(
+  //                 alignment: AlignmentDirectional(0, 0),
+  //                 child: Material(
+  //                     color: Colors.transparent,
+  //                     elevation: 10,
+  //                     child: Container(
+  //                         decoration: BoxDecoration(
+  //                           color: FlutterFlowTheme.of(context).cardColor,
+  //                           image: DecorationImage(
+  //                             fit: BoxFit.cover,
+  //                             image: Image.asset(
+  //                               'assets/images/dante_s_view_by_chateaugrief_de1tex5-fullview.jpg',
+  //                             ).image,
+  //                           ),
+  //                         ),
+  //                         child: Column(
+  //                           children: [
+  //                             Container(
+  //                                 height: 500,
+  //                                 width: 1200,
+  //                                 child: PhoneVerificationWidget()),
+  //                           ],
+  //                         ))))
+  //           ])));
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,11 +200,8 @@ class _TestPageState extends State<TestPage> {
                         ),
                       ],
                     ),
-                    //  CREATE ACCOUNT TITLE ___________________________________
-                    // Padding(
-                    //   padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 50),
-                    //   child:
 
+                    //  CREATE ACCOUNT TITLE ___________________________________
                     Expanded(
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
@@ -168,8 +223,6 @@ class _TestPageState extends State<TestPage> {
                         ],
                       ),
                     ),
-
-                    // ),
 
                     // USERNAME ________________________________________________
                     Row(
@@ -241,7 +294,8 @@ class _TestPageState extends State<TestPage> {
                         Spacer(flex: 2),
                       ],
                     ),
-                    // WORKPLACE ________________________________________________
+
+                    // WORKPLACE _______________________________________________
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -330,7 +384,8 @@ class _TestPageState extends State<TestPage> {
                         Spacer(flex: 2),
                       ],
                     ),
-                    // EMAIL ________________________________________________
+
+                    // EMAIL ___________________________________________________
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -417,7 +472,7 @@ class _TestPageState extends State<TestPage> {
                       ],
                     ),
 
-                    // PHONE NUMBER ________________________________________________
+                    // PHONE NUMBER ____________________________________________
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -547,6 +602,7 @@ class _TestPageState extends State<TestPage> {
                         Spacer(flex: 8),
                       ],
                     ),
+
                     // PASSWORD ________________________________________________
                     Row(
                       mainAxisSize: MainAxisSize.max,
@@ -640,7 +696,8 @@ class _TestPageState extends State<TestPage> {
                         Spacer(flex: 2),
                       ],
                     ),
-                    // SIGNUP BUTTON ________________________________________________
+
+                    // SIGNUP BUTTON ___________________________________________
                     Expanded(
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
@@ -665,6 +722,7 @@ class _TestPageState extends State<TestPage> {
                               height: 30,
                               child: InkWell(
                                 onTap: () async {
+                                  //? IF NOT FILLED ==> SHOW ERROR MESSAGE ***
                                   if (emailController?.text == "" ||
                                       workplaceController!.text == "" ||
                                       usernameController!.text == "" ||
@@ -693,41 +751,47 @@ class _TestPageState extends State<TestPage> {
                                             ),
                                           );
                                         });
-                                  } else {
+                                  }
+
+                                  //? IF FILLED ==> CONTINUE ***
+                                  else {
                                     String email = emailController!.text;
                                     String username = usernameController!.text;
                                     String password = passwordController!.text;
                                     String workplace =
                                         workplaceController!.text;
-                                    // Validate returns true if the form is valid, or false otherwise.
                                     String _phoneNumberController =
                                         phoneNumberController!.text;
-
-                                    String _countryCodeController =
-                                        countryCodeController!.text;
-                                    if (phoneNumberController != null) {
-                                      // _formKey.currentState!.save();
+                                    String? _countryCodeController =
+                                        countryCodeController?.text;
+                                    if (_countryCodeController == null) {
                                       setState(() {
-                                        phone_number =
-                                            '$_countryCodeController $_phoneNumberController'
-                                                as Type;
+                                        _countryCodeController = '+47';
                                       });
                                     }
-                                    // String = phone_number
-                                    // if (phone_number != null) {
-                                    //   var phone_number =
-                                    //       countryCodeController!.text +
-                                    //           phoneNumberController!.text;
-                                    // }
+                                    if (phoneNumberController != null) {
+                                      setState(() {
+                                        phone_number =
+                                            '$_countryCodeController$_phoneNumberController';
+                                      });
+                                    }
 
-                                    Map data = {
+                                    // Map data = {
+                                    //   'brukernavn': username,
+                                    //   'epost': email,
+                                    //   'passord': password,
+                                    //   'organisasjon': workplace,
+                                    //   'telefon_nummer': phone_number,
+                                    // };
+                                    // var body = json.encode(data);
+
+                                    var body = json.encode({
                                       'brukernavn': username,
                                       'epost': email,
                                       'passord': password,
                                       'organisasjon': workplace,
                                       'telefon_nummer': phone_number,
-                                    };
-                                    var body = json.encode(data);
+                                    });
 
                                     var response = await http.post(
                                         Uri.parse(
@@ -737,17 +801,55 @@ class _TestPageState extends State<TestPage> {
                                           "accept": "application/json",
                                         },
                                         body: body);
-
+                                    print(response.body);
                                     if (response.statusCode == 200) {
-                                      await Navigator.push(
-                                        context,
-                                        PageTransition(
-                                            type: PageTransitionType.fade,
-                                            duration: Duration(milliseconds: 0),
-                                            reverseDuration:
-                                                Duration(milliseconds: 0),
-                                            child: AccountCreatedWidget()),
-                                      );
+                                      String phone_number_stripped =
+                                          stripSpecialChar(phone_number);
+                                      String otp_link =
+                                          'http://127.0.0.1:8000/users/verification/phone/recieve_code?phone_number=%2B$phone_number_stripped';
+                                      var otp_response =
+                                          await http.get(Uri.parse(otp_link));
+                                      print(otp_response.body);
+                                      if (otp_response.statusCode == 200) {
+                                        await Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                              reverseDuration:
+                                                  Duration(milliseconds: 0),
+                                              child: PhoneVerificationWidget()),
+                                        );
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              contentTextStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
+                                              title: Text("Error!"),
+                                              content: Text(
+                                                FFLocalizations.of(context).getText(
+                                                    'ibsc322b' /* Unable to create account */
+                                                    ),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyText1
+                                                    .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1Family,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w300),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }
                                     } else {
                                       showDialog(
                                         context: context,
@@ -779,13 +881,18 @@ class _TestPageState extends State<TestPage> {
                                     }
                                   }
 
+                                  //? THEN (FINAL) ==> SET APP_STATE.DART ***
                                   setState(() => FFAppState().emailAdress =
                                       emailController!.text);
                                   setState(() => FFAppState().companyName =
                                       workplaceController!.text);
                                   setState(() => FFAppState().userName =
                                       usernameController!.text);
+                                  setState(() =>
+                                      FFAppState().phoneNumber = phone_number);
                                 },
+
+                                //? BUTTON APPEARANCE ***
                                 child: Material(
                                   color: Colors.transparent,
                                   elevation: 5,
@@ -795,8 +902,6 @@ class _TestPageState extends State<TestPage> {
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .primaryColor,
-                                      // color: Color(
-                                      //     0xFF5D8387),
                                     ),
                                     child: Align(
                                       alignment: AlignmentDirectional(0, 0),
@@ -823,7 +928,8 @@ class _TestPageState extends State<TestPage> {
                         ],
                       ),
                     ),
-                    // SPACER ________________________________________________
+
+                    // SPACER __________________________________________________
                     Spacer(),
 // ___________________________________________ END OF COLUMN ______________________________________________________
                   ]),
@@ -872,3 +978,47 @@ class _TestPageState extends State<TestPage> {
     }
   }
 }
+
+void checkIfEmailAlreadyExist() {}
+void checkIfPhoneAlreadyExist() {}
+void checkIfUsernameAlreadyExist() {}
+
+void checkIfUserDataAlreadyExist() {}
+
+
+
+
+// // TEMP WHILE BUILDING
+// void temp_while_building(response, context) async {
+//   if (response.statusCode == 200) {
+//     verifyPhoneNumber();
+//     await Navigator.push(
+//       context,
+//       PageTransition(
+//           type: PageTransitionType.fade,
+//           duration: Duration(milliseconds: 0),
+//           reverseDuration: Duration(milliseconds: 0),
+//           child: AccountCreatedWidget()),
+//     );
+//   }
+// }
+
+// // TODO: make ui push to "insert verification code page"
+// // todo  then make api call with verification code
+// // todo: if succsess => push AccountCreatedWidget(),  else => show error message then navigate.pop back
+
+// // PHONE VERIFICATION FUNCTION
+// void verifyPhoneNumber(context) async {
+//   await Navigator.push(
+//     context,
+//     PageTransition(
+//       type: PageTransitionType.fade,
+//       duration: Duration(milliseconds: 0),
+//       reverseDuration: Duration(milliseconds: 0),
+//       child: PhoneVerificationWidget(),
+//       // child: AccountCreatedWidget(),
+//     ),
+//   );
+// }
+
+// class PhoneVerificationWidget {}
