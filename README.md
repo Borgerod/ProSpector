@@ -47,21 +47,41 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 
    Overall: 
    - [ ] Fix the changes done to gitignore to ignore unnessasary stuff
+   - [ ] rename /Mediavest_Scraper_bot/ to /ProSpector/
+   - [ ] Reform / reorganize directory; \n NOTE: every path-reference is relative to (root) /prospector/ so: "./" means "/prospector/"
+         - 
+         - move fast_api_server to /prospector/ or ./backend/
+         - move or remove ./phone_verification.py
+         - 
+         - remove all README.md except for ./README.md
+         - remove ./release (is old)
+         - remove ./fast_api_server (is old)
+         - remove ./sql_app (is old)
+         - remove all unnessasary (fake) files and folders from ./App/../release/
+         - 
+         - create shortcut for ./App/../release/
+         - create shortcut for ./App/../app_version_check/installers/
+   - [ ] Fix the .env concept for ./App/../fast_api_server/ & ./backend/
+         - (MAYBE) remove ./App/../release/..fast_api_server/backend/.env
+         - (MAYBE) remove ./App/../release/env/
+         - (MAYBE) remove ./env/
+         - implement proper .env functionality in code 
+         - make instructions for setup.exe to add enviorment variables. 
+   - [ ] Change Password for Postgres (and maybe AWS) 
 
    Database:
    - [ ] Remove prospects in "call_list" that has [true, true, true]
    - [ ] Reset liste_id 
    - [ ] add phone_numbers to your user database
 
-   Backend:
+   Backend-Extractor:
    - [X] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
       - [ ] add tag on input_list from BRREG: "if Organisasjonsform == "Norskregistrert utenlandsk foretak": check & confirm org_num"
    - [X] Add function that detects googles "search-suggestion", parse & extract
    - [ ] replace "replace if row exsist" function with an update function
    - [X] make phone_verification-backend 
-   - [ ] integrate phone_verification-backend to fast-api-server
-   - [ ] make sure if you need an if statement to restrict to one account pr phone number 
-
+   - [X] integrate phone_verification-backend to fast-api-server
+   - [X] make sure if you need an if statement to restrict to one account pr phone number 
 
      Extractor Optimization:
       ''' Use practises from "clean code" to optimize and objectify the code
@@ -70,12 +90,18 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
        - [ ] Refine Extractor in proff.py
        - [ ] Refine Extractor in 1881.py
    
+   Backend-Server:
+   - [ ] add Exeption handling for more precise exceptions, irt. signup-errors (all types of signup-errors are returned as 500 "Internal server error" )
+   - [ ] reorganize fast_api_server; remove all the unnessasary folders. 
+   - [ ] re-Enable send EMAIL functionality
+
    Frontend:
-   - [ ] Add copy function to the call list table
-   - [ ] add phone_verification to your app 
+   - [?] Add copy function to the call list table 
+   - [X] add phone_verification to your app 
+   - [ ] Implement the specific Exception handling from "todo: Backend-Server"
 
    bugs:
-   - [1] : Prospects with "Usikker" seems to have the wrong org_num
+   - [1] : 
    - [2] : 
 
 

@@ -6,7 +6,7 @@ from requests import delete
 from sqlalchemy.orm import Session
 
 from schemas.users import ShowUser, UserCreate
-# from apis.version1.send_email import send_email_async
+from apis.version1.send_email import send_email_async
 
 #! TEMPORARLY DISABLED EMAIL 
 
@@ -14,7 +14,7 @@ from schemas.users import ShowUser, UserCreate
 from core.config import settings
 from db.base import Base
 from db.session import get_db, engine
-from db.repository.users import UnicornException, changePassword, create_new_user
+from db.repository.users import changePassword, create_new_user
 from db.repository.call_list import getOverview, getCurrentCallList, getRowsBetween, updateCallListStatus, renewList
 from db.utils import check_db_disconnected, check_db_connected
 from apis.version1.route_login import get_current_user_from_token
@@ -77,7 +77,7 @@ def get_user( token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)), d
 
 @app.get("/ResetPassword/Authentication")
 async def send_email_asynchronous(email_to = None, verify_num = None):
-    # await send_email_async(email_to, verify_num)
+    await send_email_async(email_to, verify_num)
     return 'Success'
 
 @app.put("/ResetPassword")
