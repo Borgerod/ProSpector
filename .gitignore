@@ -1,5 +1,4 @@
 __pycache__
-# .env
 env
 test_db.db
 print_tree.py
@@ -9,7 +8,6 @@ Production_Assets
 AWS
 prospector_api_app
 prospector_api_app.zip
-# fast_api_server
 ProSpecor kjøpsavtale (ssa-l).docx
 ProSpecor kjøpsavtale (ssa-l)
 PrisKalkyle
