@@ -68,6 +68,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
          - implement proper .env functionality in code 
          - make instructions for setup.exe to add enviorment variables. 
    - [ ] Change Password for Postgres (and maybe AWS) 
+   - [ ] update .gitignore
 
    Database:
    - [ ] Remove prospects in "call_list" that has [true, true, true]
@@ -93,7 +94,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    Backend-Server:
    - [ ] add Exeption handling for more precise exceptions, irt. signup-errors (all types of signup-errors are returned as 500 "Internal server error" )
    - [ ] reorganize fast_api_server; remove all the unnessasary folders. 
-   - [ ] re-Enable send EMAIL functionality
+   - [X] re-Enable send EMAIL functionality
 
    Frontend:
    - [?] Add copy function to the call list table 
