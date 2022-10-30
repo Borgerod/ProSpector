@@ -46,7 +46,6 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 #### POST CLIENT-MEETING TODO:
 
    Overall: 
-   - [ ] Fix the changes done to gitignore to ignore unnessasary stuff
    - [ ] rename /Mediavest_Scraper_bot/ to /ProSpector/
    - [ ] Reform / reorganize directory; \n NOTE: every path-reference is relative to (root) /prospector/ so: "./" means "/prospector/"
          - 
@@ -83,6 +82,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [X] make phone_verification-backend 
    - [X] integrate phone_verification-backend to fast-api-server
    - [X] make sure if you need an if statement to restrict to one account pr phone number 
+   - [ ] add daily quotas
 
      Extractor Optimization:
       ''' Use practises from "clean code" to optimize and objectify the code
