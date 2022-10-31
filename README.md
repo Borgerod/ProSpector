@@ -46,7 +46,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 #### POST CLIENT-MEETING TODO:
 
    Overall: 
-   - [ ] rename /Mediavest_Scraper_bot/ to /ProSpector/
+   - [X] rename /Mediavest_Scraper_bot/ to /ProSpector/ 
    - [ ] Reform / reorganize directory; \n NOTE: every path-reference is relative to (root) /prospector/ so: "./" means "/prospector/"
          - 
          - move fast_api_server to /prospector/ or ./backend/
@@ -60,13 +60,13 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
          - 
          - create shortcut for ./App/../release/
          - create shortcut for ./App/../app_version_check/installers/
-   - [ ] Fix the .env concept for ./App/../fast_api_server/ & ./backend/
+   - [ ] Fix the .env concept for ./App/../fast_api_server/ & ./backend/ [CURRENTLY-IN-PROGRESS]
          - (MAYBE) remove ./App/../release/..fast_api_server/backend/.env
          - (MAYBE) remove ./App/../release/env/
          - (MAYBE) remove ./env/
          - implement proper .env functionality in code 
          - make instructions for setup.exe to add enviorment variables. 
-   - [ ] Change Password for Postgres (and maybe AWS) 
+   - [ ] Change Password for Postgres (and maybe AWS) [CURRENTLY-IN-PROGRESS]
    - [ ] update .gitignore
 
    Database:
