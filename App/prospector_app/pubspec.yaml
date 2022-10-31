@@ -1,0 +1,109 @@
+name: prospector_app
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.2 <3.0.0'
+  
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  auto_size_text: 3.0.0
+  cached_network_image: 3.2.1
+  emoji_flag_converter: 1.1.0
+  equatable: 2.0.3
+  expandable: 5.0.1
+  firebase_auth: 3.4.1
+  firebase_auth_platform_interface: 6.3.1
+  firebase_auth_web: 3.3.19
+  firebase_core: 1.19.1
+  firebase_core_platform_interface: 4.4.3
+  firebase_core_web: 1.6.6
+  flutter_facebook_auth:
+    git:
+      url: https://github.com/asmengistu/flutter-facebook-auth
+      ref: b65ffb049c9f1e2704adbeb1aa19c61693c946a5
+      path: facebook_auth
+  font_awesome_flutter: 10.1.0
+  google_fonts: 3.0.1
+  google_sign_in: 5.4.0
+  google_sign_in_android: 6.0.1
+  google_sign_in_ios: 5.4.0
+  google_sign_in_platform_interface: 2.2.0
+  google_sign_in_web: 0.10.2
+  intl: 0.17.0
+  json_path: 0.4.1
+  page_transition: 2.0.9
+  photo_view: 0.14.0
+  plugin_platform_interface: 2.1.2
+  rxdart: 0.27.4
+  shared_preferences: 2.0.15
+  sign_in_with_apple: 4.1.0
+  sign_in_with_apple_platform_interface: 1.0.0
+  sign_in_with_apple_web: 1.0.1
+  timeago: 3.2.2
+  url_launcher: 6.1.5
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.0
+  email_validator: ^2.1.17
+  syncfusion_flutter_datagrid: ^20.2.48
+  flutter_quill: ^6.0.0
+  flutter_acrylic: ^1.0.0+2
+  # bitsdojo_window: ^0.1.4
+  flutter_neumorphic: ^3.2.0
+  flutter_secure_storage: ^6.0.0
+  velocity_x: ^3.5.1
+  hive: 
+  hive_flutter: 
+  # msix: ^2.8.18
+  dio: ^4.0.6
+  open_file: ^3.2.1
+  file_picker: ^4.6.1
+  bitsdojo_window: ^0.1.2
+  process_run: ^0.12.3+2
+  workmanager: ^0.5.0
+
+
+dev_dependencies:
+  flutter_launcher_icons: 0.9.3
+  msix: ^2.8.18
+
+  flutter_test:
+    sdk: flutter
+
+
+flutter_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: 'assets/images/app_launcher_icon.png'
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/fonts/
+    - assets/images/
+    - assets/videos/
+    - assets/audios/
+    - assets/lottie_animations/
+    - assets/rive_animations/
+    - assets/pdfs/
