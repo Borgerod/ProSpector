@@ -18,7 +18,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{FD29FDEE-54B6-31EE-A5F1-17EE9827B9F9}</ProjectGuid>
+    <ProjectGuid>{C4AB3902-2CA6-39A2-A761-DE122C31C62A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -100,7 +100,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\CMakeFiles\df5b871404f6abdf77b2f68ae722ae16\INSTALL_force.rule">
+    <CustomBuild Include="C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\CMakeFiles\3d110a9e31c6185f4e1de80ee32a7305\INSTALL_force.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> </Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
 cd .
@@ -112,7 +112,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\plugins\flutter_secure_storage_windows\CMakeFiles\INSTALL_force</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\plugins\flutter_secure_storage_windows\CMakeFiles\INSTALL_force</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
       <Message Condition="'$(Configuration)|$(Platform)'=='Profile|x64'"> </Message>
@@ -126,7 +126,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\plugins\flutter_secure_storage_windows\CMakeFiles\INSTALL_force</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\plugins\flutter_secure_storage_windows\CMakeFiles\INSTALL_force</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">false</VerifyInputsAndOutputsExist>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'"> </Message>
@@ -140,20 +140,20 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\plugins\flutter_secure_storage_windows\CMakeFiles\INSTALL_force</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\plugins\flutter_secure_storage_windows\CMakeFiles\INSTALL_force</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</VerifyInputsAndOutputsExist>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\ZERO_CHECK.vcxproj">
-      <Project>{3FB2C156-5270-3429-915D-08C7DEE5EB5D}</Project>
+    <ProjectReference Include="C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\ZERO_CHECK.vcxproj">
+      <Project>{A8D4C616-D010-354E-8CA4-3544BE3C7ED3}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\plugins\flutter_secure_storage_windows\ALL_BUILD.vcxproj">
-      <Project>{D4E2A62F-73F9-3C38-98FD-66373B697107}</Project>
+    <ProjectReference Include="C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\plugins\flutter_secure_storage_windows\ALL_BUILD.vcxproj">
+      <Project>{51E490AA-F05F-3B6E-9306-060F7481A2CD}</Project>
       <Name>ALL_BUILD</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

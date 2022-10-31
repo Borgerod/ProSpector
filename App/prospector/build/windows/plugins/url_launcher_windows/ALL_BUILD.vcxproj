@@ -21,7 +21,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D4E2A62F-73F9-3C38-98FD-66373B697107}</ProjectGuid>
+    <ProjectGuid>{51E490AA-F05F-3B6E-9306-060F7481A2CD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -88,11 +88,11 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\windows\flutter\ephemeral\.plugin_symlinks\url_launcher_windows\windows\CMakeLists.txt">
+    <CustomBuild Include="C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\windows\flutter\ephemeral\.plugin_symlinks\url_launcher_windows\windows\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/windows" "-BC:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/build/windows" --check-stamp-file "C:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/build/windows/plugins/url_launcher_windows/CMakeFiles/generate.stamp"
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/windows" "-BC:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/build/windows" --check-stamp-file "C:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/build/windows/plugins/url_launcher_windows/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -101,11 +101,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\plugins\url_launcher_windows\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\plugins\url_launcher_windows\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Building Custom Rule C:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Building Custom Rule C:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/windows" "-BC:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/build/windows" --check-stamp-file "C:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/build/windows/plugins/url_launcher_windows/CMakeFiles/generate.stamp"
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/windows" "-BC:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/build/windows" --check-stamp-file "C:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/build/windows/plugins/url_launcher_windows/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -114,11 +114,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\plugins\url_launcher_windows\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\plugins\url_launcher_windows\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/windows" "-BC:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/build/windows" --check-stamp-file "C:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/build/windows/plugins/url_launcher_windows/CMakeFiles/generate.stamp"
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/windows" "-BC:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/build/windows" --check-stamp-file "C:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/build/windows/plugins/url_launcher_windows/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -127,21 +127,21 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\plugins\url_launcher_windows\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\plugins\url_launcher_windows\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\ZERO_CHECK.vcxproj">
-      <Project>{3FB2C156-5270-3429-915D-08C7DEE5EB5D}</Project>
+    <ProjectReference Include="C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\ZERO_CHECK.vcxproj">
+      <Project>{A8D4C616-D010-354E-8CA4-3544BE3C7ED3}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\plugins\url_launcher_windows\url_launcher_windows_plugin.vcxproj">
-      <Project>{290BA974-870C-3988-A618-97351A9FD6B3}</Project>
+    <ProjectReference Include="C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\plugins\url_launcher_windows\url_launcher_windows_plugin.vcxproj">
+      <Project>{B5EA7793-8BDA-389C-B0E8-46EBACEDD070}</Project>
       <Name>url_launcher_windows_plugin</Name>
     </ProjectReference>
   </ItemGroup>

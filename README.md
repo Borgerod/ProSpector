@@ -95,6 +95,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [ ] add Exeption handling for more precise exceptions, irt. signup-errors (all types of signup-errors are returned as 500 "Internal server error" )
    - [ ] reorganize fast_api_server; remove all the unnessasary folders. 
    - [X] re-Enable send EMAIL functionality
+   - [ ] Consider merging ./backend/SQL/ & ./fast_api_server/  ==> Will merge? [ ] yes or [ ] no
 
    Frontend:
    - [?] Add copy function to the call list table 

@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/windows/flutter
+# Install script for directory: C:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/windows/flutter
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

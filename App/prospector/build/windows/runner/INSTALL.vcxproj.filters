@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector\build\windows\CMakeFiles\f4493a04919ff513df1019abca3b3dd5\INSTALL_force.rule">
+    <CustomBuild Include="C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\CMakeFiles\ff908db96b3700f3b8ffd2be0153cb4a\INSTALL_force.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{AB8EBFB7-38AC-3F51-A61F-F81AC7AFD439}</UniqueIdentifier>
+      <UniqueIdentifier>{2CCFD324-540E-3C3D-BA7B-76D2E0BEB4D3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

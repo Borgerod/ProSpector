@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Big Daddy B/OneDrive/GitHub/Mediavest_Scraper_bot/App/prospector/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows
+# Install script for directory: C:/Users/Big Daddy B/GitHub/ProSpector/App/prospector/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
