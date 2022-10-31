@@ -1,12 +1,13 @@
-import os
-from fastapi import BackgroundTasks
-# from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
-from dotenv import load_dotenv
-import os
 from twilio.rest import Client
 import phonenumbers
 
-load_dotenv('.env')
+# Nessasary for importing config 
+import sys; sys.path.insert(0, '.')
+from virtual_env.config import Config
+
+
+
+
 
 class Input:
 	def __init__(self):
@@ -35,8 +36,9 @@ class Input:
 	
 class Verification:
 	def __init__(self) -> None:
-		self.account_sid = os.environ['TWILIO_ACCOUNT_SID']
-		self.auth_token = os.environ['TWILIO_AUTH_TOKEN']
+		config = Config.getPhoneConfig # Get Appropriate config variables 
+		self.account_sid: str = config["TWILIO_ACCOUNT_SID"]
+		self.auth_token: str = config['TWILIO_AUTH_TOKEN']
 		self.verify_sid = 'VA0af259d1f90eef02d4cfe86f45e64b8f'
 		self.client = None
 		self.phone_number = None
@@ -60,12 +62,6 @@ class Verification:
 		print(verification_check.status)
 		if verification_check.status == 'approved':
 			return True
-			# self.is_valid = True
-		
-
-	# @property
-	# def getValidation(self):
-	# 	return self.is_valid
 
 	def checkForCountryCode(self):
 		'''
