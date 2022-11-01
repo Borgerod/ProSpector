@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector\build\windows\CMakeFiles\ab36405fe0ca6756c33680dbaad09777\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{2CCFD324-540E-3C3D-BA7B-76D2E0BEB4D3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
