@@ -49,23 +49,12 @@ Locale createLocale(String language) => language.contains('_')
     : Locale(language);
 
 final kTranslationsMap = <Map<String, Map<String, String>>>[
-  //  FFLocalizations.of(context).getText('' /*  */);
-
-  // 'ib1c322a': {
-  //     'en':'',
-  //     'nb':'',
-  //   },
-
   // Notes
   {
     '8mdtm5jj': {
       'en': 'Notes',
       'nb': 'Notater',
     },
-    // 'tp7ux297': {
-    //   'en': '[Some hint text...]',
-    //   'nb': '',
-    // },
     'h2ktoqmf': {
       'en': 'Home',
       'nb': 'Hjem',
@@ -153,6 +142,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // Instructions
   {
     'rtlzy4ms': {
@@ -203,6 +193,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // About
   {
     'bp5npad7': {
@@ -290,6 +281,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // Settings
   {
     'tppwmwmy': {
@@ -321,6 +313,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // Feedback
   {
     'f86135rs': {
@@ -396,6 +389,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // Login
   {
     '3yvf9h73': {
@@ -431,8 +425,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
-  // Signup
 
+  // Signup
   {
     'in1c022c': {
       'en': 'Please enter the your phone number.',
@@ -541,6 +535,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // PhoneVerification
   {
     '3ebfpqc1': {
@@ -568,6 +563,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Vennligst prøv igjen',
     },
   },
+
   // AccountCreated
   {
     '3ebfpqcc': {
@@ -583,6 +579,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // LoginErrorMessage
   {
     'ugfxvysw': {
@@ -595,6 +592,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // ResetPassword
   {
     'mkjs1git': {
@@ -622,6 +620,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // ResetPasswordAuthentication
   {
     'pkchmen5': {
@@ -646,6 +645,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Hjem',
     },
   },
+
   // LightmodeSwitch
   {
     'x3lg0hnj': {
@@ -657,6 +657,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Bytt til LysModus',
     },
   },
+
   // MenuCopy
   {
     'c4xwrvgn': {
@@ -688,6 +689,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'TilbakeMelding',
     },
   },
+
   // CardSharp
   {
     'dvjziro1': {
@@ -715,6 +717,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Lagre',
     },
   },
+
   // Miscellaneous
   {
     'nluytlsa': {

@@ -12,17 +12,6 @@ def getCurrentCallList(db, user):
         assignNewList(db, user.id)
         current_list_info = getCurrentCallListInfo(db, user.id)
         return db.query(CallList).filter_by(liste_id = current_list_info.liste_id).all()
-        
-
-
-
-
-    # # print(current_list_info.liste_id)
-    # # for i in db.query(CallList)[current_list_info.liste_start:current_list_info.liste_limit]:
-    # #     print(i.navn)
-    # # return db.query(CallList)[current_list_info.liste_start:current_list_info.liste_limit]
-    # # return db.query(CallList).filter_by(liste_id = current_list_info.liste_id).all()
-
 
 def updateCurrentListStatus(db: Session, kunde_id: int):
     overview = db.query(CallListOverview).filter_by(kunde_id = str(kunde_id), er_ferdig = False).first()
@@ -35,7 +24,6 @@ def assignNewList(db: Session, kunde_id: int):
     newList.kunde_id = kunde_id
     newList.er_ledig = False
     db.commit() 
-    # return newList
 
 
 def checkIfCurrentLists(db: Session, kunde_id: int ):
@@ -45,8 +33,8 @@ def checkIfCurrentLists(db: Session, kunde_id: int ):
 def checkCurrentListStatus(db: Session, kunde_id: int ):
     current_list_info = getCurrentCallListInfo(db, kunde_id)
     overview = db.query(CallListOverview).filter_by(kunde_id = str(kunde_id), er_ferdig = False).first()
-    current_list = db.query(CallList)[overview.liste_start:overview.liste_limit]
-    # current_list = db.query(CallList).offset(current_list_info.liste_start).limit(current_list_info.liste_limit).all()
+    liste_id = overview.liste_id
+    current_list = db.query(CallList).filter_by(liste_id = str(liste_id)).all()
     all_unfinished = []
     for i in current_list:
         if i.ringe_status == False:
@@ -57,7 +45,6 @@ def getCurrentCallListInfo(db: Session, kunde_id: int):
     return db.query(CallListOverview).filter_by(kunde_id = str(kunde_id)).first()
 
 def updateCallListStatus(db: Session, org_num: int):
-
     callStatus = db.query(CallList).filter_by(org_num = org_num).first()
     if callStatus.ringe_status:
          callStatus.ringe_status = False

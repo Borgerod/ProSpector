@@ -122,7 +122,7 @@ class _RenewalDeniedWidgetState extends State<RenewalDeniedWidget> {
                                   EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                               child: Text(
                                 FFLocalizations.of(context).getText(
-                                    'x3f7fyl1' /*  Deniedproved, Please finish.. */),
+                                    'x3f7fyl2' /*  Denied, Please finish.. */),
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
                                     .subtitle1

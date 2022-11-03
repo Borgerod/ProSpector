@@ -37,16 +37,19 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
   }
 
   void createvbox() async {
-    var path = Directory.current.path;
-    Hive.init(path);
+    WidgetsFlutterBinding.ensureInitialized();
+    final directory = await getApplicationDocumentsDirectory();
+    Hive.init(directory.path);
+    // var path = Directory.current.path;
+    // Hive.init(path);
     vbox = await Hive.openBox('versions');
     getVersion();
   }
 
   void getVersion() async {
     if (vbox.get('current') != null) {
-      var path = Directory.current.path;
-      Hive.init(path);
+      // var path = Directory.current.path;
+      // Hive.init(path);
       currentVersion = vbox.get('current');
       setState(() {});
     }
@@ -98,8 +101,8 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
   }
 
   showUpdateDialog(Map<String, dynamic> versionJson) {
-    var path = Directory.current.path;
-    Hive.init(path);
+    // var path = Directory.current.path;
+    // Hive.init(path);
     final version = versionJson['version'];
     final updates = versionJson['description'] as List;
     return showDialog(
@@ -157,8 +160,8 @@ class _ShowUpdateDialogueState extends State<ShowUpdateDialogue> {
   }
 
   Future<void> _checkForUpdates() async {
-    var path = Directory.current.path;
-    Hive.init(path);
+    // var path = Directory.current.path;
+    // Hive.init(path);
     final jsonVal = await loadJsonFromGithub();
     debugPrint("Response: $jsonVal");
     showUpdateDialog(jsonVal);

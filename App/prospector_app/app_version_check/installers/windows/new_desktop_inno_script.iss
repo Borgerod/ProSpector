@@ -3,7 +3,7 @@
 
 #define MyAppName "ProSpector"
 #define MyAppVersion "0.9"
-#define MyAppPublisher "A.Borgerød"
+#define MyAppPublisher "A.Borgerï¿½d"
 #define MyAppExeName "prospector_app.exe"
 
 [Setup]
@@ -18,7 +18,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector_app\app_version_check\installers\windows
+OutputDir=C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector_app\app_version_check\installers\windows
 OutputBaseFilename=setup
 SetupIconFile=C:\Users\Big Daddy B\Downloads\setup.ico
 Compression=lzma
@@ -33,18 +33,18 @@ Name: "norwegian"; MessagesFile: "compiler:Languages\Norwegian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector_app\build\windows\runner\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector_app\build\windows\runner\Release\bitsdojo_window_windows_plugin.lib"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector_app\build\windows\runner\Release\flutter_acrylic_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector_app\build\windows\runner\Release\flutter_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector_app\build\windows\runner\Release\pasteboard_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector_app\build\windows\runner\Release\prospector_app.exp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector_app\build\windows\runner\Release\prospector_app.lib"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector_app\build\windows\runner\Release\url_launcher_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\App\prospector_app\build\windows\runner\Release\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\fast_api_server\*"; DestDir: "{app}\fast_api_server"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\virtual_env\*"; DestDir: "{app}\virtual_env"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Big Daddy B\OneDrive\GitHub\Mediavest_Scraper_bot\python_installer\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector_app\build\windows\runner\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector_app\build\windows\runner\Release\bitsdojo_window_windows_plugin.lib"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector_app\build\windows\runner\Release\flutter_acrylic_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector_app\build\windows\runner\Release\flutter_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector_app\build\windows\runner\Release\pasteboard_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector_app\build\windows\runner\Release\prospector_app.exp"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector_app\build\windows\runner\Release\prospector_app.lib"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector_app\build\windows\runner\Release\url_launcher_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\App\prospector_app\build\windows\runner\Release\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\fast_api_server\*"; DestDir: "{app}\fast_api_server"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\virtual_env\*"; DestDir: "{app}\virtual_env"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Big Daddy B\GitHub\ProSpector\python_installer\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

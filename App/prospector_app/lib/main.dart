@@ -14,11 +14,12 @@ import 'package:prospector_app/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector_app/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector_app/index.dart';
 import 'package:prospector_app/pages/loading_page.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
   await runServer();
-  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  WidgetsFlutterBinding.ensureInitialized();
   await FlutterFlowTheme.initialize();
   await Window.initialize();
   if (Platform.isWindows) {

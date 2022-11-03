@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
+import 'package:path_provider/path_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 
@@ -27,18 +27,23 @@ class _LoginWidgetState extends State<LoginWidget> {
   TextEditingController email = TextEditingController(); //* email-controller
   TextEditingController pass = TextEditingController(); //*  pass-controller
   bool isChecked = false; //*                                rememberMe
+
   late Box box1;
 
   @override
   void initState() {
     super.initState();
     passwordVisibility = false;
+
     createBox();
   }
 
   void createBox() async {
-    var path = Directory.current.path;
-    Hive.init(path);
+    WidgetsFlutterBinding.ensureInitialized();
+    final directory = await getApplicationDocumentsDirectory();
+    Hive.init(directory.path);
+    // var path = Directory.current.path;
+    // Hive.init(path);
     // creating the Hive-database
     // 'login_data' is what we call the database
     box1 = await Hive.openBox('login_data');
