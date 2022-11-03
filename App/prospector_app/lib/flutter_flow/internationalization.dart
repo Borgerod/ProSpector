@@ -88,6 +88,33 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Home',
       'nb': 'Hjem',
     },
+    'nydqnbi1': {
+      'en':
+          'A checklist of whether the business has been called or not, NB: You cannot update the list until all the businesses have been called.',
+      'nb':
+          'En sjekkliste på om virksomheten har blitt ringt eller ikke, NB: Du kan ikke oppdatere listen før alle virksomhetene har blitt ringt.',
+    },
+    'nydqnbi2': {
+      'en': 'Call Status',
+      'nb': 'Ringestatus',
+    },
+    'nydqnbi3': {
+      'en':
+          "Click the button to be redirected to the Business's google profile",
+      'nb': 'Trykk på knappen for å se bedriftens google-profil i nettleseren',
+    },
+    'nydqnbi4': {
+      'en': 'Profile Link',
+      'nb': 'Profillenke',
+    },
+    'ib1c3p22': {
+      'en': 'Business has no Url assinged to it.',
+      'nb': 'Bedriften er ikke tildelt en link.',
+    },
+    'ib1c3p24': {
+      'en': 'Could not Launch Url',
+      'nb': 'Kunne ikke åpne link',
+    },
   },
 
   // RenewList
@@ -325,11 +352,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Annet',
     },
     'jv4mmqyf': {
-      'en': 'What company do you represent?',
+      'en': 'What Business do you represent?',
       'nb': 'Hvilket selskap representerer du?',
     },
     '3gpxhhxw': {
-      'en': 'ExampleCompany AS',
+      'en': 'ExampleBusiness AS',
       'nb': 'EksempelBedrift AS',
     },
     'zewan5yy': {
@@ -437,7 +464,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nb': 'Fyll inn en gyldig epost',
     },
     'ibsc322a': {
-      'en': 'Unable to create account. \n Please make sure that ',
+      'en':
+          'Unable to create account. \nPlease make sure that the email, phone number, or username is not already used',
       'nb': 'Klarte ikke å opprette en konto',
     },
     'ibsc322b': {

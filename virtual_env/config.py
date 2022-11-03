@@ -17,13 +17,14 @@ class Config:
 		self.MAIL_FROM_NAME = os.environ["MAIL_SERVER"]
 		self.MAIL_USERNAME = os.environ["MAIL_USERNAME"]
 		self.MAIL_PASSWORD = os.environ["MAIL_PASSWORD"]
+		# self.MAIL_TSL = os.environ["MAIL_TSL"]
+		# self.MAIL_SSL = os.environ["MAIL_SSL"]
 		self.MAIL_TSL = os.environ["MAIL_TSL"]
 		self.MAIL_SSL = os.environ["MAIL_SSL"]
-		self.USE_CREDENTIALS = os.environ["USE_CREDENTIALS"]
-	
-		self.account_sid = os.environ['TWILIO_ACCOUNT_SID']
-		self.auth_token = os.environ['TWILIO_AUTH_TOKEN']
-		self.verify_sid = 'VA0af259d1f90eef02d4cfe86f45e64b8f'
+		self.USE_CREDENTIALS = os.environ["USE_CREDENTIALS"]	
+		self.TWILIO_ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
+		self.TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
+		self.VERIFY_SID = 'VA0af259d1f90eef02d4cfe86f45e64b8f'
 
 	@property
 	def getFullConfig(self):
@@ -32,9 +33,9 @@ class Config:
 	@property
 	def getPhoneConfig(self):
 		return {
-		"account_sid" : self.account_sid,
-		"auth_token" : self.auth_token,
-		"verify_sid" : self.verify_sid,
+		"TWILIO_ACCOUNT_SID" : self.TWILIO_ACCOUNT_SID,
+		"TWILIO_AUTH_TOKEN" : self.TWILIO_AUTH_TOKEN,
+		"VERIFY_SID" : self.VERIFY_SID,
 		}
 
 	@property
@@ -65,15 +66,6 @@ class Config:
 	
 load_dotenv()
 Config = Config()
-# print(Config.getPhoneConfig)
-# print(Config.getEmailConfig)
-# print(Config.getPostgresConfig)
 
-
-
-
-# if __name__ == "__main__":
-# 	load_dotenv()
-# 	Config = Config()
 
 

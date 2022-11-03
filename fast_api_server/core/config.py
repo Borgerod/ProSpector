@@ -14,12 +14,6 @@ class Settings:
     USE_SQLITE_DB: str = config["USE_SQLITE_DB"]
     POSTGRES_USER: str = config["POSTGRES_USER"]
     POSTGRES_PASSWORD = config["POSTGRES_PASSWORD"]
-    # POSTGRES_USER: str = "postgres" #> TEMP
-    # POSTGRES_USER: str = "mediavest" #> TEMP
-    # POSTGRES_PASSWORD = "Orikkel1991" #> TEMP
-    # POSTGRES_PASSWORD = "F%K6L51KXGXs" #> TEMP
-
-    
     POSTGRES_SERVER: str = config["POSTGRES_SERVER"]#, "localhost",
     POSTGRES_PORT: str = config["POSTGRES_PORT"]#, 5432,
       # default postgres port is 5432

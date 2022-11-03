@@ -12,16 +12,18 @@ import 'package:prospector_app/pages/login_page.dart';
 import 'package:prospector_app/popups/account_created_widget.dart';
 
 class PhoneVerificationWidget extends StatefulWidget {
-  const PhoneVerificationWidget({Key? key}) : super(key: key);
-
+  const PhoneVerificationWidget({Key? key, required this.verify_sid})
+      : super(key: key);
+  final String verify_sid;
   @override
   _PhoneVerificationWidgetState createState() =>
-      _PhoneVerificationWidgetState();
+      _PhoneVerificationWidgetState(verify_sid);
 }
 
 class _PhoneVerificationWidgetState extends State<PhoneVerificationWidget> {
+  _PhoneVerificationWidgetState(this.verify_sid);
   TextEditingController? verifyCodeController;
-
+  final String verify_sid;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -274,7 +276,8 @@ class _PhoneVerificationWidgetState extends State<PhoneVerificationWidget> {
                                 // });
                                 // print(body);
 
-                                postVerification(verifyCodeController, context);
+                                postVerification(
+                                    verify_sid, verifyCodeController, context);
 
                                 // await Navigator.pushAndRemoveUntil(
                                 //   context,
@@ -311,16 +314,21 @@ stripSpecialChar(phone_number) {
   ;
 }
 
-postVerification(verifyCodeController, BuildContext context) async {
+stripVerifySid(verify_sid) {
+  return verify_sid.replaceAll(new RegExp(r'[^\w\s]+'), '');
+}
+
+postVerification(verify_sid, verifyCodeController, BuildContext context) async {
   String phone_number = FFAppState().phoneNumber;
   String otp_code = verifyCodeController!.text;
   var phone_number_stripped = stripSpecialChar(phone_number);
+  var verify_sid_stripped = stripVerifySid(verify_sid);
   String link =
-      'http://127.0.0.1:8000/users/verification/phone/recieve_code?phone_number=%2B$phone_number_stripped&otp_code=$otp_code';
+      'http://127.0.0.1:8000/users/verification/phone/recieve_code?verify_sid=$verify_sid_stripped&phone_number=%2B$phone_number_stripped&otp_code=$otp_code';
   print(link);
   var response = await http.get(
-    Uri.parse(
-        'http://127.0.0.1:8000/users/verification/phone/recieve_code?phone_number=%2B$phone_number_stripped&otp_code=$otp_code'),
+    Uri.parse(link),
+    // 'http://127.0.0.1:8000/users/verification/phone/recieve_code?phone_number=%2B$phone_number_stripped&otp_code=$otp_code'),
     headers: {
       "accept": "application/json",
     },

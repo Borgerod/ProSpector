@@ -1,4 +1,4 @@
-setx POSTGRES_USER postgres /m
+setx POSTGRES_USER mediavest /m
 setx POSTGRES_PASSWORD "F%K6L51KXGXs" /m
 setx POSTGRES_SERVER prospector-user-api.cpjevlwuwfix.eu-west-2.rds.amazonaws.com /m
 setx POSTGRES_PORT 5432 /m
@@ -16,5 +16,3 @@ setx MAIL_SSL False /m
 setx USE_CREDENTIALS True /m
 setx TWILIO_ACCOUNT_SID AC2c22cfe2b414f1941eefb50c5a1649e5 /m
 setx TWILIO_AUTH_TOKEN 4b0e4a07643383388f2b031f91366ef2 /m
-
-pause

@@ -1,3 +1,5 @@
+// ignore_for_file: use_function_type_syntax_for_parameters
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -10,6 +12,7 @@ import 'package:prospector_app/components/home_button_widget.dart';
 import 'package:prospector_app/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector_app/flutter_flow/flutter_flow_util.dart';
 import 'package:prospector_app/globals.dart' as globals;
+import 'package:url_launcher/url_launcher.dart';
 
 class CallListWidget extends StatefulWidget {
   const CallListWidget({Key? key}) : super(key: key);
@@ -17,6 +20,10 @@ class CallListWidget extends StatefulWidget {
   @override
   _CallListWidgetState createState() => _CallListWidgetState();
 }
+
+// todo [ ] replace message string with: FFLocalizations.of(context).getText('nhdfcp17' /* something */,),
+
+//* ______ TABLE CONTAINER _____________________________________________________
 
 class _CallListWidgetState extends State<CallListWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -35,17 +42,18 @@ class _CallListWidgetState extends State<CallListWidget> {
           ),
         ),
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(30, 100, 30, 30),
+          padding: const EdgeInsetsDirectional.fromSTEB(30, 100, 30, 30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
                       child: Text(
                         FFLocalizations.of(context).getText(
                           'nhdfcp17' /* Call List */,
@@ -61,7 +69,7 @@ class _CallListWidgetState extends State<CallListWidget> {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
                   child: Container(
                       color: FlutterFlowTheme.of(context).cardColor,
                       child: JsonDataGrid()),
@@ -74,6 +82,7 @@ class _CallListWidgetState extends State<CallListWidget> {
     );
   }
 }
+//* ____________________________________________________________________________
 
 class JsonDataGrid extends StatefulWidget {
   @override
@@ -85,18 +94,23 @@ class _JsonDataGridState extends State<JsonDataGrid> {
   List<_Product> productlist = [];
   String accsess_token = globals.accsess_token;
   Future generateProductList() async {
-    Uri _url = Uri.parse('http://127.0.0.1:8000/currentcallList');
+    Uri url = Uri.parse('http://127.0.0.1:8000/currentcallList');
     var response = await http
-        .get(_url, headers: {'Cookie': 'access_token=Bearer $accsess_token'});
+        .get(url, headers: {'Cookie': 'access_token=Bearer $accsess_token'});
+
+    // print(response.body);
     var list = json
         .decode(utf8.decode(response.bodyBytes))
         .cast<Map<String, dynamic>>();
     productlist =
         await list.map<_Product>((json) => _Product.fromJson(json)).toList();
+
     jsonDataGridSource = _JsonDataGridSource(productlist);
+
     return productlist;
   }
 
+//* ______ COLUMN NAMES ________________________________________________________
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
     columns = ([
@@ -104,7 +118,7 @@ class _JsonDataGridState extends State<JsonDataGrid> {
           width: 120,
           columnName: 'Org Num.',
           label: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               alignment: Alignment.center,
               child: Tooltip(
                 message: 'virksomhetens organisasjons nummer',
@@ -116,7 +130,7 @@ class _JsonDataGridState extends State<JsonDataGrid> {
       GridColumn(
           columnName: 'Navn',
           label: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               alignment: Alignment.center,
               child: Tooltip(
                   message: 'Virksomhetens juridiske navn',
@@ -131,7 +145,7 @@ class _JsonDataGridState extends State<JsonDataGrid> {
           columnName: 'Google Profil',
           width: 120,
           label: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               alignment: Alignment.center,
               child: Tooltip(
                   message:
@@ -142,7 +156,7 @@ class _JsonDataGridState extends State<JsonDataGrid> {
           width: 120,
           columnName: 'Eier Bekreftet',
           label: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               alignment: Alignment.center,
               child: Tooltip(
                   message:
@@ -155,7 +169,7 @@ class _JsonDataGridState extends State<JsonDataGrid> {
           width: 120,
           columnName: 'Komplett Profil',
           label: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               alignment: Alignment.center,
               child: Tooltip(
                   message:
@@ -164,23 +178,51 @@ class _JsonDataGridState extends State<JsonDataGrid> {
                     'Komplett Profil',
                     style: Theme.of(context).textTheme.bodyText1,
                   )))),
+
       GridColumn(
           width: 120,
           columnName: 'Ringestatus',
           label: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             alignment: Alignment.center,
             child: Tooltip(
-                message:
-                    'En sjekkliste på om virksomheten har blitt ringt eller ikke, NB: Du kan ikke oppdatere listen før alle virksomhetene har blitt ringt.',
+                message: FFLocalizations.of(context).getText(
+                  'nydqnbi1' /* Ringestatus description */,
+                ),
                 child: Text(
-                  'Ringestatus',
+                  FFLocalizations.of(context).getText(
+                    'nydqnbi2' /* Ringestatus title */,
+                  ),
+                  // 'Ringestatus',
                   style: Theme.of(context).textTheme.bodyText1,
                 )),
           )),
+      //> _____ NEW: URL BUTTON ____________________________________________
+
+      GridColumn(
+          width: 120,
+          columnName: 'Profile Link',
+          label: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            alignment: Alignment.center,
+            child: Tooltip(
+                message: FFLocalizations.of(context).getText(
+                  'nydqnbi3' /* Profile Link description */,
+                ),
+
+                // 'En sjekkliste på om virksomheten har blitt ringt eller ikke, NB: Du kan ikke oppdatere listen før alle virksomhetene har blitt ringt.',
+                child: Text(
+                  FFLocalizations.of(context).getText(
+                    'nydqnbi4' /* Profile Link title */,
+                  ),
+                  style: Theme.of(context).textTheme.bodyText1,
+                )),
+          )),
+      //> __________________________________________________________________
     ]);
     return columns;
   }
+//* ____________________________________________________________________________
 
   @override
   void initState() {
@@ -209,16 +251,19 @@ class _JsonDataGridState extends State<JsonDataGrid> {
   }
 }
 
+//* ______ ROW DATA FACTORY ____________________________________________________
 class _Product {
   factory _Product.fromJson(Map<String, dynamic> json) {
     return _Product(
-        orgNum: json['org_num'],
-        navn: json['navn'],
-        googleProfil: json['google_profil'],
-        eierBekreftet: json['eier_bekreftet'],
-        komplettProfil: json['komplett_profil'],
-        ringeStatus: json['ringe_status'],
-        liste_id: json['liste_id']);
+      orgNum: json['org_num'],
+      navn: json['navn'],
+      googleProfil: json['google_profil'],
+      eierBekreftet: json['eier_bekreftet'],
+      komplettProfil: json['komplett_profil'],
+      ringeStatus: json['ringe_status'],
+      liste_id: json['liste_id'],
+      link_til_profil: json['link_til_profil'], //> NEW
+    );
   }
   _Product({
     this.orgNum,
@@ -228,6 +273,7 @@ class _Product {
     this.komplettProfil,
     this.ringeStatus,
     this.liste_id,
+    this.link_til_profil, //> NEW
   });
 
   int? orgNum;
@@ -236,10 +282,20 @@ class _Product {
   bool? eierBekreftet;
   bool? komplettProfil;
   bool? ringeStatus;
-  int? liste_id;
+  // int? liste_id;
+  double? liste_id;
+  String? link_til_profil; //> NEW
 }
+//* ____________________________________________________________________________
+
+//* ______ ROW DATA  ___________________________________________________________
 
 class _JsonDataGridSource extends DataGridSource {
+  // BuildContext context;
+  // late BuildContext context;
+  // = context;
+  // var context;
+
   _JsonDataGridSource(this.productlist) {
     buildDataGridRow();
   }
@@ -262,8 +318,13 @@ class _JsonDataGridSource extends DataGridSource {
             DataGridCell<bool>(
                 columnName: 'Komplett Profil',
                 value: dataGridRow.komplettProfil),
+
             DataGridCell(
                 columnName: 'Ringestatus', value: dataGridRow.ringeStatus),
+            DataGridCell(
+                columnName: 'Profile Link', //> NEW
+                // value: dataGridRow.link_til_profil), //> NEW
+                value: dataGridRow.link_til_profil), // TEMP
           ],
         );
       },
@@ -279,34 +340,35 @@ class _JsonDataGridSource extends DataGridSource {
       cells: [
         Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(row.getCells()[0].value.toString()),
         ),
         Container(
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(row.getCells()[1].value),
         ),
         Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(row.getCells()[2].value.toString()),
         ),
         Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(row.getCells()[3].value.toString()),
         ),
         Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(row.getCells()[4].value.toString()),
         ),
+
         Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Checkbox(
-            activeColor: Color.fromRGBO(30, 167, 169, 1),
+            activeColor: const Color.fromRGBO(30, 167, 169, 1),
             // activeColor: Color(0xFF48B892),
             value: row.getCells()[5].value,
             onChanged: (value) {
@@ -320,13 +382,88 @@ class _JsonDataGridSource extends DataGridSource {
                   rowColumnIndex: RowColumnIndex(index, 5));
             },
           ),
-        )
+        ),
+        //> _____ NEW: URL BUTTON CONTAINER ____________________________________
+        Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: OutlinedButton(
+            onPressed: () async {
+              // String url = row.getCells()[0].value; //> might use this
+              // Opens url to the company's google profile, url will vary.
+              String link_til_profil = row.getCells()[6].value;
+              // "https://www.google.com/search?q=mediavest+AS+maps&ei=gOZgY-mZCoqHxc8Poaij4AY&ved=0ahUKEwjp2aSp1Yz7AhWKQ_EDHSHUCGwQ4dUDCA8&uact=5&oq=mediavest+AS+maps&gs_lp=Egxnd3Mtd2l6LXNlcnC4AQP4AQFIlglQ_ANY4gdwAXgAyAEAkAEAmAGBAaABxQKqAQMyLjHiAwQgQRgB4gMEIEYYAIgGAQ&sclient=gws-wiz-serp";
+              // row.getCells()[6].value.toString();
+
+              http.put(Uri.parse(link_til_profil));
+
+              if (!await launchUrl(Uri.parse(link_til_profil))) {
+                if (link_til_profil.isEmpty) {
+                  // noUrlErrorMessage(context);
+                  throw 'Error: ${row.getCells()[1].value} has no Url assinged to it.';
+                }
+                // couldNotLaunchErrorMessage(context);
+                throw 'Error: Could not launch $link_til_profil'; //todo replace with getText
+              }
+            },
+            child: Text(
+              "Link",
+              // style: TextStyle(color: Color.fromRGBO(30, 167, 169, 1)),
+            ),
+          ),
+        ),
+
+        //> __________________________________________________________________
       ],
     );
   }
+//* ____________________________________________________________________________
+
+//> NEW:  ERROR MESSAGES
+  // void noUrlErrorMessage(context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           backgroundColor: Color(0x00353E49),
+  //           title: Text(
+  //             FFLocalizations.of(context).getText(
+  //               'ib1c3p2a' /* No url  */,
+  //             ),
+  // style: FlutterFlowTheme.of(context).bodyText1.override(
+  //       fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+  //       color: Colors.white,
+  //     ),
+  //           ),
+  //         );
+  //       },
+  //   );
+  // }
+  // void couldNotLaunchErrorMessage(context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           backgroundColor: Color(0x00353E49),
+  //           title: "Error!",
+  //           : Text(
+  //             FFLocalizations.of(context).getText(
+  //               'ib1c3p22' /* Could not Launch  */,
+  //             ),
+  //             style: FlutterFlowTheme.of(context).bodyText1.override(
+  //                   fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+  //                   color: Colors.white,
+  //                 ),
+  //           ),
+  //         );
+  //       },
+  //   );
+  // }
 }
 
 class SwitchWidget extends StatefulWidget {
+  const SwitchWidget({super.key});
+
   @override
   SwitchWidgetState createState() => SwitchWidgetState();
 }

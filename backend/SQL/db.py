@@ -53,8 +53,9 @@ class CallList(base):
 	eier_bekreftet = Column(Boolean(), index=True)
 	komplett_profil = Column(Boolean(), index=True)
 	ringe_status = Column(Boolean(), index=True)
+	link_til_profil = Column(String, index=True)
   
-	def __init__(self, org_num, navn, google_profil, eier_bekreftet, komplett_profil, ringe_status) -> None:
+	def __init__(self, org_num, navn, google_profil, eier_bekreftet, komplett_profil, ringe_status, link_til_profil) -> None:
 		# super().__init__(*args, **kwargs)
 		self.org_num = org_num
 		self.navn = navn
@@ -62,6 +63,7 @@ class CallList(base):
 		self.eier_bekreftet = eier_bekreftet
 		self.komplett_profil = komplett_profil
 		self.ringe_status = ringe_status
+		self.link_til_profil = link_til_profil 
 		# self.liste_id = ringe_status
 
 base.metadata.create_all(engine)

@@ -51,19 +51,20 @@ extension InterfaceBrightnessExtension on InterfaceBrightness {
 class MenuWidgetState extends State<MenuWidget> {
   bool toggle = false;
   WindowEffect effect = WindowEffect.aero;
-  Color color = Color(0xCC222222);
+  Color color = const Color(0xCC222222);
   InterfaceBrightness brightness = InterfaceBrightness.dark;
 
   @override
   void initState() {
     super.initState();
     setBrightness(brightness);
-    this.setWindowEffect(this.effect);
+    setWindowEffect(effect);
+    // this.setWindowEffect(this.effect);
     if (Platform.isWindows) {
       doWhenWindowReady(() {
         appWindow
-          ..minSize = Size(1050, 650)
-          ..size = Size(1450, 750)
+          ..minSize = const Size(1050, 650)
+          ..size = const Size(1450, 750)
           ..alignment = Alignment.center
           ..show();
       });
@@ -73,7 +74,8 @@ class MenuWidgetState extends State<MenuWidget> {
   void setWindowEffect(WindowEffect? value) {
     Window.setEffect(
       effect: value!,
-      color: this.color,
+      // color: this.color,
+      color: color,
       dark: brightness == InterfaceBrightness.dark,
     );
     if (Platform.isMacOS) {
@@ -82,7 +84,8 @@ class MenuWidgetState extends State<MenuWidget> {
             dark: brightness == InterfaceBrightness.dark);
       }
     }
-    this.setState(() => this.effect = value);
+    setState(() => effect = value);
+    // this.setState(() => this.effect = value);
   }
 
   void setBrightness(InterfaceBrightness brightness) {
@@ -90,15 +93,16 @@ class MenuWidgetState extends State<MenuWidget> {
     final theme = FlutterFlowTheme.themeMode;
     if (theme == ThemeMode.dark) {
       brightness = InterfaceBrightness.dark;
-      color = Color(0xCC222222);
+      color = const Color(0xCC222222);
     } else {
       color = Platform.isWindows
-          ? color = Color.fromARGB(120, 255, 255, 255)
+          ? color = const Color.fromARGB(120, 255, 255, 255)
           : Colors.transparent;
 
       brightness = InterfaceBrightness.light;
     }
-    this.setWindowEffect(this.effect);
+    setWindowEffect(effect);
+    // this.setWindowEffect(this.effect);
   }
 
   final routes = [
@@ -144,11 +148,12 @@ class MenuWidgetState extends State<MenuWidget> {
                 children: [
                   if (Theme.of(context).brightness == Brightness.light)
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(30, 0, 20, 20),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 20),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height * 0.1,
-                        decoration: BoxDecoration(),
+                        decoration: const BoxDecoration(),
                         child: Image.asset(
                           'assets/images/logo_text_small[lightmode].png',
                           width: MediaQuery.of(context).size.width,
@@ -159,11 +164,12 @@ class MenuWidgetState extends State<MenuWidget> {
                     ),
                   if (Theme.of(context).brightness == Brightness.dark)
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(30, 0, 20, 20),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 20),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height * 0.1,
-                        decoration: BoxDecoration(),
+                        decoration: const BoxDecoration(),
                         child: Visibility(
                           visible:
                               Theme.of(context).brightness == Brightness.dark,
@@ -177,7 +183,7 @@ class MenuWidgetState extends State<MenuWidget> {
                       ),
                     ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                     child: Column(
                       children: <Widget>[
                         for (final pair in zip([listIcons, routes]))
@@ -226,7 +232,7 @@ class MenuWidgetState extends State<MenuWidget> {
                             Navigator.of(context).push(PageRouteBuilder(
                                 opaque: false,
                                 pageBuilder: (BuildContext context, _, __) =>
-                                    RenewListWidget()));
+                                    const RenewListWidget()));
                           },
                         ),
                         ListTile(
@@ -277,7 +283,7 @@ class MenuWidgetState extends State<MenuWidget> {
                               PageRouteBuilder(
                                 opaque: false,
                                 pageBuilder: (BuildContext context, _, __) =>
-                                    AboutWidget(),
+                                    const AboutWidget(),
                               ),
                             );
                           },
@@ -306,7 +312,7 @@ class MenuWidgetState extends State<MenuWidget> {
                               PageRouteBuilder(
                                 opaque: false,
                                 pageBuilder: (BuildContext context, _, __) =>
-                                    SettingsWidget(),
+                                    const SettingsWidget(),
                               ),
                             );
                           },
@@ -335,7 +341,7 @@ class MenuWidgetState extends State<MenuWidget> {
                               PageRouteBuilder(
                                 opaque: false,
                                 pageBuilder: (BuildContext context, _, __) =>
-                                    FeedbackWidget(),
+                                    const FeedbackWidget(),
                               ),
                             );
                           },
@@ -345,9 +351,9 @@ class MenuWidgetState extends State<MenuWidget> {
                   ),
                 ],
               ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              const Spacer(),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Divider(),
               ),
               Padding(
@@ -388,13 +394,13 @@ class MenuWidgetState extends State<MenuWidget> {
                         child: IconButton(
                           padding: EdgeInsets.zero,
                           iconSize: 20,
-                          visualDensity: VisualDensity(),
+                          visualDensity: const VisualDensity(),
                           splashRadius: 1,
                           icon: toggle
-                              ? Icon(
+                              ? const Icon(
                                   Icons.dark_mode_sharp,
                                 )
-                              : Icon(
+                              : const Icon(
                                   Icons.light_mode_sharp,
                                 ),
                           onPressed: () => setState(
@@ -406,7 +412,7 @@ class MenuWidgetState extends State<MenuWidget> {
                               } else {
                                 setDarkModeSetting(context, ThemeMode.light);
                               }
-                              sleep(Duration(milliseconds: 200));
+                              sleep(const Duration(milliseconds: 200));
                               setBrightness(
                                 brightness == InterfaceBrightness.dark
                                     ? InterfaceBrightness.light
@@ -432,7 +438,7 @@ class MenuWidgetState extends State<MenuWidget> {
           child: Container(
             decoration: BoxDecoration(
               boxShadow: [
-                BoxShadow(
+                const BoxShadow(
                   blurRadius: 10,
                   color: Color(0x33000000),
                   offset: Offset(-10, 0),
@@ -505,14 +511,14 @@ class MenuWidgetState extends State<MenuWidget> {
 _getBodyWidget(name) {
   switch (name) {
     case 'Instructions':
-      return InstructionsWidget();
+      return const InstructionsWidget();
     case 'View Call List':
-      return CallListWidget();
+      return const CallListWidget();
     case 'Notes':
-      return NotesWidget();
+      return const NotesWidget();
     case 'HomeView':
-      return HomeView();
+      return const HomeView();
     default:
-      return HomeView();
+      return const HomeView();
   }
 }

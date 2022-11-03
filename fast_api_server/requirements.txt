@@ -47,3 +47,5 @@ seedir
 
 #other
 psycopg2
+twilio
+phonenumbers

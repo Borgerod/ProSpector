@@ -6,9 +6,6 @@ import sys; sys.path.insert(0, '.')
 from virtual_env.config import Config
 
 
-
-
-
 class Input:
 	def __init__(self):
 		self.otp_code = None
@@ -39,25 +36,31 @@ class Verification:
 		config = Config.getPhoneConfig # Get Appropriate config variables 
 		self.account_sid: str = config["TWILIO_ACCOUNT_SID"]
 		self.auth_token: str = config['TWILIO_AUTH_TOKEN']
-		self.verify_sid = 'VA0af259d1f90eef02d4cfe86f45e64b8f'
 		self.client = None
+		self.verify_sid = None
 		self.phone_number = None
 		self.otp_code = None
 		self.is_valid = False
-		
+
+	def gen_service(self):
+		self.service = self.client.verify.v2.services.create(friendly_name='ProSpector Verification')
+		self.verify_sid = self.service.sid
+
 	def getClient(self):
 		self.client = Client(self.account_sid, self.auth_token)
+
 
 	def sendVerificationSMS(self):
 		verification = self.client.verify.services(
 			self.verify_sid
 		).verifications.create(to=self.phone_number, channel='sms')
 		print(verification.status)
+		return self.verify_sid
 	
-	async def checkVerificationCode(self, otp_code:str, phone_number:str):
+	async def checkVerificationCode(self, verify_sid:str, otp_code:str, phone_number:str):
 		self.getClient()
 		verification_check = self.client.verify.services(
-			self.verify_sid
+			verify_sid
 			).verification_checks.create(to=phone_number, code=otp_code)
 		print(verification_check.status)
 		if verification_check.status == 'approved':
@@ -80,32 +83,13 @@ class Verification:
 		self.phone_number = phone_number
 		self.checkForCountryCode()
 		self.getClient()
+		self.gen_service()
 		self.sendVerificationSMS() 
-		
-		
-		#! OLD: check verification call 
-		# self.otp_code = user_input.request_otp_code
-		# self.checkVerificationCode()
-		# if self.getValidation:
-		# 	allowingAcsess()
+		return self.verify_sid
 
-
-
-def allowingAcsess():
-	'''
-			placeholder
-	'''
-	print("Accsess allowed --> creating account")
-
-# otp_code:str
-
-# async def send_sms_async(sms_to:str):
-# 	await Verification().requestVerification(phone_number = sms_to)
+async def send_sms_async(sms_to:str):
+	await Verification().requestVerification(phone_number = sms_to)
 	 
-# async def recieve_otp_code_async(sms_to:str, otp_code:str):
-# 	return await Verification().checkVerificationCode(otp_code)
-
-
 '''
 for sms:
 http://127.0.0.1:8000//verification/phone/send_verification?sms_to=$phone_number

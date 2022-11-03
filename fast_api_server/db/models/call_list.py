@@ -11,6 +11,7 @@ class CallList(Base):
 	komplett_profil = Column(Boolean(), index=True)
 	ringe_status = Column(Boolean(), index=True)
 	liste_id = Column(Integer, index=True)
+	link_til_profil = Column(String, index=True)
 
 class CallListOverview(Base):
 	__tablename__ = "call_list_overview_mediavest"

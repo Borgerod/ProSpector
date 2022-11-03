@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -35,6 +37,8 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   void createBox() async {
+    var path = Directory.current.path;
+    Hive.init(path);
     // creating the Hive-database
     // 'login_data' is what we call the database
     box1 = await Hive.openBox('login_data');

@@ -33,6 +33,7 @@ def updateCurrentListStatus(db: Session, kunde_id: int):
 def assignNewList(db: Session, kunde_id: int):
     newList = db.query(CallListOverview).filter_by(er_ledig = True, er_ferdig = False).first()
     newList.kunde_id = kunde_id
+    newList.er_ledig = False
     db.commit() 
     # return newList
 

@@ -12,6 +12,3 @@ call RefreshEnv.cmd
 rem --Use python, pip
 python -m venv env
 pip install -r api_server\server_backend\fast_api_server\backend\requirements.txt
-#python manage.py runserver
-
-#pause

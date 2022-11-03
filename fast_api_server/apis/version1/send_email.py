@@ -11,16 +11,27 @@ class Envs:
 		MAIL_PORT = int(config['MAIL_PORT'])
 		MAIL_SERVER = config['MAIL_SERVER']
 		MAIL_FROM_NAME = config['MAIL_FROM_NAME']
-
-conf = ConnectionConfig(
+try:
+	conf = ConnectionConfig(
+			MAIL_USERNAME=Envs.MAIL_USERNAME,
+			MAIL_PASSWORD=Envs.MAIL_PASSWORD,
+			MAIL_FROM=Envs.MAIL_FROM,
+			MAIL_PORT=Envs.MAIL_PORT,
+			MAIL_SERVER=Envs.MAIL_SERVER,
+			MAIL_FROM_NAME=Envs.MAIL_FROM_NAME,
+			MAIL_STARTTLS = True, #! sometimes fastapi_mail requires this, sometimes the other 
+			MAIL_SSL_TLS = False, #! sometimes fastapi_mail requires this, sometimes the other 
+			USE_CREDENTIALS = True,
+			VALIDATE_CERTS = True
+	)
+except:
+	ConnectionConfig(
 		MAIL_USERNAME=Envs.MAIL_USERNAME,
 		MAIL_PASSWORD=Envs.MAIL_PASSWORD,
 		MAIL_FROM=Envs.MAIL_FROM,
 		MAIL_PORT=Envs.MAIL_PORT,
 		MAIL_SERVER=Envs.MAIL_SERVER,
 		MAIL_FROM_NAME=Envs.MAIL_FROM_NAME,
-		# MAIL_STARTTLS = True, #! sometimes fastapi_mail requires this, sometimes the other 
-		# MAIL_SSL_TLS = False, #! sometimes fastapi_mail requires this, sometimes the other 
 		MAIL_TLS=True,          #* sometimes fastapi_mail requires this, sometimes the other 
 		MAIL_SSL=False,         #* sometimes fastapi_mail requires this, sometimes the other 
 		USE_CREDENTIALS = True,

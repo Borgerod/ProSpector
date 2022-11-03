@@ -12,18 +12,22 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:prospector_app/flutter_flow/internationalization.dart';
 import 'package:prospector_app/flutter_flow/flutter_flow_theme.dart';
 import 'package:prospector_app/flutter_flow/flutter_flow_util.dart';
-import 'package:prospector_app/pages/loading_page.dart';
 import 'package:prospector_app/index.dart';
-import 'package:prospector_app/test_page.dart';
+import 'package:prospector_app/pages/loading_page.dart';
 
 Future<void> main() async {
   await runServer();
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await FlutterFlowTheme.initialize();
   await Window.initialize();
   if (Platform.isWindows) {
     await Window.hideWindowControls();
   }
+  // initDocs() async {
+  //   final appDocsDir = await getApplicationDocumentsDirectory();
+  //   Hive.init(appDocsDir.path);
+  // }
 
   WidgetsFlutterBinding.ensureInitialized();
   FFAppState();
@@ -34,8 +38,8 @@ Future<void> main() async {
       appWindow
         // // ..minSize = Size(640, 360)
         // // ..size = Size(720, 540)
-        ..minSize = Size(954, 580)
-        ..size = Size(954, 580)
+        ..minSize = const Size(954, 580)
+        ..size = const Size(954, 580)
         // ..minSize = Size(954, 650)
         // ..size = Size(954, 650)
         ..alignment = Alignment.center
@@ -81,7 +85,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     Future.delayed(
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
       () => setState(() => displaySplashImage = false),
     );
   }
@@ -98,38 +102,38 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Prospector',
-        localizationsDelegates: [
-          FFLocalizationsDelegate(),
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        locale: _locale,
-        supportedLocales: const [
-          Locale('en'),
-          Locale('nb'),
-        ],
-        theme: ThemeData(brightness: Brightness.light),
-        darkTheme: ThemeData(brightness: Brightness.dark),
-        themeMode: _themeMode,
-        home: TestPage()
-
-        // FutureBuilder(
-        //   future: _processingData(),
-        //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return LoadingScreen();
-        //     } else {
-        //       return const LoginWidget();
-        //     }
-        //   },
-        // ),
-        );
+      debugShowCheckedModeBanner: false,
+      title: 'Prospector',
+      localizationsDelegates: const [
+        FFLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      locale: _locale,
+      supportedLocales: const [
+        Locale('en'),
+        Locale('nb'),
+      ],
+      theme: ThemeData(brightness: Brightness.light),
+      darkTheme: ThemeData(brightness: Brightness.dark),
+      themeMode: _themeMode,
+      home: FutureBuilder(
+        future: _processingData(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingScreen();
+          } else {
+            return const LoginWidget();
+          }
+        },
+      ),
+    );
   }
 
   Future _processingData() {
-    return new Future.delayed(const Duration(seconds: 5), () => 1);
+    // return new Future.delayed(const Duration(seconds: 5), () => 1);
+    //> removed unnessasary "new" keyword
+    return Future.delayed(const Duration(seconds: 5), () => 1);
   }
 }
