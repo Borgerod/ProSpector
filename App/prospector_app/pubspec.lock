@@ -524,6 +524,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.9"
+  flutter_secure_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_platform_interface
+      sha256: "9af003dec5ba9f959300fd76ac8adf5608fbfbc957cdd7a987af206a8e073b32"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  flutter_secure_storage_web:
+    dependency: "direct main"
+    description:
+      name: flutter_secure_storage_web
+      sha256: "926716d84eb45220cb1783af629093301613f5e5b51da7c1813e430d69bd716f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter

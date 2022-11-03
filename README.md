@@ -69,6 +69,16 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [ ] Change Password for Postgres (and maybe AWS) [CURRENTLY-IN-PROGRESS]
    - [ ] update .gitignore
 
+
+   UPDATE FROM TEST:
+   - [ ] Fix gmail account -- error messages (fortell google at det er en bot og det IKKE er suspisios activity)
+   - [ ] Til google extractor --> legg til adresse og poststed i google søket istedenfor maps. 
+   - [ ] Fjerne utlandske bedrifter
+   - [ ] Mål oppdatere listen annen hver uke (helst hver uke) (optimaliser listen)
+   - [ ] VIL ikke oppdatere listen 
+        - får også melding om godkjent, listebytte når den ikke skal det.
+   - [ ] Mulig feil med data extraction, mulig noen av dem ikke har google profil. (eller har hatt når der ble scrapet) eks. odds medsbu dødsbo  
+
    Database:
    - [ ] Remove prospects in "call_list" that has [true, true, true]
    - [ ] Reset liste_id 

@@ -86,6 +86,7 @@ dependencies:
   workmanager: ^0.5.0
   path: 
   http:
+  flutter_secure_storage_web: ^1.0.2
 
 dev_dependencies:
   flutter_launcher_icons: 0.9.3
