@@ -1,6 +1,3 @@
-# from tutorial: https://www.youtube.com/watch?v=NuDSWGOcvtg&ab_channel=DATAnnosaurus
-
-
 from sqlalchemy import  create_engine, Column, String, Integer, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
