@@ -40,13 +40,41 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 ![about](https://user-images.githubusercontent.com/97392841/196432168-89580045-b235-4ffe-80a5-54caaa37da55.JPG)
 
 
-## TODO
+# GLOSSARY
+| **Term** |      **Definition**      |
+|:--------:|:------------------------:|
+| 2C4E     | Too crude for Efficiency |
+|          |                          |
+|          |                          |
+
+# TODO
+<br>
 
 
-#### POST CLIENT-MEETING TODO:
+### CURRENT PROGRESS for todo tasks: 
+------------------------------------------------------------------------
 
-   Overall: 
-   - [X] rename /Mediavest_Scraper_bot/ to /ProSpector/ 
+   **Task 1. Address-Implemention for GoogleExtractor**
+
+   | No. | Progress                                                       
+   |:---:|:----------------------------:|
+   | 1   | added addresses to brreg_table 
+   <!-- | 2   | added addresses to input_table -->
+   <!-- | 3   | Optimize SQL functions in postgres.py   -->
+   <!-- | 4   | add address implementation to Google Extractor  -->
+   <!-- | 5   | remove unnessasary code from search tree      -->
+
+
+------------------------------------------------------------------------
+
+<br><br><br>
+
+
+
+### POST CLIENT-MEETING TODO:
+------------------------------------------------------------------------
+   ### Overall: 
+   - [x] rename /Mediavest_Scraper_bot/ to /ProSpector/ 
    - [ ] Reform / reorganize directory; \n NOTE: every path-reference is relative to (root) /prospector/ so: "./" means "/prospector/"
          - 
          - move fast_api_server to /prospector/ or ./backend/
@@ -69,8 +97,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [ ] Change Password for Postgres (and maybe AWS) [CURRENTLY-IN-PROGRESS]
    - [ ] update .gitignore
 
-
-   UPDATE FROM TEST:
+   ### UPDATE FROM TEST:
    - [ ] Fix gmail account -- error messages (fortell google at det er en bot og det IKKE er suspisios activity)
    - [ ] Til google extractor --> legg til adresse og poststed i google søket istedenfor maps. 
    - [ ] Fjerne utlandske bedrifter
@@ -79,97 +106,103 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
         - får også melding om godkjent, listebytte når den ikke skal det.
    - [ ] Mulig feil med data extraction, mulig noen av dem ikke har google profil. (eller har hatt når der ble scrapet) eks. odds medsbu dødsbo  
 
-   Database:
+   ### Database:
    - [ ] Remove prospects in "call_list" that has [true, true, true]
    - [ ] Reset liste_id 
    - [ ] add phone_numbers to your user database
 
-   Backend-Extractor:
-   - [X] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
+   ### Backend-Extractor:
+   - [x] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
       - [ ] add tag on input_list from BRREG: "if Organisasjonsform == "Norskregistrert utenlandsk foretak": check & confirm org_num"
-   - [X] Add function that detects googles "search-suggestion", parse & extract
+   - [x] Add function that detects googles "search-suggestion", parse & extract
    - [ ] replace "replace if row exsist" function with an update function
-   - [X] make phone_verification-backend 
-   - [X] integrate phone_verification-backend to fast-api-server
-   - [X] make sure if you need an if statement to restrict to one account pr phone number 
+   - [x] make phone_verification-backend 
+   - [x] integrate phone_verification-backend to fast-api-server
+   - [x] make sure if you need an if statement to restrict to one account pr phone number 
    - [ ] add daily quotas
+   - [ ] implement adresses to input_table & brreg_table to be used by GoogleExtractor [see CURRENT PROGRESS (1)]
+   - [ ] Reform SQL structure in postgres.py --> Status Quo: 2C4E (too crude for efficiancy)
 
-     Extractor Optimization:
+     ### Extractor Optimization:
       ''' Use practises from "clean code" to optimize and objectify the code
-       - [X] Refine Extractor in Google.py
+       - [x] Refine Extractor in Google.py
        - [ ] Refine Extractor in gulesider.py
        - [ ] Refine Extractor in proff.py
        - [ ] Refine Extractor in 1881.py
    
-   Backend-Server:
+   ### Backend-Server:
    - [ ] add Exeption handling for more precise exceptions, irt. signup-errors (all types of signup-errors are returned as 500 "Internal server error" )
    - [ ] reorganize fast_api_server; remove all the unnessasary folders. 
-   - [X] re-Enable send EMAIL functionality
+   - [x] re-Enable send EMAIL functionality
    - [ ] Consider merging ./backend/SQL/ & ./fast_api_server/  ==> Will merge? [ ] yes or [ ] no
+    
 
-   Frontend:
+   ### Frontend:
    - [?] Add copy function to the call list table 
-   - [X] add phone_verification to your app 
+   - [x] add phone_verification to your app 
    - [ ] Implement the specific Exception handling from "todo: Backend-Server"
 
-   bugs:
+   ### bugs:
    - [1] : 
    - [2] : 
+<br>
+------------------------------------------------------------------------
+<br><br><br>
 
-
-#### BEFORE DEMO RELEASE:
+### BEFORE DEMO RELEASE:
+------------------------------------------------------------------------
 ''' Todo list of bugs that occored upon compiling '''
    - [ ] add to .bat add uvicorn to path
    - [ ] add a python checker in setup.exe
    - [ ] Make gtihub repo private and give installer access key (or something like that)
-   - [X] Fix Login button error [high prio] (ROOT BUG)
-   - [X] Fix loading screen bug [low prio] (Unknown)
-   - [X] fix Expanded - Stack bug [high prio] (ROOT BUG)
-   - [X] fix plain_background error [medium prio] (RESIDUAL BUG)
-   - [X] Add installer
-   - [X] Implement update-function
-   - [X] Add function that starts fastAPI server upon app-launch 
-   - [X] change update function to change "current version" to 1.X+1 after the installation was sucsessfull. 
-   - [X] make sure that server-terminal opens either in background / minimized or behind UI   
+   - [x] Fix Login button error [high prio] (ROOT BUG)
+   - [x] Fix loading screen bug [low prio] (Unknown)
+   - [x] fix Expanded - Stack bug [high prio] (ROOT BUG)
+   - [x] fix plain_background error [medium prio] (RESIDUAL BUG)
+   - [x] Add installer
+   - [x] Implement update-function
+   - [x] Add function that starts fastAPI server upon app-launch 
+   - [x] change update function to change "current version" to 1.X+1 after the installation was sucsessfull. 
+   - [x] make sure that server-terminal opens either in background / minimized or behind UI   
    - [ ] ...
 
-#### UI:
-   - [X] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
-   - [X] Fix darkmode Issue on app Startup [note: see small bugs]
-   - [X] Make notes-state presistant [note: a small bug with loading]
-   - [X] Complete translation to Norwegian 
-   - [X] Write instructions 
-   - [X] Add: "press enter" function to LoginWidget{}
-   - [X] Finish "remember me" knapp 
-   - [X] fix text borders in instructions
-   - [X] [ Low Prio ] Fix border Issue with popups
-   - [X] [ Low Prio ] Increase min.windowsize 
-   - [X] [ Low Prio ] Change fontweight for bodytext in "renew list"   
+### UI:
+   - [x] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
+   - [x] Fix darkmode Issue on app Startup [note: see small bugs]
+   - [x] Make notes-state presistant [note: a small bug with loading]
+   - [x] Complete translation to Norwegian 
+   - [x] Write instructions 
+   - [x] Add: "press enter" function to LoginWidget{}
+   - [x] Finish "remember me" knapp 
+   - [x] fix text borders in instructions
+   - [x] [ Low Prio ] Fix border Issue with popups
+   - [x] [ Low Prio ] Increase min.windowsize 
+   - [x] [ Low Prio ] Change fontweight for bodytext in "renew list"   
    - [ ] [ Low Prio ] Make "Instructions from Supervisor" section in "Instructions"
    		- [ ] Add section editable for supervisors & other privilages
    		- [ ] Add Column "supervisor" in user-db 
-   - [X] [ Low Prio ] Clean up files (but first verify functionality, then backup)
-   - [X] [ Low Prio ] Maybe add splash screen / loading screen
-   - [X] [ Low Prio ] Make instructions look Nicer 
+   - [x] [ Low Prio ] Clean up files (but first verify functionality, then backup)
+   - [x] [ Low Prio ] Maybe add splash screen / loading screen
+   - [x] [ Low Prio ] Make instructions look Nicer 
    - [ ] ...
 
-##### UI (small bugs):
-   - [X] Loading issue with presistant state   [notes_page.dart]
-   - [X] Laggy transition of light/darkmode    [menu_widget.dart]
-   - [X] Acryllic allways opens in darkmode    [menu_widget.dart]
-   - [X] Maximize window, often needs 2 clicks [window_title_bar.dart] (I think)
-   - [X] Overflow in About in smallwindow      [about_widget.dart / main.dart]
+### UI (small bugs):
+   - [x] Loading issue with presistant state   [notes_page.dart]
+   - [x] Laggy transition of light/darkmode    [menu_widget.dart]
+   - [x] Acryllic allways opens in darkmode    [menu_widget.dart]
+   - [x] Maximize window, often needs 2 clicks [window_title_bar.dart] (I think)
+   - [x] Overflow in About in smallwindow      [about_widget.dart / main.dart]
    - [ ] ...
 
 
-#### API:
+### API:
    - [x] Make api server
-   - [X] Finish change-password api
-   - [X] Finish/fix "view call list" / "renew list" button. 
+   - [x] Finish change-password api
+   - [x] Finish/fix "view call list" / "renew list" button. 
    - [ ] ...
 
 
-#### Extractor:
+### Extractor:
    - [x] Finish brreg
    - [x] Finsih proff
    - [x] Finish 1881
@@ -177,16 +210,16 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [x] Finish google
    - [ ] ...
 
-#### Backend:
+### Backend:
    - [x] Overview: manage user progress (call list)
    - [x] Manage user login 
    - [x] Password hasher 
    - [ ] ...
 
-#### AWS:
-   - [X] uplaod db to aws 
+### AWS:
+   - [x] uplaod db to aws 
    - [ ] upload code to aws (if possible)
-   - [X] Test if RDS works without postgres. 
+   - [x] Test if RDS works without postgres. 
 
 
 

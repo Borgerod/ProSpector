@@ -1,4 +1,4 @@
-setx POSTGRES_USER mediavest /m
+setx POSTGRES_USER "mediavest" /m
 setx POSTGRES_PASSWORD "F%K6L51KXGXs" /m
 setx POSTGRES_SERVER prospector-user-api.cpjevlwuwfix.eu-west-2.rds.amazonaws.com /m
 setx POSTGRES_PORT 5432 /m
@@ -10,7 +10,7 @@ setx MAIL_PORT 587 /m
 setx MAIL_SERVER smtp.gmail.com /m
 setx MAIL_FROM_NAME ProSpector /m
 setx MAIL_USERNAME prospector.feedback@gmail.com /m
-setx MAIL_PASSWORD udrpwxglgjbspweo /m
+setx MAIL_PASSWORD pnkzplymomrzeyuj /m
 setx MAIL_TSL True /m
 setx MAIL_SSL False /m
 setx USE_CREDENTIALS True /m
