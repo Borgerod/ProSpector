@@ -2,8 +2,8 @@ import re
 from inspect import currentframe, stack
 
 # ___ local imports __________
-from config import tablenames, settings
-from postgres import fetchData
+# from ..SQL.core.__config import tablenames, settings
+# from postgres import fetchData
 
 
 ''' ____ NEW EXPERIMENTAL: parse tablename & settings  ____________________________'''

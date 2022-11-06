@@ -8,7 +8,7 @@ import psycopg2
 from sqlalchemy import create_engine
 from datetime import datetime as dt 
 # ___ local imports ________
-from core.config import payload
+from .core.__config import payload
 
 
 

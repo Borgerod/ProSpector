@@ -1,7 +1,8 @@
 {
     "python.analysis.extraPaths": [
         "./SQL",
-        "./utilities"
+        "./utilities",
+        "./extractors"
     ],
     "workbench.settings.editor": "json",
     "files.exclude": {
