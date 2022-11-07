@@ -1,7 +1,7 @@
 import json
 import time
 
-from sqlalchemy import Column, Integer, String, create_engine; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
+from sqlalchemy import create_engine; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 import pandas as pd
 from tqdm import tqdm
 from multiprocessing import Pool
@@ -33,11 +33,10 @@ def outroPrint():
 	print()
 
 def getPandasSettins() -> None:
-	pass
-	# pd.options.display.max_rows = 10				# Rows 	   (length)
-	# pd.options.display.max_columns = None				# Columns  (width)
-	# pd.options.display.max_colwidth = 15			# Columns  (column display border)
-	# pd.options.display.width = 500		
+	pd.options.display.max_rows = 10				# Rows 	   (length)
+	pd.options.display.max_columns = None				# Columns  (width)
+	pd.options.display.max_colwidth = 15			# Columns  (column display border)
+	pd.options.display.width = 500		
 
 def urlBuidler(category:str, page_num:int) -> str:
 	url = f"https://www.gulesider.no/_next/data/338IdBW7dht2IHQ27Ay-p/nb/search/{category}/companies/{page_num}/0.json"
@@ -74,9 +73,8 @@ def getReq(url:str) -> dict:
 	return requests.request("GET", url, headers=getHeader()).json()
 
 def parseData(json_res:json) -> pd.DataFrame:
-	# data = json_res['pageProps']['initialState']['companies']
-	# return pd.DataFrame(data)
-	return json_res['pageProps']['initialState']['companies']
+	data = json_res['pageProps']['initialState']['companies']
+	return pd.DataFrame(data)
 
 def	throwTracker(throws):
 	'''
@@ -147,92 +145,38 @@ def main():
 
 	# for category in getCategories(): #* Original
 	for category in getCategories()[:1]: #TEMP while testing 
-		url = urlBuidler(category, 1)
-		json_res = getReq(url) 
-		data = parseData(json_res)
-		
-		for item in data:
-			if item['customer']:
-				business_dict = {
-						'org_num' : item['organisationNumber'],
-						'navn' : item['name'],
-						'tlf' : item['phones'][0]['number'],
-						}
-				session = getSession()
-				addBusinessToDb(business_dict, session)
-				# df = pd.DataFrame( 
-				# 	columns = [
-				# 		'org_num':item['organisationNumber'],
-				# 		'navn':item['name'],
-				# 		'phone':item['phones']['number'],
-				# 	]
-				# )
-
-			# print(df)
-			break
-			# TODO addItemToSQL()
-
-			# if item['customer'] == True:
-			# 	print("True")
-			# else:
-			# 	print("False")
-		
-
-		# page_num = 0
-		# while True:
-		# 	page_num += 1
-		# 	url = urlBuidler(category, page_num)
-		# 	json_res = getReq(url) 
-		# 	data = parseData(json_res)
-
-
-
-
-
-
-	# 		if df.empty:
-	# 			print(f"\n NOTE: breaking {category}, no more pages.\n ")
-	# 			break
-	# 		df =  filterCustomers(df)
-	# 		master_df = pd.concat((master_df, df), axis = 0) #make one big df #! bad practice
-	# master_df = master_df.reset_index(drop = True)
-	# master_df.drop_duplicates(subset = ['organisationNumber'], keep = 'first')
+		page_num = 0
+		while True:
+			page_num += 1
+			url = urlBuidler(category, page_num)
+			json_res = getReq(url) 
+			df = parseData(json_res)
+			if df.empty:
+				print(f"\n NOTE: breaking {category}, no more pages.\n ")
+				break
+			df =  filterCustomers(df)
+			master_df = pd.concat((master_df, df), axis = 0) #make one big df #! bad practice
+	master_df = master_df.reset_index(drop = True)
+	master_df.drop_duplicates(subset = ['organisationNumber'], keep = 'first')
 	
-	# print(master_df)
-	# print("\n\n\n")
-	# print(master_df.iloc[0])
+	print(master_df)
+	print("\n\n\n")
+	print(master_df.iloc[0])
 
-	# print("\n\n\n")
-	# print("THROW TRACKER:")
-	# print(f"Number of times a throw occoured {throwTracker.counter}")
-
-
-
-
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
-DATABASE_URL = f"postgresql://postgres:Orikkel1991@localhost:5432/ProSpector_Dev"
-engine = create_engine(DATABASE_URL)
-
-class GulesiderModel:
-	__tablename__ = "gulesider"
-	org_num = Column(Integer, unique = True, index = True, primary_key = True)
-	navn = Column(String, index = True)
-	postadresse = Column(String, index = True, nullable = True) #! maybe wrong parameter
-	forretningsadresse = Column(String, index = True)
-
-def addBusinessToDb(business_dict, session):
-	business = GulesiderModel(**business_dict)
-	session.add(business)
-	session.commit()
+	print("\n\n\n")
+	print("THROW TRACKER:")
+	print(f"Number of times a throw occoured {throwTracker.counter}")
 
 
 
-def getSession():
-    #new session
-    Session = sessionmaker(bind = engine)
-    session = Session()
-    return session
+
+
+
+
+
+
+
+
 
 
 
@@ -250,10 +194,10 @@ def getCategories() -> list[str]:
 		).category
 
 if __name__ == '__main__':
-	# for category in getCategories()[:1]:
-		# print(category)
+	for category in getCategories()[:1]:
+		print(category)
 
-	main()
+	# main()
 	# outroPrint()
 
 

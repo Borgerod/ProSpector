@@ -1,0 +1,342 @@
+
+response = json file from api request 
+
+results:
+    # returns a list of results
+    (list) response['pageProps']['initialState']['companies']
+
+API params: 
+    (str) searchType -> response['pageProps']['initialState']['searchType']
+    (str) searchQuery -> response['pageProps']['initialState']['searchQuery']
+    (int) searchPage -> response['pageProps']['initialState']['searchPage']
+    (int) companyPages -> response['pageProps']['initialState']['companyPages']    
+    (int) companyHits -> response['pageProps']['initialState']['companyHits']
+
+
+results snippet (list-item):
+
+'''#> NOTES:
+
+    - alle som har betalt oppføring er markert med:  "customer": true, ("false" hvis ikke)
+
+    - du kan søke på kategorier med, f.eks: https://www.gulesider.no/Arkitekt/bedrifter
+
+
+'''
+
+IKKE BETALT OPPFØRING 
+    {
+        "eniroId": "158703874",
+        "name": "Mediavest AS",
+        "phones": [
+            {
+                "number": "31 01 45 23",
+                "text": null
+            }
+        ],
+        "organisationNumber": "925476633",
+        "addresses": [
+            {
+                "streetName": "Vaskerelven",
+                "streetNumber": "39",
+                "postalCode": "5014",
+                "postalArea": "Bergen",
+                "municipality": "Bergen",
+                "region": "Vestland",
+                "province": "Vestlandet",
+                "urbanArea": null,
+                "borough": "Bergenhus",
+                "neighborhood": "Vaskerelven",
+                "community": null,
+                "metropolitanSubarea": null,
+                "coordinates": [
+                    {
+                        "lon": 5.3225217,
+                        "lat": 60.3904724,
+                        "type": "map"
+                    },
+                    {
+                        "lon": 5.3225217,
+                        "lat": 60.3904724,
+                        "type": "route"
+                    }
+                ]
+            }
+        ],
+        "categories": [
+            {
+                "name": "Bedriftsutvikling, Bedriftsrådgivning",
+                "code": "46469"
+            }
+        ],
+        "districts": [],
+        "products": [],
+        "customersNearby": [],
+        "keywords": [],
+        "customer": false,
+        "ranking": 0,
+        "boughtDistrict": false,
+        "statisticCode": "AB",
+        "hitType": "popularName",
+        "tracestamps": {
+            "clusterWrite": "2022-11-05T00:46:34.723808Z"
+        }
+    },
+
+
+IKKE BETALT OPPFØRING 
+{
+    "eniroId": "84689086",
+    "name": "Goa Arkitektkontor AS",
+    "organisationNumber": "998791332",
+    "addresses": [
+        {
+            "streetName": "Sommerrogata",
+            "streetNumber": "17",
+            "postalCode": "0255",
+            "postalArea": "Oslo",
+            "municipality": "Oslo",
+            "region": "Oslo",
+            "province": "Oslo",
+            "urbanArea": null,
+            "borough": "Frogner",
+            "neighborhood": "Uranienborg",
+            "community": null,
+            "metropolitanSubarea": null,
+            "coordinates": [
+                {
+                    "lon": 10.7177811,
+                    "lat": 59.9149933,
+                    "type": "map"
+                },
+                {
+                    "lon": 10.7177801,
+                    "lat": 59.9149933,
+                    "type": "route"
+                }
+            ]
+        }
+    ],
+    "categories": [
+        {
+            "name": "Arkitekt",
+            "code": "58"
+        }
+    ],
+    "districts": [],
+    "products": [
+        {
+            "name": "email",
+            "link": "post@goaark.no"
+        },
+        {
+            "name": "homepage",
+            "url": "http://www.goaark.no"
+        }
+    ],
+    "customersNearby": [],
+    "keywords": [],
+    "customer": false,
+    "ranking": 0,
+    "boughtDistrict": false,
+    "statisticCode": "AB",
+    "hitType": "popularName",
+    "tracestamps": {
+        "clusterWrite": "2022-08-12T03:33:12.955731Z"
+    }
+},
+
+
+HAR BETALT OPPFØRING 
+{
+    "eniroId": "84407102",
+    "name": "Ramsfjell Arkitekter AS",
+    "phones": [
+        {
+            "number": "22 83 28 00",
+            "text": null
+        }
+    ],
+    "organisationNumber": "988464767",
+    "addresses": [
+        {
+            "streetName": "Kronprinsens gate",
+            "streetNumber": "3",
+            "postalCode": "0251",
+            "postalArea": "Oslo",
+            "municipality": "Oslo",
+            "region": "Oslo",
+            "province": "Oslo",
+            "urbanArea": null,
+            "borough": "Sentrum",
+            "neighborhood": "Oslo Sentrum",
+            "community": null,
+            "metropolitanSubarea": null,
+            "coordinates": [
+                {
+                    "lon": 10.7277517,
+                    "lat": 59.9145622,
+                    "type": "map"
+                },
+                {
+                    "lon": 10.7277508,
+                    "lat": 59.9145622,
+                    "type": "route"
+                }
+            ]
+        }
+    ],
+    "categories": [
+        {
+            "name": "Arkitekt",
+            "code": "58"
+        }
+    ],
+    "districts": [],
+    "products": [
+        {
+            "name": "email",
+            "link": "ark@ramsfjell.no"
+        },
+        {
+            "name": "homepage",
+            "url": "http://www.ramsfjell.no"
+        },
+        {
+            "name": "logo",
+            "image": "https://images.eniro.com/cim/659837?name=default"
+        },
+        {
+            "name": "mobile_slideshow",
+            "images": [
+                "https://images.eniro.com/cim/954405?name=default",
+                "https://images.eniro.com/cim/954406?name=default",
+                "https://images.eniro.com/cim/954407?name=default"
+            ]
+        },
+        {
+            "name": "company_description",
+            "text": [
+                "Ramsfjell Arkitekter AS (SIV.ARK MNAL - INT.ARK MNIL) har sentral godkjenning i høyeste tiltaksklasse (klasse 3), og leverer arkitekt- og interiørarkitekt-tjenester til alle typer prosjekter i alle størrelser. Medarbeiderne våre har tildels lang erfaring fra alle typer prosjekter."
+            ]
+        },
+        {
+            "name": "cover_photo",
+            "images": [
+                {
+                    "key": "large",
+                    "image": "https://images.eniro.com/covers/ramsfjell-arkitekter-as-84407102-1503474960915?name=large"
+                },
+                {
+                    "key": "mobile",
+                    "image": "https://images.eniro.com/covers/ramsfjell-arkitekter-as-84407102-1503474960915?name=mobile"
+                }
+            ]
+        },
+        {
+            "name": "complimentary_ranking",
+            "complimentaryRanking": [
+                {
+                    "product": "Basic",
+                    "ranking": 39
+                },
+                {
+                    "product": "Loyalty",
+                    "ranking": 16
+                },
+                {
+                    "product": "Yext",
+                    "ranking": 4
+                }
+            ]
+        },
+        {
+            "name": "deeplink",
+            "label": "Prosjekter",
+            "url": "http://ramsfjell.no/prosjekter/"
+        },
+        {
+            "name": "deeplink",
+            "label": "Om oss",
+            "url": "http://ramsfjell.no/om_oss/"
+        },
+        {
+            "name": "deeplink",
+            "label": "Kontakt",
+            "url": "http://ramsfjell.no/kontakt/"
+        },
+        {
+            "name": "extra_image",
+            "images": [
+                "https://images.eniro.com/cim/954405?name=default",
+                "https://images.eniro.com/cim/954406?name=default",
+                "https://images.eniro.com/cim/954407?name=default"
+            ]
+        }
+    ],
+    "customersNearby": [],
+    "keywords": [],
+    "customer": true,
+    "ranking": 58,
+    "boughtDistrict": false,
+    "statisticCode": "AB",
+    "hitType": "popularName",
+    "tracestamps": {
+        "clusterWrite": "2022-10-25T07:55:56.180324Z"
+    }
+}
+
+
+
+
+quick notes:
+resultat: 25
+side 1:
+    costumer: 25 (egentlig 50 men delt på 2) 
+
+side 10000:
+    costumer: 25 (egentlig 50 men delt på 2) 
+
+side 20000:
+    costumer: 25 (egentlig 50 men delt på 2) 
+
+side 1000000:
+    costumer: 25 (egentlig 50 men delt på 2) 
+
+
+#! WRONG  #* Discovery: om param "page" = None (page="") får du siste side  
+#! IMPORTANT: etter siste side er funnet vil den bare repitere siste side i all evighet!
+
+
+
+
+''' INTERESTING FOUNDS (possible parameters)
+
+			"queryParts": {
+				"company": [
+					{
+#>						"searchQuery": "restaurant",
+						"geo": "",
+						"spellchecked": false,
+						"multiGeoHit": false
+					}
+				],
+				"person": [
+					{
+						"searchQuery": "resturant",
+						"geo": "",
+						"spellchecked": true
+					},
+					{
+						"searchQuery": "restaurant",
+						"geo": "",
+						"spellchecked": false
+					}
+				]
+			},
+#>			"companyGroup": "0",
+#>			"fetchingResults": false
+		},
+
+
+'''
