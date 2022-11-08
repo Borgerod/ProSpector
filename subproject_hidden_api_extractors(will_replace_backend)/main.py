@@ -4,7 +4,7 @@ from backend.bransjer import IndustryExtractor; start = time.perf_counter() #Sin
 from SQL.config import Dev#, DevSettings, Settings, engine, base
 from SQL.query import getAllCategories, getAllIndustries
 from backend.gulesider import GulesiderExtractor
-
+from backend.proff_new import ProffExtractor
 from backend.categories import CategoryExtractor
 
 from SQL.insert import Insert
@@ -39,15 +39,18 @@ def print_industries():
     cat = getAllIndustries()
     print(cat)
 
+def extractProff():
+    ProffExtractor().runExtraction()
 
+    
 if __name__ == '__main__':
     # extractCategories()
     # print_categories()
     # extractGulesider()
     # CategoryExtractor().fetchCategories()
     # outroPrint()
-    extractIndustries()
-    print_industries()
+    extractProff()
+    # print_industries()
 
 
 

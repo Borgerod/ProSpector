@@ -10,7 +10,7 @@ from file_manager import *
 from base_extractor import genSearchTerm, pullRequest
 
 
-''' 
+'''
 	* CURRENT EXTRACTION TIME *
 		- Amount of companies : 6034  
 		- Finished in 11.2 second(s)

@@ -1,0 +1,665 @@
+
+''' https://proff.no/js/lib/searchResults.js?v=5.1.124 '''
+
+____ INTERESTING FINDS ____
+
+"src/main/resources/js/download/downloadDialog.vue",
+
+___________________________
+
+
+
+
+''' javascript-response from link: '''
+(window.webpackJsonp = window.webpackJsonp || []).push([[11], {
+    222: function(e, t, s) {
+        "use strict";
+        s.r(t);
+        var i = s(223)
+          , r = s.n(i);
+        for (var a in i)
+            "default" !== a && function(e) {
+                s.d(t, e, function() {
+                    return i[e]
+                })
+            }(a);
+        t.default = r.a
+    },
+    223: function(e, t, s) {
+        "use strict";
+        Object.defineProperty(t, "__esModule", {
+            value: !0
+        });
+        var i = Object.assign || function(e) {
+            for (var t = 1; t < arguments.length; t++) {
+                var s = arguments[t];
+                for (var i in s)
+                    Object.prototype.hasOwnProperty.call(s, i) && (e[i] = s[i])
+            }
+            return e
+        }
+          , r = s(7)
+          , a = d(s(2))
+          , n = d(s(3))
+          , l = function(e) {
+            if (e && e.__esModule)
+                return e;
+            var t = {};
+            if (null != e)
+                for (var s in e)
+                    Object.prototype.hasOwnProperty.call(e, s) && (t[s] = e[s]);
+            return t.default = e,
+            t
+        }(s(24))
+          , o = d(s(23))
+          , c = d(s(18))
+          , u = s(10);
+        function d(e) {
+            return e && e.__esModule ? e : {
+                default: e
+            }
+        }
+        var f = (0,
+        r.storage)(sessionStorage);
+        t.default = {
+            props: ["hits", "resultUri"],
+            data: function() {
+                return {
+                    errorFetchingResult: !1,
+                    sampleList: window.sampleList,
+                    loading: !1,
+                    filter: {
+                        phone: !1,
+                        email: !1,
+                        address: !1
+                    },
+                    product: null
+                }
+            },
+            mixins: [a.default],
+            created: function() {
+                var e = this;
+                l.fetchProduct("/segmentationProduct.json").then(function(t) {
+                    e.product = t
+                }),
+                this.$watch("filter", (0,
+                o.default)(function() {
+                    e.update()
+                }, 150), {
+                    deep: !0
+                })
+            },
+            computed: i({}, (0,
+            u.mapGetters)(["validVoucher", "getPrice"]), {
+                price: function() {
+                    return this.getPrice(this.product)
+                }
+            }),
+            methods: {
+                update: function() {
+                    var e = this
+                      , t = this.filter;
+                    this.loading = !0,
+                    (0,
+                    n.default)((0,
+                    c.default)("/createlist") + "/" + this.resultUri + "/?email=" + t.email + "&phone=" + t.phone + "&address=" + t.address + "&view=json").then(function(e) {
+                        if (e.ok)
+                            return e.json();
+                        throw new Error
+                    }).finally(function() {
+                        return e.loading = !1
+                    }).then(function(t) {
+                        e.$emit("updateResults", t.createListSearchResult),
+                        e.errorFetchingResult = !1
+                    }).catch(function() {
+                        return e.errorFetchingResult = !0
+                    })
+                },
+                selectFields: function() {
+                    f.store(r.KEYS.searchLink, (0,
+                    c.default)("/createlist") + "/" + this.resultUri + "/?view=xls"),
+                    f.store(r.KEYS.description, this._p("companySearch.searchDescription") + ": " + new URLSearchParams(window.location.search).get("q")),
+                    f.store(r.KEYS.searchDescription, "{}"),
+                    f.store(r.KEYS.hits, this.hits),
+                    document.location.href = (0,
+                    c.default)("/createlist") + "/" + (0,
+                    c.default)("fields")
+                },
+                close: function() {
+                    this.$emit("toggle")
+                }
+            }
+        }
+    },
+    281: function(e, t, s) {
+        "use strict";
+        var i = function() {
+            var e = this
+              , t = e.$createElement
+              , s = e._self._c || t;
+            return s("div", {
+                staticClass: "modal",
+                staticStyle: {
+                    display: "block"
+                },
+                on: {
+                    keyup: function(t) {
+                        if (!("button"in t) && e._k(t.keyCode, "esc", 27))
+                            return null;
+                        e.close(t)
+                    }
+                }
+            }, [s("div", {
+                staticClass: "modal-content modal-size-medium modal-segment-export"
+            }, [s("div", {
+                staticClass: "modal-header"
+            }, [s("button", {
+                staticClass: "close ss-delete",
+                on: {
+                    click: e.close
+                }
+            }), e._v(" "), s("h2")]), e._v(" "), s("div", {
+                staticClass: "modal-body"
+            }, [s("h2", [s("strong", [e._v(e._s(e._p("companySearch.buyLists")))])]), e._v(" "), s("h3", {
+                class: {
+                    blurry: e.loading
+                }
+            }, [e._v(e._s(e._p("companySearch.numberOfListings")) + ": "), s("strong", [e._v(e._s(e._f("localeFormatted")(e.hits > 5e3 ? 5e3 : e.hits)))])]), e._v(" "), e.errorFetchingResult ? s("p", {
+                staticClass: "error-msg"
+            }, [e._v("\n                " + e._s(e._p("companySearch.errorFetchingResult")) + "\n            ")]) : e._e(), e._v(" "), s("p", [e._v(e._s(e._p("companySearch.includeOnlyCompaniesWith")) + ":")]), e._v(" "), s("ul", [s("li", [s("label", {
+                staticClass: "proff-option"
+            }, [s("input", {
+                directives: [{
+                    name: "model",
+                    rawName: "v-model",
+                    value: e.filter.phone,
+                    expression: "filter.phone"
+                }],
+                attrs: {
+                    type: "checkbox"
+                },
+                domProps: {
+                    checked: Array.isArray(e.filter.phone) ? e._i(e.filter.phone, null) > -1 : e.filter.phone
+                },
+                on: {
+                    __c: function(t) {
+                        var s = e.filter.phone
+                          , i = !!t.target.checked;
+                        if (Array.isArray(s)) {
+                            var r = e._i(s, null);
+                            i ? r < 0 && (e.filter.phone = s.concat(null)) : r > -1 && (e.filter.phone = s.slice(0, r).concat(s.slice(r + 1)))
+                        } else
+                            e.filter.phone = i
+                    }
+                }
+            }), e._v(" "), s("div", {
+                staticClass: "proff-checkbox"
+            }), e._v(" "), s("span", [e._v(e._s(e._p("phone")))])])]), e._v(" "), s("li", [s("label", {
+                staticClass: "proff-option"
+            }, [s("input", {
+                directives: [{
+                    name: "model",
+                    rawName: "v-model",
+                    value: e.filter.email,
+                    expression: "filter.email"
+                }],
+                attrs: {
+                    type: "checkbox"
+                },
+                domProps: {
+                    checked: Array.isArray(e.filter.email) ? e._i(e.filter.email, null) > -1 : e.filter.email
+                },
+                on: {
+                    __c: function(t) {
+                        var s = e.filter.email
+                          , i = !!t.target.checked;
+                        if (Array.isArray(s)) {
+                            var r = e._i(s, null);
+                            i ? r < 0 && (e.filter.email = s.concat(null)) : r > -1 && (e.filter.email = s.slice(0, r).concat(s.slice(r + 1)))
+                        } else
+                            e.filter.email = i
+                    }
+                }
+            }), e._v(" "), s("div", {
+                staticClass: "proff-checkbox"
+            }), e._v(" "), s("span", [e._v(e._s(e._p("email")))])])]), e._v(" "), s("li", [s("label", {
+                staticClass: "proff-option"
+            }, [s("input", {
+                directives: [{
+                    name: "model",
+                    rawName: "v-model",
+                    value: e.filter.address,
+                    expression: "filter.address"
+                }],
+                attrs: {
+                    type: "checkbox"
+                },
+                domProps: {
+                    checked: Array.isArray(e.filter.address) ? e._i(e.filter.address, null) > -1 : e.filter.address
+                },
+                on: {
+                    __c: function(t) {
+                        var s = e.filter.address
+                          , i = !!t.target.checked;
+                        if (Array.isArray(s)) {
+                            var r = e._i(s, null);
+                            i ? r < 0 && (e.filter.address = s.concat(null)) : r > -1 && (e.filter.address = s.slice(0, r).concat(s.slice(r + 1)))
+                        } else
+                            e.filter.address = i
+                    }
+                }
+            }), e._v(" "), s("div", {
+                staticClass: "proff-checkbox"
+            }), e._v(" "), s("span", [e._v(e._s(e._p("postAdress")))])])])])]), e._v(" "), s("div", {
+                staticClass: "modal-footer"
+            }, [s("div", {
+                staticClass: "p-row two-columns"
+            }, [s("div", {
+                staticClass: "field"
+            }, [e.price ? s("span", {
+                staticClass: "price"
+            }, [e._v(e._s(e._f("currency")(e.price)) + ",- "), s("span", {
+                staticClass: "mute"
+            }, [e._v(e._s(e._p("fields.exVat")))]), e._v(" "), e.validVoucher ? s("span", [s("br"), e._v(" "), s("span", {
+                staticClass: "price-info"
+            }, [e._v(e._s(e._p("fields.useOneVoucher")))])]) : e._e()]) : e._e(), e._v(" "), s("div", [s("p", {
+                staticStyle: {
+                    margin: "5px 0"
+                }
+            }, [s("a", {
+                attrs: {
+                    href: e.sampleList
+                }
+            }, [e._v(e._s(e._p("fields.seeSample")) + "\n                                "), s("i", {
+                staticClass: "tooltip tooltip-up ss-info"
+            }, [s("span", [e._v(e._s(e._p("fields.aboutSample")))])])])])])]), e._v(" "), s("div", {
+                staticClass: "field aright"
+            }, [s("a", {
+                staticClass: "button dark-grey wide",
+                class: {
+                    disabled: 0 == e.hits || !e.price
+                },
+                on: {
+                    click: function(t) {
+                        t.preventDefault(),
+                        e.selectFields(t)
+                    }
+                }
+            }, [e._v(e._s(e._p("companySearch.next")))])])]), e._v(" "), s("div", {
+                staticClass: "info"
+            }, [s("p", {
+                domProps: {
+                    innerHTML: e._s(e._p("companySearch.moreOpportunities"))
+                }
+            })])])])])
+        }
+          , r = [];
+        i._withStripped = !0,
+        s.d(t, "a", function() {
+            return i
+        }),
+        s.d(t, "b", function() {
+            return r
+        })
+    },
+    690: function(e, t, s) {
+        "use strict";
+        s(403),
+        s(693)
+    },
+    693: function(e, t, s) {
+        "use strict";
+        var i = n(s(4))
+          , r = n(s(694))
+          , a = n(s(48));
+        function n(e) {
+            return e && e.__esModule ? e : {
+                default: e
+            }
+        }
+        var l = document.getElementById("listDownload");
+        if (null !== l) {
+            var o = document.createElement("div");
+            document.body.appendChild(o);
+            var c = new i.default({
+                data: function() {
+                    return {
+                        show: !1,
+                        hits: window.hits,
+                        resultUri: window.resultUri
+                    }
+                },
+                store: a.default,
+                el: o,
+                render: function(e) {
+                    var t = this;
+                    if (this.show)
+                        return e(r.default, {
+                            props: {
+                                hits: t.hits,
+                                resultUri: t.resultUri
+                            },
+                            on: {
+                                updateResults: function(e) {
+                                    t.hits = e.totalHits,
+                                    e.resultUri && (t.resultUri = e.resultUri)
+                                },
+                                toggle: function() {
+                                    t.show = !t.show
+                                }
+                            }
+                        })
+                }
+            });
+            l.addEventListener("click", function() {
+                return c.show = !c.show
+            })
+        }
+    },
+    694: function(e, t, s) {
+        "use strict";
+        s.r(t);
+        var i = s(281)
+          , r = s(222);
+        for (var a in r)
+            "default" !== a && function(e) {
+                s.d(t, e, function() {
+                    return r[e]
+                })
+            }(a);
+        var n = s(0)
+          , l = Object(n.a)(r.default, i.a, i.b, !1, null, null, null);
+        l.options.__file = "src/main/resources/js/download/downloadDialog.vue",
+        t.default = l.exports
+    }
+}, [[690, 0]]]);
+
+
+
+
+
+'''
+script from link:
+https://proff.no/s%C3%B8k-etter-bransje/adresseringsleverand%C3%B8rer/I:10159/?q=Adresseringsleverand%C3%B8rer
+'''
+
+<script type="text/javascript">
+function consentGiven() {
+
+    // Advertising script
+    createElement('//s1.adform.net/banners/scripts/adx.js');
+
+    window._adftrack = Array.isArray(window._adftrack) ? window._adftrack : (window._adftrack ? [window._adftrack] : []);
+    window._adftrack.push({
+        pm: 1304930,
+        divider: encodeURIComponent('|'),
+        pagename: encodeURIComponent('WebsiteName|SectionName|SubSection|PageName'),
+        order: {
+            sv1: encodeURIComponent(window.location.href)
+        }
+    });
+
+    window._adftrack.push({
+        pm: 886324,
+        divider: encodeURIComponent('|'),
+        pagename: encodeURIComponent('WebsiteName|SectionName|SubSection|PageName')
+    });
+
+    createElement('https://track.adform.net/serving/scripts/trackpoint/async/');
+    //Confirmit Digital Feedback Program
+    createElement('https://digitalfeedback.euro.confirmit.com/api/digitalfeedback/loader?programKey=dv9bJ7', 'cf-program-dv9bJ7');
+}
+</script>
+
+
+
+
+
+'''
+
+outtakes from HTML crawl, body:
+___________________________
+<div class="search-wrap">
+<div class="form-wrap">
+  <form class="form" action="/bransjes%C3%B8k" method="get" name="input" id="input"
+        data-altaction="/rolles%C3%B8k">
+
+    <div class="search-narrow-wrap">
+      <span class="search-icon ss-warehouse"></span>
+
+      <div class="search">
+        <input class="search-input autocomplete"
+               type="text"
+               name="q"
+               size="40"
+               id="companysearchfield"
+               autocomplete="off"
+               value="Adresseringsleverandører"/>
+        <span class="delete-icon ui-narrow ss-delete"></span>
+      </div>
+
+      <input class="ss-icon" type="submit" value="Search" />
+      
+      <div id="search-select-industry"></div>
+    </div>
+  </form>
+</div>
+</div>
+
+___________________________
+<script>
+var hits = 14;
+var resultUri = "YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB_LdGMInA_nD7EunxKnGneeWdAdaeVuNu4";
+var query = null;
+var sampleList = "\/laglister?view=xls\u0026c=AS\u0026pf=1000\u0026i=p20377";
+</script>
+
+
+___________________________
+<li>
+<a href="/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB9lqyWKlYDdAym5X5J3IBKl-_Sm0m0tWhS5-bkqL2me9A/?q=Adresseringsleverandører" class="ss-check addax addax-cs_hl_hit_sort_list_alphabetical_click">A-Å</a>
+</li>
+<li>
+<a href="/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB9lqyWKlYDdA6LtOkGi4r3J-EboEqzhts0/?q=Adresseringsleverandører" class="ss-check addax addax-cs_hl_hit_sort_list_postalcode_click">Postnummer</a>
+</li>
+<li class="selected">
+<a href="/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB9lqyWKlYDdAz7SGDgSAdKOR4ADcjx3uEE/?q=Adresseringsleverandører" class="ss-check addax addax-cs_hl_hit_sort_list_proff_click">Proff</a>
+</li>
+
+
+______________ ooOOo _____________
+source: https://proff.no/js/lib/searchResults.js?v=5.1.124
+/segmentationProduct.json
+l.fetchProduct("/segmentationProduct.json").then(function(t) {
+    /segmentationProduct.json
+
+
+methods: {
+    update: function() {
+        var e = this
+            , t = this.filter;
+        this.loading = !0,
+        (0,
+        n.default)((0,
+        c.default)("/createlist") + "/" + this.resultUri + "/?email=" + t.email + "&phone=" + t.phone + "&address=" + t.address + "&view=json").then(function(e) {
+            if (e.ok)
+                return e.json();
+            throw new Error
+        }).finally(function() {
+            return e.loading = !1
+        }).then(function(t) {
+            e.$emit("updateResults", t.createListSearchResult),
+            e.errorFetchingResult = !1
+        }).catch(function() {
+            return e.errorFetchingResult = !0
+        })
+    },
+    selectFields: function() {
+        f.store(r.KEYS.searchLink, (0,
+        c.default)("/createlist") + "/" + this.resultUri + "/?view=xls"),
+        f.store(r.KEYS.description, this._p("companySearch.searchDescription") + ": " + new URLSearchParams(window.location.search).get("q")),
+        f.store(r.KEYS.searchDescription, "{}"),
+        f.store(r.KEYS.hits, this.hits),
+        document.location.href = (0,
+        c.default)("/createlist") + "/" + (0,
+        c.default)("fields")
+    },
+    close: function() {
+        this.$emit("toggle")
+    }
+}
+
+[s("h2", [s("strong", [e._v(e._s(e._p("companySearch.buyLists")))])]), e._v(" "), s("h3", {
+class: {
+    blurry: e.loading
+}
+}, [e._v(e._s(e._p("companySearch.numberOfListings")) + ": "), s("strong", [e._v(e._s(e._f("localeFormatted")(e.hits > 5e3 ? 5e3 : e.hits)))])]), e._v(" "), e.errorFetchingResult ? s("p", {
+staticClass: "error-msg"
+}, [e._v("\n                " + e._s(e._p("companySearch.errorFetchingResult")) + "\n            ")]) : e._e(), e._v(" "), s("p", [e._v(e._s(e._p("companySearch.includeOnlyCompaniesWith")) + ":")]), e._v(" "), s("ul", [s("li", [s("label", {
+staticClass: "proff-option"
+
+
+
+}, [e._v(e._s(e._p("companySearch.next")))])])]), e._v(" "), s("div", {
+    staticClass: "info"
+}, [s("p", {
+    domProps: {
+        innerHTML: e._s(e._p("companySearch.moreOpportunities"))
+    }
+
+var l = document.getElementById("listDownload");
+
+l.options.__file = "src/main/resources/js/download/downloadDialog.vue",
+
+
+______________ Maybe _____________
+source: https://proff.no/js/lib/search.js?v=5.1.124
+
+props: ["results", "focusedIdx", "roleSearchHasPriority"],
+roleGroup: function() {
+    return [{
+        results: this.results.roles,
+        label: this.results.rolesLabel
+    }]
+},
+companyGroup: function() {
+    return [{
+        results: this.results.industries,
+        label: this.results.industryLabel
+    }, {
+        results: this.results.companyNames,
+        label: this.results.companyLabel
+    }]
+},
+primaryGroup: function() {
+    return this.roleSearchHasPriority ? this.roleGroup : this.companyGroup
+},
+secondaryGroup: function() {
+    return this.roleSearchHasPriority ? this.companyGroup : this.roleGroup
+
+[e._v(e._s(e._p("industries")))]), e._v(" "), e.showIndustry ? r("selector", {
+    attrs: {
+        trees: e.industryTrees,
+        selected: [],
+        title: e._p("industries"),
+        placeholder: e._p("search.industry")
+    },
+
+
+
+, f = document.querySelector("input.autocomplete#companysearchfield, input.autocomplete#rolesearchfield, input.autocomplete#searchQuery, input.autocomplete#shareholderSearchfield");
+null !== f && "shareholderSearchfield" === f.id && (d.shareholderSearch = !0),
+null !== f && "rolesearchfield" === f.id && (d.prioritizeRoles = !0);
+var p = void 0
+, h = void 0
+, y = []
+, m = document.querySelector(".search-narrow-wrap");
+new u.default({
+    el: document.querySelector("#search-select-industry"),
+    data: function() {
+        return {}
+    },
+
+
+f.addEventListener("input", function(e) {
+    var t = e.target.value;
+    if (t.length < 3)
+        v();
+    else {
+        var r = w + "?query=" + t;
+        y[r] ? d.autocompleteResults = y[r] : _(r)
+    }
+})
+
+
+
+
+
+i.options.__file = "src/main/resources/js/autocompleteResults.vue",
+i.options.__file = "src/main/resources/js/industrySelector.vue",
+
+
+______________ Innblikk i hvordan proffIndustryTree.json blir handled _____________
+
+t.default = {
+    props: ["enableSelection"],
+    data: function() {
+        return {
+            showIndustry: !1,
+            industryTrees: []
+        }
+    },
+    created: function() {
+        var e = this;
+        (0,
+        s.default)("/proffIndustryTree.json").then(function(e) {
+            return e.json()
+        }).then(function(t) {
+            return e.$set(e.industryTrees, 0, o.default.convert(t, "industry"))
+        })
+    },
+    methods: {
+        setIndustry: function(e) {
+            this.$emit("industrySelected", e.title)
+        }
+    },
+    components: {
+        selector: n.default
+    }
+}
+
+
+
+___________ other _________
+
+
+<script src="/js/lib/search.js?v=5.1.124"></script>
+
+    
+
+
+<script src="/wro/5.1.124/core.js"></script>
+
+<script src="/js/lib/monitoring.js?v=5.1.124"></script>
+<script src="/js/lib/searchResults.js?v=5.1.124"></script>
+
+<script>
+$script.path("\/wro\/5.1.124\/");
+$script('jquery-plugins', 'jquery-plugins');
+</script>
+
+
+    
+
+<script type="text/javascript">var WebAnalytics = {"service":"company","pagetype":"resultpage","listtype":"industry","search_word":"Adresseringsleverandører","heading_code":"10159","virtual_host":"proff.no","country":"no","industry_data":{"from_list":1,"to_list":14,"hpp":25,"stq":1},"industry_records":[{"order":1,"advert_code":"E84423496","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IFYWH8R07U7","legal_id":"965614923"},{"order":2,"advert_code":"","customer_id":"0000000000","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG9YTI607U7","legal_id":"984199902"},{"order":3,"advert_code":"E85620413","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IF4EATJ07U7","legal_id":"914378311"},{"order":4,"advert_code":"","customer_id":"0000000000","heading_code":"47479;10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG8RR3S07U7","legal_id":"982190584"},{"order":5,"advert_code":"E84259796","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG5OYM607U7","legal_id":"977021502"},{"order":6,"advert_code":"E84900937","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG8M3FT07U7","legal_id":"981926633"},{"order":7,"advert_code":"E86024157","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG986AT07U7","legal_id":"982956773"},{"order":8,"advert_code":"E86144823","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG58VZU07U7","legal_id":"976271610"},{"order":9,"advert_code":"E86565319","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG8ENHW07U7","legal_id":"981579380"},{"order":10,"advert_code":"E86752655","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG1UD5L07U7","legal_id":"970555161"},{"order":11,"advert_code":"E86812290","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG95S6D07U7","legal_id":"982845157"},{"order":12,"advert_code":"E86982825","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IGCI3O707U7","legal_id":"988458775"},{"order":13,"advert_code":"E87194932","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG8993Y07U7","legal_id":"981327454"},{"order":14,"advert_code":"E87210037","customer_id":"","heading_code":"10159","ranking_points":0,"relevance_points":"","page_type":"cs_hl_customer_hit","company_id":"IG8CXLQ07U7","legal_id":"981499166"}]}; </script>
+<div>
+<script src="https://stats.proff.no/pa.min.js" async></script>
+<script type="text/javascript">
+    var paSiteId = "ecd64a4";
+</script>
+<script src="/js/lib/analytics.js?v=5.1.124"></script>
+</div>
+
+    
+
+'''
