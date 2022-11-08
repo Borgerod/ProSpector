@@ -42,6 +42,20 @@ class Gulesider(base):
 # 		self.navn = navn
 # 		self.tlf = tlf
 
+class Industry(base):
+	''' Industries used by Proff
+	'''
+	__tablename__ = "industries"
+	industries = Column(String, unique = True, index = True, primary_key = True)
+
+	def __init__(self, industries):
+		self.industries = industries
+	
+
+
+
+
+
 # class I88I(base):
 # 	__tablename__ = "1881"
 # 	org_num = Column(Integer, unique = True, index = True, primary_key = True)

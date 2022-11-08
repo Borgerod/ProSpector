@@ -1,7 +1,9 @@
-import time; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
+import time
+
+from backend.bransjer import IndustryExtractor; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 from SQL.config import Dev#, DevSettings, Settings, engine, base
-from SQL.query import getAllCategories
-from backend.gulesider import GulesiderExtractor, outroPrint
+from SQL.query import getAllCategories, getAllIndustries
+from backend.gulesider import GulesiderExtractor
 
 from backend.categories import CategoryExtractor
 
@@ -28,13 +30,24 @@ def outroPrint():
 	print("_"*62)
 	print()
 
+def extractIndustries():
+    IndustryExtractor().fetchIndustries()
+
+def print_industries(): 
+    '''check categories 
+    '''
+    cat = getAllIndustries()
+    print(cat)
+
 
 if __name__ == '__main__':
     # extractCategories()
     # print_categories()
-    extractGulesider()
+    # extractGulesider()
     # CategoryExtractor().fetchCategories()
-    outroPrint()
+    # outroPrint()
+    extractIndustries()
+    print_industries()
 
 
 

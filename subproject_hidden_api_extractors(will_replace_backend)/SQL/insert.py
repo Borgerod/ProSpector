@@ -52,6 +52,18 @@ class Insert:
             session.rollback()  
 
 
+    def toIndustries(self, data):
+        '''
+        takes a list of data from page, splits it, then inserts it into db
+        '''
+        row = db.Industry(
+            data,
+        )
+        session.add(row) 
+        try:
+            session.commit()
+        except exc.IntegrityError:
+            session.rollback()  
 
 
 
