@@ -9,10 +9,10 @@ from SQL.insert import Insert
 # from SQL.insert import Insert
 
 
-class IndustryExtractor:
+class IndustryProffExtractor:
 
     def __init__(self) -> None:
-        self.url = "https://proff.no/proffIndustryTree.json"
+        self.url = "https://proff.no/proffIndustryProffTree.json"
         self.headers = self.getHeaders
         # self.hitCounter.counter = 0
      
@@ -35,17 +35,17 @@ class IndustryExtractor:
         }
    
     def getReq(self):
-        url = "https://proff.no/proffIndustryTree.json"
+        url = "https://proff.no/proffIndustryProffTree.json"
         return requests.request("GET", url, headers=self.getHeaders())
 
     def fetchIndustries(self):
         dataset = self.getReq()
         for data in dataset.json()[1:]:
             industry = data['title']
-            Insert().toIndustries(industry)
+            Insert().toProffIndustries(industry)
 
 if __name__ == '__main__':
-    IndustryExtractor().fetchIndustries()
+    IndustryProffExtractor().fetchIndustries()
 
 
 

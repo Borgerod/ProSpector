@@ -7,9 +7,11 @@ import SQL.db as db
 Session = sessionmaker(bind = db.engine)
 session = Session()
 
-def getAllIndustries():
-    return [s.industries for s in session.query(db.Industry).all()]
+def getAllProffIndustries():
+    return [s.industries for s in session.query(db.IndustryProff).all()]
 
+def getAll1881Industries():
+    return [s.industries for s in session.query(db.Industry1881).all()]
 
 
 def getAllCategories():

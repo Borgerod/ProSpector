@@ -1,56 +1,115 @@
 import time
 
-from backend.bransjer import IndustryExtractor; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
+from backend._1881 import _1881Extractor; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
+
+from backend.bransjer_proff import IndustryProffExtractor
+from backend.bransjer_1881 import Industry1881Extractor
 from SQL.config import Dev#, DevSettings, Settings, engine, base
-from SQL.query import getAllCategories, getAllIndustries
+from SQL.query import getAllCategories, getAllProffIndustries
 from backend.gulesider import GulesiderExtractor
-from backend.proff_new import ProffExtractor
+from backend.proff import ProffExtractor
 from backend.categories import CategoryExtractor
 
 from SQL.insert import Insert
 
-def extractCategories():
-    '''grab categories and insert to db
-    '''
-    CategoryExtractor().fetchCategories()
 
-def print_categories(): 
-    '''check categories 
-    '''
-    cat = getAllCategories()
-    print(cat)
+class Print:
+
+	def intro(self, name = None) -> None:
+		print("\n")
+		if name:
+			''' Sub intro print '''
+			# print("_"*62)   
+			print(f"                  Starting: {name} Extractor                ")
+			print("_"*62)
+			print() 
+		else:
+			''' Main intro print '''
+			print("="*80)
+			print(f"                  	Starting: Data Extraction                ")
+			print("="*80)
+			print()
+	
+	def outro(self, name = None) -> None:
+		print("\n")
+		if name:
+			''' sub outro print'''  
+			print("_"*62)
+			print(f"               	  {name} Extraction Complete.                 ")
+			print(f"                  Finished in {round(time.perf_counter() - start, 2)} second(s)                 ")
+			print("_"*62)
+			print()
+		else:  
+			''' Main outro print'''  
+			print("="*80)
+			print("                   	Data Extraction Complete.                 ")
+			print(f"                  	Finished in {round(time.perf_counter() - start, 2)} second(s)                 ")
+			print("="*80)
+			print()
+
+	def industries(self): 
+		'''check categories 
+		'''
+		print(getAllProffIndustries())
+
+	def categories(self): 
+		'''check categories 
+		'''
+		print(getAllCategories())
+
+def extractCategories():
+	'''grab categories and insert to db
+	'''
+	Print().intro('gulesider: categories')
+	CategoryExtractor().fetchCategories()
+	Print().outro('category')
 
 def extractGulesider():
-    GulesiderExtractor().runExtraction()
-    
-def outroPrint():
-	print("_"*62)
-	print("                   Data Extraction Complete.                 ")
-	print(f"                  Finished in {round(time.perf_counter() - start, 2)} second(s)                 ")
-	print("_"*62)
-	print()
+	'''resets "gulesider" in db, then extractes gulersider.no by category
+	'''
+	Print().intro('Gulesider')
+	GulesiderExtractor().runExtraction()
+	Print().outro('Gulesider')
 
-def extractIndustries():
-    IndustryExtractor().fetchIndustries()
-
-def print_industries(): 
-    '''check categories 
-    '''
-    cat = getAllIndustries()
-    print(cat)
+def extractProffIndustries():
+	'''grab categories and insert to db
+	'''
+	Print().intro('proff: industries')
+	IndustryProffExtractor().fetchIndustries()
+	Print().outro('industry')
 
 def extractProff():
-    ProffExtractor().runExtraction()
+	'''resets "proff" in db, then extractes proff.no by industry
+	'''
+	Print().intro('Proff')
+	ProffExtractor().runExtraction()
+	Print().outro('Proff')
 
-    
+def extract1881():
+	Print().intro('1881')
+	_1881Extractor().runExtraction()
+	Print().outro('1881')
+
+def extractIndustries1881():
+	Industry1881Extractor().fetchIndustries()
+
+
+	
 if __name__ == '__main__':
-    # extractCategories()
-    # print_categories()
-    # extractGulesider()
-    # CategoryExtractor().fetchCategories()
-    # outroPrint()
-    extractProff()
-    # print_industries()
+	Print().intro()
+
+	# extractCategories()
+	# # Print().categories()
+	# extractGulesider()
+	
+
+	# extractIndustries()
+	# # Print().industries()
+	# extractProff()
+
+	# extractIndustries1881()
+	extract1881()
+	Print().outro()
 
 
 

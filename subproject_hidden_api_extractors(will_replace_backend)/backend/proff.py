@@ -1,167 +1,158 @@
-# import json
-# import pandas as pd
-# from tqdm import tqdm
-# from multiprocessing import Pool
-# import requests
-# from tqdm import tqdm
-
-
-
-# # ___ Local Imports ___
-# from SQL.query import getAllCategories
-# from SQL.insert import Insert
-
-# def	throwTracker(throws):
-# 	'''
-# 	keeps track of all thrown businesses
-# 	'''
-# 	throwTracker.counter += throws
-
-# class ProffExtractor:
-	
-#     # TODO
-# 	def urlBuidler(self, category:str, page_num:int) -> str:
-# 		url = f"https://www.gulesider.no/_next/data/338IdBW7dht2IHQ27Ay-p/nb/search/{category}/companies/{page_num}/0.json"
-# 		pcode = 10159
-# 		pcode = 10158
-# 		industry = "adresseringsleverandører"
-# 		https://proff.no/søk-etter-bransje/Advokater og juridiske tjenester/I:10158/
-# 		url = f"https://proff.no/søk-etter-bransje/{industry}/I:{pcode}/"
-
-# 		# NOTE: Hvis du vil ha alle bransjene:
-# 		pcode=0
-# 		industry=""
-# 		url = f"https://proff.no/søk-etter-bransje/{industry}/I:{pcode}/"
-# 		url = "https://proff.no/s%C3%B8k-etter-bransje//I:0/" 
-
-
-# 		# NOTE: Innaktive foretak
-# 		url ="https://proff.no/brregs%C3%B8k/YLoFmCo_zvNZxJID58xbvPRqRxqIbXMs7BCyqkVCzBjO4NYWIKrSWsh83eNLR2sE8CNM473_GgcUCzGfdobUrjh8dvXbQmXmQDDNbHAjAq_yvmq0yzjY7DFQDMeUsIhq4uxHjlGfpewK7fqephhQAA/?q="
-# 		return url
-    
-# '''
-# antall treff søket hadde:
-# <h2>
-# 	<span>Bransje:</span>
-# 	<em></em>
-# </h2>
-
-
-# xpath: //*[@id="main-content"]/div[2]/header/span
-
-# '''
-# '''
-# nextpage url: https://proff.no/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB9eeVf_XPsU7TyV_jWVWHxt/
-
-# xpath: //*[@id="main-content"]/div[3]/ul/li[2]/a
-
-# '''
-
-
-
-# '''
-
-# url sammenlikning:
-# 1) https://proff.no/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB9eeVf_XPsU7V7Hms5MqY6J/
-# 2) https://proff.no/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB9eeVf_XPsU7TyV_jWVWHxt/
-# 3) https://proff.no/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB9eeVf_XPsU7bherF5phPXU/
-# 4) https://proff.no/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB9eeVf_XPsU7YaSQ_PoD41j/
-
-# common: https://proff.no/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB9eeVf_XPsU7
-# exceptoion: YaSQ_PoD41j/
-# XXX = str.len(11)
-# url = https://proff.no/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB9eeVf_XPsU7{XXX}/
-# '''
-# '''
-# antall sider:
-# 99763 
-# items pr page:
-# 25
-
-
-# '''
-
-
-#     # TODO
-# 	def getHeader(self, ) -> dict:
-# 		return {
-# 			"cookie": "55f7017582a6e57bfac34dfdb9e53ef4=e574a075ef616796844969c19a9ddd18",
-# 			"Accept": "*/*",
-# 			"Accept-Language": "en-US,en;q=0.9",
-# 			"Cache-Control": "no-cache",
-# 			"Connection": "keep-alive",
-# 			"Cookie": "_hjSessionUser_2847992=eyJpZCI6ImE5ZGVjM2Q1LTZjZGYtNWY0ZC1iODExLTYwYzg3YTg1NzQ4ZCIsImNyZWF0ZWQiOjE2NTY2NzU3MTQyMTIsImV4aXN0aW5nIjp0cnVlfQ==; _hjSessionUser_1215995=eyJpZCI6IjBlZWRlYzcwLThiNDAtNWMxMS1iZjI0LWY3MTM0MjU5NmNjOCIsImNyZWF0ZWQiOjE2NTcxMjIyMDM1MjEsImV4aXN0aW5nIjp0cnVlfQ==; addtl_consent=1~; _enid=sm6dp3v4zv2nwh0fe75jh4626c6s30ogjsz9j49r; _dcid=dcid.1.1666388828330.100705442; euconsent-v2=CPhMsoAPhMsoAAKAsANOCmCgAAAAAH_AABpwAAASIAJMNW4gC7MscGTQMIoEQIwrCQqgUAEFAMLRAYAODgp2VgEuoIEACAUARgRAgwBRgQCAAASAJCIAJACwQAAAiAQAAgARAIQAMDAILACwMAgABANAxACgAECQgyICIpTAgKgSCA1sqEEoKpDTCAOssAKARGRUACIJAQSAAICwcAwBICViwQJMUL5ACMEKAUQAAAIAAAAA.YAAAAAAAAAAA; _cmpRepromptHash=CPhMsoAPhMsoAAKAsANOCmCgAAAAAH_AABpwAAASIAJMNW4gC7MscGTQMIoEQIwrCQqgUAEFAMLRAYAODgp2VgEuoIEACAUARgRAgwBRgQCAAASAJCIAJACwQAAAiAQAAgARAIQAMDAILACwMAgABANAxACgAECQgyICIpTAgKgSCA1sqEEoKpDTCAOssAKARGRUACIJAQSAAICwcAwBICViwQJMUL5ACMEKAUQAAAIAAAAA.YAAAAAAAAAAA.1.KTvSi1ifP7BGbdpiCttXPA==; 55f7017582a6e57bfac34dfdb9e53ef4=bd507cea0a5f1a0a309cc12fc95d926b; _ensess=7xyhqsbxlxis3oztipqi",
-# 			"Pragma": "no-cache",
-# 			"Referer": "https://www.gulesider.no/",
-# 			"Sec-Fetch-Dest": "empty",
-# 			"Sec-Fetch-Mode": "cors",
-# 			"Sec-Fetch-Site": "same-origin",
-# 			"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
-# 			"sec-ch-ua": "^\^Google",
-# 			"sec-ch-ua-mobile": "?0",
-# 			"sec-ch-ua-platform": "^\^Windows^^"
-# 		}
-
-# 	def getReq(self, url:str) -> dict:
-# 		return requests.request("GET", url, headers=self.getHeader()).json()
-    
-#     # TODO
-# 	def parseData(self, json_res:json) -> pd.DataFrame:
-# 		return json_res['pageProps']['initialState']['companies']
-
-#     # TODO
-# 	def worker(self, category):
-# 		page_num , false_counter = 0 , 0
-# 		while True:
-# 			page_num += 1
-# 			url = self.urlBuidler(category, page_num)
-# 			json_res = self.getReq(url) 
-# 			dataset = self.parseData(json_res)
-# 			for data in dataset:
-# 				if data['customer']:
-# 					Insert().toGulesider(data)
-# 				else:
-# 					false_counter += 1
-# 			if not dataset or false_counter > 20:
-# 				break		
-
-#     # TODO 
-# 	def runExtraction(self):
-# 		throwTracker.counter = 0 # initialize throwTracker
-# 		categories = getAllCategories()[:2]
-# 		with Pool() as pool:
-# 			list(tqdm(pool.imap_unordered(self.worker, categories), total = len(categories)))
-
-# if __name__ == '__main__':
-# 	ProffExtractor().runExtraction()
-
-
-
-
+import time
+from SQL.insert import Insert
+import SQL.db as db
+from SQL.query import getAllProffIndustries
+from SQL.reset import Reset; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 import requests
+import pandas as pd
+from tqdm import tqdm
+from bs4 import BeautifulSoup
+from multiprocessing import Pool
+from pprint import pprint
 
-url = "https://proff.no/bransjes%C3%B8k"
+class ProffExtractor:
+	def __init__(self) -> None:
+		self.has_next = False
+		self.is_first = True
+		self.is_last = False
+		self.base_url = 'https://proff.no/s%C3%B8k-etter-bransje/'
+		self.url = None
+		self.industry = None
+		self.soup = None
+		self.false_limit_reached = False
+		self.header = {
+			"cookie": "_hjSessionUser_1569514=eyJpZCI6ImZjZGEyYWI0LWFlMGMtNWQxMS1hOTZiLTdlNDQwZWUxYmRmYiIsImNyZWF0ZWQiOjE2NTY2NzM5NDE5MzgsImV4aXN0aW5nIjp0cnVlfQ==; euconsent-v2=CPhHQPEPhHQPEAKAXBNOClCgAAAAAH_AABpwAAARvABIFS4gAbAoMCSAAIgEQIgrAAIAUAEAAACBAAAAAAAQAgEqAIAAAAAAAABAAwBQAQCAAAAAAAAAAAAgQAAACAAAAAAAAAAAEAAIIACgMAgABAJAAAAgAACAgAACAABAAAgACAAgIAAoAJBTCAAEAAAABCQEACAAAAAAAAAgMAQAACRAQQAAAAAAAAAAAAQAAAAA.YAAAAAAAAAAA; _pa=PA2.0370463469796563; JSESSIONID=D83F04B5C695B4C327334C5C247C2B6F; _gid=GA1.2.1949323138.1667834959; _pk_ses.2.d737=1; ln_or=d; _pk_id.2.d737=84b3886ac0cec608.1667313613.2.1667835574.1667834959.; _ga=GA1.2.810621682.1666167700; _gat=1; _ga_JKQ3JPCECD=GS1.1.1667834959.12.1.1667835718.0.0.0; AWSALB=gnCHn+q27D1uOnOaLty8yUB9fZc1Ngnx7BsLvpfoLKsOzQIq70b0V7Yik2veJEpg/xoDqI55hS+9S37Jk70Xdk51ptQX5kCzpAtnKsmGO2zHnsC3SxYROxaIsLGK; AWSALBCORS=gnCHn+q27D1uOnOaLty8yUB9fZc1Ngnx7BsLvpfoLKsOzQIq70b0V7Yik2veJEpg/xoDqI55hS+9S37Jk70Xdk51ptQX5kCzpAtnKsmGO2zHnsC3SxYROxaIsLGK",
+			"authority": "proff.no",
+			"accept": "*/*",
+			"accept-language": "en-US,en;q=0.9",
+			"cache-control": "no-cache",
+			"pragma": "no-cache",
+			"referer": "https://proff.no/s^%^C3^%^B8k-etter-bransje/adresseringsleverand^%^C3^%^B8rer/I:10159/?q=Adresseringsleverand^%^C3^%^B8rer",
+			"sec-ch-ua": "^\^Google",
+			"sec-ch-ua-mobile": "?0",
+			"sec-ch-ua-platform": "^\^Windows^^",
+			"sec-fetch-dest": "empty",
+			"sec-fetch-mode": "cors",
+			"sec-fetch-site": "same-origin",
+			"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+		}
 
-querystring = {"":"","q":"Advokater og juridiske tjenester"}
+	def setUrl(self):
+		self.url = f"https://proff.no/bransjes%C3%B8k?q={self.industry}"
 
-payload = ""
-headers = {
-    "cookie": "_hjSessionUser_1569514=eyJpZCI6ImZjZGEyYWI0LWFlMGMtNWQxMS1hOTZiLTdlNDQwZWUxYmRmYiIsImNyZWF0ZWQiOjE2NTY2NzM5NDE5MzgsImV4aXN0aW5nIjp0cnVlfQ==; euconsent-v2=CPhHQPEPhHQPEAKAXBNOClCgAAAAAH_AABpwAAARvABIFS4gAbAoMCSAAIgEQIgrAAIAUAEAAACBAAAAAAAQAgEqAIAAAAAAAABAAwBQAQCAAAAAAAAAAAAgQAAACAAAAAAAAAAAEAAIIACgMAgABAJAAAAgAACAgAACAABAAAgACAAgIAAoAJBTCAAEAAAABCQEACAAAAAAAAAgMAQAACRAQQAAAAAAAAAAAAQAAAAA.YAAAAAAAAAAA; _pa=PA2.0370463469796563; JSESSIONID=D83F04B5C695B4C327334C5C247C2B6F; _gid=GA1.2.1949323138.1667834959; _pk_ses.2.d737=1; ln_or=d; _pk_id.2.d737=84b3886ac0cec608.1667313613.2.1667835574.1667834959.; _ga=GA1.2.810621682.1666167700; _gat=1; _ga_JKQ3JPCECD=GS1.1.1667834959.12.1.1667835718.0.0.0; AWSALB=gnCHn+q27D1uOnOaLty8yUB9fZc1Ngnx7BsLvpfoLKsOzQIq70b0V7Yik2veJEpg/xoDqI55hS+9S37Jk70Xdk51ptQX5kCzpAtnKsmGO2zHnsC3SxYROxaIsLGK; AWSALBCORS=gnCHn+q27D1uOnOaLty8yUB9fZc1Ngnx7BsLvpfoLKsOzQIq70b0V7Yik2veJEpg/xoDqI55hS+9S37Jk70Xdk51ptQX5kCzpAtnKsmGO2zHnsC3SxYROxaIsLGK",
-    "authority": "proff.no",
-    "accept": "*/*",
-    "accept-language": "en-US,en;q=0.9",
-    "cache-control": "no-cache",
-    "pragma": "no-cache",
-    "referer": "https://proff.no/s^%^C3^%^B8k-etter-bransje/adresseringsleverand^%^C3^%^B8rer/I:10159/?q=Adresseringsleverand^%^C3^%^B8rer",
-    "sec-ch-ua": "^\^Google",
-    "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-platform": "^\^Windows^^",
-    "sec-fetch-dest": "empty",
-    "sec-fetch-mode": "cors",
-    "sec-fetch-site": "same-origin",
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
-}
+	def setNextHeader(self):
+		self.header = {"cookie": "AWSALB=2iWR8RxS7C8uIcRLei2d%2FJOASl9w18tZmcOFb7QbD23mgClQMPif7z9AvbR%2BrmD9IWcqGNWsfOoSiobdunkNSxXcPofA8%2BqZDd7JSQTRytytS5nfjEH8SXHVkAeO; AWSALBCORS=2iWR8RxS7C8uIcRLei2d%2FJOASl9w18tZmcOFb7QbD23mgClQMPif7z9AvbR%2BrmD9IWcqGNWsfOoSiobdunkNSxXcPofA8%2BqZDd7JSQTRytytS5nfjEH8SXHVkAeO; JSESSIONID=6D6C6C1B5081003249B99A12208B7E48"}
 
-response = requests.request("GET", url, data=payload, headers=headers, params=querystring)
+	def getData(self, req):
+		req = requests.request("GET", self.url, headers = self.header)
+		# return requests.request("GET", url, headers=self.getHeaders(), verify=True)
+		return BeautifulSoup(req.content, "html.parser") #* -> self.soup
 
-print(response.text)
+	def checkIfNextPageButton(self):
+		''' will look for this section in html:
+			<a href="/s%C3%B8k-etter-bransje/YLoFmCo_zvNZxJID58xbvLFl_00WkiF1YhtKdVP2DH7q9ML7fkP1mBywa54Z7cJoB95okX8KgB_jyc8RyUuAEbEunxKnGneeVGNEa7RQfm8/" class="arrow ssproff-right">
+		'''
+		try:
+			next_button = self.soup.find('a', class_ = "arrow ssproff-right")
+			if next_button:
+				self.url =  self.base_url+next_button['href']
+				self.is_first = False
+				self.has_next = True
+				self.setNextHeader()
+			else:
+				self.has_next = False
+				self.is_last = True
+		except:
+			self.has_next = False 
+			self.is_last = True
+
+	def extractPage(self):
+		self.soup = self.getData(self.url) 
+		wrapper = self.soup.find('div', class_="search-container-wrap")
+		false_counter = 0 		#reset counter
+		company_row_count = 0 	#reset counter		
+		try:
+			for row in wrapper:
+				try:
+					''' checks if row has a company in it, some rows has ads or are empty 
+					'''
+					if row.find('a', class_="addax addax-cs_hl_hit_company_name_click"):  
+						company_row_count +=1
+						if 'search-container clear low-priority' not in str(row):
+							company_name = row.find('a', class_="addax addax-cs_hl_hit_company_name_click").text
+							org_num = row.find('div', class_="org-number")
+							Insert().toProff(int(org_num['data-id']), company_name)
+						else:
+							false_counter += 1
+							if false_counter == company_row_count:
+								self.false_limit_reached = True
+				except:
+					pass
+			
+			self.checkIfNextPageButton()
+		except:
+			print(f"""
+
+
+			ERROR WRAPPER WAS NONETYPE:
+			{self.industry}
+			{self.url}
+
+
+			{wrapper}
+			
+
+			""")
+				
+	def worker(self, industry):
+		self.industry = industry
+		self.setUrl()
+		self.extractPage()
+		while self.has_next:
+			self.extractPage()
+			if self.false_limit_reached:
+				break
+			
+	
+
+	def splitlist(self, _industries:list, size:int) -> list[list]:
+		return [_industries[i:i + size] for i in range(0, len(_industries), size)]   
+
+	def runExtraction(self):
+		'''
+		starting off with resetting the old table, to be replaced with new data
+		'''
+		Reset().proff()
+		industries = getAllProffIndustries()
+		with Pool() as pool:
+			list(tqdm(pool.imap_unordered(self.worker, industries), total = len(industries)))
+
+if __name__ == '__main__':
+	ProffExtractor().runExtraction()
+
+
+
+
+''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP 
+							
+*						_____ WHERE I LEFT OF _____
+-						[17.08.2022]
+
+
+*						_____ EXTRACTION RECORD _______
+*						Extracts (1000) units -->  	26.5 second(s) 				  | => (1000) :  26.50 sec | [0.027 s/unit]
+*						Extracts (483.500) units -->  	22029.89 second(s)		  | => (1000) :  45.60 sec | 0.0456 s/unit]	
+						967 * 500 = 483500 [6:07:07]
+*						Extracts (975500) units -->  	36402.69 second(s)		  | => (1000) :  37.30 sec | 0.0373 s/unit]	
+						1951 * 500 = 975500 [10:06:42]
+
+*						_____ ESTIMATIONS _______
+*						Estimated length of input_list: 						1.069.577 rows / [1069577]
+*						Estimated total extraction time: 						[13:32:52] / 812.88 minutes 
+* 						ACTUAL TOTAL EXTRACTION TIME: 							[10:06:42] / 606.71 minutes
+	
+TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP'''
+
+
+
+

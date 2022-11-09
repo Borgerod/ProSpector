@@ -31,26 +31,42 @@ class Gulesider(base):
 		self.navn = navn
 		self.tlf = tlf
 
-# class Proff(base):
-# 	__tablename__ = "gulesider"
-# 	org_num = Column(Integer, unique = True, index = True, primary_key = True)
-# 	navn = Column(String, index = True)
-# 	tlf = Column(String, index = True)
+class Proff(base):
+	__tablename__ = "proff"
+	org_num = Column(Integer, unique = True, index = True, primary_key = True)
+	navn = Column(String, index = True)
 	
-# 	def __init__(self, org_num, navn, tlf):
-# 		self.org_num = org_num
-# 		self.navn = navn
-# 		self.tlf = tlf
+	def __init__(self, org_num, navn):
+		self.org_num = org_num
+		self.navn = navn
 
-class Industry(base):
+class IndustryProff(base):
 	''' Industries used by Proff
 	'''
-	__tablename__ = "industries"
+	__tablename__ = "proff_industries"
 	industries = Column(String, unique = True, index = True, primary_key = True)
 
 	def __init__(self, industries):
 		self.industries = industries
 	
+
+class Industry1881(base):
+	''' Industries used by Proff
+	'''
+	__tablename__ = "1881_industries"
+	industries = Column(String, unique = True, index = True, primary_key = True)
+
+	def __init__(self, industries):
+		self.industries = industries
+	
+class _1881(base):
+	__tablename__ = "1881"
+	org_num = Column(Integer, unique = True, index = True, primary_key = True)
+	navn = Column(String, index = True)
+	
+	def __init__(self, org_num, navn):
+		self.org_num = org_num
+		self.navn = navn
 
 
 

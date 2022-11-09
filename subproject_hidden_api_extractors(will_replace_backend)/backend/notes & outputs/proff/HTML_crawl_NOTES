@@ -557,7 +557,7 @@ primaryGroup: function() {
 secondaryGroup: function() {
     return this.roleSearchHasPriority ? this.companyGroup : this.roleGroup
 
-[e._v(e._s(e._p("industries")))]), e._v(" "), e.showIndustry ? r("selector", {
+[e._v(e._s(e._p("industries")))]), e._v(" "), e.showIndustryProff ? r("selector", {
     attrs: {
         trees: e.industryTrees,
         selected: [],
@@ -599,27 +599,27 @@ i.options.__file = "src/main/resources/js/autocompleteResults.vue",
 i.options.__file = "src/main/resources/js/industrySelector.vue",
 
 
-______________ Innblikk i hvordan proffIndustryTree.json blir handled _____________
+______________ Innblikk i hvordan proffIndustryProffTree.json blir handled _____________
 
 t.default = {
     props: ["enableSelection"],
     data: function() {
         return {
-            showIndustry: !1,
+            showIndustryProff: !1,
             industryTrees: []
         }
     },
     created: function() {
         var e = this;
         (0,
-        s.default)("/proffIndustryTree.json").then(function(e) {
+        s.default)("/proffIndustryProffTree.json").then(function(e) {
             return e.json()
         }).then(function(t) {
             return e.$set(e.industryTrees, 0, o.default.convert(t, "industry"))
         })
     },
     methods: {
-        setIndustry: function(e) {
+        setIndustryProff: function(e) {
             this.$emit("industrySelected", e.title)
         }
     },

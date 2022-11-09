@@ -3,9 +3,15 @@ from sqlalchemy import exc
 # ___ local imports ___
 import SQL.db as db
 
-# Create new Session
-Session = sessionmaker(bind = db.engine)
-session = Session()
+
+def getSession():
+    # Create new Session
+    Session = sessionmaker(bind = db.engine)
+    # session = Session()
+    return Session()
+# # Create new Session
+# Session = sessionmaker(bind = db.engine)
+# session = Session()
 
 class Insert:
     
@@ -15,6 +21,7 @@ class Insert:
         '''
         tlfErrorCounter = 0000
         orgNumErrorCounter = 0000
+        session = getSession()
         try:
             org_num = data['organisationNumber']
         except KeyError:
@@ -41,6 +48,7 @@ class Insert:
         '''
         takes a list of data from page, splits it, then inserts it into db
         '''
+        session = getSession()
         for data in dataset:
             row = db.Categories(
                 data,
@@ -50,13 +58,29 @@ class Insert:
             session.commit()
         except exc.IntegrityError:
             session.rollback()  
-
-
-    def toIndustries(self, data):
+    
+    def to1881Industries(self, dataset):
         '''
         takes a list of data from page, splits it, then inserts it into db
         '''
-        row = db.Industry(
+        session = getSession()
+        for industry in dataset:
+            row = db.Industry1881(
+                industry,
+            )
+            session.add(row) 
+            try:
+                session.commit()
+            except exc.IntegrityError:
+                session.rollback()  
+
+
+    def toProffIndustries(self, data):
+        '''
+        takes a list of data from page, splits it, then inserts it into db
+        '''
+        session = getSession()
+        row = db.IndustryProff(
             data,
         )
         session.add(row) 
@@ -65,6 +89,39 @@ class Insert:
         except exc.IntegrityError:
             session.rollback()  
 
+
+    def toProff(self, org_num, navn):
+            '''
+            takes a list of data from page, splits it, then inserts it into db
+            '''
+            session = getSession()
+            row = db.Proff(
+                org_num,
+                navn,
+            )
+            #! keep just in case
+            try:
+                session.add(row) 
+                session.commit()
+            except exc.IntegrityError:
+                session.rollback()
+    
+    
+    def to1881(self, org_num, navn):
+        '''
+        takes a list of data from page, splits it, then inserts it into db
+        '''
+        session = getSession()
+        row = db._1881(
+            org_num,
+            navn,
+        )
+        #! keep just in case
+        try:
+            session.add(row) 
+            session.commit()
+        except exc.IntegrityError:
+            session.rollback()        
 
 
 
