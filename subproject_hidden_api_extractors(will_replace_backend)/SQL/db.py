@@ -19,7 +19,6 @@ class Categories(base):
 	def __init__(self, categories):
 		self.categories = categories
 
-
 class Gulesider(base):
 	__tablename__ = "gulesider"
 	org_num = Column(Integer, unique = True, index = True, primary_key = True)
@@ -48,7 +47,6 @@ class IndustryProff(base):
 
 	def __init__(self, industries):
 		self.industries = industries
-	
 
 class Industry1881(base):
 	''' Industries used by Proff

@@ -1,11 +1,13 @@
 import time
 
+import pandas as pd
+
 from backend._1881 import _1881Extractor; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 
 from backend.bransjer_proff import IndustryProffExtractor
 from backend.bransjer_1881 import Industry1881Extractor
 from SQL.config import Dev#, DevSettings, Settings, engine, base
-from SQL.query import getAllCategories, getAllProffIndustries
+from SQL.query import getAll1881, getAll1881Industries, getAllAsPandas, getAllCategories, getAllProffIndustries
 from backend.gulesider import GulesiderExtractor
 from backend.proff import ProffExtractor
 from backend.categories import CategoryExtractor
@@ -47,16 +49,27 @@ class Print:
 			print("="*80)
 			print()
 
-	def industries(self): 
+	def industries1881(self): 
+		'''check categories 
+		'''
+		print(getAll1881Industries())
+
+	def industriesProff(self): 
 		'''check categories 
 		'''
 		print(getAllProffIndustries())
+
 
 	def categories(self): 
 		'''check categories 
 		'''
 		print(getAllCategories())
 
+	def _1881(self):
+		# print(getAll1881())
+		print(pd.DataFrame(getAll1881()))
+		
+			
 def extractCategories():
 	'''grab categories and insert to db
 	'''
@@ -93,8 +106,6 @@ def extract1881():
 def extractIndustries1881():
 	Industry1881Extractor().fetchIndustries()
 
-
-	
 if __name__ == '__main__':
 	Print().intro()
 
@@ -109,6 +120,8 @@ if __name__ == '__main__':
 
 	# extractIndustries1881()
 	extract1881()
+	print(pd.DataFrame(getAll1881Industries()))
+	Print()._1881()
 	Print().outro()
 
 

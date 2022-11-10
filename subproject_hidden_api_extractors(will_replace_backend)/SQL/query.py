@@ -22,6 +22,14 @@ def getAllGulesider():
     return [[s.org_num, s.navn, s.tlf] for s in session.query(db.Gulesider).all()]
 # print(getAllGulesider())
 
+def getAll1881():
+    return [[
+        s.org_num, 
+        s.navn, 
+        # s.tlf
+        ] for s in session.query(db._1881).all()]
+
+
 import pandas as pd
 from SQL.config import engine, base
 def getAllAsPandas(tablename:str) -> pd:

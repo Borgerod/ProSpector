@@ -22,7 +22,7 @@ class Reset:
     
     def _1881(self):
         session = getSession()
-        # session.query(db.).delete()
+        session.query(db._1881).delete()
         session.commit()
     
     def Industry1881(self):

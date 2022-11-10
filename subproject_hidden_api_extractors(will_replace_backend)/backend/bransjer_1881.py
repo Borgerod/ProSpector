@@ -46,9 +46,9 @@ class Industry1881Extractor:
             }
    
     def parseData(self, soup):
-        wrapper = soup.find('ul', class_="list-columns list-columns--3")
+        wrapper = soup.find('ul', class_ = "list-columns list-columns--3")
         try:
-            rows = wrapper.find_all('a', href=True)#, class_="list-columns list-columns--3")
+            rows = wrapper.find_all('a', href = True)#, class_="list-columns list-columns--3")
             
             # for aæ in rows:
                 
@@ -58,6 +58,17 @@ class Industry1881Extractor:
         except AttributeError:
             return []
     
+    def editIndustryList(self, industries_for_char):
+        edited_ind_for_char = []
+        for ind in industries_for_char:
+            dashFix = ind.replace(" ", "-").replace("---","-").replace("--","-")
+            parenthFix = dashFix.replace("(", "").replace(")", "")
+            øæåFix = parenthFix.replace("ø", "oe").replace("æ", "ae").replace("å", "aa")
+            edited_ind_for_char.append(øæåFix)
+        return edited_ind_for_char
+
+
+
     def genIndustriesList(self, data):
         industries_for_char = []
         for item in data:
@@ -67,12 +78,10 @@ class Industry1881Extractor:
     def fetchIndustries(self):
         Reset().Industry1881()
         for url in self.urls:
-            response = requests.request("GET", url, headers=self.getHeaders())
+            response = requests.request("GET", url, headers = self.getHeaders())
             soup = BeautifulSoup(response.text, "html.parser")
-            # print(soup.text)
             industries_for_char = self.parseData(soup)
-            # print(industries_for_char)
-            # break
-            Insert().to1881Industries(dataset=industries_for_char)
+            edited_ind_for_char = self.editIndustryList(industries_for_char)
+            Insert().to1881Industries(dataset = edited_ind_for_char)
    
 
