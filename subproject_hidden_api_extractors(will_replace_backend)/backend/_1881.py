@@ -32,16 +32,16 @@ ___ Current_issues ___
 
 	[3] company_name error 
 
-
-
+	[4]
+	1881.no/akupunktur/akupunktur-troendelag/akupunktur-roervik/roervik-akupunktur_100528204S2/
+	/akupunktur/akupunktur-troendelag/akupunktur-roervik/roervik-akupunktur_100528204S2/
 '''
 
 '''	___ Time_Estimates ___
 NOTE: "enh" betyr "industry" 
-	    30_enh_tid:		11.480s	( base + 3 enh )
-	    10_enh_tid:		12.250s	( base + 3 enh )
-		3_enh_tid:		40.150s	( base + 3 enh )
-		1_enh_tid:		10.950s ( base + 1 enh )
+	    30_enh_tid:		19.92s	( base + 30 enh )
+	    10_enh_tid:		33.64s	( base + 10 enh )
+		526_enh_tid:   224.25s	
 
 		diff = 			 0.570s	( diff = (base + 1 enh) - (base + 3 enh) = 2 enh )
 		est.enh.tid: 	 0.285s	( diff / 2 enh )
@@ -96,22 +96,48 @@ class _1881Extractor:
 	def getSoup(self, url:str = None) -> BeautifulSoup:
 		if url:
 			''' gets profile '''
-			response = requests.request("GET", url, headers = self.header)
+			try:
+				response = requests.request("GET", url, headers = self.header)
+			except requests.exceptions.TooManyRedirects as e:
+				print(f"""
+				ERROR TooManyRedirects:
+				{url}
+
+				{e}
+
+				""")
 		else:
 			''' gets profile list '''
 			response = requests.request("GET", self.url, headers = self.header)
 		return BeautifulSoup(response.content, "html.parser")
 
 	def checkForPayedEnrtryInProfile(self, profile:BeautifulSoup) -> BeautifulSoup:
-		return 'Søkeord' in profile.text or 'Andre søker også' in profile.text
+		return 'Søkeord' in profile.text 
+
+	# def checkForPayedEnrtryInProfile(self, profile:BeautifulSoup) -> bool:
+	# 	# if 'Andre søker også' not in profile.text:
+	# 	# 	print(f"TRUE (found no Andre søker også) : {self.profile_url}")
+	# 	# 	return True
+	# 	if 'Søkeord' in profile.text:
+	# 		print(f"TRUE (found Søkeord) : {self.profile_url}")
+	# 		return True
+	# 	else:
+	# 		print("FALSE")
+	# 		return False
+
+	# def something(self, profile):
+	# 	if self.checkForPayedEnrtryInProfile(profile) == True:
+	# 		self.getAndInsertCompanyInfoToDb()
 
 	def checkForPayedEnrtryInList(self, row):
 		return row.find("div", class_="listing-logo")
 
 	def setProfileLink(self, row):
-		a = row.find('a', href = re.compile(f'^/{self.industry}/'))
-		if a is None:
-			a = row.find('a', href = re.compile(f'^/tlf/'))
+		h2 = row.find('h2', class_="listing-name")
+		# a = row.find('a', href = re.compile(f'^/{self.industry}/'))
+		a = h2.find('a')
+		# if a is None:
+		# 	a = row.find('a', href = re.compile(f'^/tlf/'))
 		self.profile_url = self.base_url + a['href']
 
 	def extractPage(self):
@@ -127,6 +153,7 @@ class _1881Extractor:
 		for row in rows:
 			self.setProfileLink(row)
 			if row.find("div", class_="listing-logo"): # checks if any rows in profile-list-page has contains a company-logo (payed entry)
+				# print(f"TRUE (found listing logo): {self.profile_url}")
 				self.getAndInsertCompanyInfoToDb()
 			else:
 				link_list.append(self.profile_url) 	# else it adds to link_list for further digging
@@ -144,10 +171,13 @@ class _1881Extractor:
 			self.profile_url = url
 			profile = self.getSoup(url)
 			if self.checkForPayedEnrtryInProfile(profile):
+				# print(f"TRUE (found Søkeord) : {self.profile_url}")
 				self.getAndInsertCompanyInfoToDb()
-			else:	
+			else:
+				# print("FALSE")	
 				false_counter += 1
 				if false_counter == company_row_count: #break if whole profile-list-page is free-entry  
+					# print("LIMIT REACHED")	
 					self.reached_limit = True
 					break
 	
@@ -191,10 +221,10 @@ class _1881Extractor:
 
 	def runExtraction(self) -> None:
 		Reset()._1881()
-		industries = getAll1881Industries()[:10] #TEMP deactivated while testing
+		industries = getAll1881Industries()#[816:] #TEMP deactivated while testing
 		# print(len(industries)) # ''' ['adopsjon', 'adressering', 'advokat'] '''
 		# print(industries)
-		# industries = ['annonse-og-reklamevirksomhet']
+		# industries = ['alternativ-behandling-biopat']
 		with Pool() as pool:
 			list(tqdm(pool.imap_unordered(self.worker, industries), total = len(industries)))
 

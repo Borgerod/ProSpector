@@ -120,8 +120,8 @@ if __name__ == '__main__':
 
 	# extractIndustries1881()
 	extract1881()
-	print(pd.DataFrame(getAll1881Industries()))
-	Print()._1881()
+	# print(pd.DataFrame(getAll1881Industries()))
+	# Print()._1881()
 	Print().outro()
 
 
