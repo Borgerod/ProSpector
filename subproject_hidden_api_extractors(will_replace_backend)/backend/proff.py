@@ -10,6 +10,14 @@ from bs4 import BeautifulSoup
 from multiprocessing import Pool
 from pprint import pprint
 
+
+
+''' 
+____ Track_record ____
+	tot. time:  49.6200s 
+'''
+
+
 class ProffExtractor:
 	def __init__(self) -> None:
 		self.has_next = False

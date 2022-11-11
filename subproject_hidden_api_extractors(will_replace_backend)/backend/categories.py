@@ -7,6 +7,12 @@ import requests
 from SQL.insert import Insert
 
 
+
+''' 
+____ Track_record ____
+	tot. time:  xx.xxxs 
+'''
+
 class CategoryExtractor:
 
     def __init__(self) -> None:

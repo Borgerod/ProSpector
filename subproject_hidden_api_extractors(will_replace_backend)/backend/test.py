@@ -30,12 +30,15 @@ class Test:
 					}
 		url ="https://www.1881.no/advokat"
 		self.profile_url = "https://www.1881.no/adopsjon/adopsjon-vestfold-og-telemark/adopsjon-toensberg/adopsjonsforum_100352913S16/"
-		
-		profile_url_snippet = (self.profile_url.split("/")[-2]).replace("_", "-")
-		print(profile_url_snippet)
-		self.company_name = re.sub('[0-9]', '', profile_url_snippet).replace("-S", "")
-		navn = self.company_name
-		print(navn)
+		response = {'content': None}
+		response.content = None
+		soup = BeautifulSoup(response.content, "html.parser")
+		print(soup)
+		# profile_url_snippet = (self.profile_url.split("/")[-2]).replace("_", "-")
+		# print(profile_url_snippet)
+		# self.company_name = re.sub('[0-9]', '', profile_url_snippet).replace("-S", "")
+		# navn = self.company_name
+		# print(navn)
 
 		# profile_name = soup.find("hl", class_="details-name")
 

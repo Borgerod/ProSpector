@@ -9,6 +9,12 @@ from SQL.insert import Insert
 # from SQL.insert import Insert
 
 
+
+
+''' 
+____ Track_record ____
+	tot. time:  xx.xxxs 
+'''
 class IndustryProffExtractor:
 
     def __init__(self) -> None:

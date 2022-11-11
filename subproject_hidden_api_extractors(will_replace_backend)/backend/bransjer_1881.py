@@ -7,6 +7,12 @@ import requests
 from SQL.insert import Insert
 from SQL.reset import Reset
 
+
+''' 
+____ Track_record ____
+	tot. time:  xx.xxxs 
+'''
+
 class Industry1881Extractor:
 
     def __init__(self) -> None:

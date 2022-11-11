@@ -7,6 +7,13 @@ from tqdm import tqdm
 
 
 
+
+''' 
+____ Track_record ____
+	tot. time:  xx.xxxs 
+'''
+
+
 # ___ Local Imports ___
 from SQL.query import getAllCategories
 from SQL.insert import Insert

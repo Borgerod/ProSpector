@@ -110,22 +110,43 @@ if __name__ == '__main__':
 	Print().intro()
 
 	# extractCategories()
-	# # Print().categories()
+	# Print().categories()
+
+	# Print().intro('Gulesider')
 	# extractGulesider()
-	
+	# Print().outro('Gulesider')
+	# extractProffIndustries()
+	# Print().industriesProff()
 
-	# extractIndustries()
-	# # Print().industries()
-	# extractProff()
+	# Print().intro('Proff')
+	extractProff()
+	# Print().outro('Proff')
 
-	# extractIndustries1881()
-	extract1881()
-	# print(pd.DataFrame(getAll1881Industries()))
-	# Print()._1881()
+	# # extractIndustries1881()
+	# # extract1881()
+	# # Print()._1881()
 	Print().outro()
 
 
 
 
+
+''' 
+____ Track_record ____
+	time spent per extractor for whole data extraction 
+	brreg:				xx.xxxs
+	
+	gulesider:			xx.xxxs
+	proff:				49.620s
+	1881:				xx.xxxs
+
+	industries_1881: 	xx.xxxs
+	industries_proff:	xx.xxxs
+	categories: 		xx.xxxs
+	
+	google: 			xx.xxxs
+
+	TOT. TIME =   		xx.xxxs 
+'''
 
 
