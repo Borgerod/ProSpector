@@ -1,0 +1,61 @@
+"src":"/_next/static/media/proff.d331fca1.png"
+PhoneNumberVariations phoneNumbers={company.phones}
+<CompanyProff company={company} proff={discovery?.proff} />
+slotConfigs={getAdSlotConfigs('CompanyProfilePage_LeaderBoard_2', brand)}
+<CompanyMarketing company={company} />
+<CompanyProff company={company} proff={discovery?.proff} />
+
+
+<EnableAdsContext.Provider value={!company.customer}> <!-- NICE -->
+
+
+TrackState({
+    event: 'view_displayed',
+    type: 'profile',
+    section: 'companies',
+    view: '/companies/profile',
+    render: '',
+    endPoint: '',
+    search: false,
+    profile: true,
+    static: false,
+    query: '',
+    page: '',
+    coord: '',
+    bbox: '',
+    rating: '',
+    // groupId: groupId,
+    searchType: 'companies',
+    data: company
+})
+
+value={searchType === 'companies' || searchType === 'companyGroup' ? 0 : 1}
+const { query: queryFromRouter, push } = useRouter()
+const query = queryFromRouter?.query?.replace('+', ' ')
+const companiesUrl = buildCompaniesUrl({ query, brand })
+
+
+
+
+export const trackStateDependenciesSelector = (state: UseStoreState) => ({
+	companies: state.companies,
+	persons: state.persons,
+	companyHits: state.companyHits,
+	personHits: state.personHits,
+	wordcloud: state.wordcloud,
+	queryParts: state.queryParts,
+	searchType: state.searchType
+})
+
+export const companiesSelector = (state: UseStoreState) => state.companies
+export const companyHitsSelector = (state: UseStoreState) => state.companyHits
+export const companyPagesSelector = (state: UseStoreState) => state.companyPages
+export const queryPartsSelector = (state: UseStoreState) => state.queryParts
+export const resultsBboxSelector = (state: UseStoreState) => state.resultsBbox
+export const searchTypeSelector = (state: UseStoreState) => state.searchType
+export const searchQuerySelector = (state: UseStoreState) => state.searchQuery
+export const searchPageSelector = (state: UseStoreState) => state.searchPage
+export const searchBboxSelector = (state: UseStoreState) => state.searchBbox
+export const companyGroupSelector = (state: UseStoreState) => state.companyGroup
+
+import { useRouter } from 'next/router'

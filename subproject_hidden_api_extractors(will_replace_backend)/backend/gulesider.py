@@ -14,6 +14,35 @@ ____ Track_record ____
 '''
 
 
+
+'''
+IMPORTANT NOTICE:
+	Gulesider has by 11.11.2022 updated their front-end and has now a different solution that does not involve API.
+		NOTE: This is likely because of me, which I can and will brag about.  
+	Ergo; Current Extractor is now depricated and I have to find a different solution.
+'''
+
+''' Status_Quo:
+
+current fetch/XHR in "https://www.gulesider.no/bedriftsregister/kategorier-a":
+	[1] https://sentry.eniro.systems/api/2/envelope/?sentry_key=ac98fabc47394f19ad67b6b84e15d2f7&sentry_version=7&sentry_client=sentry.javascript.nextjs%2F7.10.0
+	[2] https://www.gulesider.no/cmpV2
+	[3] https://ss.gulesider.no/genio?v=2&event_name=genio
+	[4] https://signal-segments.s-onetag.com/tablet/www.gulesider.no/%2Fbedriftsregister%2Fkategorier-a
+
+	[1] unknown, might be the replacement api, that calls a javascript instead-> Interesting!
+	[2] unknown, hash key generator, might be related to some EU-concent -> Not interesting.
+	[3] unknown, might be some tracking related. -> Not interesting.
+	[4] related to page size based on monitor size. -> Not interesting.
+
+	annet:
+	https://macro.adnami.io/macro/spec/adsm.macro.41249494-c681-42f1-a422-220ed6e90771.js
+
+
+
+'''
+
+
 # ___ Local Imports ___
 from SQL.query import getAllCategories
 from SQL.insert import Insert
@@ -58,8 +87,8 @@ class GulesiderExtractor:
 
 		NOTE: alot of companies has probobly multiple categories and will show up multiple times
 		'''	
-		# res = requests.request("GET", url, headers=getHeader())
-		return requests.request("GET", url, headers=self.getHeader()).json()
+		# res = requests.request("GET", url, headers = getHeader())
+		return requests.request("GET", url, headers = self.getHeader()).json()
 
 	def parseData(self, json_res:json) -> pd.DataFrame:
 		# data = json_res['pageProps']['initialState']['companies']
@@ -73,7 +102,7 @@ class GulesiderExtractor:
 		keep = df.query("customer == True")
 		throw = df.query("customer == False")
 		if len(throw) > 0:
-			throwTracker(throws=len(throw))
+			throwTracker(throws = len(throw))
 		return keep
 
 	'''#* VERSION 1 WITH PROGRESS BAR
@@ -143,20 +172,23 @@ class GulesiderExtractor:
 		while True:
 			page_num += 1
 			url = self.urlBuidler(category, page_num)
-			json_res = self.getReq(url) 
-			dataset = self.parseData(json_res)
-			for data in dataset:
-				if data['customer']:
-					Insert().toGulesider(data)
-				else:
-					false_counter += 1
-			if not dataset or false_counter > 20:
-				break		
+			print(url)
+			# json_res = self.getReq(url) 
+			break
+			# dataset = self.parseData(json_res)
+			# for data in dataset:
+			# 	if data['customer']:
+			# 		Insert().toGulesider(data)
+			# 	else:
+			# 		false_counter += 1
+			# if not dataset or false_counter > 20:
+				# break		
 
 #> ThreadedPool test
 	def runExtraction(self):
 		throwTracker.counter = 0 # initialize throwTracker
-		categories = getAllCategories()[:2]
+		categories = getAllCategories()[:5]
+		print(categories)
 		with Pool() as pool:
 			list(tqdm(pool.imap_unordered(self.worker, categories), total = len(categories)))
 
@@ -165,3 +197,6 @@ if __name__ == '__main__':
 
 
 
+
+
+# ['ATV, Moped, Motorsykkel', 'ATV, Moped, Motorsykkel - Butikk']

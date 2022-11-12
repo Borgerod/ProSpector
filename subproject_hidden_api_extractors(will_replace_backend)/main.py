@@ -113,13 +113,13 @@ if __name__ == '__main__':
 	# Print().categories()
 
 	# Print().intro('Gulesider')
-	# extractGulesider()
+	extractGulesider()
 	# Print().outro('Gulesider')
 	# extractProffIndustries()
 	# Print().industriesProff()
 
 	# Print().intro('Proff')
-	extractProff()
+	# extractProff()
 	# Print().outro('Proff')
 
 	# # extractIndustries1881()
@@ -146,7 +146,7 @@ ____ Track_record ____
 	
 	google: 			xx.xxxs
 
-	TOT. TIME =   		xx.xxxs 
+	TOT. TIME =   		xx.xxxs
 '''
 
 

@@ -28,10 +28,16 @@ class Test:
 						"sec-fetch-site": "cross-site",
 						"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
 					}
-		url ="https://www.1881.no/advokat"
-		self.profile_url = "https://www.1881.no/adopsjon/adopsjon-vestfold-og-telemark/adopsjon-toensberg/adopsjonsforum_100352913S16/"
-		response = {'content': None}
-		response.content = None
+		
+		
+		'atv%2c+moped%2c+motorsykkel'
+		url="https://www.gulesider.no/_next/data/338IdBW7dht2IHQ27Ay-p/nb/search/atv%2c+moped%2c+motorsykkel/companies/1/0.json"
+		# url="https://www.gulesider.no/_next/data/338IdBW7dht2IHQ27Ay-p/nb/search/ATV, Moped, Motorsykkel/companies/1/0.json"
+		# url ="https://www.1881.no/advokat"
+		# self.profile_url = "https://www.1881.no/adopsjon/adopsjon-vestfold-og-telemark/adopsjon-toensberg/adopsjonsforum_100352913S16/"
+		# response = {'content': None}
+		# response.content = None
+
 		soup = BeautifulSoup(response.content, "html.parser")
 		print(soup)
 		# profile_url_snippet = (self.profile_url.split("/")[-2]).replace("_", "-")
@@ -91,3 +97,5 @@ https://www.1881.no/adopsjon/adopsjon-innlandet/adopsjon-kapp/danielsen-tak-og-b
 https://www.1881.no/adopsjon/adopsjon-rogaland/adopsjon-stavanger/hinna-auto-nilsen_106938558S1/
 https://www.1881.no/adopsjon/adopsjon-agder/adopsjon-kristiansand-s/inor-adopt_100347174S1/
 '''
+
+
