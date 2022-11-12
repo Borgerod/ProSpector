@@ -19,7 +19,7 @@ def getAllCategories():
 # print(getAllCategories())
 
 def getAllGulesider():
-    return [[s.org_num, s.navn, s.tlf] for s in session.query(db.Gulesider).all()]
+    return [[s.org_num, s.navn, s.is_premium, s.tlf] for s in session.query(db.Gulesider).all()]
 # print(getAllGulesider())
 
 def getAll1881():
@@ -28,7 +28,6 @@ def getAll1881():
         s.navn, 
         # s.tlf
         ] for s in session.query(db._1881).all()]
-
 
 import pandas as pd
 from SQL.config import engine, base

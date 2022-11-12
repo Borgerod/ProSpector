@@ -7,7 +7,7 @@ from backend._1881 import _1881Extractor; start = time.perf_counter() #Since it 
 from backend.bransjer_proff import IndustryProffExtractor
 from backend.bransjer_1881 import Industry1881Extractor
 from SQL.config import Dev#, DevSettings, Settings, engine, base
-from SQL.query import getAll1881, getAll1881Industries, getAllAsPandas, getAllCategories, getAllProffIndustries
+from SQL.query import getAll1881, getAll1881Industries, getAllAsPandas, getAllCategories, getAllGulesider, getAllProffIndustries
 from backend.gulesider import GulesiderExtractor
 from backend.proff import ProffExtractor
 from backend.categories import CategoryExtractor
@@ -65,8 +65,10 @@ class Print:
 		'''
 		print(getAllCategories())
 
+	def gulesider(self):
+		print(pd.DataFrame(getAllGulesider()))
+
 	def _1881(self):
-		# print(getAll1881())
 		print(pd.DataFrame(getAll1881()))
 		
 			
@@ -109,22 +111,30 @@ def extractIndustries1881():
 if __name__ == '__main__':
 	Print().intro()
 
+	''' ____ Gulesider ____ '''
 	# extractCategories()
 	# Print().categories()
 
-	# Print().intro('Gulesider')
-	extractGulesider()
-	# Print().outro('Gulesider')
+	# extractGulesider()
+	# Print().gulesider()
+
+
+	''' ____ Proff ____ '''
 	# extractProffIndustries()
 	# Print().industriesProff()
 
-	# Print().intro('Proff')
+	
 	# extractProff()
-	# Print().outro('Proff')
+	# Print().proff()
 
-	# # extractIndustries1881()
-	# # extract1881()
-	# # Print()._1881()
+
+	''' ____ 1881 ____ '''
+	# extractIndustries1881()
+	# Print().proindustries1881()
+
+	extract1881()
+	Print()._1881()
+
 	Print().outro()
 
 

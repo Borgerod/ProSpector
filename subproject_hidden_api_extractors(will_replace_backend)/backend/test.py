@@ -1,6 +1,8 @@
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import re 
+import json
 class Test:
 	def __init__(self) -> None:
 		self.reached_limit = False
@@ -37,9 +39,26 @@ class Test:
 		# self.profile_url = "https://www.1881.no/adopsjon/adopsjon-vestfold-og-telemark/adopsjon-toensberg/adopsjonsforum_100352913S16/"
 		# response = {'content': None}
 		# response.content = None
-
+		url = 'https://www.gulesider.no/advokat/bedrifter/2'
+		response = requests.request("GET", url, headers = header)
 		soup = BeautifulSoup(response.content, "html.parser")
-		print(soup)
+		script = soup.find('script', id = "__NEXT_DATA__")
+		json_object = json.loads(script.contents[0])#[0])
+		dump = json.dumps(json_object, indent = 4)
+		companies = json_object['props']['pageProps']['initialState']['companies']
+		# print(json_object['props']['pageProps']['initialState']['companies']['customer'])
+		# print(json_object['props']['pageProps']['initialState']['companies']['hitType'])
+		for company in companies:
+			print(company['name'])
+			print(company['organisationNumber'])
+			print(company['customer'])
+			print(company['hitType'])
+			print(company['phones'])
+			print("-"*20)
+		
+		
+		# print(dump)
+		# print(json_object)
 		# profile_url_snippet = (self.profile_url.split("/")[-2]).replace("_", "-")
 		# print(profile_url_snippet)
 		# self.company_name = re.sub('[0-9]', '', profile_url_snippet).replace("-S", "")

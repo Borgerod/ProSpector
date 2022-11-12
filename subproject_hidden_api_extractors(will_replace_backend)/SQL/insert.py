@@ -22,20 +22,29 @@ class Insert:
         tlfErrorCounter = 0000
         orgNumErrorCounter = 0000
         session = getSession()
+        # data['name']
+        # data['organisationNumber']
+        # data['hitType']
+        # data['phones']
+
         try:
             org_num = data['organisationNumber']
         except KeyError:
             orgNumErrorCounter+=1
-            org_num = 404000+tlfErrorCounter
+            org_num = 404000+orgNumErrorCounter
         navn = data['name']
         try:
             tlf = data['phones'][0]['number']            
         except KeyError:
             tlfErrorCounter+=1
             tlf = 404000+tlfErrorCounter
+        is_premium = False
+        if data['hitType'] == 'premium':
+            is_premium = True
         row = db.Gulesider(
             org_num,
             navn,
+            is_premium,
             tlf,
         )
         try:

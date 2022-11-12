@@ -23,11 +23,13 @@ class Gulesider(base):
 	__tablename__ = "gulesider"
 	org_num = Column(Integer, unique = True, index = True, primary_key = True)
 	navn = Column(String, index = True)
+	is_premium = Column(Boolean, index = True) 
 	tlf = Column(String, index = True)
 	
-	def __init__(self, org_num, navn, tlf):
+	def __init__(self, org_num, navn, is_premium, tlf):
 		self.org_num = org_num
 		self.navn = navn
+		self.is_premium = is_premium
 		self.tlf = tlf
 
 class Proff(base):

@@ -102,25 +102,27 @@ class _1881Extractor:
 			}
 	#> TEST version
 	def getSoup(self, url:str = None) -> BeautifulSoup:
-		try:
-			if url:
-				''' gets profile '''
-				try:
-					response = requests.request("GET", url, headers = self.header)
-				except requests.exceptions.TooManyRedirects as e:
-					print(f"""
-					ERROR TooManyRedirects:
-					{url}
+		response = requests.request("GET", 'https://www.1881.no/Error/PageNotFound', headers = self.header)	#Just for returning a empty/useless soup 
+		# try:
 
-					{e}
+		if url:
+			''' gets profile '''
+			try:
+				response = requests.request("GET", url, headers = self.header)
+			except requests.exceptions.TooManyRedirects as e:
+				print(f"""
+				ERROR TooManyRedirects:
+				{url}
 
-					""")
-			else:
-				''' gets profile list '''
-				response = requests.request("GET", self.url, headers = self.header)
-		except UnboundLocalError as e:
-			print(e)
-			response = requests.request("GET", 'https://www.1881.no/Error/PageNotFound', headers = self.header)	#Just for returning a empty/useless soup 
+				{e}
+
+				""")
+		else:
+			''' gets profile list '''
+			response = requests.request("GET", self.url, headers = self.header)
+		# except UnboundLocalError as e:
+		# 	print(e)
+		# 	response = requests.request("GET", 'https://www.1881.no/Error/PageNotFound', headers = self.header)	#Just for returning a empty/useless soup 
 		return BeautifulSoup(response.content, "html.parser")
 
 	#! OLD version

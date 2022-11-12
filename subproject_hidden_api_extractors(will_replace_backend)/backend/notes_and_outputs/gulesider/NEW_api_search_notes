@@ -33,8 +33,107 @@ value={searchType === 'companies' || searchType === 'companyGroup' ? 0 : 1}
 const { query: queryFromRouter, push } = useRouter()
 const query = queryFromRouter?.query?.replace('+', ' ')
 const companiesUrl = buildCompaniesUrl({ query, brand })
+const { query: queryFromRouter, push } = useRouter()
+const query = queryFromRouter?.query?.replace('+', ' ')
+
+________________________________________________________________________________
+data.view
+definitionid: "company-search"
+
+JSON
+_ensearch = JSON.parse(localStorage /* getItem */.rV(storage));
+TrackState /* getProfile */.Ai)(data.view),
+
+const url = 'custom/apiSearch'
+brand = brand || env.NEXT_PUBLIC_BRAND
+backendApi = backendApi || env.NEXT_PUBLIC_ONE_BACK
+bbox = boundsToApiBbox(bbox)
+
+https://www.gulesider.no/_next/image?url=https%3A%2F%2Fstatmap.eniro.com%2Fstatmap%3Fcc%3D5.3225217%2C60.3904724%26iformat%3Dimage%2Fjpeg%26iheight%3D500%26itype%3Dmap%26iwidth%3D520%26nologo%3Dtrue%26p%3D5.3225217%2C60.3904724%3Byp-pin%26scale%3D2%26yp-pin%3Dhttp%3A%2F%2Fstatic5.eniro.com%2Fimg%2Fmarkers%2Fmarker-selected-black.png%2C17%2C35%26zoom%3D17&amp;w=3840&amp;q=75
+
+"./en/common.json": [
+		40464,
+		464
+	],
+	"./nb/common": [
+		92530,
+		9500
+	],
+	"./nb/common.json": [
+		92530,
+		9500
+	],
+    _getAssetPathFromRoute
+fetch(`${this.assetPrefix}/_next/static/development/_devPagesManifest.json`).
+var _router = require("../shared/lib/router/router");
+var _getAssetPathFromRoute = _interopRequireDefault(require("../shared/lib/router/utils/get-asset-path-from-route"));
+assetPrefix + '/_next/static/chunks/pages' + encodeURI((0, _getAssetPathFromRoute).default(route, '.js')), 
+const dataRoute = (0, _getAssetPathFromRoute).default((0, _normalizeTrailingSlash).removePathTrailingSlash((0, _router).addLocale(path, locale)), '.json');
+
+const url = 'custom/apiSearch'
+const params = {
+    brand,
+    page,
+    query: encodeQuery(query),
+    coord,
+    bbox,
+    rating,
+    type: searchType,
+    groupId: groupId
+}
+const response = await axiosInstance.get(url, { params })
+store.setSearchResults
+const query = useStore(searchQuerySelector)
+________________________________________________________________________________
 
 
+
+--------------------------------
+"function": "__v",
+"vtp_dataLayerVersion": 1,
+"vtp_setDefaultValue": true,
+"vtp_defaultValue": ["macro", 11],
+"vtp_name": "definitionid"
+
+
+"function": "__cvt_59335751_117",
+"metadata": ["map"],
+"once_per_event": true,
+"vtp_add_data_layer": true,
+"vtp_event_name_custom": "genio",
+"vtp_protocol_version": "2",
+"vtp_event_type": "custom",
+"vtp_request_type": "post",
+"vtp_gtm_inject_script": ["macro", 147],
+"vtp_gtm_server_domain": ["macro", 12],
+"vtp_request_path": "\/genio",
+"vtp_add_common": false,
+"vtp_custom_data": ["list", ["map", "name", "companyList1", "value", ["macro", 149], "transformation", "none", "store", "none"], ["map", "name", "companyList2", "value", ["macro", 150], "transformation", "none", "store", "none"], ["map", "name", "kwRawGeo", "value", ["macro", 152], "transformation", "none", "store", "none"], ["map", "name", "kwRawKeyword", "value", ["macro", 154], "transformation", "none", "store", "none"], ["map", "name", "kwRawQuery", "value", ["macro", 155], "transformation", "none", "store", "none"], ["map", "name", "kwSpellcheckedGeo", "value", ["macro", 156], "transformation", "none", "store", "none"], ["map", "name", "kwSpellcheckedKeyword", "value", ["macro", 157], "transformation", "none", "store", "none"], ["map", "name", "kwSpellcheckedQuery", "value", ["macro", 158], "transformation", "none", "store", "none"], ["map", "name", "company_list", "value", ["macro", 148], "transformation", "none", "store", "none"], ["map", "name", "profile_id", "value", ["macro", 159], "transformation", "none", "store", "none"], ["map", "name", "session_id", "value", ["macro", 160], "transformation", "none", "store", "none"], ["map", "name", "event_id", "value", ["macro", 161], "transformation", "none", "store", "none"], ["map", "name", "definitionid", "value", ["macro", 162], "transformation", "none", "store", "none"], ["map", "name", "latitude", "value", ["macro", 163], "transformation", "none", "store", "none"], ["map", "name", "longitude", "value", ["macro", 164], "transformation", "none", "store", "none"], ["map", "name", "position_accuracy", "value", ["macro", 165], "transformation", "none", "store", "none"], ["map", "name", "geo_source", "value", ["macro", 166], "transformation", "none", "store", "none"], ["map", "name", "user_agent", "value", ["macro", 167], "transformation", "none", "store", "none"], ["map", "name", "event_created_at", "value", ["macro", 168], "transformation", "none", "store", "none"], ["map", "name", "url", "value", ["macro", 169], "transformation", "none", "store", "none"], ["map", "name", "site_section", "value", ["macro", 67], "transformation", "none", "store", "none"], ["map", "name", "page_name", "value", ["macro", 65], "transformation", "none", "store", "none"], ["map", "name", "search_type", "value", ["macro", 170], "transformation", "none", "store", "none"], ["map", "name", "search_category", "value", ["macro", 171], "transformation", "none", "store", "none"], ["map", "name", "search_postal_code", "value", ["macro", 172], "transformation", "none", "store", "none"], ["map", "name", "search_hits", "value", ["macro", 124], "transformation", "none", "store", "none"], ["map", "name", "search_page", "value", ["macro", 126], "transformation", "none", "store", "none"], ["map", "name", "search_advert", "value", ["macro", 173], "transformation", "none", "store", "none"], ["map", "name", "search_extra_geo", "value", ["macro", 174], "transformation", "none", "store", "none"], ["map", "name", "search_relevance_level", "value", ["macro", 175], "transformation", "none", "store", "none"], ["map", "name", "search_relevance_groups", "value", ["macro", 120], "transformation", "none", "store", "none"], ["map", "name", "search_company_type", "value", ["macro", 176], "transformation", "none", "store", "none"], ["map", "name", "ecoid", "value", ["macro", 177], "transformation", "none", "store", "none"], ["map", "name", "order", "value", ["macro", 178], "transformation", "none", "store", "none"], ["map", "name", "relevance_groups", "value", ["macro", 179], "transformation", "none", "store", "none"], ["map", "name", "relevance_level", "value", ["macro", 180], "transformation", "none", "store", "none"], ["map", "name", "list_advert", "value", ["macro", 181], "transformation", "none", "store", "none"], ["map", "name", "type", "value", ["macro", 182], "transformation", "none", "store", "none"], ["map", "name", "extra_geo_listing", "value", ["macro", 183], "transformation", "none", "store", "none"], ["map", "name", "path_eniro", "value", ["macro", 14], "transformation", "none", "store", "none"], ["map", "name", "url_eniro", "value", ["macro", 184], "transformation", "none", "store", "none"], ["map", "name", "search_data_created", "value", ["macro", 185], "transformation", "none", "store", "none"], ["map", "name", "event_error", "value", ["macro", 186], "transformation", "none", "store", "none"], ["map", "name", "search_data_profile", "value", ["macro", 187], "transformation", "none", "store", "none"]],
+"vtp_addGaParameters": false,
+"tag_id": 118
+
+
+
+
+
+---------------------------------
+
+function searchParamsToUrlQuery(searchParams) {
+    const query = {};
+    searchParams.forEach((value, key)=>{
+        if (typeof query[key] === 'undefined') {
+            query[key] = value;
+        } else if (Array.isArray(query[key])) {
+            query[key].push(value);
+        } else {
+            query[key] = [
+                query[key],
+                value
+            ];
+        }
+    });
+    return query;
+}
 
 
 export const trackStateDependenciesSelector = (state: UseStoreState) => ({
@@ -59,3 +158,77 @@ export const searchBboxSelector = (state: UseStoreState) => state.searchBbox
 export const companyGroupSelector = (state: UseStoreState) => state.companyGroup
 
 import { useRouter } from 'next/router'
+
+
+window.__NEXT_P.push(["/company/[id]"])
+return require("private-next-pages/company/[id].js");
+"/search/[query]/[searchType]/[page]/[id]",
+"private-next-pages/search/[query]/[searchType]/[page]/[id].js"
+
+var environment = client/* env.NEXT_PUBLIC_ENV */.O.NEXT_PUBLIC_ENV;
+
+var path = window === null || window === void 0 ? void 0 : (ref = window.location) === null || ref === void 0 ? void 0 : ref.pathname;
+var url = window === null || window === void 0 ? void 0 : (ref1 = window.location) === null || ref1 === void 0 ? void 0 : ref1.href;
+var channel = getChannel();
+var brand = (0,settings/* useSettings */.rV)().brand;
+getURLComponents(data.view, brand, url, path),
+
+getEnvironment(environment), {
+    campaign: campaign,
+    utm_id: utmId,
+    utm_source: utmSource,
+    utm_medium: utmMedium,
+    utm_campaign: utmCampaign,
+    utm_term: utmTerm,
+    utm_content: utmContent
+},
+getSession(),
+getProfile(), 
+
+getSearchType(data.view), 
+getSearchCategory(data.view, data.data), 
+getSearchPostalCode(data.view, data.data), 
+getSearchHits(data.view, data), 
+getSearchPagination(data === null || data === void 0 ? void 0 : data.view, data), 
+getSearchAdvert(data.view, data.data), getSearchBoughtDistrict(data.view, data.data), 
+getSearchRelevance(data.view, data.data), 
+getSearchCompanyType(data.view, data.data), 
+getSearchQuery(data.view, data), 
+getMetrics(data.view), {
+    company_list: _toConsumableArray(getCompanies(data.view, data.data))
+}
+
+getCompany(data.view, data.data), getCompanySearch(data.view, data.data), {
+    view: data.view
+}
+
+
+// EXTERNAL MODULE: ./src/env/client.mjs + 2 modules
+var client = __webpack_require__(96274);
+// EXTERNAL MODULE: ./src/store/index.ts + 3 modules
+var store = __webpack_require__(64066);
+// EXTERNAL MODULE: ./src/store/selectors.ts
+var selectors = __webpack_require__(88498);
+// EXTERNAL MODULE: ./src/store/settings.tsx + 1 modules
+var settings = __webpack_require__(49799);
+// EXTERNAL MODULE: ./src/utils/localStorage.ts
+var localStorage = __webpack_require__(12310);
+
+//# sourceMappingURL=[id]-7eaa6768708a2c38.js.map
+
+.push(["/search/[query]/[searchType]/[page]/[id]", 
+
+
+
+
+(window.__NEXT_P = window.__NEXT_P || []).push([
+    "/search/[query]/[searchType]/[page]/[id]",
+    function () {
+    return require("private-next-pages/search/[query]/[searchType]/[page]/[id].js");
+    }
+]);
+if(module.hot) {
+    module.hot.dispose(function () {
+    window.__NEXT_P.push(["/search/[query]/[searchType]/[page]/[id]"])
+    });
+}

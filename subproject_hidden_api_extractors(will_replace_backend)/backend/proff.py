@@ -137,29 +137,3 @@ class ProffExtractor:
 if __name__ == '__main__':
 	ProffExtractor().runExtraction()
 
-
-
-
-''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP 
-							
-*						_____ WHERE I LEFT OF _____
--						[17.08.2022]
-
-
-*						_____ EXTRACTION RECORD _______
-*						Extracts (1000) units -->  	26.5 second(s) 				  | => (1000) :  26.50 sec | [0.027 s/unit]
-*						Extracts (483.500) units -->  	22029.89 second(s)		  | => (1000) :  45.60 sec | 0.0456 s/unit]	
-						967 * 500 = 483500 [6:07:07]
-*						Extracts (975500) units -->  	36402.69 second(s)		  | => (1000) :  37.30 sec | 0.0373 s/unit]	
-						1951 * 500 = 975500 [10:06:42]
-
-*						_____ ESTIMATIONS _______
-*						Estimated length of input_list: 						1.069.577 rows / [1069577]
-*						Estimated total extraction time: 						[13:32:52] / 812.88 minutes 
-* 						ACTUAL TOTAL EXTRACTION TIME: 							[10:06:42] / 606.71 minutes
-	
-TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP'''
-
-
-
-

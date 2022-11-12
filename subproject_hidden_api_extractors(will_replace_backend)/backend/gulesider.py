@@ -1,16 +1,20 @@
 import json
+from bs4 import BeautifulSoup
 import pandas as pd
 from tqdm import tqdm
 from multiprocessing import Pool
 import requests
 from tqdm import tqdm
 
+from SQL.reset import Reset
+
 
 
 
 ''' 
 ____ Track_record ____
-	tot. time:  xx.xxxs 
+	tot. time:  178.880s  (2.981m)
+
 '''
 
 
@@ -57,7 +61,8 @@ def	throwTracker(throws):
 class GulesiderExtractor:
 	
 	def urlBuidler(self, category:str, page_num:int) -> str:
-		url = f"https://www.gulesider.no/_next/data/338IdBW7dht2IHQ27Ay-p/nb/search/{category}/companies/{page_num}/0.json"
+		# url = f"https://www.gulesider.no/_next/data/338IdBW7dht2IHQ27Ay-p/nb/search/{category}/companies/{page_num}/0.json"
+		url = f"https://www.gulesider.no/{category}/bedrifter/{page_num}"
 		return url
 
 	def getHeader(self, ) -> dict:
@@ -88,13 +93,17 @@ class GulesiderExtractor:
 		NOTE: alot of companies has probobly multiple categories and will show up multiple times
 		'''	
 		# res = requests.request("GET", url, headers = getHeader())
-		return requests.request("GET", url, headers = self.getHeader()).json()
+		# return requests.request("GET", url, headers = self.getHeader()).json()
+		response = requests.request("GET", url, headers = self.getHeader())
+		script = BeautifulSoup(response.content, "html.parser").find('script', id = "__NEXT_DATA__")
+		return json.loads(script.contents[0])
 
-	def parseData(self, json_res:json) -> pd.DataFrame:
+	def parseData(self, json_object:json) -> pd.DataFrame:
 		# data = json_res['pageProps']['initialState']['companies']
 		# return pd.DataFrame(data)
-		return json_res['pageProps']['initialState']['companies']
-
+		# return json_res['pageProps']['initialState']['companies']
+		return json_object['props']['pageProps']['initialState']['companies']
+	
 	def filterCustomers(self, df: pd.DataFrame) -> pd.DataFrame:
 		'''
 			filters custemer = true
@@ -172,23 +181,22 @@ class GulesiderExtractor:
 		while True:
 			page_num += 1
 			url = self.urlBuidler(category, page_num)
-			print(url)
-			# json_res = self.getReq(url) 
-			break
-			# dataset = self.parseData(json_res)
-			# for data in dataset:
-			# 	if data['customer']:
-			# 		Insert().toGulesider(data)
-			# 	else:
-			# 		false_counter += 1
-			# if not dataset or false_counter > 20:
-				# break		
+			json_object = self.getReq(url) 
+			dataset = self.parseData(json_object)
+			for data in dataset:
+				if data['customer']:
+					Insert().toGulesider(data)
+				else:
+					false_counter += 1
+			if not dataset or false_counter > 20:
+				break		
 
 #> ThreadedPool test
 	def runExtraction(self):
+		Reset().gulesider()
 		throwTracker.counter = 0 # initialize throwTracker
-		categories = getAllCategories()[:5]
-		print(categories)
+		categories = getAllCategories()#[:1]
+		# print(categories)
 		with Pool() as pool:
 			list(tqdm(pool.imap_unordered(self.worker, categories), total = len(categories)))
 
