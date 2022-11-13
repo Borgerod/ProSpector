@@ -68,7 +68,19 @@ class _1881(base):
 		self.org_num = org_num
 		self.navn = navn
 
+class InputTable(base):
+	__tablename__ = "input_table"
+	# org_num = Column(Integer, unique = True, index = True, primary_key = True)
+	organisasjonsnummer = Column(Integer, unique = True, index = True, primary_key = True)
+	navn = Column(String, index = True)
+	postadresse = Column(String, index = True, nullable = True) #! maybe wrong parameter
+	forretningsadresse = Column(String, index = True)
 
+	def __init__(self, organisasjonsnummer, navn, postadresse, forretningsadresse):
+		self.organisasjonsnummer = organisasjonsnummer
+		self.navn = navn
+		self.postadresse = postadresse
+		self.forretningsadresse = forretningsadresse
 
 
 

@@ -7,7 +7,7 @@ from backend._1881 import _1881Extractor; start = time.perf_counter() #Since it 
 from backend.bransjer_proff import IndustryProffExtractor
 from backend.bransjer_1881 import Industry1881Extractor
 from SQL.config import Dev#, DevSettings, Settings, engine, base
-from SQL.query import getAll1881, getAll1881Industries, getAllAsPandas, getAllCategories, getAllGulesider, getAllProffIndustries
+from SQL.query import getAll1881, getAll1881Industries, getAllCategories, getAllGulesider, getAllProffIndustries
 from backend.gulesider import GulesiderExtractor
 from backend.proff import ProffExtractor
 from backend.categories import CategoryExtractor
@@ -133,7 +133,7 @@ if __name__ == '__main__':
 	# Print().proindustries1881()
 
 	extract1881()
-	Print()._1881()
+	# Print()._1881()
 
 	Print().outro()
 
