@@ -77,25 +77,7 @@ class _1881Extractor:
 			response = requests.request("GET", self.url, headers = self.header)
 		return BeautifulSoup(response.content, "html.parser")
 
-	#! OLD version
-	# def getSoup(self, url:str = None) -> BeautifulSoup:
-	# 	if url:
-	# 		''' gets profile '''
-	# 		try:
-	# 			response = requests.request("GET", url, headers = self.header)
-	# 		except requests.exceptions.TooManyRedirects as e:
-	# 			print(f"""
-	# 			ERROR TooManyRedirects:
-	# 			{url}
-
-	# 			{e}
-
-	# 			""")
-	# 			pass
-	# 	else:
-	# 		''' gets profile list '''
-	# 		response = requests.request("GET", self.url, headers = self.header)
-	# 	return BeautifulSoup(response.content, "html.parser")
+	
 
 	def checkForPayedEnrtryInProfile(self, profile:BeautifulSoup) -> BeautifulSoup:
 		return 'Søkeord' in profile.text 
@@ -107,48 +89,7 @@ class _1881Extractor:
 		h2 = row.find('h2', class_ = "listing-name")
 		self.profile_url = self.base_url + h2.find('a')['href']
 
-	#! DO NOT REMOVE BEFORE EXTENSIVLY TESTING IF OUTPUT MATCHES WITH NEW VERSION
-	#! OLD VERSION OF WHATS BEING TESTED 
-	# def extractPage(self):
-	# 	soup = self.getSoup()
-	# 	if 'Det finnes ingen side med denne adressen ' in soup.text:
-	# 		self.reached_limit = True
-	# 	rows = soup.find_all("div", class_ = "box listing listing--business")
-	# 	# if not rows:
-	# 	# 	self.reached_limit = True
-		
-	# 	'''
-	# 	gets list profiles from industry (page x)
-	# 	'''
-	# 	link_list = []
-	# 	for row in rows:
-	# 		self.setProfileLink(row)
-	# 		if row.find("div", class_ = "listing-logo"): # checks if any rows in profile-list-page has contains a company-logo (payed entry)
-	# 			# print(f"TRUE (found listing logo): {self.profile_url}")
-	# 			self.getAndInsertCompanyInfoToDb()
-	# 		else:
-	# 			link_list.append(self.profile_url) 	# else it adds to link_list for further digging
-	# 	#> testing the removal of "try" 
-	# 			# try:
-	# 			# 	link_list.append(self.profile_url)
-	# 			# except:
-	# 			# 	pass
-	# 	'''
-	# 	gets profiles from link_list (page x)
-	# 	'''
-	# 	false_counter, company_row_count = 0, 0 #reset counter
-	# 	for url in link_list:
-	# 		company_row_count += 1
-	# 		self.profile_url = url
-	# 		profile = self.getSoup(url)
-	# 		if self.checkForPayedEnrtryInProfile(profile):
-	# 			self.getAndInsertCompanyInfoToDb()
-	# 		else:
-	# 			false_counter += 1
-	# 			if false_counter == company_row_count: #break if whole profile-list-page is free-entry  
-	# 				self.reached_limit = True
-	# 				break
-	
+
 
 	#> TESTING NEW SIMPLIFIED VERSION
 	def extractPage(self):
@@ -282,3 +223,65 @@ ___ Current_issues ___
 	1881.no/akupunktur/akupunktur-troendelag/akupunktur-roervik/roervik-akupunktur_100528204S2/
 	/akupunktur/akupunktur-troendelag/akupunktur-roervik/roervik-akupunktur_100528204S2/
 '''
+	#! DO NOT REMOVE BEFORE EXTENSIVLY TESTING IF OUTPUT MATCHES WITH NEW VERSION
+	#! OLD VERSION OF WHATS BEING TESTED 
+	# def extractPage(self):
+	# 	soup = self.getSoup()
+	# 	if 'Det finnes ingen side med denne adressen ' in soup.text:
+	# 		self.reached_limit = True
+	# 	rows = soup.find_all("div", class_ = "box listing listing--business")
+	# 	# if not rows:
+	# 	# 	self.reached_limit = True
+		
+	# 	'''
+	# 	gets list profiles from industry (page x)
+	# 	'''
+	# 	link_list = []
+	# 	for row in rows:
+	# 		self.setProfileLink(row)
+	# 		if row.find("div", class_ = "listing-logo"): # checks if any rows in profile-list-page has contains a company-logo (payed entry)
+	# 			# print(f"TRUE (found listing logo): {self.profile_url}")
+	# 			self.getAndInsertCompanyInfoToDb()
+	# 		else:
+	# 			link_list.append(self.profile_url) 	# else it adds to link_list for further digging
+	# 	#> testing the removal of "try" 
+	# 			# try:
+	# 			# 	link_list.append(self.profile_url)
+	# 			# except:
+	# 			# 	pass
+	# 	'''
+	# 	gets profiles from link_list (page x)
+	# 	'''
+	# 	false_counter, company_row_count = 0, 0 #reset counter
+	# 	for url in link_list:
+	# 		company_row_count += 1
+	# 		self.profile_url = url
+	# 		profile = self.getSoup(url)
+	# 		if self.checkForPayedEnrtryInProfile(profile):
+	# 			self.getAndInsertCompanyInfoToDb()
+	# 		else:
+	# 			false_counter += 1
+	# 			if false_counter == company_row_count: #break if whole profile-list-page is free-entry  
+	# 				self.reached_limit = True
+	# 				break
+	
+	
+#! OLD version
+	# def getSoup(self, url:str = None) -> BeautifulSoup:
+	# 	if url:
+	# 		''' gets profile '''
+	# 		try:
+	# 			response = requests.request("GET", url, headers = self.header)
+	# 		except requests.exceptions.TooManyRedirects as e:
+	# 			print(f"""
+	# 			ERROR TooManyRedirects:
+	# 			{url}
+
+	# 			{e}
+
+	# 			""")
+	# 			pass
+	# 	else:
+	# 		''' gets profile list '''
+	# 		response = requests.request("GET", self.url, headers = self.header)
+	# 	return BeautifulSoup(response.content, "html.parser")
