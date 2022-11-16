@@ -128,26 +128,7 @@ class Test:
 			# search_string = "advokatfirmaet riisa"
 			# search_string = ['advokatfirmaet', 'riisa']
 			print(search_string_split)
-			# # search_result = session.query(db.InputTable).filter(literal(search_string).contains(db.InputTable.navn)).all()
-			# # print(search_result)
-			# # search_result =  session.query(db.InputTable).filter(db.InputTable.navn.contains(literal(search_string))).all()
-			# # print(search_result)
-			# # search_result =  session.query(db.InputTable).filter(db.InputTable.navn.contains(literal(search_string))).all()
-			# # print(search_result)
-			# # search_result =  session.query(db.InputTable).filter(db.InputTable.navn.contains(search_string)).all()
-			## print(search_result)
-
-
-
-
-			# search_result =  session.query(db.InputTable).filter(db.InputTable.navn.match(search_string)).all()
-			# pprint([i.navn for i in search_result])	
-
-			# search_result =  session.query(db.InputTable).filter(db.InputTable.navn.match(literal(search_string))).all()
-			# pprint([i.navn for i in search_result])		
-
-			# search_result =  session.query(db.InputTable).filter(db.InputTable.navn.ilike(literal(search_string))).all()
-			# pprint([i.navn for i in search_result])	
+	
 			search_result =  session.query(db.InputTable).filter(db.InputTable.navn.ilike(f'%{search_string_split}%')).all()
 			search_result = [i.navn for i in search_result]
 			pprint(len(search_result))	
