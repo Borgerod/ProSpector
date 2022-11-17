@@ -141,10 +141,8 @@ class Test:
 				rank = difflib.get_close_matches(i, search_result, cutoff=.35)
 				rank.append(candicates)
 			# rank = difflib.get_close_matches(search_string_split, search_result, cutoff=.35)
-			print(candicates)	
 			# search_result = session.query(db.InputTable).filter_by(navn = search_string).all()
 			# pprint([i.navn for i in search_result])	
-			print("_"*20)
 			# break
 			# return search_result
 
