@@ -7,6 +7,10 @@ import SQL.db as db
 Session = sessionmaker(bind = db.engine)
 session = Session()
 
+
+# def getAllBrreg():
+#     return [s.industries for s in session.query(db.brreg_table).all()]
+
 def getAllProffIndustries():
     return [s.industries for s in session.query(db.IndustryProff).all()]
 
@@ -25,6 +29,8 @@ def getAll1881():
 def getAllInputTable():
     return [[s.org_num, s.navn, ] for s in session.query(db.InputTable).all()]
 
+def getFullInputTable():
+    return [[s.org_num, s.navn, s.postadresse, s.forretningsadresse] for s in session.query(db.InputTable).all()]
 
 
 class Search:
@@ -52,13 +58,13 @@ class Search:
 
 
 
-# import pandas as pd
-# from SQL.config import engine, base
-# def getAllAsPandas(tablename:str) -> pd:
-#     return pd.read_sql(
-#         tablename,
-#         con = engine
-#         )
+import pandas as pd
+from SQL.config import engine, base
+def getAllAsPandas(tablename:str) -> pd:
+    return pd.read_sql(
+        tablename,
+        con = engine
+        )
 
 
 

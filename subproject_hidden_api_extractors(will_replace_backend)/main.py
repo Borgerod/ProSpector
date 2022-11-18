@@ -70,8 +70,7 @@ class Print:
 
 	def _1881(self):
 		print(pd.DataFrame(getAll1881()))
-		
-			
+				
 def extractCategories():
 	'''grab categories and insert to db
 	'''
@@ -133,7 +132,7 @@ if __name__ == '__main__':
 	# Print().proindustries1881()
 
 	extract1881()
-	# Print()._1881()
+	Print()._1881()
 
 	Print().outro()
 

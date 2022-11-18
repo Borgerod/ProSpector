@@ -44,17 +44,17 @@ def getDateDiff() -> None:
 	return getCurrentData() - dt.datetime.strptime(getLastUpdate(col_name='brreg_table'), '%Y-%m-%d').date()
 
 def downloadJSON(json_file_name:str, url:str) -> None:
-    """
-    	Helper method handling downloading large files from `url` to `filename`. Returns a pointer to `filename`.
-    """
-    chunk_size = 1024
-    r = requests.get(url, stream=True)
-    with open(f'{json_file_name}', 'wb') as f:
-        pbar = tqdm( unit="B", total=int( r.headers['Content-Length'] ) )
-        for chunk in r.iter_content(chunk_size = chunk_size): 
-            if chunk: # filter out keep-alive new chunks
-                pbar.update (len(chunk))
-                f.write(chunk)
+	"""
+		Helper method handling downloading large files from `url` to `filename`. Returns a pointer to `filename`.
+	"""
+	chunk_size = 1024
+	r = requests.get(url, stream=True)
+	with open(f'{json_file_name}', 'wb') as f:
+		pbar = tqdm( unit="B", total=int( r.headers['Content-Length'] ) )
+		for chunk in r.iter_content(chunk_size = chunk_size): 
+			if chunk: # filter out keep-alive new chunks
+				pbar.update (len(chunk))
+				f.write(chunk)
 
 def jsonDataframe(data: json) -> pd.DataFrame:
 	return pd.read_json(data)
@@ -133,6 +133,7 @@ def brregCleanUp(brreg_table):
 
 #* __________ CURRENT WORKSPACE ______________________________________________________________________________________________________
 
+import ast
 def makeInputTableFromBrregTable():
 	'''
 	fetches "dirty" brreg_table from postgres
@@ -142,29 +143,48 @@ def makeInputTableFromBrregTable():
 	brreg_table = fetchData(tablename = 'brreg_table')
 	# print(brreg_table)
 	
+	# brreg_table = brreg_table.iloc[:5]
+	forretningsadresse_ = brreg_table['forretningsadresse']
+	adresse_short = []
+
+	for forretningsadresse in forretningsadresse_:
+		forretningsadresse = ast.literal_eval(forretningsadresse)
+		adresse_short_ = forretningsadresse['adresse']
+		print(adresse_short_)
+		adresse_short.append([adresse_short_])
+	# adresse_df = pd.DataFrame(adresse_short)	
+	adresse_df = pd.DataFrame(adresse_short, columns=['adresse_short'])	
+	# print(adresse_df)
 	#TEMP while testing 
 	input_table = brreg_table[[
 		'organisasjonsnummer', 
 		'navn', 
-		'postadresse',
+		# 'postadresse',
 		'forretningsadresse',
 		]]
-	input_table.rename(columns = { 
-		'organisasjonsnummer':'org_num', 
-		'navn':'navn', 
-		'postadresse':'postadresse',
-		'forretningsadresse':'forretningsadresse',
-	})
+	input_table = pd.concat([input_table, adresse_df], axis=1)
+	# print(input_table)
+	
+	
+	# input_table.rename(columns = { 
+	# 	'organisasjonsnummer':'org_num', 
+	# 	'navn':'navn', 
+	# 	# 'postadresse':'postadresse',
+	# 	'forretningsadresse':'forretningsadresse',
+	# })
 	#* THIS WILL REPLACE TEMP AFTER CHANGES
 	# input_table = brreg_table[['org_num', 'navn', 'postadresse', 'forretningsadresse',]]
 	
-	print(input_table)
+	# print(input_table)
 
 	# INSERTING input_table TO POSTGRES using insertData()
 	# cleanUp, postLastUpdate, replacetData, 
 
-	insertData(df=input_table, tablename='input_table')
-	# replacetData(df=input_table, tablename='input_table')
+	# insertData(df=input_table, tablename='input_table')
+
+
+	# insertData(df=input_table, tablename='input_table_test')
+	replacetData(df=input_table, tablename='input_table')
 	
 
 
@@ -184,6 +204,44 @@ def makeInputTableFromBrregTable():
 # 	brreg = getBrregTable()
 # 	input_table = brreg[['org_num', 'navn', 'postadresse', 'forretningsadresse',]]
 # 	print(input_table)
+
+
+def makeBrregTableFromJson():
+	brreg_table = jsonDataframe(data = r'utilities/enheter_alle.json.gz')
+	print(brreg_table.iloc[0])
+	
+	# #TEMP while testing 
+	# input_table = brreg_table[[
+	# 	'organisasjonsnummer', 
+	# 	'navn', 
+	# 	'postadresse',
+	# 	'forretningsadresse',
+	# 	]]
+	# input_table.rename(columns = { 
+	# 	'organisasjonsnummer':'org_num', 
+	# 	'navn':'navn', 
+	# 	'postadresse':'postadresse',
+	# 	'forretningsadresse':'forretningsadresse',
+	# })
+	# #* THIS WILL REPLACE TEMP AFTER CHANGES
+	# # input_table = brreg_table[['org_num', 'navn', 'postadresse', 'forretningsadresse',]]
+	
+	# print(input_table)
+
+	# # INSERTING input_table TO POSTGRES using insertData()
+	# # cleanUp, postLastUpdate, replacetData, 
+
+	# # insertData(df=input_table, tablename='input_table')
+
+
+	# # insertData(df=input_table, tablename='input_table_test')
+	# # replacetData(df=input_table, tablename='input_table')
+	
+
+
+
+
+
 
 #* _____________________________________________________________________________________________________________________________________
 
@@ -222,13 +280,14 @@ def brregExtractor():
 
 	
 
-if __name__ == '__main__':		
-	# brregExtractor()
+if __name__ == '__main__':	
+	# makeBrregTableFromJson()	
+	brregExtractor()
 
 	# TEMP while testing 
 	# checking if input_table exist:
-	input_table = fetchData(tablename = 'input_table')
-	print(input_table)
+	# input_table = fetchData(tablename = 'input_table')
+	# print(input_table)
 
 
 

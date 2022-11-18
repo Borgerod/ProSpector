@@ -68,13 +68,30 @@ class _1881(base):
 		self.org_num = org_num
 		self.navn = navn
 
+
+#! OLD InputTable
+# class InputTable(base):
+# 	__tablename__ = "input_table"
+# 	# org_num = Column(Integer, unique = True, index = True, primary_key = True)
+# 	organisasjonsnummer = Column(Integer, unique = True, index = True, primary_key = True)
+# 	navn = Column(String, index = True)
+# 	postadresse = Column(String, index = True, nullable = True) #! maybe wrong parameter
+# 	forretningsadresse = Column(String, index = True)
+
+# 	def __init__(self, organisasjonsnummer, navn, postadresse, forretningsadresse):
+# 		self.organisasjonsnummer = organisasjonsnummer
+# 		self.navn = navn
+# 		self.postadresse = postadresse
+# 		self.forretningsadresse = forretningsadresse
+
+#* NEW InputTable
+from sqlalchemy.dialects import postgresql
 class InputTable(base):
 	__tablename__ = "input_table"
-	# org_num = Column(Integer, unique = True, index = True, primary_key = True)
 	organisasjonsnummer = Column(Integer, unique = True, index = True, primary_key = True)
 	navn = Column(String, index = True)
-	postadresse = Column(String, index = True, nullable = True) #! maybe wrong parameter
-	forretningsadresse = Column(String, index = True)
+	forretningsadresse = Column(postgresql.JSON, index = True)
+	# postadresse = Column(String, index = True, nullable = True) #! maybe wrong parameter
 
 	def __init__(self, organisasjonsnummer, navn, postadresse, forretningsadresse):
 		self.organisasjonsnummer = organisasjonsnummer
@@ -84,21 +101,12 @@ class InputTable(base):
 
 
 
-# class I88I(base):
-# 	__tablename__ = "1881"
-# 	org_num = Column(Integer, unique = True, index = True, primary_key = True)
-# 	navn = Column(String, index = True)
-# 	tlf = Column(String, index = True)
-	
-# 	def __init__(self, org_num, navn, tlf):
-# 		self.org_num = org_num
-# 		self.navn = navn
-# 		self.tlf = tlf
+
+
+
 
 
 # class BrregTable(base):
-# 	''' NOTE: #todo [ ] burde kanskje bytte om navnene for consistancy!! 
-# 	'''
 # 	__tablename__ = "brreg_table"
 # 	organisasjonsnummer = Column(Integer, unique = True, index = True, primary_key = True)
 # 	navn = Column(String, index = True)
@@ -108,12 +116,7 @@ class InputTable(base):
 # 	postadresse = Column(String, index = True, nullable = True) #! maybe wrong parameter
 # 	forretningsadresse = Column(String, index = True)
 
-# class InputTable(base):
-# 	__tablename__ = "input_table"
-# 	org_num = Column(Integer, unique = True, index = True, primary_key = True)
-# 	navn = Column(String, index = True)
-# 	postadresse = Column(String, index = True, nullable = True) #! maybe wrong parameter
-# 	forretningsadresse = Column(String, index = True)
+
 
 base.metadata.create_all(engine)
 
