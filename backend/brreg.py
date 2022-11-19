@@ -145,24 +145,49 @@ def makeInputTableFromBrregTable():
 	
 	# brreg_table = brreg_table.iloc[:5]
 	forretningsadresse_ = brreg_table['forretningsadresse']
+	postadresse_ = brreg_table['postadresse']
 	adresse_short = []
+	postboks = []
+	for forretningsadresse, postadresse in zip(forretningsadresse_, postadresse_):
+		if forretningsadresse == 'NaN': #get adress from postadresse
+			postadresse = ast.literal_eval(postadresse)
+			adresse_short_ = postadresse['adresse']
+			adresse_short.append([adresse_short_])		
+		else:
+			forretningsadresse = ast.literal_eval(forretningsadresse)
+			adresse_short_ = forretningsadresse['adresse']
+			adresse_short.append([adresse_short_])
+		
+		try:
+			if postadresse != 'NaN':
+				postadresse = ast.literal_eval(postadresse)
+				postboks.append([postadresse['adresse']])	
+			else:
+				postboks.append([[""]])
+		except ValueError:
+			postboks.append([[""]])
 
-	for forretningsadresse in forretningsadresse_:
-		forretningsadresse = ast.literal_eval(forretningsadresse)
-		adresse_short_ = forretningsadresse['adresse']
-		print(adresse_short_)
-		adresse_short.append([adresse_short_])
-	# adresse_df = pd.DataFrame(adresse_short)	
+
+
+
+	# # adresse_df = pd.DataFrame(adresse_short)	
 	adresse_df = pd.DataFrame(adresse_short, columns=['adresse_short'])	
-	# print(adresse_df)
+	postboks_df = pd.DataFrame(postboks, columns=['postboks'])	
 	#TEMP while testing 
 	input_table = brreg_table[[
 		'organisasjonsnummer', 
 		'navn', 
-		# 'postadresse',
 		'forretningsadresse',
 		]]
 	input_table = pd.concat([input_table, adresse_df], axis=1)
+	input_table = pd.concat([input_table, postboks_df], axis=1)
+	# print(input_table)
+	replacetData(df=input_table, tablename='input_table')	
+	
+	
+	#! -______________________________________________________________________________________________
+	
+	
 	# print(input_table)
 	
 	
@@ -175,7 +200,7 @@ def makeInputTableFromBrregTable():
 	#* THIS WILL REPLACE TEMP AFTER CHANGES
 	# input_table = brreg_table[['org_num', 'navn', 'postadresse', 'forretningsadresse',]]
 	
-	# print(input_table)
+	print(input_table)
 
 	# INSERTING input_table TO POSTGRES using insertData()
 	# cleanUp, postLastUpdate, replacetData, 
@@ -184,7 +209,7 @@ def makeInputTableFromBrregTable():
 
 
 	# insertData(df=input_table, tablename='input_table_test')
-	replacetData(df=input_table, tablename='input_table')
+	# replacetData(df=input_table, tablename='input_table')
 	
 
 

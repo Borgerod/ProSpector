@@ -264,43 +264,17 @@ def checkBarberenAS(address_list):
 	if res >=2:
 		return True
 
-from sqlalchemy.dialects.postgresql import JSON
-from sqlalchemy import text
-from sqlalchemy import func
-def checkTableForAdresslist(address_list):
-	search = 'Rådhusgata 5'
-	# hit = session.query(db.InputTable).filter(db.InputTable.forretningsadresse.ast.literal_eval(company.forretningsadresse)).all()
-	# hit = session.query(db.InputTable.forretningsadresse).get(search)
-	# forretningsadresse = session.query(db.InputTable.forretningsadresse).all()
-	# hit = ast.literal_eval(forretningsadresse)
-	# print(hit) 
 
+def checkTableForAdresslist(search_loc, search_post):
+	search_loc='{"Rådhusgata 5"}'
+	search_post='{"Postboks 60"}'
+	company = session.query(db.InputTable).filter(db.InputTable.adresse_short.ilike(search_loc), db.InputTable.postboks.ilike(search_post)).all()
+	for i in company:
+		print(i.navn)
+	if len(company) == 1:
+		company = company[0]
+		return company.navn, company.organisasjonsnummer
 
-	# hit = session.query(db.InputTable.forretningsadresse).filter(text("forretningsadresse->['adresse'] = 'Rådhusgata 5'")).all()
-	# hit = session.query(db.InputTable.forretningsadresse).filter(text("'adresse' = 'Rådhusgata 5'")).all()
-	# hit = session.query(db.InputTable.forretningsadresse).filter(text("'adresse' = ['Langgata 87']")).all()
-	# hit = session.query(db.InputTable.forretningsadresse).filter(text('["Langgata 87"]')).all()
-	# hit = session.query(db.InputTable.organisasjonsnummer).get(992980516)
-	org_num = 992980516
-	company = session.query(db.InputTable).get(org_num)
-	# hit.f
-	print(type(company.forretningsadresse.))
-	# subq = session.query(func.json_array_elements(db.InputTable.forretningsadresse).label('adresse')).subquery()
-	# count = session.query(subq).filter(subq.c.adresse.op('->>')('adresse') == 'Rådhusgata 5').count()
-
-
-	# print(count)
-	# for search in address_list:
-		
-	# 	# hit = session.query(db.InputTable).filter(db.InputTable.forretningsadresse.ilike(search)).all()
-	# 	hit = session.query(db.InputTable).filter(db.InputTable.forretningsadresse.ilike(search)).all()
-
-
-	# 	# hit = session.query(db.InputTable).filter(db.InputTable.forretningsadresse[search].as_boolean() == False)
-	# 	print(hit)
-		# session.query(db.InputTable).\
-    	# filter(db.InputTable.forretningsadresse.astext.cast(db.InputTable) == 1)
-		# ast.literal_eval(company.forretningsadresse)
 
 
 def main():
@@ -310,7 +284,24 @@ def main():
 	# org_num = 992980516
 	# res = checkBarberenAS(address_list)
 	# print(res)
-	checkTableForAdresslist(address_list)
+
+
+	# search_loc = "Rådhusgata 5"
+	# search_post = "Postboks 60"
+	search_loc='{"Rådhusgata 5"}'
+	search_post='{"Postboks 60"}'
+
+	# print(search_loc,search_post)
+	# print("____________")
+
+
+	# search_loc = "Rådhusgata 5"
+	# search_post = "Postboks 60"
+	# search_loc='{"'+search_loc+'}"'
+	# search_post='{"'+search_post+'}"'
+	# print(search_loc, search_post)
+	# print("____________")
+	checkTableForAdresslist(search_loc, search_post)
 
 
 

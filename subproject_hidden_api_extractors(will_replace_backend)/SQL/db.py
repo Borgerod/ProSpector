@@ -92,12 +92,16 @@ class InputTable(base):
 	navn = Column(String, index = True)
 	forretningsadresse = Column(postgresql.JSON, index = True)
 	# postadresse = Column(String, index = True, nullable = True) #! maybe wrong parameter
+	adresse_short = Column(String, index=True)
+	postboks = Column(String, index=True)
 
-	def __init__(self, organisasjonsnummer, navn, postadresse, forretningsadresse):
+	def __init__(self, organisasjonsnummer, navn, postadresse, forretningsadresse, adresse_short, postboks):
 		self.organisasjonsnummer = organisasjonsnummer
 		self.navn = navn
-		self.postadresse = postadresse
+		# self.postadresse = postadresse
 		self.forretningsadresse = forretningsadresse
+		self.adresse_short = adresse_short
+		self.postboks = postboks 
 
 
 

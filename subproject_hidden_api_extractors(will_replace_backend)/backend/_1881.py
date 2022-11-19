@@ -77,8 +77,6 @@ class _1881Extractor:
 			response = requests.request("GET", self.url, headers = self.header)
 		return BeautifulSoup(response.content, "html.parser")
 
-	
-
 	def checkForPayedEnrtryInProfile(self, profile:BeautifulSoup) -> BeautifulSoup:
 		return 'Søkeord' in profile.text 
 
@@ -105,8 +103,12 @@ class _1881Extractor:
 			self.setProfileLink(row)
 			company_row_count += 1
 			if row.find("div", class_ = "listing-logo") or self.checkForPayedEnrtryInProfile(self.getSoup(self.profile_url)): # checks if any rows in profile-list-page has contains a company-logo (payed entry)
+				print(self.profile_url)
+				
 				#> substityte test
-				self.findMatchForProfileNameInBrreg()
+				self.findMatchForAddressInInputTable()
+				break
+				# self.findMatchForProfileNameInBrreg()
 				# self.getAndInsertCompanyInfoToDb()
 				# print(f"is_customer = True --> {self.profile_url}")
 			else:
@@ -116,7 +118,33 @@ class _1881Extractor:
 					self.reached_limit = True
 					# print("LIMIT REACHED")
 					break
-	
+
+	#>TEST		
+	def fetchAdress(self):
+		profile_soup = self.getSoup(self.profile_url)
+		details__body = profile_soup.find('div', class_ = 'details__body')
+		search_loc = details__body.find('a', class_="link-icon-text").text.split(',')[0].split('/')[0]
+		search_loc = " ".join(search_loc.split())
+		try:
+			search_post = details__body.find_all('p', class_="listing-address")[1].text.split(',')[0].replace('        ', '')
+			search_post = " ".join(search_post.split())
+		except IndexError:
+			search_post = None
+		return search_loc, search_post 	
+
+	# >TEST
+	def findMatchForAddressInInputTable(self):
+		search_loc, search_post = self.fetchAdress()
+		try:
+			company_name, org_num = Search().match_adress_in_input_table(search_loc, search_post)
+			if org_num:
+				print("match found")
+				Insert().to1881(org_num, company_name)
+			else:
+				self.findMatchForProfileNameInBrreg()
+		except:
+			print(search_loc, search_post)
+
 	#> TEST: substitute for "getAndInsertCompanyInfoToDb()"
 	def findMatchForProfileNameInBrreg(self): #, profile_name:str):
 		'''
@@ -175,8 +203,8 @@ class _1881Extractor:
 
 	def runExtraction(self) -> None:
 		# Reset()._1881()
-		# industries = getAll1881Industries()[:3] #TEMP deactivated while testing
-		industries = ['akustisk-utstyr']
+		industries = getAll1881Industries()[:3] #TEMP deactivated while testing
+		# industries = ['akustisk-utstyr']
 		pprint(industries)
 		with Pool() as pool:
 			list(tqdm(pool.imap_unordered(self.worker, industries), total = len(industries)))
