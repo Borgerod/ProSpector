@@ -13,7 +13,6 @@ import json
 import time
 
 from sqlalchemy import create_engine
-# from actions.db_query import Table
 
 # from SQL.core.session import get_db, getSession; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 import requests 
