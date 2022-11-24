@@ -1,0 +1,12 @@
+
+(window.__NEXT_P = window.__NEXT_P || []).push([
+    "/search/[query]/[searchType]/[page]/[id]",
+    function () {
+    return require("private-next-pages/search/[query]/[searchType]/[page]/[id].js");
+    }
+]);
+if(module.hot) {
+    module.hot.dispose(function () {
+    window.__NEXT_P.push(["/search/[query]/[searchType]/[page]/[id]"])
+    });
+}

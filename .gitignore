@@ -1,4 +1,5 @@
 __pycache__
+shortcuts
 env
 test_db.db
 print_tree.py
@@ -12,3 +13,7 @@ ProSpecor kjøpsavtale (ssa-l).docx
 ProSpecor kjøpsavtale (ssa-l)
 PrisKalkyle
 PrisKalkyle.xlsx
+OLD_backend
+virtual_env
+setEnv.bat
+Release
