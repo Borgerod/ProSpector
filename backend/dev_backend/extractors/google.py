@@ -1,16 +1,25 @@
-''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
+'''# TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 '''	
 
-#> UNDER DEVELOPMENT
+#> UNDER DEVELOPMENT <#
 
+	#§ Task at hand:
+		rework GoogleExtractor to have a more similar structure to the other extractors. 
+
+	#* Where I left off:
+		started creating the replacement class of "Extraction(ThreadPoolExecutor)" -> "GoogleExtractor"
+	
 '''
-''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
+'''# TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
+
+
 
 import time
 from typing import Any
 
 from SQL.query import getGoogleInputTable; START = time.perf_counter() #Since it also takes time to Import libs, I allways START the timer asap. 
 from typing_extensions import Self
+
 
 import re
 import os
@@ -24,49 +33,21 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
 from sqlalchemy.orm.session import Session
+from multiprocessing import Pool
+
 
 '''___ local imports __________
 '''
-# from file_manager import *
 from utilities.recaptcha_solver import Recaptcha as Recaptcha
-# from SQL.db_query import getTest
-# from SQL.add_row import getSession
+from SQL.insert import Insert
 import SQL.db as db
 
-from SQL.insert import Insert
+# from file_manager import *
+# from SQL.db_query import getTest
+# from SQL.add_row import getSession
 
 def makeChunks(input_array: np.ndarray , chunksize: int) -> list[np.ndarray]:
 	return [input_array[i:i + chunksize] for i in range(0, len(input_array), chunksize)]  
-
-# class Print:
-# 	def intro(self):
-# 		print("_"*62)
-# 		print("                  Starting: Google Extractor                ")
-# 		print("_"*62)
-# 		print()
-	
-# 	def info(self, len_nested_input: int):
-# 		'''
-# 			prints useful information about the run and it's settings. Called by googleExtractor()
-# 		'''
-# 		_, chunksize, mode, tablename, start_limit, end_limit, _, long_break, short_break = S.getSettings
-# 		print(f"Running: {mode}")
-# 		print(f"Output_table used: {tablename}")
-# 		print(f"Input_array starts from: [{start_limit}:{end_limit}]")
-# 		print(f"Chunksize: {chunksize}")
-# 		print(f"Input length: {S.getInputArrayLength}")
-# 		print(f"Number of chunks: {len_nested_input}")
-# 		print(f"""Break procedure: 
-# 		will take a long break between each chunk; [{str(dt.timedelta(seconds = long_break))}], 
-# 		and a short break between every iteration; [{str(dt.timedelta(seconds = short_break))}]""")
-# 		print("\n\n\n")
-	
-# 	def outro(self):
-# 		print("_"*62)
-# 		print("                   Data Extraction Complete.                 ")
-# 		print(f"             Finished in {round(time.perf_counter() - START, 2)} second(s) | [{str(dt.timedelta(seconds = round(time.perf_counter() - START)))}]                ")
-# 		print("_"*62)
-# 		print()
 
 class Driver:
 	def __init__(self, url:str = None):
@@ -350,7 +331,6 @@ class Extraction(ThreadPoolExecutor):
 		if not (self.is_registered and self.is_claimed and self.has_info) or self.is_registered == 'Usikkert':
 			Insert.toCallList(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False, self.url)
 
-from multiprocessing import Pool
 
 
 Driver = Driver()
