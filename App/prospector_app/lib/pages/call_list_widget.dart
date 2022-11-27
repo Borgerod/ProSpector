@@ -98,7 +98,6 @@ class _JsonDataGridState extends State<JsonDataGrid> {
     var response = await http
         .get(url, headers: {'Cookie': 'access_token=Bearer $accsess_token'});
 
-    // print(response.body);
     var list = json
         .decode(utf8.decode(response.bodyBytes))
         .cast<Map<String, dynamic>>();
