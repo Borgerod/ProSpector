@@ -9,12 +9,12 @@ As defined by the Copyright act 1968; no content from this repository may be rep
 <br> Application made by Aleksander Borgerød, all rights reserved to (C) 2022 A.Borgerød ENK. 
 
 
-## Summary
-Job Completed: October 2022 [renovated; november 2022]
-Job type: B2B SaaS development
-Job categogy: Data Extraction, Lead Generation, Database server, Cloud Computing, API integration
-Language: Python, Dart
-Style: OOP
+## Project Summary
+- Job Completed: October 2022 [renovated; november 2022]
+- Job type: B2B SaaS development
+- Job categogy: Data Extraction, Lead Generation, Database server, Cloud Computing, API integration. 
+- Language: Python, Dart
+- Style: OOP
 
 
 ## Rundown:
