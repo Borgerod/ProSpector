@@ -3,6 +3,15 @@ SaaS Lead generation software, commissioned by Mediavest AS. <br />
 data source:  brreg.no  &nbsp;|&nbsp; extraction targets:  gulesider.no, 1881.no, proff.no and gooogle.com  <br />
 
 
+
+## Summary
+Job Completed: October 2022 [renovated; november 2022]
+Job type: B2B SaaS development
+Job categogy: Data Extraction, Lead Generation, Database server, Cloud Computing, API integration
+Language: Python, Dart
+Style: OOP
+
+
 ## Rundown:
 #### [ENG] The software's tasks:
 So what we want to achieve is that you can retrieve lists of companies that have both paid advertisements in the catalogs and have a vacant, deficient or no profile on Google.
@@ -52,6 +61,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 
 
 ### CURRENT PROGRESS for todo tasks: 
+NOTE: This todo-list is NOT up to date [28.11.2022]
 ------------------------------------------------------------------------
 
    **Task 1. Address-Implemention for GoogleExtractor**
