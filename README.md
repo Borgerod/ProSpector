@@ -62,14 +62,13 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 |          |                          |
 
 # TODO
+[Todo-list last updated: 28.11.2022]
 <br>
 
 
-### CURRENT PROGRESS for todo tasks: 
-[Todo-list last updated: 28.11.2022]
-------------------------------------------------------------------------
-
-   **Task 1. Address-Implemention for GoogleExtractor**
+**Current Progress for todo tasks:**
+   <br>
+   Task 1. Address-Implemention for GoogleExtractor
 
    | No. | Progress                                                       
    |:---:|:----------------------------:|
@@ -78,12 +77,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    <!-- | 3   | Optimize SQL functions in postgres.py   -->
    <!-- | 4   | add address implementation to Google Extractor  -->
    <!-- | 5   | remove unnessasary code from search tree      -->
-
-
-
-<br><br><br>
-
-
+<br>
 
 
 
