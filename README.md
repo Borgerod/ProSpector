@@ -66,7 +66,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 
 
 ### CURRENT PROGRESS for todo tasks: 
-NOTE: This todo-list is NOT up to date [28.11.2022]
+[Todo-list last updated: 28.11.2022]
 ------------------------------------------------------------------------
 
    **Task 1. Address-Implemention for GoogleExtractor**
@@ -90,60 +90,32 @@ NOTE: This todo-list is NOT up to date [28.11.2022]
 ------------------------------------------------------------------------
    ### Overall: 
    - [x] rename /Mediavest_Scraper_bot/ to /ProSpector/ 
-   - [ ] Reform / reorganize directory; \n NOTE: every path-reference is relative to (root) /prospector/ so: "./" means "/prospector/"
-         - 
-         - move fast_api_server to /prospector/ or ./backend/
-         - move or remove ./phone_verification.py
-         - 
-         - remove all README.md except for ./README.md
-         - remove ./release (is old)
-         - remove ./fast_api_server (is old)
-         - remove ./sql_app (is old)
-         - remove all unnessasary (fake) files and folders from ./App/../release/
-         - 
-         - create shortcut for ./App/../release/
-         - create shortcut for ./App/../app_version_check/installers/
-   - [ ] Fix the .env concept for ./App/../fast_api_server/ & ./backend/ [CURRENTLY-IN-PROGRESS]
-         - (MAYBE) remove ./App/../release/..fast_api_server/backend/.env
-         - (MAYBE) remove ./App/../release/env/
-         - (MAYBE) remove ./env/
-         - implement proper .env functionality in code 
-         - make instructions for setup.exe to add enviorment variables. 
-   - [ ] Change Password for Postgres (and maybe AWS) [CURRENTLY-IN-PROGRESS]
-   - [ ] update .gitignore
-
-   ### UPDATE FROM TEST:
-   - [ ] Fix gmail account -- error messages (fortell google at det er en bot og det IKKE er suspisios activity)
-   - [ ] Til google extractor --> legg til adresse og poststed i google søket istedenfor maps. 
-   - [ ] Fjerne utlandske bedrifter
-   - [ ] Mål oppdatere listen annen hver uke (helst hver uke) (optimaliser listen)
-   - [ ] VIL ikke oppdatere listen 
-        - får også melding om godkjent, listebytte når den ikke skal det.
-   - [ ] Mulig feil med data extraction, mulig noen av dem ikke har google profil. (eller har hatt når der ble scrapet) eks. odds medsbu dødsbo  
+   - [ ] fix .gitignore
+   - [ ] fix issues with & cleanup all env files
 
    ### Database:
-   - [ ] Remove prospects in "call_list" that has [true, true, true]
-   - [ ] Reset liste_id 
+   - [x] Remove prospects in "call_list" that has [true, true, true]
    - [ ] add phone_numbers to your user database
 
    ### Backend-Extractor:
    - [x] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
       - [ ] add tag on input_list from BRREG: "if Organisasjonsform == "Norskregistrert utenlandsk foretak": check & confirm org_num"
    - [x] Add function that detects googles "search-suggestion", parse & extract
-   - [ ] replace "replace if row exsist" function with an update function
    - [x] make phone_verification-backend 
    - [x] integrate phone_verification-backend to fast-api-server
    - [x] make sure if you need an if statement to restrict to one account pr phone number 
-   - [ ] add daily quotas
-   - [ ] implement adresses to input_table & brreg_table to be used by GoogleExtractor [see CURRENT PROGRESS (1)]
-   - [ ] Reform SQL structure in postgres.py --> Status Quo: 2C4E (too crude for efficiancy)
+   - [ ] Renovation of code in postgres.py --> Status Quo: 2C4E
+   - [ ] In GoogleExtractor; Include location data in google search
+   - [ ] Include Extraction of Phone numbers
+   - [ ] make file that fetches location data from brreg_table
+   
+   ### Extractor Optimization:
+   ''' Use practises from "clean code" to optimize and objectify the code
+   - [x] Renovation of GulesiderExtractor 
+   - [x] Renovation of ProffExtractor 
+   - [x] Renovation of _1881Extractor 
+   - [ ] Renovation of GoogleExtractor
 
-     ### Extractor Optimization:
-      ''' Use practises from "clean code" to optimize and objectify the code
-       - [x] Refine Extractor in Google.py
-       - [ ] Refine Extractor in gulesider.py
-       - [ ] Refine Extractor in proff.py
-       - [ ] Refine Extractor in 1881.py
    
    ### Backend-Server:
    - [ ] add Exeption handling for more precise exceptions, irt. signup-errors (all types of signup-errors are returned as 500 "Internal server error" )
@@ -158,8 +130,8 @@ NOTE: This todo-list is NOT up to date [28.11.2022]
    - [ ] Implement the specific Exception handling from "todo: Backend-Server"
 
    ### bugs:
-   - [1] : 
-   - [2] : 
+   - [1] : ...
+
 <br>
 ------------------------------------------------------------------------
 <br><br><br>
@@ -167,9 +139,13 @@ NOTE: This todo-list is NOT up to date [28.11.2022]
 ### BEFORE DEMO RELEASE:
 ------------------------------------------------------------------------
 ''' Todo list of bugs that occored upon compiling '''
-   - [ ] add to .bat add uvicorn to path
-   - [ ] add a python checker in setup.exe
+### Overall:
+   - [ ] fix .gitignore
+   - [ ] fix issues with & cleanup all env files
    - [ ] Make gtihub repo private and give installer access key (or something like that)
+   - [x] rename /Mediavest_Scraper_bot/ to /ProSpector/ 
+   - [x] add to .bat add uvicorn to path
+   - [x] add a python checker in setup.exe
    - [x] Fix Login button error [high prio] (ROOT BUG)
    - [x] Fix loading screen bug [low prio] (Unknown)
    - [x] fix Expanded - Stack bug [high prio] (ROOT BUG)
@@ -181,7 +157,8 @@ NOTE: This todo-list is NOT up to date [28.11.2022]
    - [x] make sure that server-terminal opens either in background / minimized or behind UI   
    - [ ] ...
 
-### UI:
+### Frontend:
+   - [x] add phone_verification to your app 
    - [x] BIG ISSUE: CallListWidget{} when changing to darkmode/lightmode the "Ringestatus" checkboxes resets. 
    - [x] Fix darkmode Issue on app Startup [note: see small bugs]
    - [x] Make notes-state presistant [note: a small bug with loading]
@@ -201,7 +178,7 @@ NOTE: This todo-list is NOT up to date [28.11.2022]
    - [x] [ Low Prio ] Make instructions look Nicer 
    - [ ] ...
 
-### UI (small bugs):
+### Frontend (small bugs):
    - [x] Loading issue with presistant state   [notes_page.dart]
    - [x] Laggy transition of light/darkmode    [menu_widget.dart]
    - [x] Acryllic allways opens in darkmode    [menu_widget.dart]
@@ -209,13 +186,15 @@ NOTE: This todo-list is NOT up to date [28.11.2022]
    - [x] Overflow in About in smallwindow      [about_widget.dart / main.dart]
    - [ ] ...
 
-
-### API:
+### API Server:
    - [x] Make api server
    - [x] Finish change-password api
    - [x] Finish/fix "view call list" / "renew list" button. 
+   - [ ] add Exeption handling for more precise exceptions, irt. signup-errors (all types of signup-errors are returned as 500 "Internal server error" )
+   - [x] reorganize fast_api_server; remove all the unnessasary folders. 
+   - [x] re-Enable send EMAIL functionality
+   - [x] Consider merging ./backend/SQL/ & ./fast_api_server/  ==> Will merge? [ ] yes or [x] no
    - [ ] ...
-
 
 ### Extractor:
    - [x] Finish brreg
@@ -223,20 +202,39 @@ NOTE: This todo-list is NOT up to date [28.11.2022]
    - [x] Finish 1881
    - [x] Finish gulesider
    - [x] Finish google
+   - [x] Add function that detects googles "search-suggestion", parse & extract
+   - [x] make phone_verification-backend 
+   - [x] integrate phone_verification-backend to fast-api-server
+   - [x] make sure if you need an if statement to restrict to one account pr phone number 
+   - [x] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
+      - [ ] add tag on input_list from BRREG: "if Organisasjonsform == "Norskregistrert utenlandsk foretak": check & confirm org_num"
+   - [ ] Renovation of code in postgres.py --> Status Quo: 2C4E
+   - [ ] In GoogleExtractor; Include location data in google search
+   - [ ] Include Extraction of Phone numbers
+   - [ ] make file that fetches location data from brreg_table
    - [ ] ...
 
+### Extractor Optimization:
+''' Use practises from "clean code" to optimize and objectify the code
+   - [x] Renovation of GulesiderExtractor 
+   - [x] Renovation of ProffExtractor 
+   - [x] Renovation of _1881Extractor 
+   - [ ] Renovation of GoogleExtractor
+   
 ### Backend:
    - [x] Overview: manage user progress (call list)
    - [x] Manage user login 
    - [x] Password hasher 
    - [ ] ...
 
+### Database:
+   - [x] Remove prospects in "call_list" that has [true, true, true]
+   - [ ] add phone_numbers to your user database
+
 ### AWS:
    - [x] uplaod db to aws 
-   - [ ] upload code to aws (if possible)
    - [x] Test if RDS works without postgres. 
-
-
+   - [ ] ...
 
 ## Notes from Client:
 	Det eneste vi ser etter i et prospekt er om de har:
