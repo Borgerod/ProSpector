@@ -80,64 +80,14 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    <!-- | 5   | remove unnessasary code from search tree      -->
 
 
-------------------------------------------------------------------------
 
 <br><br><br>
 
 
 
-### POST CLIENT-MEETING TODO:
-------------------------------------------------------------------------
-   ### Overall: 
-   - [x] rename /Mediavest_Scraper_bot/ to /ProSpector/ 
-   - [ ] fix .gitignore
-   - [ ] fix issues with & cleanup all env files
 
-   ### Database:
-   - [x] Remove prospects in "call_list" that has [true, true, true]
-   - [ ] add phone_numbers to your user database
 
-   ### Backend-Extractor:
-   - [x] Investigate "wrong org_num"-bug for some of the prospects, see bugs[1]
-      - [ ] add tag on input_list from BRREG: "if Organisasjonsform == "Norskregistrert utenlandsk foretak": check & confirm org_num"
-   - [x] Add function that detects googles "search-suggestion", parse & extract
-   - [x] make phone_verification-backend 
-   - [x] integrate phone_verification-backend to fast-api-server
-   - [x] make sure if you need an if statement to restrict to one account pr phone number 
-   - [ ] Renovation of code in postgres.py --> Status Quo: 2C4E
-   - [ ] In GoogleExtractor; Include location data in google search
-   - [ ] Include Extraction of Phone numbers
-   - [ ] make file that fetches location data from brreg_table
-   
-   ### Extractor Optimization:
-   ''' Use practises from "clean code" to optimize and objectify the code
-   - [x] Renovation of GulesiderExtractor 
-   - [x] Renovation of ProffExtractor 
-   - [x] Renovation of _1881Extractor 
-   - [ ] Renovation of GoogleExtractor
-
-   
-   ### Backend-Server:
-   - [ ] add Exeption handling for more precise exceptions, irt. signup-errors (all types of signup-errors are returned as 500 "Internal server error" )
-   - [ ] reorganize fast_api_server; remove all the unnessasary folders. 
-   - [x] re-Enable send EMAIL functionality
-   - [ ] Consider merging ./backend/SQL/ & ./fast_api_server/  ==> Will merge? [ ] yes or [ ] no
-    
-
-   ### Frontend:
-   - [?] Add copy function to the call list table 
-   - [x] add phone_verification to your app 
-   - [ ] Implement the specific Exception handling from "todo: Backend-Server"
-
-   ### bugs:
-   - [1] : ...
-
-<br>
-------------------------------------------------------------------------
-<br><br><br>
-
-### BEFORE DEMO RELEASE:
-------------------------------------------------------------------------
+## Todo List:
 ''' Todo list of bugs that occored upon compiling '''
 ### Overall:
    - [ ] fix .gitignore
