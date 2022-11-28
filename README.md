@@ -6,7 +6,7 @@ data source:  brreg.no  &nbsp;|&nbsp; extraction targets:  gulesider.no, 1881.no
 Please note that this repository is temporarly set to public due to job-applications, 
 this is a private source-code to a product for sale. You do not have premission to use this code for private use or financial gain.
 As defined by the Copyright act 1968; no content from this repository may be reproduced, transmitted or copied without the ecpress written permission of A.Borgerød.
-Application made by Aleksander Borgerød, all rights reserved to (C) 2022 A.Borgerød ENK. 
+<br> Application made by Aleksander Borgerød, all rights reserved to (C) 2022 A.Borgerød ENK. 
 
 
 ## Summary
