@@ -14,10 +14,11 @@
 
 
 
-import time
+import time;START = time.perf_counter() #Since it also takes time to Import libs, I allways START the timer asap. 
+
 from typing import Any
 
-from SQL.query import getGoogleInputTable; START = time.perf_counter() #Since it also takes time to Import libs, I allways START the timer asap. 
+from SQL.query import getGoogleInputTable, getFullInputTable
 from typing_extensions import Self
 
 
@@ -94,10 +95,6 @@ class Driver:
 		options.add_experimental_option('useAutomationExtension', False)
 		options.add_argument('--disable-blink-features=AutomationControlled')
 		return options
-
-
-
-
 
 class Extraction(ThreadPoolExecutor):	
 	def __init__(self, input_array):
@@ -332,7 +329,6 @@ class Extraction(ThreadPoolExecutor):
 			Insert.toCallList(self.org_num, self.search_term, self.is_registered, self.is_claimed, self.has_info, False, self.url)
 
 
-
 Driver = Driver()
 class GoogleExtractor:
 	def __init__(self) -> None:
@@ -366,7 +362,15 @@ class GoogleExtractor:
 			stops process if Captcha is triggered, finally sends a df of results to database.
 		'''
 		input_array = getGoogleInputTable().to_numpy()
-		nested_input_array = makeChunks(input_array, self.chunksize)
+		# input_array = getFullInputTable().to_numpy()
+		# print(input_array)
+		# for i in input_array:
+		# 	print(len(i))
+		# 	print(i)
+		# 	break
+			
+		# nested_input_array = makeChunks(input_array, self.chunksize)
+		# with Pool() as pool:
+			# list(tqdm(pool.imap_unordered(self.worker, input_array), total = len(input_array)))
 
-		with Pool() as pool:
-			list(tqdm(pool.imap_unordered(self.worker, input_array), total = len(input_array)))
+

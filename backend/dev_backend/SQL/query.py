@@ -1,4 +1,6 @@
+import site
 from sqlalchemy.orm import sessionmaker
+import pandas as pd
 
 # ___ local imports ___
 import SQL.db as db
@@ -19,10 +21,8 @@ def getAllCategories():
 def getAllGulesider():
 	return [[s.org_num, s.navn, s.is_premium, s.tlf] for s in session.query(db.Gulesider).all()]
 
-
 def getSimpleGulesider():
 	return [[s.org_num, s.navn,] for s in session.query(db.Gulesider).all()]
-
 
 def getAll1881():
 	return [[s.org_num, s.navn, ] for s in session.query(db._1881).all()]
@@ -34,25 +34,45 @@ def getAllInputTable():
 	return [[s.organisasjonsnummer, s.navn, ] for s in session.query(db.InputTable).all()]
 
 def getFullInputTable():
-	return [[s.organisasjonsnummer, s.navn, s.postadresse, s.forretningsadresse] for s in session.query(db.InputTable).all()]
+	return [[s.organisasjonsnummer, s.navn, s.forretningsadresse] for s in session.query(db.InputTable).all()]
 
-
-
+def getCompanyFromInputTableByOrgNum(org_num:int) -> list:
+	# return [[s.organisasjonsnummer, s.navn, s.forretningsadresse, s.forretningsadresse] for s in session.query(db.InputTable).get(org_num)]
+		# row =  session.query(db.InputTable).filter(db.InputTable.organisasjonsnummer.contains(org_num))#.all()
+		row =  session.query(db.InputTable).filter(db.InputTable.organisasjonsnummer==org_num)#.all()
+		
+		return [[s.organisasjonsnummer, s.navn, s.forretningsadresse,] for s in row]
 
 def getGoogleInputTable():
 	master_list = getSimpleGulesider()+ getAllProff()+ getAll1881()
 	df = pd.DataFrame(master_list, columns = ['org_num', 'name'])
-	return df.drop_duplicates(keep = 'first')
-	# _gulesider = getSimpleGulesider() #might need to remove extra columns
-	# _proff = getAllProff()
-	# _1881 = getAll1881()
-	# master_list = []
-	# _gulesider = pd.DataFrame()
+	df = df.drop_duplicates(keep = 'first')
+	df = df.set_index(df.org_num, drop=True)
+	info = pd.DataFrame(getFullInputTable(), columns = ['org_num','name','loc',])
+	info = info.drop_duplicates(keep = 'first')
+	info = info.set_index(info.org_num, drop=True)
+
+	df = pd.concat([df, info], axis=1)
+	# df.dropna(subset=['loc'])
+	print(df)
+	# return df.drop_duplicates(keep = 'first')
+
+
+
+# def getGoogleInputTable():
+# 	extractions = getSimpleGulesider()+ getAllProff()+ getAll1881()
+# 	df = pd.DataFrame(extractions, columns = ['org_num', 'name'])
+# 	# brreg_table = getFullInputTable()
+	
+# 	for org_num in df.org_num:
+# 		info = getCompanyFromInputTableByOrgNum(org_num)
+# 		info = pd.DataFrame(info, columns = ['organisasjonsnummer','navn','forretningsadresse',])
+# 		df = pd.concat([df, info], axis = 1)
+# 	print(df)
+# 	return df.drop_duplicates(keep = 'first')
+
 
 	
-
-
-
 class Search:
 	'''
 	Currently used by _1881Extracto().rextractPage() <- (./extractors/_1881.py)
@@ -60,6 +80,10 @@ class Search:
 	match for it in brregTable instead of scraping Rengskapstall.no.
 	Which could save almost 1/3 of the runtime.
 	'''
+	def get_company_by_org_num_in_input_table(self, org_num:int):
+		row =  session.query(db.InputTable).filter(db.InputTable.organisasjonsnummer.contains(org_num))#.all()
+		return [[s.organisasjonsnummer, s.navn, s.forretningsadresse, s.forretningsadresse] for s in row]
+
 	def match_company_name_in_input_table(self, profile_name:str):
 		row =  session.query(db.InputTable).filter(db.InputTable.navn.contains(profile_name))#.all()
 		return [[s.org_num, s.navn, ] for s in row]
@@ -93,13 +117,13 @@ class Search:
 
 
 
-import pandas as pd
-from SQL.config import engine, base
-def getAllAsPandas(tablename:str) -> pd:
-	return pd.read_sql(
-		tablename,
-		con = engine
-		)
+# import pandas as pd
+# from SQL.config import engine, base
+# def getAllAsPandas(tablename:str) -> pd:
+# 	return pd.read_sql(
+# 		tablename,
+# 		con = engine
+# 		)
 
 
 
@@ -115,8 +139,8 @@ def getAllAsPandas(tablename:str) -> pd:
 
 
 
-'''#! ORIGINAL 
-'''
+# '''#! ORIGINAL 
+# '''
 # for s in session.query(db.Gulesider).all():
 #     print(s.org_num, s.navn, s.tlf)
 
