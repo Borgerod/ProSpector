@@ -49,3 +49,5 @@ seedir
 psycopg2
 twilio
 phonenumbers
+chromedriver-binary
+

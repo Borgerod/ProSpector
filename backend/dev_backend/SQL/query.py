@@ -4,6 +4,7 @@ import pandas as pd
 
 # ___ local imports ___
 import SQL.db as db
+from SQL.insert import Insert
 
 # Create new Session
 Session = sessionmaker(bind = db.engine)
@@ -43,21 +44,26 @@ def getCompanyFromInputTableByOrgNum(org_num:int) -> list:
 		
 		return [[s.organisasjonsnummer, s.navn, s.forretningsadresse,] for s in row]
 
-def getGoogleInputTable():
+# def getGoogleInputTable():
+# 	master_list = getSimpleGulesider()+ getAllProff()+ getAll1881()
+# 	_input = pd.DataFrame(master_list, columns = ['org_num', 'name'])
+# 	_input = _input.drop_duplicates(keep = 'first')
+# 	_info = pd.DataFrame(getFullInputTable(), columns = ['org_num','name','loc',])
+# 	_info = _info.drop_duplicates(keep = 'first')
+# 	return _info.loc[(_info.org_num.isin(_input['org_num'])),:]
+
+
+def genGoogleInputTable():
 	master_list = getSimpleGulesider()+ getAllProff()+ getAll1881()
-	df = pd.DataFrame(master_list, columns = ['org_num', 'name'])
-	df = df.drop_duplicates(keep = 'first')
-	df = df.set_index(df.org_num, drop=True)
-	info = pd.DataFrame(getFullInputTable(), columns = ['org_num','name','loc',])
-	info = info.drop_duplicates(keep = 'first')
-	info = info.set_index(info.org_num, drop=True)
-
-	df = pd.concat([df, info], axis=1)
-	# df.dropna(subset=['loc'])
-	print(df)
-	# return df.drop_duplicates(keep = 'first')
-
-
+	_input = pd.DataFrame(master_list, columns = ['org_num', 'name'])
+	_input = _input.drop_duplicates(keep = 'first')
+	_info = pd.DataFrame(getFullInputTable(), columns = ['org_num','name','loc',])
+	_info = _info.drop_duplicates(keep = 'first')
+	output = _info.loc[(_info.org_num.isin(_input['org_num'])),:].reset_index(drop=True)
+	Insert().toGoogle(output.to_numpy())
+	
+def getAllGoogle():
+	return [[s.org_num, s.name, s.loc] for s in session.query(db.Google).all()]
 
 # def getGoogleInputTable():
 # 	extractions = getSimpleGulesider()+ getAllProff()+ getAll1881()

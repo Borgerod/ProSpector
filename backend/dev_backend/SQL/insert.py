@@ -1,5 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import exc
+import pandas as pd 
+import numpy as np 
 # ___ local imports ___
 import SQL.db as db
 
@@ -83,7 +85,6 @@ class Insert:
             except exc.IntegrityError:
                 session.rollback()  
 
-
     def toProffIndustries(self, data):
         '''
         takes a list of data from page, splits it, then inserts it into db
@@ -97,7 +98,6 @@ class Insert:
             session.commit()
         except exc.IntegrityError:
             session.rollback()  
-
 
     def toProff(self, org_num, navn):
             '''
@@ -114,8 +114,7 @@ class Insert:
                 session.commit()
             except exc.IntegrityError:
                 session.rollback()
-    
-    
+      
     def to1881(self, org_num, navn):
         '''
         takes a list of data from page, splits it, then inserts it into db
@@ -132,6 +131,22 @@ class Insert:
         except exc.IntegrityError:
             session.rollback()        
 
+    def toGoogle(self, array:np.ndarray):
+        '''
+        inserts generated list and inserts it into googleInputTable
+        '''
+        session = getSession()
+        for data in array:
+            row = db.Google(
+            data[0], #org_num   
+            data[1], #name
+            data[2], #loc        
+            )
+            session.add(row) 
+        try:
+            session.commit()
+        except exc.IntegrityError:
+            session.rollback()  
 
     def toCallList(self, org_num:int, navn:str, google_profil:str,
                 eier_bekreftet:bool ,komplett_profil:bool, 

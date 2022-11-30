@@ -67,6 +67,17 @@ class _1881(base):
 		self.org_num = org_num
 		self.navn = navn
 
+class Google(base):
+	__tablename__ = "Google"
+	org_num = Column(Integer, unique = True, index = True, primary_key = True)
+	name = Column(String, index = True)
+	# loc = Column(postgresql.JSON, index = True)
+	loc = Column(String, index = True)
+	
+	def __init__(self, org_num, name, loc):
+		self.org_num = org_num
+		self.name = name	
+		self.loc = loc 
 
 class InputTable(base):
 	__tablename__ = "input_table"
