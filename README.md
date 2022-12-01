@@ -79,25 +79,36 @@ TODO
 [Todo-list last updated: 28.11.2022]
 <br>
 
-
-**Current Progress for todo tasks:**
+Current Progress for todo tasks:
+---------------
    <br>
    Task 1. Address-Implemention for GoogleExtractor
 
    | No. | Progress                                                       
    |:---:|:----------------------------:|
    | 1   | added addresses to brreg_table 
-   <!-- | 2   | added addresses to input_table -->
-   <!-- | 3   | Optimize SQL functions in postgres.py   -->
-   <!-- | 4   | add address implementation to Google Extractor  -->
-   <!-- | 5   | remove unnessasary code from search tree      -->
+   | 2   | added addresses to input_table
+   | 3   | Optimized SQL functions in postgres.py  
+   | 4   | added address implementation to Google Extractor 
+   | 5   | remove unnessasary code from search tree     
+
+
+   Task 2. PhoneNumber-Implemention for GoogleExtractor
+   | No. | Progress                                                       
+   |:---:|:----------------------------:|
+   | 1   | added tlf to input_table 
+   | 2   | added tlf to Google Extractor
+   | 3   | add tlf to Gulesider Extractor
+   | 4   | add tlf to 1881 Extractor
+   | 5   | add tlf to Proff Extractor
+   | 6   | implemented tlf to SQL code
+   
 <br>
 
 
 
 Todo List:
 ---------------
-''' Todo list of bugs that occored upon compiling '''
 ### Overall:
    - [ ] fix .gitignore
    - [ ] fix issues with & cleanup all env files
