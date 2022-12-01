@@ -47,13 +47,25 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
       Lageret     : Cloud storage   : [AWS](https://aws.amazon.com/)
       Fabrikken   : Data Extractor  : /backend
 
+
+
 ### Notes About Porject:
+
 #### What is good and what is bad?
-- I am very new to virtual env, so it's a mess and is probably the least useful part of the project.
-- 
+- [bad] virtual_env; I am very new to venv, so it's a mess and is probably the least useful part of the project.
+- [bad] user_backend/fast_api_server; The overall structure is too complicated and is hard to use.  SQL in dev_backend is much more easier to understand. 
+- [bad] ProSpector; Still contains some dead code, unnessasary files and backups, will be removed.
+- [bad] App/prospector_app; Some implementations are very crude, e.g.: dark-light mode
+- [good] App/prospector_app; Overall clear file structure and visually pleasing UI
+- [good] dev_backend; is the most refined part, and runs fast 
+- [good] ProSpector; Has an overall clear file structure
+
 #### Personal notes
 - Learn how to properly use virtual env
 	- it seems like if done properly; python_installer
+- Lean how to gitignore
+
+
 
 PreView
 ---------------
