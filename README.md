@@ -81,16 +81,16 @@ TODO
 
 Current Progress for todo tasks:
 ---------------
-   <br>
-   Task 1. Address-Implemention for GoogleExtractor
+<br>
+   <!-- Task 1. Address-Implemention for GoogleExtractor -->
 
-   | No. | Progress                                                       
+   <!-- | No. | Progress                                                       
    |:---:|:----------------------------:|
    | 1   | added addresses to brreg_table 
    | 2   | added addresses to input_table
    | 3   | Optimized SQL functions in postgres.py  
    | 4   | added address implementation to Google Extractor 
-   | 5   | remove unnessasary code from search tree     
+   | 5   | remove unnessasary code from search tree      -->
 
 
    Task 2. PhoneNumber-Implemention for GoogleExtractor
@@ -102,7 +102,6 @@ Current Progress for todo tasks:
    | 4   | add tlf to 1881 Extractor
    | 5   | add tlf to Proff Extractor
    | 6   | implemented tlf to SQL code
-   
 <br>
 
 
