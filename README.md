@@ -84,12 +84,13 @@ TODO
    Task 2. PhoneNumber-Implemention for GoogleExtractor
    | No. | Progress                                                       
    |:---:|:----------------------------:|
-   | 1   | added tlf to input_table 
-   | 2   | added tlf to Google Extractor
-   | 3   | added tlf to Gulesider Extractor
-   | 4   | added tlf to 1881 Extractor
-   | 5   | added tlf to Proff Extractor
-   | 6   | implemented tlf to SQL code
+   | 1   | added tlf to input_table [tested]
+   | 2   | added tlf to Proff Extractor [untested]
+   | 3   | added tlf to Gulesider Extractor [tested]
+   | 4   | added tlf to 1881 Extractor [untested]
+   | 5   | implemented tlf to SQL code 
+   <!-- | 6   | added tlf to Google Extractor -->
+
 <br>
 
 
