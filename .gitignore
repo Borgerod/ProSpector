@@ -17,3 +17,4 @@ OLD_backend
 virtual_env
 setEnv.bat
 Release
+setEnv

@@ -12,14 +12,13 @@ soruce, tutorial:
     Create a .env file
     First, you need to create a new .env file, and then load the name and value of the variables as a key-value pairs:
 '''
-# todo [X] make .env file 
 
 
 ''' #* STEP 2
     Create app.py (NOTE will call it "create_env.py") ;Import and Call python-dotenv
 '''
-# importing the load_dotenv from the python-dotenv module
-from dotenv import load_dotenv
+
+from dotenv import load_dotenv # importing the load_dotenv from the python-dotenv module
 import os #provides ways to access the Operating System and allows us to read the environment variables
 
 # load_dotenv(find_dotenv())
