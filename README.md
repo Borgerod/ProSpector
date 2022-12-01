@@ -1,15 +1,17 @@
-# ProSpector
+ProSpector
+===============
 SaaS Lead generation software, commissioned by Mediavest AS. <br />
 data source:  brreg.no  &nbsp;|&nbsp; extraction targets:  gulesider.no, 1881.no, proff.no and gooogle.com  <br />
 
-## Copyright Stamement
+Copyright Stamement
+---------------
 Please note that this repository is temporarly set to public due to job-applications, 
 this is a private source-code to a product for sale. You do not have premission to use this code for private use or financial gain.
 As defined by the Copyright act 1968; no content from this repository may be reproduced, transmitted or copied without the ecpress written permission of A.Borgerød.
 <br> Application made by Aleksander Borgerød, all rights reserved to (C) 2022 A.Borgerød ENK. 
 
-
-## Project Summary
+Project Summary
+---------------
 - Job Completed: October 2022 [renovated; november 2022]
 - Job type: B2B SaaS development
 - Job categogy: Data Extraction, Lead Generation, Database server, Cloud Computing, API integration. 
@@ -17,7 +19,8 @@ As defined by the Copyright act 1968; no content from this repository may be rep
 - Style: OOP
 
 
-## Rundown:
+Rundown:
+---------------
 #### [ENG] The software's tasks:
 So what we want to achieve is that you can retrieve lists of companies that have both paid advertisements in the catalogs and have a vacant, deficient or no profile on Google.
 - Step 1: Gulesider 1881, or proff.no after --> Companies with paid paid
@@ -44,8 +47,16 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
       Lageret     : Cloud storage   : [AWS](https://aws.amazon.com/)
       Fabrikken   : Data Extractor  : /backend
 
+### Notes About Porject:
+#### What is good and what is bad?
+- I am very new to virtual env, so it's a mess and is probably the least useful part of the project.
+- 
+#### Personal notes
+- Learn how to properly use virtual env
+	- it seems like if done properly; python_installer
 
-## PreView
+PreView
+---------------
 ![splash](https://user-images.githubusercontent.com/97392841/196432180-2d0efdcc-454c-4e0d-9cf7-bf4a69deff40.JPG)
 ![login](https://user-images.githubusercontent.com/97392841/196432256-8e8a61f5-e17e-441d-a379-459c75cd80ba.JPG)
 ![home_dark](https://user-images.githubusercontent.com/97392841/196432172-647b9794-2bb8-4eac-9def-712fde47d625.JPG)
@@ -54,14 +65,17 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 ![about](https://user-images.githubusercontent.com/97392841/196432168-89580045-b235-4ffe-80a5-54caaa37da55.JPG)
 
 
-# GLOSSARY
+GLOSSARY
+===============
+
 | **Term** |      **Definition**      |
 |:--------:|:------------------------:|
 | 2C4E     | Too crude for Efficiency |
 |          |                          |
 |          |                          |
 
-# TODO
+TODO
+===============
 [Todo-list last updated: 28.11.2022]
 <br>
 
@@ -81,7 +95,8 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 
 
 
-## Todo List:
+Todo List:
+---------------
 ''' Todo list of bugs that occored upon compiling '''
 ### Overall:
    - [ ] fix .gitignore
@@ -111,15 +126,15 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [x] Add: "press enter" function to LoginWidget{}
    - [x] Finish "remember me" knapp 
    - [x] fix text borders in instructions
-   - [x] [ Low Prio ] Fix border Issue with popups
-   - [x] [ Low Prio ] Increase min.windowsize 
-   - [x] [ Low Prio ] Change fontweight for bodytext in "renew list"   
-   - [ ] [ Low Prio ] Make "Instructions from Supervisor" section in "Instructions"
+   - [x] [ *Low Prio* ] Fix border Issue with popups
+   - [x] [ *Low Prio* ] Increase min.windowsize 
+   - [x] [ *Low Prio* ] Change fontweight for bodytext in "renew list"   
+   - [ ] [ *Low Prio* ] Make "Instructions from Supervisor" section in "Instructions"
    		- [ ] Add section editable for supervisors & other privilages
    		- [ ] Add Column "supervisor" in user-db 
-   - [x] [ Low Prio ] Clean up files (but first verify functionality, then backup)
-   - [x] [ Low Prio ] Maybe add splash screen / loading screen
-   - [x] [ Low Prio ] Make instructions look Nicer 
+   - [x] [ *Low Prio* ] Clean up files (but first verify functionality, then backup)
+   - [x] [ *Low Prio* ] Maybe add splash screen / loading screen
+   - [x] [ *Low Prio* ] Make instructions look Nicer 
    - [ ] ...
 
 ### Frontend (small bugs):
@@ -159,7 +174,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [ ] ...
 
 ### Extractor Optimization:
-''' Use practises from "clean code" to optimize and objectify the code
+Use practises from "clean code" to optimize and convert code to OOP..
    - [x] Renovation of GulesiderExtractor 
    - [x] Renovation of ProffExtractor 
    - [x] Renovation of _1881Extractor 
@@ -180,7 +195,8 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
    - [x] Test if RDS works without postgres. 
    - [ ] ...
 
-## Notes from Client:
+Notes from Client:
+-------------
 	Det eneste vi ser etter i et prospekt er om de har:
 	-  Betalt oppføring på: Proff, 1881 eller Gulesider
 	-  Ingen, ikke-bekreftet eller mangelfull Google-profil 

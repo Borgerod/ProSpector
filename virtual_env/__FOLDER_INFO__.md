@@ -1,5 +1,10 @@
 ## What is this folder? - purpose & content
 
+## Please note:
+I am new to virtual env (as you may see), thus; 
+the solution is messy and probably not very useful. </br>
+Honestly, the crude solution might have caused more problems than it fixed.  
+
 ### Purpose:
 Will install config settings as enviourment variables.
 	"install_virtual_env.bat" is the manager of this folder 
