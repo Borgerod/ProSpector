@@ -1,14 +1,14 @@
 ProSpector
 ===============
-SaaS Lead generation software, commissioned by Mediavest AS. <br />
-data source:  brreg.no  &nbsp;|&nbsp; extraction targets:  gulesider.no, 1881.no, proff.no and gooogle.com  <br />
+SaaS Lead generation software, commissioned by Mediavest AS.  
+data source:  brreg.no  &nbsp;|&nbsp; extraction targets:  gulesider.no, 1881.no, proff.no and gooogle.com.  
 
 Copyright Stamement
 ---------------
 Please note that this repository is temporarly set to public due to job-applications, 
 this is a private source-code to a product for sale. You do not have premission to use this code for private use or financial gain.
-As defined by the Copyright act 1968; no content from this repository may be reproduced, transmitted or copied without the ecpress written permission of A.Borgerød.
-<br> Application made by Aleksander Borgerød, all rights reserved to (C) 2022 A.Borgerød ENK. 
+As defined by the Copyright act 1968; no content from this repository may be reproduced, transmitted or copied without the ecpress written permission of A.Borgerød.  
+Application made by Aleksander Borgerød, all rights reserved to (C) 2022 A.Borgerød ENK. 
 
 Project Summary
 ---------------
