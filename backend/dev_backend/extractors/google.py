@@ -4,11 +4,14 @@
 #> UNDER DEVELOPMENT <#
 
 	#§ Task at hand:
-		rework GoogleExtractor to have a more similar structure to the other extractors. 
+		Cut "fat" from GoogleExtractor, maybe split up class.
+		Fix html error.
+		Create getter for Phone numbers and add to Call List.
 
 	#* Where I left off:
-		started creating the replacement class of "Extraction(ThreadPoolExecutor)" -> "GoogleExtractor"
-	
+		'GoogleExtractor' is complete, but little to no "fat" has been removed.
+		Raised an error during extraction, related to html parsing. A variable returned empty somwhere. 
+
 '''
 '''# TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 
@@ -18,7 +21,7 @@ import time;START = time.perf_counter() #Since it also takes time to Import libs
 
 from typing import Any
 import ast
-from SQL.query import getAllGoogle, getFullInputTable
+from SQL.query import getAllGoogle
 from typing_extensions import Self
 
 

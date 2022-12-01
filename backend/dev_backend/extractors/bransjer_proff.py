@@ -8,7 +8,7 @@ from bs4 import element #annotaions
 
 ''' ___ Local Imports ___ '''
 from SQL.insert import Insert
-
+from SQL.reset import Reset
 
 ''' 
 ____ Track_record ____
@@ -18,8 +18,8 @@ class IndustryProffExtractor:
 
     def __init__(self) -> None:
         self.base_url = "https://proff.no/industry/select?beginLetter="
-        self.urls = self.getUrls
         self.headers = self.getHeaders
+        self.urls = self.genUrlsByLetters
         self.url = None
         
     @property
@@ -42,32 +42,28 @@ class IndustryProffExtractor:
         }
 
     @property
-    def getChars(self) -> list[str]:
-        ''' returns the alphabet as a list '''
-        return list(string.ascii_lowercase) + ['æ','ø','å']  
+    def genUrlsByLetters(self) -> list[str]:
+        return [
+            f"{self.base_url}{letter}" for letter #builds list of urls by..            
+            in list(string.ascii_lowercase) + ['æ','ø','å'] # ..letters from the alphabes
+            ] 
     
-    @property
-    def getUrls(self) -> list[str]:
-        ''' builds a list of urls, based on letters from the alphabet '''
-        return [self.base_url+char for char in self.getChars]
-    
-    @property
     def getReq(self) -> response:
         return requests.request("GET", self.url, headers = self.getHeaders)
     
-    @property
     def parseData(self) -> element:
-        soup = BeautifulSoup(self.getReq.text, "html.parser")
+        soup = BeautifulSoup(self.getReq().text, "html.parser")
         return soup.find('ul', class_ = "three-aligned-columns clear")
 
     def getListFromPage(self) -> list[str]:
-        return self.parseData.find_all('a', href = True)
+        return self.parseData().find_all('a', href = True)
 
     def fetchIndustries(self) -> None:
-        '''extracts industries from alphabetical sorted lists on proff.no'''
+        ''' NOTE: Insert <- list[str]
+        extracts list of industries from alphabetical sorted lists on proff.no
+        '''
+        Reset().IndustryProff()
         for self.url in self.urls:
             for industry in self.getListFromPage():
                 Insert().toProffIndustries(industry.text)
                 
-if __name__ == '__main__':
-    IndustryProffExtractor().fetchIndustries()

@@ -1,3 +1,4 @@
+import json
 from SQL.insert import Insert
 import SQL.db as db
 from SQL.query import Search, getAll1881Industries
@@ -9,6 +10,9 @@ from bs4 import BeautifulSoup
 from multiprocessing import Pool
 from pprint import pprint
 import re 
+
+# TODO [ ] implement phone number 
+
 
 ''' 
 ____ Track_record ____
@@ -105,11 +109,11 @@ class _1881Extractor:
 			if row.find("div", class_ = "listing-logo") or self.checkForPayedEnrtryInProfile(self.getSoup(self.profile_url)): # checks if any rows in profile-list-page has contains a company-logo (payed entry)
 				print(self.profile_url)
 				
-				#> substityte test
-				self.findMatchForAddressInInputTable()
-				break
+				# #> substityte test
+				# self.findMatchForAddressInInputTable()
+				# break
 				# self.findMatchForProfileNameInBrreg()
-				# self.getAndInsertCompanyInfoToDb()
+				self.getAndInsertCompanyInfoToDb()
 				# print(f"is_customer = True --> {self.profile_url}")
 			else:
 				false_counter += 1
@@ -118,6 +122,24 @@ class _1881Extractor:
 					self.reached_limit = True
 					# print("LIMIT REACHED")
 					break
+
+
+	def getPhoneNumber(self, row) -> str:
+		try:
+			# tries to find number in company list 
+			return row.find('a', class_="addax addax-cs_hl_hit_phone_click").text
+		except:
+			try:
+				# WILL MAKE NUMBER SEARCH ON GULESIDER:
+				self.url = f"https://www.gulesider.no/{self.company_name}/bedrifter"
+				script = self.getData().find('script', id = "__NEXT_DATA__")
+				return json.loads(script.contents[0])['props']['pageProps']['initialState']['companies'][0]['phones'][0]['number']
+			except:
+				pass
+				# print(f"""ERROR; could not find tlf for:
+				# {self.profile_url}
+				# """)
+
 
 	#>TEST		
 	def fetchAdress(self):
@@ -169,6 +191,8 @@ class _1881Extractor:
 		try:
 			org_num = int(regnskapstall_soup.find("th", string = " Org nr ").find_next().text.replace('\xa0', ''))
 			company_name =  regnskapstall_soup.find("th", string = " Juridisk selskapsnavn ").find_next().text
+			tlf = regnskapstall_soup.find("th", string = "Telefon").find_next().text
+			# class="call-button"
 		except AttributeError: #! This might not be needed anymore 
 			print(f"""
 			ERROR:
@@ -179,7 +203,7 @@ class _1881Extractor:
 			""")
 			org_num = 404
 			company_name = "Error"
-		Insert().to1881(org_num, company_name)
+		Insert().to1881(org_num, company_name, tlf)
 
 	def requestRegnskapstall(self):
 		# self.profile_url_snippet = (self.profile_url.split("/")[-2]).replace("_", "-")
@@ -192,20 +216,19 @@ class _1881Extractor:
 		self.industry = industry
 		self.url = f"{self.base_url}/{self.industry}"
 		self.extractPage()
-		
-		# page_num = 1
-		# while self.reached_limit == False:
-		# 	page_num += 1
-		# 	self.url = f"{self.base_url}/{self.industry}?page={page_num}"
-		# 	self.extractPage()
-		# 	if self.reached_limit:
-		# 		break
+		page_num = 1
+		while self.reached_limit == False:
+			page_num += 1
+			self.url = f"{self.base_url}/{self.industry}?page={page_num}"
+			self.extractPage()
+			if self.reached_limit:
+				break
 
 	def runExtraction(self) -> None:
-		# Reset()._1881()
+		Reset()._1881()
 		industries = getAll1881Industries()[:3] #TEMP deactivated while testing
 		# industries = ['akustisk-utstyr']
-		pprint(industries)
+		# pprint(industries)
 		with Pool() as pool:
 			list(tqdm(pool.imap_unordered(self.worker, industries), total = len(industries)))
 

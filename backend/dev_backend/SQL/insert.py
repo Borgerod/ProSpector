@@ -6,7 +6,7 @@ import numpy as np
 import SQL.db as db
 
 
-def getSession():
+def getSession() -> None:
     # Create new Session
     Session = sessionmaker(bind = db.engine)
     # session = Session()
@@ -15,19 +15,16 @@ def getSession():
 # Session = sessionmaker(bind = db.engine)
 # session = Session()
 
+# class Insert:
 class Insert:
     
-    def toGulesider(self, data:list):
+    def toGulesider(self, data:list) -> None:
         '''
         takes a list of data from page, splits it, then inserts it into db
         '''
         tlfErrorCounter = 0000
         orgNumErrorCounter = 0000
         session = getSession()
-        # data['name']
-        # data['organisationNumber']
-        # data['hitType']
-        # data['phones']
 
         try:
             org_num = data['organisationNumber']
@@ -55,39 +52,37 @@ class Insert:
         except exc.IntegrityError:
             session.rollback()
 
-    def toCategories(self, dataset):
+    def toCategories(self, data:str) -> None:
         '''
         takes a list of data from page, splits it, then inserts it into db
         '''
         session = getSession()
-        for data in dataset:
-            row = db.Categories(
-                data,
-            )
-            session.add(row) 
+        row = db.Categories(
+            data,
+        )
+        session.add(row) 
         try:
             session.commit()
         except exc.IntegrityError:
             session.rollback()  
     
-    def to1881Industries(self, dataset):
+    def to1881Industries(self, data:str) -> None:
         '''
         takes a list of data from page, splits it, then inserts it into db
         '''
         session = getSession()
-        for industry in dataset:
-            row = db.Industry1881(
-                industry,
-            )
-            session.add(row) 
-            try:
-                session.commit()
-            except exc.IntegrityError:
-                session.rollback()  
+        row = db.Industry1881(
+            data,
+        )
+        session.add(row) 
+        try:
+            session.commit()
+        except exc.IntegrityError:
+            session.rollback()  
 
-    def toProffIndustries(self, data):
+    def toProffIndustries(self, data:str) -> None:
         '''
-        takes a list of data from page, splits it, then inserts it into db
+        takes data from page, splits it, then inserts it into db
         '''
         session = getSession()
         row = db.IndustryProff(
@@ -99,7 +94,7 @@ class Insert:
         except exc.IntegrityError:
             session.rollback()  
 
-    def toProff(self, org_num, navn):
+    def toProff(self, org_num, navn, tlf) -> None:
             '''
             takes a list of data from page, splits it, then inserts it into db
             '''
@@ -107,6 +102,7 @@ class Insert:
             row = db.Proff(
                 org_num,
                 navn,
+                tlf
             )
             #! keep just in case
             try:
@@ -115,7 +111,7 @@ class Insert:
             except exc.IntegrityError:
                 session.rollback()
       
-    def to1881(self, org_num, navn):
+    def to1881(self, org_num, navn, tlf) -> None:
         '''
         takes a list of data from page, splits it, then inserts it into db
         '''
@@ -123,6 +119,7 @@ class Insert:
         row = db._1881(
             org_num,
             navn,
+            tlf
         )
         #! keep just in case
         try:
@@ -131,7 +128,7 @@ class Insert:
         except exc.IntegrityError:
             session.rollback()        
 
-    def toGoogle(self, array:np.ndarray):
+    def toGoogle(self, array:np.ndarray) -> None:
         '''
         inserts generated list and inserts it into googleInputTable
         '''
@@ -148,10 +145,12 @@ class Insert:
         except exc.IntegrityError:
             session.rollback()  
 
-    def toCallList(self, org_num:int, navn:str, google_profil:str,
-                eier_bekreftet:bool ,komplett_profil:bool, 
-                ringe_status:bool, link_til_profil:str,
-                ):
+
+# TODO: [x] implement Phone numbers and add to Call List.
+    def toCallList( self, org_num:int, navn:str, tlf:str,
+                    google_profil:str, eier_bekreftet:bool, komplett_profil:bool, 
+                    ringe_status:bool, link_til_profil:str,
+                    ) -> None:
         '''
         Used by google.py inserts output into AWS db
         '''

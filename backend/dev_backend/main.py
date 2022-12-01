@@ -105,13 +105,13 @@ def extractProff():
 	ProffExtractor().runExtraction()
 	Print().outro('Proff')
 
+def extractIndustries1881():
+	Industry1881Extractor().fetchIndustries()
+
 def extract1881():
 	Print().intro('1881')
 	_1881Extractor().runExtraction()
 	Print().outro('1881')
-
-def extractIndustries1881():
-	Industry1881Extractor().fetchIndustries()
 
 def extractGoogle():
 	Print().intro('Google')
@@ -143,13 +143,14 @@ if __name__ == '__main__':
 	# extractIndustries1881()
 	# Print().proindustries1881()
 
-	# extract1881()
-	# Print()._1881()
+	extract1881()
+	Print()._1881()
 
 
 	''' ____ Google ____'''
 	# genGoogleInputTable()
-	extractGoogle()
+	# extractGoogle()
+
 
 	Print().outro()
 

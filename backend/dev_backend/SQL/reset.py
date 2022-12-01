@@ -29,3 +29,13 @@ class Reset:
         session = getSession()
         session.query(db.Industry1881).delete()
         session.commit()
+
+    def categories(self):
+        session = getSession()
+        session.query(db.Categories).delete()
+        session.commit()
+
+    def IndustryProff(self):
+        session = getSession()
+        session.query(db.IndustryProff).delete()
+        session.commit()

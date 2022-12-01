@@ -23,13 +23,13 @@ def getAllGulesider():
 	return [[s.org_num, s.navn, s.is_premium, s.tlf] for s in session.query(db.Gulesider).all()]
 
 def getSimpleGulesider():
-	return [[s.org_num, s.navn,] for s in session.query(db.Gulesider).all()]
+	return [[s.org_num, s.navn, s.tlf] for s in session.query(db.Gulesider).all()]
 
 def getAll1881():
-	return [[s.org_num, s.navn, ] for s in session.query(db._1881).all()]
+	return [[s.org_num, s.navn, s.tlf] for s in session.query(db._1881).all()]
 
 def getAllProff():
-	return [[s.org_num, s.navn, ] for s in session.query(db.Proff).all()]
+	return [[s.org_num, s.navn, s.tlf] for s in session.query(db.Proff).all()]
 
 def getAllInputTable():
 	return [[s.organisasjonsnummer, s.navn, ] for s in session.query(db.InputTable).all()]
@@ -55,15 +55,15 @@ def getCompanyFromInputTableByOrgNum(org_num:int) -> list:
 
 def genGoogleInputTable():
 	master_list = getSimpleGulesider()+ getAllProff()+ getAll1881()
-	_input = pd.DataFrame(master_list, columns = ['org_num', 'name'])
+	_input = pd.DataFrame(master_list, columns = ['org_num', 'name', 'tlf'])
 	_input = _input.drop_duplicates(keep = 'first')
-	_info = pd.DataFrame(getFullInputTable(), columns = ['org_num','name','loc',])
+	_info = pd.DataFrame(getFullInputTable(), columns = ['org_num','name','loc'])
 	_info = _info.drop_duplicates(keep = 'first')
 	output = _info.loc[(_info.org_num.isin(_input['org_num'])),:].reset_index(drop=True)
 	Insert().toGoogle(output.to_numpy())
 	
 def getAllGoogle():
-	return [[s.org_num, s.name, s.loc] for s in session.query(db.Google).all()]
+	return [[s.org_num, s.name, s.tlf, s.loc] for s in session.query(db.Google).all()]
 
 # def getGoogleInputTable():
 # 	extractions = getSimpleGulesider()+ getAllProff()+ getAll1881()

@@ -36,9 +36,10 @@ class Proff(base):
 	org_num = Column(Integer, unique = True, index = True, primary_key = True)
 	navn = Column(String, index = True)
 	
-	def __init__(self, org_num, navn):
+	def __init__(self, org_num, navn, tlf):
 		self.org_num = org_num
 		self.navn = navn
+		self.tlf = tlf
 
 class IndustryProff(base):
 	''' Industries used by Proff
@@ -63,9 +64,10 @@ class _1881(base):
 	org_num = Column(Integer, unique = True, index = True, primary_key = True)
 	navn = Column(String, index = True)
 	
-	def __init__(self, org_num, navn):
+	def __init__(self, org_num, navn, tlf):
 		self.org_num = org_num
 		self.navn = navn
+		self.tlf = tlf 
 
 class Google(base):
 	__tablename__ = "Google"
@@ -88,7 +90,7 @@ class InputTable(base):
 	adresse_short = Column(String, index=True)
 	postboks = Column(String, index=True)
 
-	def __init__(self, organisasjonsnummer, navn, postadresse, forretningsadresse, adresse_short, postboks):
+	def __init__(self, organisasjonsnummer, navn, forretningsadresse, adresse_short, postboks, ) -> None:#postadresse) -> None:
 		self.organisasjonsnummer = organisasjonsnummer
 		self.navn = navn
 		# self.postadresse = postadresse
@@ -96,7 +98,7 @@ class InputTable(base):
 		self.adresse_short = adresse_short
 		self.postboks = postboks 
 
-
+# TODO: [x] implement Phone numbers and add to Call List.
 class CallList(base):
 	engine = dev.engine
 	base = dev.base
@@ -105,15 +107,17 @@ class CallList(base):
 
 	org_num = Column(Integer, unique=True, index=True, primary_key=True)
 	navn = Column(String, index=True)
+	tlf = Column(String, index=True)
 	google_profil = Column(String, index=True)
 	eier_bekreftet = Column(Boolean(), index=True)
 	komplett_profil = Column(Boolean(), index=True)
 	ringe_status = Column(Boolean(), index=True)
 	link_til_profil = Column(String, index=True)
   
-	def __init__(self, org_num, navn, google_profil, eier_bekreftet, komplett_profil, ringe_status, link_til_profil) -> None:
+	def __init__(self, org_num, navn, google_profil, eier_bekreftet, komplett_profil, ringe_status, link_til_profil, tlf) -> None:
 		self.org_num = org_num
 		self.navn = navn
+		self.tlf = tlf
 		self.google_profil = google_profil
 		self.eier_bekreftet = eier_bekreftet
 		self.komplett_profil = komplett_profil
