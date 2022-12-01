@@ -80,6 +80,7 @@ TODO
 <br>
 
 **Current Progress for todo tasks:**
+
    Task 2. PhoneNumber-Implemention for GoogleExtractor
    | No. | Progress                                                       
    |:---:|:----------------------------:|
