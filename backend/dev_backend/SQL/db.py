@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, Integer, Boolean
 from sqlalchemy.dialects import postgresql
+from sqlalchemy.dialects.postgresql import JSON
 
 # ___ local imports ___
 from SQL.config import engine, base
@@ -22,14 +23,14 @@ class Gulesider(base):
 	__tablename__ = "gulesider"
 	org_num = Column(Integer, unique = True, index = True, primary_key = True)
 	navn = Column(String, index = True)
-	is_premium = Column(Boolean, index = True) 
 	tlf = Column(String, index = True)
+	is_premium = Column(Boolean, index = True) 
 	
 	def __init__(self, org_num, navn, is_premium, tlf):
 		self.org_num = org_num
 		self.navn = navn
-		self.is_premium = is_premium
 		self.tlf = tlf
+		self.is_premium = is_premium
 
 class Proff(base):
 	__tablename__ = "proff"
@@ -87,16 +88,16 @@ class InputTable(base):
 	navn = Column(String, index = True)
 	forretningsadresse = Column(postgresql.JSON, index = True)
 	# postadresse = Column(String, index = True, nullable = True) #! maybe wrong parameter
-	adresse_short = Column(String, index=True)
-	postboks = Column(String, index=True)
+	# adresse_short = Column(String, index=True)
+	# postboks = Column(String, index=True)
 
-	def __init__(self, organisasjonsnummer, navn, forretningsadresse, adresse_short, postboks, ) -> None:#postadresse) -> None:
+	def __init__(self, organisasjonsnummer, navn, forretningsadresse,) -> None:#postadresse) -> None:
 		self.organisasjonsnummer = organisasjonsnummer
 		self.navn = navn
-		# self.postadresse = postadresse
 		self.forretningsadresse = forretningsadresse
-		self.adresse_short = adresse_short
-		self.postboks = postboks 
+		# self.postadresse = postadresse
+		# self.adresse_short = adresse_short
+		# self.postboks = postboks 
 
 # TODO: [x] implement Phone numbers and add to Call List.
 class CallList(base):

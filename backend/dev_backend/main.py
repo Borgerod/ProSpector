@@ -1,21 +1,20 @@
 import time
 
+start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 import pandas as pd
-from SQL.query import genGoogleInputTable
 
-from extractors._1881 import _1881Extractor; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
-
+''' Local Imports'''
+from SQL.config import Dev
+from SQL.insert import Insert
+from SQL.query import getAll1881, getAll1881Industries, getAllCategories, getAllGulesider, getAllProffIndustries, getAllGoogle, getAllProff, getAllBrregTable, getAllInputTable
 from extractors.bransjer_proff import IndustryProffExtractor
-from extractors.bransjer_1881 import Industry1881Extractor
-from SQL.config import Dev#, DevSettings, Settings, engine, base
-from SQL.query import getAll1881, getAll1881Industries, getAllCategories, getAllGulesider, getAllProffIndustries
-from extractors.gulesider import GulesiderExtractor
 from extractors.proff import ProffExtractor
+from extractors.bransjer_1881 import Industry1881Extractor
+from extractors._1881 import _1881Extractor
+from extractors.gulesider import GulesiderExtractor
 from extractors.categories import CategoryExtractor
 from extractors.google import GoogleExtractor
-
-from SQL.insert import Insert
-
+from extractors.brreg import BrregExtractor
 
 class Print:
 
@@ -23,7 +22,6 @@ class Print:
 		print("\n")
 		if name:
 			''' Sub intro print '''
-			# print("_"*62)   
 			print(f"                  Starting: {name} Extractor                ")
 			print("_"*62)
 			print() 
@@ -66,23 +64,38 @@ class Print:
 		'''
 		print(getAllCategories())
 
+	def inputTable(self):
+		print(pd.DataFrame(getAllBrregTable()))
+
+	def inputTable(self):
+		print(pd.DataFrame(getAllInputTable()))
+
 	def gulesider(self):
 		print(pd.DataFrame(getAllGulesider()))
 
+	def proff(self):
+		print(pd.DataFrame(getAllProff()))
+
 	def _1881(self):
-		print(pd.DataFrame(getAll1881()))
+		print(pd.DataFrame(getAll1881()))	
 
 	def googleInput(self):
-		print(pd.DataFrame(getGoogleInputTable()))
+		print(pd.DataFrame(getAllGoogle()))
 
 
+def extractBrreg():
+	''' downloads brreg data and creates brreg_table and input_table
+	'''
+	Print().intro('Brreg')
+	BrregExtractor().runExtraction()
+	Print().outro('Brreg')
 
 def extractCategories():
 	'''grab categories and insert to db
 	'''
 	Print().intro('gulesider: categories')
 	CategoryExtractor().fetchCategories()
-	Print().outro('category')
+	Print().outro('gulesider: categories')
 
 def extractGulesider():
 	'''resets "gulesider" in db, then extractes gulersider.no by category
@@ -96,7 +109,7 @@ def extractProffIndustries():
 	'''
 	Print().intro('proff: industries')
 	IndustryProffExtractor().fetchIndustries()
-	Print().outro('industry')
+	Print().outro('proff: industries')
 
 def extractProff():
 	'''resets "proff" in db, then extractes proff.no by industry
@@ -106,7 +119,9 @@ def extractProff():
 	Print().outro('Proff')
 
 def extractIndustries1881():
+	Print().intro('1881: industries')	
 	Industry1881Extractor().fetchIndustries()
+	Print().outro('1881: industries')
 
 def extract1881():
 	Print().intro('1881')
@@ -143,14 +158,18 @@ if __name__ == '__main__':
 	# extractIndustries1881()
 	# Print().proindustries1881()
 
-	extract1881()
-	Print()._1881()
+	# extract1881()
+	# Print()._1881()
 
 
 	''' ____ Google ____'''
 	# genGoogleInputTable()
+	# Print().googleInput()
 	# extractGoogle()
 
+	''' ____ Brreg ____ '''
+	# Print().inputTable()
+	extractBrreg()
 
 	Print().outro()
 
@@ -161,19 +180,17 @@ if __name__ == '__main__':
 ''' 
 ____ Track_record ____
 	time spent per extractor for whole data extraction 
-	brreg:				xx.xxxs
+	brreg:				294.28s  (141.04s if .to_sql() is used) 
 	
-	gulesider:			xx.xxxs
+	gulesider:			178.880s
 	proff:				49.620s
-	1881:				xx.xxxs
+	1881:				609.630s
 
-	industries_1881: 	xx.xxxs
-	industries_proff:	xx.xxxs
-	categories: 		xx.xxxs
+	industries_1881: 	3.590s
+	industries_proff:	5.510s
+	categories: 		5.050s
 	
-	google: 			xx.xxxs
+	google: 			3876.000s
 
-	TOT. TIME =   		xx.xxxs
+	TOT. TIME =   		5022.559s
 '''
-
-

@@ -1,6 +1,5 @@
 __pycache__
 shortcuts
-env
 test_db.db
 print_tree.py
 sql_app.db
@@ -14,8 +13,12 @@ ProSpecor kjøpsavtale (ssa-l)
 PrisKalkyle
 PrisKalkyle.xlsx
 OLD_backend
+env
 virtual_env
-setEnv.bat
-Release
 setEnv
-__ CLEAN_UP
+Release
+__CLEAN_UP
+__ This folder represents backend
+__ This folder represents ProSpector (root)
+SQL\test_data.py
+test_data.py

@@ -16,6 +16,11 @@
 '''# TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
 
 
+''' 
+____ Track_record ____
+	tot. time:  3876.000s  (01:04:36)
+
+'''
 
 import time;START = time.perf_counter() #Since it also takes time to Import libs, I allways START the timer asap. 
 
@@ -329,6 +334,7 @@ class GoogleExtractor:
 		self.chunksize = 50
 		self.org_num = None
 		self.navn = None
+		self.tlf = None
 		self.loc = None
 		self.search_term = None
 		self.google_profil = None
@@ -541,9 +547,21 @@ class GoogleExtractor:
 				   else: [b] call addRowToDb()
 		'''
 		if not (self.is_registered and self.is_claimed and self.has_info) or self.is_registered == 'Usikkert':
-			Insert.toCallList(	org_num=self.org_num, navn=self.navn, google_profil=self.is_registered, 
-								eier_bekreftet=self.is_claimed, komplett_profil=self.has_info, ringe_status=False, link_til_profil=self.url
-								)
+			Insert.toCallList( 
+				np.array([
+					self.org_num,
+					self.navn,
+					self.tlf,
+					self.is_registered,
+					self.is_claimed,
+					self.has_info,
+					self.ringe_status,
+					self.url,
+				])
+			)
+			# Insert.toCallList(	org_num=self.org_num, navn=self.navn, google_profil=self.is_registered, 
+			# 					eier_bekreftet=self.is_claimed, komplett_profil=self.has_info, self.ringe_status=False, link_til_profil=self.url
+			# 					)
     
 	def worker(self, array_item:np.ndarray) -> None:
 		self.org_num = array_item[0]

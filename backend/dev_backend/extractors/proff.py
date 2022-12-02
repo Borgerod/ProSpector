@@ -15,7 +15,7 @@ from pprint import pprint
 
 ''' 
 ____ Track_record ____
-	tot. time:  49.6200s 
+	tot. time:  49.620s 
 '''
 
 class ProffExtractor:

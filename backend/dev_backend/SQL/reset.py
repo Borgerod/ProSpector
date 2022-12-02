@@ -1,5 +1,4 @@
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import exc
 # ___ local imports ___
 import SQL.db as db
 
@@ -10,6 +9,16 @@ def getSession():
 
 class Reset:
     
+    def brreg(self):
+        session = getSession()
+        session.query(db.BrregTable).delete()
+        session.commit()
+
+    def inputTable(self):
+        session = getSession()
+        session.query(db.InputTable).delete()
+        session.commit()
+
     def proff(self):
         session = getSession()
         session.query(db.Proff).delete()
