@@ -67,6 +67,11 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 - Lean how to gitignore
 
 
+Project Map
+---------------
+![backend_map](https://user-images.githubusercontent.com/97392841/205359146-26c5d8d1-2d75-4830-bed8-a98462d4052a.png)
+
+
 PreView
 ---------------
 ![splash](https://user-images.githubusercontent.com/97392841/196432180-2d0efdcc-454c-4e0d-9cf7-bf4a69deff40.JPG)
