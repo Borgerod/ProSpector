@@ -22,3 +22,5 @@ __ This folder represents backend
 __ This folder represents ProSpector (root)
 SQL\test_data.py
 test_data.py
+slots_test
+backend/dev_backend/SQL/slots_test.py
