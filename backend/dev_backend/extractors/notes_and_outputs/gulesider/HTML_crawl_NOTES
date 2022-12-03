@@ -63,7 +63,7 @@ IKKE BETALT OPPFØRING
                 ]
             }
         ],
-        "categories": [
+        "industries": [
             {
                 "name": "Bedriftsutvikling, Bedriftsrådgivning",
                 "code": "46469"
@@ -117,7 +117,7 @@ IKKE BETALT OPPFØRING
             ]
         }
     ],
-    "categories": [
+    "industries": [
         {
             "name": "Arkitekt",
             "code": "58"
@@ -186,7 +186,7 @@ HAR BETALT OPPFØRING
             ]
         }
     ],
-    "categories": [
+    "industries": [
         {
             "name": "Arkitekt",
             "code": "58"

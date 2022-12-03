@@ -1,5 +1,6 @@
 from sqlalchemy.orm import sessionmaker
-# ___ local imports ___
+
+''' ___ local imports ___ '''
 import SQL.db as db
 
 
@@ -11,6 +12,7 @@ class Reset:
     
     def brreg(self):
         session = getSession()
+        # TODO: [ ] Make BrregTable
         session.query(db.BrregTable).delete()
         session.commit()
 
@@ -39,9 +41,9 @@ class Reset:
         session.query(db.Industry1881).delete()
         session.commit()
 
-    def categories(self):
+    def industryGulesider(self):
         session = getSession()
-        session.query(db.Categories).delete()
+        session.query(db.IndustryGulesider).delete()
         session.commit()
 
     def IndustryProff(self):

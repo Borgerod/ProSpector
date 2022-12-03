@@ -7,15 +7,12 @@ ________________________________________________
 
 '''
 
-
 import difflib
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import re 
 import json
-
-
 import requests
 import pandas as pd
 import sqlalchemy
@@ -24,13 +21,12 @@ from bs4 import BeautifulSoup
 from multiprocessing import Pool
 from pprint import pprint
 import re 
-from SQL.query import Search
+from backend.dev_backend.SQL.query import Search
 import SQL.db as db
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import literal
 import re
 from collections import Counter
-
 
 Session = sessionmaker(bind = db.engine)
 session = Session()
@@ -53,7 +49,7 @@ class Test:
 								"cache-control": "no-cache",
 								"origin": "https://www.1881.no",
 								"pragma": "no-cache",
-								"referer": "https://www.1881.no/sitemap/bransjer-a/",
+								"referer": "https://www.1881.no/sitemap/industries-a/",
 								"sec-ch-ua": "^\^Google",
 								"sec-ch-ua-mobile": "?0",
 								"sec-ch-ua-platform": "^\^Windows^^",
@@ -69,12 +65,6 @@ class Test:
 		ind_url = "https://www.1881.no/akustisk-utstyr"
 		urls = [
 			"https://www.1881.no/akustisk-utstyr/akustisk-utstyr-agder/akustisk-utstyr-kristiansand-s/barberern-as_101488216S1/",
-			# "https://www.1881.no/adopsjon/adopsjon-oslo/adopsjon-solli/adopsjonsforum_100352913S1/",
-			# "https://www.1881.no/adopsjon/adopsjon-innlandet/adopsjon-hamar/adopsjonsforum_100352913S15/",
-			# "https://www.1881.no/adopsjon/adopsjon-vestfold-og-telemark/adopsjon-porsgrunn/adopsjonsforum_100352913S14/",
-			# "https://www.1881.no/adopsjon/adopsjon-innlandet/adopsjon-kapp/danielsen-tak-og-bygg-v-tommy-danielsen_101394646S1/",
-			# "https://www.1881.no/adopsjon/adopsjon-rogaland/adopsjon-stavanger/hinna-auto-nilsen_106938558S1/",
-			# "https://www.1881.no/adopsjon/adopsjon-agder/adopsjon-kristiansand-s/inor-adopt_100347174S1/",
 		]	
 		profile_names =[
 			'barberern as',
@@ -90,10 +80,8 @@ class Test:
 				print("found no matches")
 			else:
 				for search_result in search_results:
-					print(search_result.navn)
-					print(search_result.organisasjonsnummer)
-		
-
+					print(search_result.name)
+					print(search_result.org_num)
 		'''	
 		SOME HELPER INFO ABOUT TEST:
 			profile_name = barberern as
@@ -103,7 +91,6 @@ class Test:
 					992980516
 		'''
 
-	
 
 	def match_company_name_in_input_table(self): #belongs to WordMatcher
 		profile_names =[
@@ -117,8 +104,8 @@ class Test:
 			search_string = search_string.replace("-", " ")
 			print(search_string_split)
 	
-			search_result =  session.query(db.InputTable).filter(db.InputTable.navn.ilike(f'%{search_string_split}%')).all()
-			search_result = [i.navn for i in search_result]
+			search_result =  session.query(db.InputTable).filter(db.InputTable.name.ilike(f'%{search_string_split}%')).all()
+			search_result = [i.name for i in search_result]
 			pprint(len(search_result))	
 			candicates =[]
 			for i in search_string.split("-"):
@@ -126,8 +113,8 @@ class Test:
 				rank = difflib.get_close_matches(i, search_result, cutoff=.35)
 				rank.append(candicates)
 			# rank = difflib.get_close_matches(search_string_split, search_result, cutoff=.35)
-			# search_result = session.query(db.InputTable).filter_by(navn = search_string).all()
-			# pprint([i.navn for i in search_result])	
+			# search_result = session.query(db.InputTable).filter_by(name = search_string).all()
+			# pprint([i.name for i in search_result])	
 			# break
 			# return search_result
 
@@ -177,7 +164,7 @@ def SearchBrregByAddress():
 	since Addresses is less likely to have variations in the formatting. 
 	
 	test subject: Barberer'n AS --> two adresses:
-	forretningsadresse:	Rådhusgata 5, 4611 KRISTIANSAND S
+	loc:	Rådhusgata 5, 4611 KRISTIANSAND S
 	Postadresse: Postboks 60, 4661 KRISTIANSAND S
 
 	#! source of error (feilkidler):
@@ -199,11 +186,11 @@ def SearchBrregByAddress():
 		search_string_split = search_string.split("-")[0]
 		search_string = search_string.replace("-", " ")
 		print(search_string_split)
-		#> Test_1 forretningsadresse
-		search_result =  session.query(db.InputTable).filter(db.InputTable.forretningsadresse.ilike(f'%{search_string_split}%')).all()
+		#> Test_1 loc
+		search_result =  session.query(db.InputTable).filter(db.InputTable.loc.ilike(f'%{search_string_split}%')).all()
 
-		# search_result =  session.query(db.InputTable).filter(db.InputTable.navn.ilike(f'%{search_string_split}%')).all()
-		search_result = [i.navn for i in search_result]
+		# search_result =  session.query(db.InputTable).filter(db.InputTable.name.ilike(f'%{search_string_split}%')).all()
+		search_result = [i.name for i in search_result]
 		pprint(len(search_result))	
 		candicates =[]
 		for i in search_string.split("-"):
@@ -232,7 +219,7 @@ def getBarberenAS(): #! NOT IN USE
 	loc, zip  = splitZipCode(business_location)
 	address_list = [business_address, loc, zip ]
 	org_num = 992980516
-	# company = session.query(db.InputTable).filter(db.InputTable.organisasjonsnummer.ilike('992980516')).all()
+	# company = session.query(db.InputTable).filter(db.InputTable.org_num.ilike('992980516')).all()
 	address_dict = getaddressFromInput(org_num)
 	for search_string in address_list:
 		search_res = search(address_dict, search_string)
@@ -245,7 +232,7 @@ def getBarberenAS(): #! NOT IN USE
 	
 def getaddressFromInput(org_num):
 	company = session.query(db.InputTable).get(org_num)
-	return ast.literal_eval(company.forretningsadresse)
+	return ast.literal_eval(company.loc)
 
 def splitZipCode(business_location):
 	lst = business_location.split(' ')
@@ -262,7 +249,7 @@ def search(dict, searchFor):
 
 def checkBarberenAS(address_list):
 
-	# company = session.query(db.InputTable).filter(db.InputTable.organisasjonsnummer.ilike('992980516')).all()
+	# company = session.query(db.InputTable).filter(db.InputTable.org_num.ilike('992980516')).all()
 	address_dict = getaddressFromInput(org_num)
 	
 	res = 0 
@@ -280,10 +267,10 @@ def checkTableForAdresslist(search_loc, search_post):
 	search_post='{"Postboks 60"}'
 	company = session.query(db.InputTable).filter(db.InputTable.adresse_short.ilike(search_loc), db.InputTable.postboks.ilike(search_post)).all()
 	for i in company:
-		print(i.navn)
+		print(i.name)
 	if len(company) == 1:
 		company = company[0]
-		return company.navn, company.organisasjonsnummer
+		return company.name, company.org_num
 
 
 
@@ -315,10 +302,10 @@ def main():
 
 
 
-def fromForretningsAdresse(): #>TEST
+def fromloc(): #>TEST
 	search_string = 'Rådhusgata 5, 4611 KRISTIANSAND S',
 	search_string_split = search_string.split(",")[0]
-	search_result =  session.query(db.InputTable).filter(db.InputTable.forretningsadresse.ilike(f'%{search_string_split}%')).all()
+	search_result =  session.query(db.InputTable).filter(db.InputTable.loc.ilike(f'%{search_string_split}%')).all()
 	print(search_result)
 
 

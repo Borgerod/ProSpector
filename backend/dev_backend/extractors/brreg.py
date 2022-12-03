@@ -22,8 +22,8 @@ from tqdm import tqdm
 from multiprocessing import Pool 
 
 ''' ___ local imports ___'''
-from SQL.insert import Insert
-from SQL.reset import Reset
+from backend.dev_backend.SQL.insert import Insert
+from backend.dev_backend.SQL.reset import Reset
 from SQL.config import engine, base
 
 
@@ -66,10 +66,10 @@ class BrregExtractor:
 				will return ==> brreg_table, input_table 
 		'''
 		brreg_table = brreg_table[[
-			'organisasjonsnummer', 
-			'navn', 
+			'org_num', 
+			'name', 
 			'postadresse',
-			'forretningsadresse',
+			'loc',
 			'registreringsdatoEnhetsregisteret', 
 			'registrertIMvaregisteret',
 			'antallAnsatte', 
@@ -85,10 +85,10 @@ class BrregExtractor:
 			]]
 		brreg_table = brreg_table.rename(
 			columns = {	
-				'organisasjonsnummer':'org_num',
-				'navn':'navn',
+				'org_num':'org_num',
+				'name':'name',
 				'postadresse':'postadresse',
-				'forretningsadresse':'forretningsadresse',
+				'loc':'loc',
 				'registreringsdatoEnhetsregisteret':'registreringsdato',
 				'registrertIMvaregisteret':'mva_registrert',
 				'antallAnsatte':'antall_ansatte',
@@ -106,7 +106,7 @@ class BrregExtractor:
 		
 		# dumping dictionaries to df 
 		brreg_table['postadresse'] = brreg_table['postadresse'].apply(json.dumps)
-		brreg_table['forretningsadresse'] = brreg_table['forretningsadresse'].apply(json.dumps)
+		brreg_table['loc'] = brreg_table['loc'].apply(json.dumps)
 		
 		return self.removeIrrelevantCompanies(brreg_table) 
 
@@ -127,7 +127,7 @@ class BrregExtractor:
 		'''
 		brreg_table = self.jsonToPandas()
 		brreg_table = self.editDataSet(brreg_table)
-		return brreg_table, brreg_table[['org_num', 'navn', 'forretningsadresse',]]
+		return brreg_table, brreg_table[['org_num', 'name', 'loc',]]
 	
 	def insertToDb(self, row):
 		Insert().toInputTable(row)

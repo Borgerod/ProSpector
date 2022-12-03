@@ -5,7 +5,7 @@ from db.base_class import Base
 class CallList(Base):
 	__tablename__ = "call_list"
 	org_num = Column(Integer, unique=True, index=True, primary_key=True)
-	navn = Column(String, index=True)
+	name = Column(String, index=True)
 	google_profil = Column(String, index=True)
 	eier_bekreftet = Column(Boolean(), index=True)
 	komplett_profil = Column(Boolean(), index=True)

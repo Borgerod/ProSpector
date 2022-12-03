@@ -8,8 +8,8 @@ from multiprocessing import Pool
 from tqdm import tqdm
 
 ''' ___ Local Imports ___ '''
-from SQL.insert import Insert
-from SQL.reset import Reset
+from backend.dev_backend.SQL.insert import Insert
+from backend.dev_backend.SQL.reset import Reset
 
 
 ''' 
@@ -19,14 +19,14 @@ ____ Track_record ____
 
 
 '''
-NOTE: How "categories" differs from "bransjer_proff" & "bransjer_1881"
-    since CategoryExtractor spent 3x more time than the others, it uses multi threading
+NOTE: How "industries" differs from "industries_proff" & "industries_1881"
+    since IndustryGulesiderExtractor spent 3x more time than the others, it uses multi threading
 
     due to limitations from Pool, url will be used a parameter, 
     and be set as a state in insertListFromPageToDb() instead.
 '''
-
-class CategoryExtractor:
+class IndustryGulesiderExtractor:
+# class IndustryGulesiderExtractor:
 
     def __init__(self) -> None:
         self.base_url = "https://www.gulesider.no/bedriftsregister/kategorier-"
@@ -72,13 +72,13 @@ class CategoryExtractor:
         '''
         self.url = url 
         for category in self.parseData().find_all('a', href = True):
-            Insert().toCategories(category.text)
+            Insert().toIndustries(category.text)
 
-    def fetchCategories(self) -> None:
+    def fetchIndustries(self) -> None:
         '''
         extracts industries from alphabetical sorted lists on gulesider.no
         '''
-        Reset().categories()
+        Reset().industryGulesider()
         with Pool() as pool:
             list(tqdm(pool.imap_unordered(self.insertListFromPageToDb, self.urls), total = len(self.urls)))
 

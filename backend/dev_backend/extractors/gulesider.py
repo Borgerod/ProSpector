@@ -6,7 +6,7 @@ from multiprocessing import Pool
 import requests
 from tqdm import tqdm
 
-from SQL.reset import Reset
+from backend.dev_backend.SQL.reset import Reset
 
 
 
@@ -48,8 +48,8 @@ current fetch/XHR in "https://www.gulesider.no/bedriftsregister/kategorier-a":
 
 
 # ___ Local Imports ___
-from SQL.query import getAllCategories
-from SQL.insert import Insert
+from backend.dev_backend.SQL.query import getAllGulesiderIndustries
+from backend.dev_backend.SQL.insert import Insert
 
 def	throwTracker(throws):
 	'''
@@ -90,7 +90,7 @@ class GulesiderExtractor:
 		for i in category:
 			spawn threads that goes through each page_num
 
-		NOTE: alot of companies has probobly multiple categories and will show up multiple times
+		NOTE: alot of companies has probobly multiple industries and will show up multiple times
 		'''	
 		# res = requests.request("GET", url, headers = getHeader())
 		# return requests.request("GET", url, headers = self.getHeader()).json()
@@ -118,10 +118,10 @@ class GulesiderExtractor:
 		def runExtraction(self):
 			throwTracker.counter = 0 # initialize throwTracker
 			# getPandasSettins()
-			# for category in getAllCategories()[:1]: #TEMP while testing 
-			categories = getAllCategories()[9:10]
-			with tqdm(total = len(categories)) as pbar_categories:
-				for category in categories:
+			# for category in getAllGulesiderIndustries()[:1]: #TEMP while testing 
+			industries = getAllGulesiderIndustries()[9:10]
+			with tqdm(total = len(industries)) as pbar_industries:
+				for category in industries:
 					print(category)
 					page_num = 0
 					while True:
@@ -140,7 +140,7 @@ class GulesiderExtractor:
 								else:
 									print("False")
 								print()
-					# pbar_categories.update(1)
+					# pbar_industries.update(1)
 			outroPrint()
 	'''
 
@@ -148,10 +148,10 @@ class GulesiderExtractor:
 	def runExtraction(self):
 		throwTracker.counter = 0 # initialize throwTracker
 		getPandasSettins()
-		# for category in getAllCategories()[:1]: #TEMP while testing 
-		categories = getAllCategories()[:5]
-		with tqdm(total = len(categories)) as pbar_categories:
-			for category in categories:
+		# for category in getAllGulesiderIndustries()[:1]: #TEMP while testing 
+		industries = getAllGulesiderIndustries()[:5]
+		with tqdm(total = len(industries)) as pbar_industries:
+			for category in industries:
 				url = self.urlBuidler(category, 1)
 				json_res = self.getReq(url) 
 				dataset = self.parseData(json_res)
@@ -160,14 +160,14 @@ class GulesiderExtractor:
 						if data['customer']:
 							Insert().toGulesider(data)
 						pbar_page.update(1)
-				pbar_categories.update(1) 
+				pbar_industries.update(1) 
 	'''
 
 	"""#* VERSION 3 WITHOUT PROGRESS BAR
 		def runExtraction(self):
 			throwTracker.counter = 0 # initialize throwTracker
 			getPandasSettins()
-			for category in getAllCategories()[:5]:
+			for category in getAllGulesiderIndustries()[:5]:
 				url = self.urlBuidler(category, 1)
 				json_res = self.getReq(url) 
 				dataset = self.parseData(json_res)
@@ -203,10 +203,10 @@ class GulesiderExtractor:
 	def runExtraction(self):
 		Reset().gulesider()
 		throwTracker.counter = 0 # initialize throwTracker
-		categories = getAllCategories()#[:1]
-		# print(categories)
+		industries = getAllGulesiderIndustries()#[:1]
+		# print(industries)
 		with Pool() as pool:
-			list(tqdm(pool.imap_unordered(self.worker, categories), total = len(categories)))
+			list(tqdm(pool.imap_unordered(self.worker, industries), total = len(industries)))
 
 if __name__ == '__main__':
 	GulesiderExtractor().runExtraction()

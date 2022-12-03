@@ -18,16 +18,16 @@ class CallList(Base):
 	__table_args__ = {'extend_existing': True}
 
 	org_num = Column(Integer, unique=True, index=True, primary_key=True)
-	navn = Column(String, index=True)
+	name = Column(String, index=True)
 	google_profil = Column(String, index=True)
 	eier_bekreftet = Column(Boolean(), index=True)
 	komplett_profil = Column(Boolean(), index=True)
 	ringe_status = Column(Boolean(), index=True)
 	link_til_profil = Column(String, index=True)
   
-	def __init__(self, org_num, navn, google_profil, eier_bekreftet, komplett_profil, ringe_status, link_til_profil) -> None:
+	def __init__(self, org_num, name, google_profil, eier_bekreftet, komplett_profil, ringe_status, link_til_profil) -> None:
 		self.org_num = org_num
-		self.navn = navn
+		self.name = name
 		self.google_profil = google_profil
 		self.eier_bekreftet = eier_bekreftet
 		self.komplett_profil = komplett_profil
@@ -41,16 +41,16 @@ class CallListTest(Base):
 	__table_args__ = {'extend_existing': True}
 
 	org_num = Column(Integer, unique=True, index=True, primary_key=True)
-	navn = Column(String, index=True)
+	name = Column(String, index=True)
 	google_profil = Column(String, index=True)
 	eier_bekreftet = Column(Boolean(), index=True)
 	komplett_profil = Column(Boolean(), index=True)
 	ringe_status = Column(Boolean(), index=True)
 	link_til_profil = Column(String, index=True)
   
-	def __init__(self, org_num, navn, google_profil, eier_bekreftet, komplett_profil, ringe_status, link_til_profil) -> None:
+	def __init__(self, org_num, name, google_profil, eier_bekreftet, komplett_profil, ringe_status, link_til_profil) -> None:
 		self.org_num = org_num
-		self.navn = navn
+		self.name = name
 		self.google_profil = google_profil
 		self.eier_bekreftet = eier_bekreftet
 		self.komplett_profil = komplett_profil

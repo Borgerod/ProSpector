@@ -26,7 +26,7 @@ import time;START = time.perf_counter() #Since it also takes time to Import libs
 
 from typing import Any
 import ast
-from SQL.query import getAllGoogle
+from backend.dev_backend.SQL.query import getAllGoogle
 from typing_extensions import Self
 
 
@@ -48,7 +48,7 @@ from multiprocessing import Pool
 '''___ local imports __________
 '''
 from utilities.recaptcha_solver import Recaptcha as Recaptcha
-from SQL.insert import Insert
+from backend.dev_backend.SQL.insert import Insert
 import SQL.db as db
 
 # from file_manager import *
@@ -98,7 +98,7 @@ class Driver:
 # class Extraction(ThreadPoolExecutor):	
 # 	def __init__(self, input_array):
 # 		self.org_num = input_array[0]
-# 		self.navn = input_array[1]
+# 		self.name = input_array[1]
 # 		self.search_term = input_array[1]
 # 		self.google_profil = None
 # 		self.eier_bekreftet = None
@@ -333,7 +333,7 @@ class GoogleExtractor:
 	def __init__(self) -> None:
 		self.chunksize = 50
 		self.org_num = None
-		self.navn = None
+		self.name = None
 		self.tlf = None
 		self.loc = None
 		self.search_term = None
@@ -550,7 +550,7 @@ class GoogleExtractor:
 			Insert.toCallList( 
 				np.array([
 					self.org_num,
-					self.navn,
+					self.name,
 					self.tlf,
 					self.is_registered,
 					self.is_claimed,
@@ -559,15 +559,15 @@ class GoogleExtractor:
 					self.url,
 				])
 			)
-			# Insert.toCallList(	org_num=self.org_num, navn=self.navn, google_profil=self.is_registered, 
+			# Insert.toCallList(	org_num=self.org_num, name=self.name, google_profil=self.is_registered, 
 			# 					eier_bekreftet=self.is_claimed, komplett_profil=self.has_info, self.ringe_status=False, link_til_profil=self.url
 			# 					)
     
 	def worker(self, array_item:np.ndarray) -> None:
 		self.org_num = array_item[0]
-		self.navn = array_item[1]
+		self.name = array_item[1]
 		self.loc = ast.literal_eval(array_item[2])
-		self.search_term = f"{self.navn} {self.loc['poststed']} {self.loc['postnummer']} {self.loc['adresse'][0]}"
+		self.search_term = f"{self.name} {self.loc['poststed']} {self.loc['postnummer']} {self.loc['adresse'][0]}"
 		self.url = "https://www.google.com/search?q=" + self.search_term + "&hl=en"
 		self.extractPage()
 

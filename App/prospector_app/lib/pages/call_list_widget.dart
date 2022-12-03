@@ -127,16 +127,16 @@ class _JsonDataGridState extends State<JsonDataGrid> {
                 ),
               ))),
       GridColumn(
-          columnName: 'Navn',
+          columnName: 'name',
           label: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               alignment: Alignment.center,
               child: Tooltip(
-                  message: 'Virksomhetens juridiske navn',
+                  message: 'Virksomhetens juridiske name',
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Navn',
+                      'name',
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   )))),
@@ -255,7 +255,7 @@ class _Product {
   factory _Product.fromJson(Map<String, dynamic> json) {
     return _Product(
       orgNum: json['org_num'],
-      navn: json['navn'],
+      name: json['name'],
       googleProfil: json['google_profil'],
       eierBekreftet: json['eier_bekreftet'],
       komplettProfil: json['komplett_profil'],
@@ -266,7 +266,7 @@ class _Product {
   }
   _Product({
     this.orgNum,
-    this.navn,
+    this.name,
     this.googleProfil,
     this.eierBekreftet,
     this.komplettProfil,
@@ -276,7 +276,7 @@ class _Product {
   });
 
   int? orgNum;
-  String? navn;
+  String? name;
   String? googleProfil;
   bool? eierBekreftet;
   bool? komplettProfil;
@@ -309,7 +309,7 @@ class _JsonDataGridSource extends DataGridSource {
           cells: [
             DataGridCell<int>(
                 columnName: 'Org Num.', value: dataGridRow.orgNum),
-            DataGridCell<String>(columnName: 'Navn', value: dataGridRow.navn),
+            DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
             DataGridCell<String>(
                 columnName: 'Google Profil', value: dataGridRow.googleProfil),
             DataGridCell<bool>(

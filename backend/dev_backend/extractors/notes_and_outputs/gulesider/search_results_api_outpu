@@ -44,7 +44,7 @@
                             ]
                         }
                     ],
-                    "categories": [
+                    "industries": [
                         {
                             "name": "Bedriftsutvikling, Bedriftsrådgivning",
                             "code": "46469"
@@ -101,7 +101,7 @@
                             ]
                         }
                     ],
-                    "categories": [
+                    "industries": [
                         {
                             "name": "Avis",
                             "code": "87"
@@ -184,7 +184,7 @@
                             ]
                         }
                     ],
-                    "categories": [
+                    "industries": [
                         {
                             "name": "Medieformidling",
                             "code": "1348"
@@ -285,7 +285,7 @@
                                             ]
                                         }
                                     ],
-                                    "categories": [
+                                    "industries": [
                                         {
                                             "name": "Bedriftsutvikling, Bedriftsrådgivning",
                                             "code": "46469"
@@ -342,7 +342,7 @@
                                             ]
                                         }
                                     ],
-                                    "categories": [
+                                    "industries": [
                                         {
                                             "name": "Avis",
                                             "code": "87"
@@ -425,7 +425,7 @@
                                             ]
                                         }
                                     ],
-                                    "categories": [
+                                    "industries": [
                                         {
                                             "name": "Medieformidling",
                                             "code": "1348"
@@ -620,14 +620,14 @@
             "city": "Byvekst",
             "region": "Fylke",
             "coordinates": "Koordinater",
-            "firstName": "Fornavn",
-            "lastName": "Etternavn",
-            "personName": "Personnavn",
+            "firstName": "Forname",
+            "lastName": "Ettername",
+            "personName": "Personname",
             "birthDate": "Fødselsdato",
             "aboutName": "Om {{name}}",
             "aboutCompany": "Om firma",
             "work": "Jobb",
-            "completeNameAndBirthdate": "Fullt navn og fødselsdato",
+            "completeNameAndBirthdate": "Fullt name og fødselsdato",
             "historicArial": "Historiske flyfoto",
             "detailedInformationAboutAddress": "Detaljerte adresseopplysninger",
             "companiesOnAddress": "Bedrifter registrert på adressen",
@@ -644,10 +644,10 @@
             "respondToReviewTitle": "Svar på omtalen",
             "reportReviewTitle": "Rapporter omtalen",
             "reportReviewComment": "Kommentar",
-            "popularCategories": "Populære kategorier",
+            "popularIndustries": "Populære kategorier",
             "popularAreas": "Populære områder",
             "popularPostalcodes": "Populære postnummer",
-            "allCategories": "Alle kategorier",
+            "allIndustries": "Alle kategorier",
             "allAreas": "Alle steder",
             "companyCatalogHeading": "Foretaksregister",
             "companyCatalogDescription": "Bedriftsgrupper og de mest populære firmaer i ditt område. Velg en kategori eller begrens til en bestemt by.",
@@ -754,10 +754,10 @@
             "proffTitle": "Firmainformasjon",
             "proffIntro": "Ytterligere finansiell informasjon og en gratis årsrapport fra {{companyName}} er tilgjengelig på Proff.no",
             "numberOfEmployees": "Antall ansatte",
-            "legalName": "Juridisk navn",
+            "legalName": "Juridisk name",
             "orgNo": "Org.nr:",
             "companyTypeName": "Selskapsform:",
-            "naceCategories": "NACE-bransje",
+            "naceIndustries": "NACE-bransje",
             "registeredForVat": "Registrert i MVA",
             "yesRegistered": "Ja, registrert",
             "yes": "Ja",
@@ -795,7 +795,7 @@
             "andMore": "og mer",
             "visitHomepage": "Besøk hjemmesiden",
             "goToWebsite": "Gå til hjemmeside",
-            "categories": "Kategorier",
+            "industries": "Kategorier",
             "searchwords": "Nøkkelord",
             "visibleOnlineTopicHeadline": "Synlig online",
             "visibleOnlineMainHeadline": "Vi fikser det for deg",
@@ -866,14 +866,14 @@
             "emailSent": "Din e-post har blitt sendt!",
             "yourEmail": "Din e-postadresse",
             "companyCatalog": "Foretaksregister",
-            "categoriesStartingWith": "Kategorier som begynner med {{letter}}",
+            "industriesStartingWith": "Kategorier som begynner med {{letter}}",
             "fetchingResults": "Laster inn søkeresultater ...",
             "freeTextHeader": "Foretaksbeskrivelse",
             "missing": "Mangler",
             "missingNumber": "Mangler nummeropplysninger",
             "missingAddress": "Mangler adresseopplysninger",
             "missingContact": "Ingen kontakt",
-            "nameRegister": "Navneregistrering",
+            "nameRegister": "nameeregistrering",
             "accomodation": "Bosted",
             "chosenLinks": "{{name}} valgte linker",
             "ownCompany": "Eier du bedriften?",
@@ -889,11 +889,11 @@
             "sendWithSms": "Send via SMS",
             "emailIsRequired": "E-postadresse er obligatorisk",
             "validEmailIsRequired": "Vennligst skriv inn en gyldig e-postadresse",
-            "nameIsRequired": "Navn er obligatorisk",
+            "nameIsRequired": "name er obligatorisk",
             "messageIsRequired": "Varsel er obligatorisk",
             "phoneNumberIsRequired": "Mottakernummer er obligatorisk",
             "recipientEmail": "Mottakers e-postadresse",
-            "name": "Navn",
+            "name": "name",
             "message": "Melding",
             "recipientPhoneNumber": "Mottakers telefonnummer",
             "seeAerialView": "Vis flyfoto",
@@ -917,7 +917,7 @@
             "searchTips": "Tips for søk",
             "searchTip1": "Kontroller stavelsen av søkeordene dine.",
             "searchTip2": "Ikke søk etter flere termer samtidig.",
-            "searchTip3": "I tillegg til fornavn og etternavn kan du også søke på adresse, by og telefonnummer.",
+            "searchTip3": "I tillegg til forname og ettername kan du også søke på adresse, by og telefonnummer.",
             "searchTip4": "Søk på kategori og plassering, f.eks. «VVS Bærum» eller «pizza Majorstuen».",
             "searchTip5": "Utvid søket til et område som er litt større, f.eks. en kommune.",
             "searchTip6": "Husk å slette ord som mangler informasjon, f.eks. \"telefon\" og \"kontakt\".",
@@ -962,7 +962,7 @@
             "metaDescriptionPersonResult": "Kontaktinformasjon for {{query}}, telefonnummer, adresse og mer kontaktinformasjon.",
             "metaDescriptionCompanyResult": "{{query}} {{wordcloud}} - Finn firmaer, adresser, telefonnumre.",
             "metaDescriptionCompanyProfile": "Kontaktinformasjon for {{companyDetails}}, telefonnummer, adresse, se informasjonen om firmaer.",
-            "metaDescriptionPersonProfile": "Detaljert informasjon om {{firstName}}: telefonnummer, adresse, plassering av hus / leilighet og interessante ting i nærområdet. Bedriftsengasjement, eiendomsgrenser, navnedag og annen offisiell informasjon som kan være av interesse.",
+            "metaDescriptionPersonProfile": "Detaljert informasjon om {{firstName}}: telefonnummer, adresse, plassering av hus / leilighet og interessante ting i nærområdet. Bedriftsengasjement, eiendomsgrenser, nameedag og annen offisiell informasjon som kan være av interesse.",
             "metaDescriptionPersonProfileWithBirthDate": "{{fullName}} är född {{year}} och firar sin födelsedag {{birthday}}. På {{siteName}} kan du hitta {{firstName}} telefonnummer, adress, samt intressanta fakta om bostad och närområde. Få reda på bolagsengagemang, tomtstorlek, och mycket mer.",
             "metaDescriptionPhoneNohit": "Finn ut av hvem som har telefonnummer {{phoneNumber}} før du svarer. På {{siteName}} kan du finne telefonnummere fra de fleste norske teleoperatører. Du kan også få tips fra andre som har blitt oppringt av {{phoneNumber}}."
         }

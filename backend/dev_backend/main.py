@@ -5,16 +5,18 @@ import pandas as pd
 
 ''' Local Imports'''
 from SQL.config import Dev
-from SQL.insert import Insert
-from SQL.query import getAll1881, getAll1881Industries, getAllCategories, getAllGulesider, getAllProffIndustries, getAllGoogle, getAllProff, getAllBrregTable, getAllInputTable
-from extractors.bransjer_proff import IndustryProffExtractor
+from backend.dev_backend.SQL.insert import Insert
+from backend.dev_backend.SQL.query import getAll1881, getAll1881Industries, getAllGulesiderIndustries, getAllGulesider, getAllProffIndustries, getAllGoogle, getAllProff, getAllBrregTable, getAllInputTable
+from extractors.industries_proff import IndustryProffExtractor
 from extractors.proff import ProffExtractor
-from extractors.bransjer_1881 import Industry1881Extractor
+from extractors.industries_1881 import Industry1881Extractor
 from extractors._1881 import _1881Extractor
 from extractors.gulesider import GulesiderExtractor
-from extractors.categories import CategoryExtractor
+from extractors.industries_gulesider import IndustryGulesiderExtractor
 from extractors.google import GoogleExtractor
 from extractors.brreg import BrregExtractor
+
+# TODO [ ] Finish testing all of the extractors 
 
 class Print:
 
@@ -50,19 +52,19 @@ class Print:
 			print()
 
 	def industries1881(self): 
-		'''check categories 
+		'''check industries 
 		'''
-		print(getAll1881Industries())
+		print(pd.DataFrame(getAll1881Industries()))
 
 	def industriesProff(self): 
-		'''check categories 
+		'''check industries 
 		'''
-		print(getAllProffIndustries())
+		print(pd.DataFrame(getAllProffIndustries()))
 
-	def categories(self): 
-		'''check categories 
+	def industriesGulesider(self): 
+		'''check industries 
 		'''
-		print(getAllCategories())
+		print(pd.DataFrame(getAllGulesiderIndustries()))
 
 	def inputTable(self):
 		print(pd.DataFrame(getAllBrregTable()))
@@ -90,12 +92,12 @@ def extractBrreg():
 	BrregExtractor().runExtraction()
 	Print().outro('Brreg')
 
-def extractCategories():
-	'''grab categories and insert to db
+def extractGulesiderIndustries():
+	'''grab industries and insert to db
 	'''
-	Print().intro('gulesider: categories')
-	CategoryExtractor().fetchCategories()
-	Print().outro('gulesider: categories')
+	Print().intro('gulesider: industries')
+	IndustryGulesiderExtractor().fetchIndustries()
+	Print().outro('gulesider: industries')
 
 def extractGulesider():
 	'''resets "gulesider" in db, then extractes gulersider.no by category
@@ -105,7 +107,7 @@ def extractGulesider():
 	Print().outro('Gulesider')
 
 def extractProffIndustries():
-	'''grab categories and insert to db
+	'''grab industries and insert to db
 	'''
 	Print().intro('proff: industries')
 	IndustryProffExtractor().fetchIndustries()
@@ -138,8 +140,8 @@ if __name__ == '__main__':
 	Print().intro()
 
 	''' ____ Gulesider ____ '''
-	# extractCategories()
-	# Print().categories()
+	# extractGulesiderIndustries()
+	Print().industriesGulesider()
 
 	# extractGulesider()
 	# Print().gulesider()
@@ -169,7 +171,7 @@ if __name__ == '__main__':
 
 	''' ____ Brreg ____ '''
 	# Print().inputTable()
-	extractBrreg()
+	# extractBrreg()
 
 	Print().outro()
 
@@ -188,7 +190,7 @@ ____ Track_record ____
 
 	industries_1881: 	3.590s
 	industries_proff:	5.510s
-	categories: 		5.050s
+	industries: 		5.050s
 	
 	google: 			3876.000s
 

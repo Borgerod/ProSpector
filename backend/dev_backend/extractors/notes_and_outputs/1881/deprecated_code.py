@@ -35,7 +35,7 @@
 	# 	''' gets company_name & org_num from regnskapstall.no, since we already getting org_num from there. 
 	# 		++ then we get the full legal name of the company, sometimes 1881 name is wrong, e.g."1 default"
 	# 	'''
-	# 	return soup.find("th", string = " Juridisk selskapsnavn ").find_next().text#.replace('\xa0', '')
+	# 	return soup.find("th", string = " Juridisk selskapsname ").find_next().text#.replace('\xa0', '')
 
 
 	

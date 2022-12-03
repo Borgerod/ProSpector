@@ -1,7 +1,7 @@
 import re
 from inspect import currentframe, stack
 
-# ___ local imports __________
+''' ___ local imports ___ '''_______
 # from ..SQL.core.__config import tablenames, settings
 # from postgres import fetchData
 

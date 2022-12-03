@@ -4,10 +4,10 @@ import string
 from bs4 import BeautifulSoup
 import requests
 from requests.models import Response as response #annotaions
-from bs4 import element #annotaions
+from bs4 import element
 
-from SQL.insert import Insert
-from SQL.reset import Reset
+from backend.dev_backend.SQL.insert import Insert
+from backend.dev_backend.SQL.reset import Reset #annotaions
 
 
 ''' 
@@ -18,7 +18,7 @@ ____ Track_record ____
 class Industry1881Extractor:
 
     def __init__(self) -> None:
-        self.base_url = "https://www.1881.no/sitemap/bransjer-"
+        self.base_url = "https://www.1881.no/sitemap/industries-"
         self.headers = self.getHeaders
         self.urls = self.genUrlsByLetters
         self.url = None
@@ -35,7 +35,7 @@ class Industry1881Extractor:
                 "cache-control": "no-cache",
                 "origin": "https://www.1881.no",
                 "pragma": "no-cache",
-                "referer": "https://www.1881.no/sitemap/bransjer-a/",
+                "referer": "https://www.1881.no/sitemap/industries-a/",
                 "sec-ch-ua": "^\^Google",
                 "sec-ch-ua-mobile": "?0",
                 "sec-ch-ua-platform": "^\^Windows^^",

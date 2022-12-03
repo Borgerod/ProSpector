@@ -4,7 +4,7 @@ from pydantic import EmailStr
 # from pydantic import PhoneNumber
 
 class UserCreate(BaseModel):
-    brukernavn: str
+    brukername: str
     epost: EmailStr
     passord: str
     organisasjon: str

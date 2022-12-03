@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np 
 
 
-# ___ local imports ___
+''' ___ local imports ___ '''
 import SQL.db as db
 
 
@@ -24,28 +24,28 @@ class ErrorCounter:
 	def __init__(self) -> None:
 		self.org_num = 0000
 		self.tlf = 0000
-		self.navn = 0000
+		self.name = 0000
 
 	def getCount(self, item):
 		if item =='org_num':
 			return 404+self.org_num
 		if item =='tlf':
 			return 404+self.tlf
-		if item =='navn':
-			return 404+self.navn
+		if item =='name':
+			return 404+self.name
 
 	def increase(self, item):
 		if item =='org_num':
 			self.org_num += 1
 		if item =='tlf':
 			self.tlf += 1
-		if item =='navn':
-			self.navn += 1
+		if item =='name':
+			self.name += 1
 	@property 
 	def resetCounters(self):
 		self.org_num = 0000
 		self.tlf = 0000
-		self.navn = 0000
+		self.name = 0000
 
 	# @property    
 	# def getOrgNum(self):
@@ -72,7 +72,7 @@ class Insert:
 			match item:
 				case 'org_num':
 					return self.data['organisationNumber']
-				case 'navn':
+				case 'name':
 					return self.data['name']
 				case 'tlf':
 					return self.data['phones'][0]['number']   
@@ -87,17 +87,17 @@ class Insert:
 		self.data = data
 		row = db.Gulesider(
 			org_num = self.tryGetData('org_num'),
-			navn = self.tryGetData('navn'),
+			name = self.tryGetData('name'),
 			tlf = self.tryGetData('tlf'),
 			is_premium = data['hitType'] == 'premium',
 		)
 		self.tryCommit(row)
 
-	def toCategories(self, data:str) -> None:
+	def toIndustries(self, data:str) -> None:
 		'''
 		takes a list of data from page, splits it, then inserts it into db
 		'''
-		row = db.Categories(
+		row = db.IndustryGulesider(
 			data,
 		)
 		self.tryCommit(row)
@@ -120,24 +120,24 @@ class Insert:
 		)
 		self.tryCommit(row)
 
-	def toProff(self, org_num, navn, tlf) -> None:
+	def toProff(self, org_num, name, tlf) -> None:
 			'''
 			takes a list of data from page, splits it, then inserts it into db
 			'''
 			row = db.Proff(
 				org_num,
-				navn,
+				name,
 				tlf
 			)
 			self.tryCommit(row)
 		  
-	def to1881(self, org_num, navn, tlf) -> None:
+	def to1881(self, org_num, name, tlf) -> None:
 		'''
 		takes a list of data from page, splits it, then inserts it into db
 		'''
 		row = db._1881(
 			org_num,
-			navn,
+			name,
 			tlf
 		)
 		self.tryCommit(row)
@@ -162,19 +162,19 @@ class Insert:
 	
 	def toInputTable(self, array:np.ndarray) -> None:
 		# df:pd.DataFrame[int, str, JSON] ) -> None:
-		# org_num:int, navn:str, forretningsadresse:JSON
+		# org_num:int, name:str, loc:JSON
 		'''
 		#TODO: make description
 		'''
 		row = db.InputTable(
-			array[0], # organisasjonsnummer
-			array[1], # navn
-			array[2], # forretningsadresse
+			array[0], # org_num
+			array[1], # name
+			array[2], # loc
 		)
 		self.tryCommit(row) 
 
 	def toCallList(self, data:np.ndarray ) -> None:
-	# def toCallList( self, org_num:int, navn:str, tlf:str,
+	# def toCallList( self, org_num:int, name:str, tlf:str,
 					# google_profil:str, eier_bekreftet:bool, komplett_profil:bool, 
 					# ringe_status:bool, link_til_profil:str,
 					# ) -> None:
@@ -183,7 +183,7 @@ class Insert:
 		'''
 		row = db.CallList(
 			data['org_num'],
-			data['navn'],
+			data['name'],
 			data['tlf'],
 			data['google_profil'],
 			data['eier_bekreftet'],

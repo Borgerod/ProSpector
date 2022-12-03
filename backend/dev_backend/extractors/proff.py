@@ -1,9 +1,9 @@
 import json
 import time
-from SQL.insert import Insert
+from backend.dev_backend.SQL.insert import Insert
 import SQL.db as db
-from SQL.query import getAllProffIndustries
-from SQL.reset import Reset; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
+from backend.dev_backend.SQL.query import getAllProffIndustries
+from backend.dev_backend.SQL.reset import Reset; start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 import requests
 import pandas as pd
 from tqdm import tqdm

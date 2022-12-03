@@ -721,7 +721,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                     }
 
                                     // Map data = {
-                                    //   'brukernavn': username,
+                                    //   'brukername': username,
                                     //   'epost': email,
                                     //   'passord': password,
                                     //   'organisasjon': workplace,
@@ -730,7 +730,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                     // var body = json.encode(data);
 
                                     var body = json.encode({
-                                      'brukernavn': username,
+                                      'brukername': username,
                                       'epost': email,
                                       'passord': password,
                                       'organisasjon': workplace,

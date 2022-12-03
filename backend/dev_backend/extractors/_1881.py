@@ -1,8 +1,8 @@
 import json
-from SQL.insert import Insert
+from backend.dev_backend.SQL.insert import Insert
 import SQL.db as db
-from SQL.query import Search, getAll1881Industries
-from SQL.reset import Reset
+from backend.dev_backend.SQL.query import Search, getAll1881Industries
+from backend.dev_backend.SQL.reset import Reset
 import requests
 import pandas as pd
 from tqdm import tqdm
@@ -52,7 +52,7 @@ class _1881Extractor:
 				"cache-control": "no-cache",
 				"origin": "https://www.1881.no",
 				"pragma": "no-cache",
-				"referer": "https://www.1881.no/sitemap/bransjer-a/",
+				"referer": "https://www.1881.no/sitemap/industries-a/",
 				"sec-ch-ua": "^\^Google",
 				"sec-ch-ua-mobile": "?0",
 				"sec-ch-ua-platform": "^\^Windows^^",
@@ -190,7 +190,7 @@ class _1881Extractor:
 		regnskapstall_soup = self.requestRegnskapstall()
 		try:
 			org_num = int(regnskapstall_soup.find("th", string = " Org nr ").find_next().text.replace('\xa0', ''))
-			company_name =  regnskapstall_soup.find("th", string = " Juridisk selskapsnavn ").find_next().text
+			company_name =  regnskapstall_soup.find("th", string = " Juridisk selskapsname ").find_next().text
 			tlf = regnskapstall_soup.find("th", string = "Telefon").find_next().text
 			# class="call-button"
 		except AttributeError: #! This might not be needed anymore 

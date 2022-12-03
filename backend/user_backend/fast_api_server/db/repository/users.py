@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 def create_new_user(user: UserCreate, db: Session):
     user = User(
-    username = user.brukernavn,
+    username = user.brukername,
     email = user.epost,
     hashed_password = Hasher.get_password_hash(user.passord),
     is_active = True,
