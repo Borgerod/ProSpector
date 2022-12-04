@@ -6,7 +6,7 @@ import requests
 from requests.models import Response as response #annotaions
 from bs4 import element
 
-from backend.dev_backend.SQL.insert import Insert
+from backend.dev_backend.SQL.models.insert import Insert
 from backend.dev_backend.SQL.reset import Reset #annotaions
 
 

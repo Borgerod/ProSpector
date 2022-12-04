@@ -22,7 +22,7 @@ from tqdm import tqdm
 from multiprocessing import Pool 
 
 ''' ___ local imports ___'''
-from backend.dev_backend.SQL.insert import Insert
+from backend.dev_backend.SQL.models.insert import Insert
 from backend.dev_backend.SQL.reset import Reset
 from SQL.config import engine, base
 

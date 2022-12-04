@@ -8,7 +8,7 @@ from multiprocessing import Pool
 from tqdm import tqdm
 
 ''' ___ Local Imports ___ '''
-from backend.dev_backend.SQL.insert import Insert
+from backend.dev_backend.SQL.models.insert import Insert
 from backend.dev_backend.SQL.reset import Reset
 
 

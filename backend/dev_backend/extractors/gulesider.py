@@ -49,7 +49,7 @@ current fetch/XHR in "https://www.gulesider.no/bedriftsregister/kategorier-a":
 
 # ___ Local Imports ___
 from backend.dev_backend.SQL.query import getAllGulesiderIndustries
-from backend.dev_backend.SQL.insert import Insert
+from backend.dev_backend.SQL.models.insert import Insert
 
 def	throwTracker(throws):
 	'''

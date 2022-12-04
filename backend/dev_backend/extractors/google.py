@@ -48,7 +48,7 @@ from multiprocessing import Pool
 '''___ local imports __________
 '''
 from utilities.recaptcha_solver import Recaptcha as Recaptcha
-from backend.dev_backend.SQL.insert import Insert
+from backend.dev_backend.SQL.models.insert import Insert
 import SQL.db as db
 
 # from file_manager import *

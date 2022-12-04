@@ -5,8 +5,8 @@ import pandas as pd
 
 ''' Local Imports'''
 from SQL.config import Dev
-from backend.dev_backend.SQL.insert import Insert
-from backend.dev_backend.SQL.query import getAll1881, getAll1881Industries, getAllGulesiderIndustries, getAllGulesider, getAllProffIndustries, getAllGoogle, getAllProff, getAllBrregTable, getAllInputTable
+from backend.dev_backend.SQL.models.insert import Insert
+# from backend.dev_backend.SQL.query import Query, getAll1881, getAll1881Industries, getAllGulesiderIndustries, getAllGulesider, getAllProffIndustries, getAllGoogle, getAllProff, getAllBrregTable, getAllInputTable
 from extractors.industries_proff import IndustryProffExtractor
 from extractors.proff import ProffExtractor
 from extractors.industries_1881 import Industry1881Extractor
@@ -15,6 +15,7 @@ from extractors.gulesider import GulesiderExtractor
 from extractors.industries_gulesider import IndustryGulesiderExtractor
 from extractors.google import GoogleExtractor
 from extractors.brreg import BrregExtractor
+
 
 # TODO [ ] Finish testing all of the extractors 
 
@@ -54,35 +55,35 @@ class Print:
 	def industries1881(self): 
 		'''check industries 
 		'''
-		print(pd.DataFrame(getAll1881Industries()))
+		print(pd.DataFrame(Query('industry').get('_1881')))
 
 	def industriesProff(self): 
 		'''check industries 
 		'''
-		print(pd.DataFrame(getAllProffIndustries()))
+		print(pd.DataFrame(Query('industry').get('Proff')))
 
 	def industriesGulesider(self): 
 		'''check industries 
 		'''
-		print(pd.DataFrame(getAllGulesiderIndustries()))
+		print(pd.DataFrame(Query('industry').get('Gulesider')))
 
 	def inputTable(self):
-		print(pd.DataFrame(getAllBrregTable()))
+		print(pd.DataFrame(Query.get('Gulesider')))
 
 	def inputTable(self):
-		print(pd.DataFrame(getAllInputTable()))
+		print(pd.DataFrame(Query().get('Gulesider')))
 
 	def gulesider(self):
-		print(pd.DataFrame(getAllGulesider()))
+		print(pd.DataFrame(Query().get('Gulesider')))
 
 	def proff(self):
-		print(pd.DataFrame(getAllProff()))
+		print(pd.DataFrame(Query().get('Gulesider')))
 
 	def _1881(self):
-		print(pd.DataFrame(getAll1881()))	
+		print(pd.DataFrame(Query().get('Gulesider')))	
 
 	def googleInput(self):
-		print(pd.DataFrame(getAllGoogle()))
+		print(pd.DataFrame(Query().get('Gulesider')))
 
 
 def extractBrreg():
@@ -138,10 +139,14 @@ def extractGoogle():
 if __name__ == '__main__':
 	
 	Print().intro()
-
+	from backend.dev_backend.SQL.query import Query
+	x = Query('industry').get('Gulesider', 'first')
+	# x = Query.get('Gulesider')
+	print(x)
+	# print(pd.DataFrame(x))
 	''' ____ Gulesider ____ '''
 	# extractGulesiderIndustries()
-	Print().industriesGulesider()
+	# Print().industriesGulesider()
 
 	# extractGulesider()
 	# Print().gulesider()
