@@ -1,6 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "./sql_app/core",
-        "./sql_app/apis/general_pages"
-    ]
-}
