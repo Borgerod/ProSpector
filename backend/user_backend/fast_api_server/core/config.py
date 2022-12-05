@@ -7,13 +7,6 @@ class Settings:
     ''' A little bit redundant but im keeping it regardless
     '''
     config = Config.getPostgresConfig # Get Appropriate config variables 
-    
-    #> Test: removing PROJECT_VERSION & SECRET_KEY & TEST_USER_EMAIL
-    #todo REMOVE THIS (could replace with func that finds real version)
-    # PROJECT_VERSION: str = "1.0.0" 
-    # SECRET_KEY: str = config["SECRET_KEY"] #NOT IN ISE
-    # TEST_USER_EMAIL = "test@example.com"
-
     PROJECT_NAME: str = "ProSpector"
     USE_SQLITE_DB: str = config["USE_SQLITE_DB"]
     POSTGRES_USER = "postgres" #(OR) POSTGRES_USER: str = config["POSTGRES_USER"] 
