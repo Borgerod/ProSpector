@@ -2,8 +2,8 @@ __pycache__
 shortcuts
 test_db.db
 print_tree.py
-sql_app.db
-sql_app
+# sql_app.db
+# sql_app
 Production_Assets
 AWS
 prospector_api_app
@@ -14,19 +14,20 @@ PrisKalkyle
 PrisKalkyle.xlsx
 OLD_backend
 env
+.env
 virtual_env
 setEnv
 Release
 __CLEAN_UP
 __ This folder represents backend
 __ This folder represents ProSpector (root)
-SQL\test_data.py
+# SQL\test_data.py
 test_data.py
 slots_test
-backend/dev_backend/SQL/slots_test.py
-SQL_backup_before_structure_reorganization
-.env
+# backend/dev_backend/SQL/slots_test.py
 test.py
 ALL API URL'S .py
 python_upload_package.zip
-backend
+# backend
+SQL_restucture_test (NOT IN USE)
+test
