@@ -69,8 +69,7 @@ Så det vi vil få til er at man kan hente ut lister over bedrifter som har båd
 
 Project Map
 ---------------
-![backend_map](https://user-images.githubusercontent.com/97392841/205359146-26c5d8d1-2d75-4830-bed8-a98462d4052a.png)
-
+![backend_map](https://user-images.githubusercontent.com/97392841/205654274-31e2f829-ee06-4f5a-a94c-63dd27b12025.png)
 
 PreView
 ---------------
