@@ -19,9 +19,16 @@ from sqlalchemy.orm.decl_api import DeclarativeMeta #for annotation
 		No module named 'httpx'
 '''
 
+'''
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "postgres" to address: Unknown host
+'''
 
 class DevSettings:
 	def __init__(self) -> None:
+		# self.POSTGRES_USER = "mediavest"	#TEMP while testing (env variables seems to be wrong)
+		self.POSTGRES_USER = "postgres"	#TEMP while testing (env variables seems to be wrong)
+		# self.POSTGRES_USER = os.environ["POSTGRES_USER"] # TEMPORARLY DISABLED WHILE TESTING
+		# TEMP
 		''' ___ Postgres ___ '''
 		self.POSTGRES_SERVER = "localhost"
 		self.POSTGRES_PORT = os.environ["POSTGRES_PORT"]
@@ -34,8 +41,16 @@ class DevSettings:
 		except:
 			print("Could not connect to Postgres, edit password in: ProSpector\backend\dev_backend\SQL\config.py")
 			"""self.POSTGRES_DEV_PASSWORD ="Mitt personlige passord"""
+
+		self.POSTGRES_SERVER = "localhost"
+		self.POSTGRES_PORT = os.environ["POSTGRES_PORT"]
+		# self.POSTGRES_DB = os.environ["POSTGRES_DB"]
+		self.POSTGRES_DB = "ProSpector_Dev"
+		self.SECRET_KEY = os.environ["SECRET_KEY"]
+		self.USE_SQLITE_DB = os.environ["USE_SQLITE_DB"]
 		self.DATABASE_URL = f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_DEV_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
-		
+
+
 		''' ___ EMAIL ___ '''
 		self.MAIL_FROM = os.environ["MAIL_FROM"]
 		self.MAIL_PORT = os.environ["MAIL_PORT"]
@@ -43,6 +58,8 @@ class DevSettings:
 		self.MAIL_FROM_NAME = os.environ["MAIL_SERVER"]
 		self.MAIL_USERNAME = os.environ["MAIL_USERNAME"]
 		self.MAIL_PASSWORD = os.environ["MAIL_PASSWORD"]
+		# self.MAIL_TSL = os.environ["MAIL_TSL"]
+		# self.MAIL_SSL = os.environ["MAIL_SSL"]
 		self.MAIL_TSL = os.environ["MAIL_TSL"]
 		self.MAIL_SSL = os.environ["MAIL_SSL"]
 		self.USE_CREDENTIALS = os.environ["USE_CREDENTIALS"]	
@@ -54,7 +71,7 @@ class DevSettings:
 
 class Dev:
 	settings = DevSettings()
-
+	# settings.DATABASE_URL = 'postgresql://[postgres]/Orikkel1991@localhost:5432/ProSpector_Dev'
 	def getEngine(self) -> Engine:
 		return create_engine(settings.DATABASE_URL)
 
@@ -66,11 +83,22 @@ class Dev:
 
 class Settings:   
 	def __init__(self) -> None:
+		# self.POSTGRES_USER = "mediavest"	#TEMP while testing (env variables seems to be wrong)
+		self.POSTGRES_USER = os.environ["POSTGRES_USER"] # TEMPORARLY DISABLED WHILE TESTING
+		print(f"self.POSTGRES_USER: {self.POSTGRES_USER}")
+		self.POSTGRES_USER = "postgres"	#TEMP while testing (env variables seems to be wrong)
+		# self.POSTGRES_PASSWORD = os.environ["POSTGRES_PASSWORD"]
+		self.POSTGRES_SERVER = os.environ["POSTGRES_SERVER"]
 		''' ___ Postgres ___ '''
 		self.POSTGRES_SERVER = "localhost"
 		self.POSTGRES_PORT = os.environ["POSTGRES_PORT"]
+		# self.POSTGRES_DB = os.environ["POSTGRES_DB"]
+		self.POSTGRES_DB = "ProSpector_Dev"
+		self.SECRET_KEY = os.environ["SECRET_KEY"]
 		self.POSTGRES_DB = os.environ["POSTGRES_DB"] #(OR) self.POSTGRES_DB = "ProSpector_Dev"
 		self.USE_SQLITE_DB = os.environ["USE_SQLITE_DB"]
+		# self.DATABASE_URL = f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+
 		self.POSTGRES_USER = os.environ["POSTGRES_USER"] #(OR) self.POSTGRES_USER = "postgres" (OR) "mediavest"
 		try:
 			self.POSTGRES_DEV_PASSWORD = os.environ["POSTGRES_DEV_PASSWORD"]
@@ -78,7 +106,7 @@ class Settings:
 			print("Could not connect to Postgres, edit password in: ProSpector\backend\dev_backend\SQL\config.py")
 			"""self.POSTGRES_DEV_PASSWORD ="Mitt personlige passord"""
 		self.DATABASE_URL = f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_DEV_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
-		
+
 		''' ___ EMAIL ___ '''
 		self.MAIL_FROM = os.environ["MAIL_FROM"]
 		self.MAIL_PORT = os.environ["MAIL_PORT"]
@@ -86,6 +114,8 @@ class Settings:
 		self.MAIL_FROM_NAME = os.environ["MAIL_SERVER"]
 		self.MAIL_USERNAME = os.environ["MAIL_USERNAME"]
 		self.MAIL_PASSWORD = os.environ["MAIL_PASSWORD"]
+		# self.MAIL_TSL = os.environ["MAIL_TSL"]
+		# self.MAIL_SSL = os.environ["MAIL_SSL"]
 		self.MAIL_TSL = os.environ["MAIL_TSL"]
 		self.MAIL_SSL = os.environ["MAIL_SSL"]
 		self.USE_CREDENTIALS = os.environ["USE_CREDENTIALS"]	
@@ -93,6 +123,7 @@ class Settings:
 		''' ___ TWILIO ___ '''
 		self.TWILIO_ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
 		self.TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
+		self.VERIFY_SID = 'VA0af259d1f90eef02d4cfe86f45e64b8f'
 		self.VERIFY_SID = 'VA0af259d1f90eef02d4cfe86f45e64b8f'	
 
 	@property
@@ -146,8 +177,6 @@ class User:
 	base = declarative_base()
 
 
-#!! SHOULD PROB REMOVE THIS 
-
 load_dotenv()
 settings = Settings()
 
@@ -156,8 +185,6 @@ def getEngine() -> Engine:
 
 def getBase() -> DeclarativeMeta:
 	return declarative_base()
-
-
 
 engine = create_engine(settings.DATABASE_URL)
 base = declarative_base()

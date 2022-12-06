@@ -1,23 +1,27 @@
 import time
 
-start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
+
+
 import pandas as pd
+start = time.perf_counter() #Since it also takes time to Import libs, I allways start the timer asap. 
 
 ''' Local Imports'''
-from SQL.config import Dev
-from backend.dev_backend.SQL.models.insert import Insert
+# from SQL.config import Dev
+# from backend.dev_backend.SQL.insert import Insert
 # from backend.dev_backend.SQL.query import Query, getAll1881, getAll1881Industries, getAllGulesiderIndustries, getAllGulesider, getAllProffIndustries, getAllGoogle, getAllProff, getAllBrregTable, getAllInputTable
-from extractors.industries_proff import IndustryProffExtractor
-from extractors.proff import ProffExtractor
-from extractors.industries_1881 import Industry1881Extractor
-from extractors._1881 import _1881Extractor
-from extractors.gulesider import GulesiderExtractor
-from extractors.industries_gulesider import IndustryGulesiderExtractor
+# from extractors.industries_proff import IndustryProffExtractor
+# from extractors.proff import ProffExtractor
+# from extractors.industries_1881 import Industry1881Extractor
+# from extractors._1881 import _1881Extractor
+# from extractors.gulesider import GulesiderExtractor
+# from extractors.industries_gulesider import IndustryGulesiderExtractor
+# from extractors.brreg import BrregExtractor
+
+
+
 from extractors.google import GoogleExtractor
-from extractors.brreg import BrregExtractor
 
-
-# TODO [ ] Finish testing all of the extractors 
+# # TODO [ ] Finish testing all of the extractors 
 
 class Print:
 
@@ -85,7 +89,6 @@ class Print:
 	def googleInput(self):
 		print(pd.DataFrame(Query().get('Gulesider')))
 
-
 def extractBrreg():
 	''' downloads brreg data and creates brreg_table and input_table
 	'''
@@ -136,14 +139,12 @@ def extractGoogle():
 	GoogleExtractor().runExtraction()
 	Print().outro('Google')
 
+from utilities.chromedriver_installer import Chrome
+
+
 if __name__ == '__main__':
 	
-	Print().intro()
-	from backend.dev_backend.SQL.query import Query
-	x = Query('industry').get('Gulesider', 'first')
-	# x = Query.get('Gulesider')
-	print(x)
-	# print(pd.DataFrame(x))
+
 	''' ____ Gulesider ____ '''
 	# extractGulesiderIndustries()
 	# Print().industriesGulesider()
@@ -172,15 +173,24 @@ if __name__ == '__main__':
 	''' ____ Google ____'''
 	# genGoogleInputTable()
 	# Print().googleInput()
-	# extractGoogle()
+	extractGoogle()
 
 	''' ____ Brreg ____ '''
 	# Print().inputTable()
 	# extractBrreg()
 
-	Print().outro()
+	# Print().outro()
 
+'''
+ALT Query test:
+	Print().intro()
+	from backend.dev_backend.SQL.query import Query
+	x = Query('industry').get('Gulesider', 'first')
+	# x = Query.get('Gulesider')
+	print(x)
+	# print(pd.DataFrame(x))
 
+'''
 
 
 

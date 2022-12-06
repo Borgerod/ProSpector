@@ -3,12 +3,20 @@ from sqlalchemy import Column, String, Integer, Boolean
 from sqlalchemy.dialects.postgresql import JSON as Json
 
 ''' ___ local imports ___ '''
-from SQL.config import engine, base
+# from SQL.config import engine, base
 from SQL.config import Dev as dev
 from SQL.config import User as user
 
 engine = dev.engine
 base = dev.base
+
+# engine =  create_engine('postgresql://[mediavest]/F%K6L51KXGXs@localhost:5432/ProSpector_Dev')
+# mediavest
+# F%K6L51KXGXs
+# postgres
+# Orikkel1991
+
+base.metadata.create_all(engine)
 
 class IndustryGulesider(base):
 	''' Industries used by Gulesider
@@ -146,7 +154,7 @@ class CallListTest(base):
 		self.link_til_profil = link_til_profil 
 
 
-base.metadata.create_all(engine)
+
 
 
 
