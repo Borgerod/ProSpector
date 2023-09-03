@@ -42,9 +42,12 @@ class Reset:
         session.commit()
 
     def industryGulesider(self):
-        session = getSession()
-        session.query(db.IndustryGulesider).delete()
-        session.commit()
+        try:
+            session = getSession()
+            session.query(db.IndustryGulesider).delete()
+            session.commit()
+        except:
+            pass
 
     def IndustryProff(self):
         session = getSession()

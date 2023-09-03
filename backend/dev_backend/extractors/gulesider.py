@@ -6,7 +6,8 @@ from multiprocessing import Pool
 import requests
 from tqdm import tqdm
 
-from backend.dev_backend.SQL.reset import Reset
+from SQL.reset import Reset
+from extractors.industries_gulesider import IndustryGulesiderExtractor
 
 
 
@@ -48,8 +49,8 @@ current fetch/XHR in "https://www.gulesider.no/bedriftsregister/kategorier-a":
 
 
 # ___ Local Imports ___
-from backend.dev_backend.SQL.query import getAllGulesiderIndustries
-from backend.dev_backend.SQL.models.insert import Insert
+from SQL.query import getAllGulesiderIndustries
+from SQL.insert import Insert
 
 def	throwTracker(throws):
 	'''
@@ -187,7 +188,8 @@ class GulesiderExtractor:
 					dataset = self.parseData(json_object)
 					for data in dataset:
 						if data['customer']:
-							Insert().toGulesider(data)
+							print(data)
+							# Insert().toGulesider(data)# temp while testing
 						else:
 							false_counter += 1
 				except KeyError:
@@ -201,12 +203,13 @@ class GulesiderExtractor:
 
 #> ThreadedPool test
 	def runExtraction(self):
-		Reset().gulesider()
+		# Reset().gulesider()
 		throwTracker.counter = 0 # initialize throwTracker
-		industries = getAllGulesiderIndustries()#[:1]
-		# print(industries)
-		with Pool() as pool:
-			list(tqdm(pool.imap_unordered(self.worker, industries), total = len(industries)))
+		# industries = getAllGulesiderIndustries()#[:1] # temp while testing
+		industries = IndustryGulesiderExtractor().tempGetIndustries()
+		self.worker(industries[0])
+		# with Pool() as pool:# temp while testing
+		# 	list(tqdm(pool.imap_unordered(self.worker, industries), total = len(industries)))# temp while testing
 
 if __name__ == '__main__':
 	GulesiderExtractor().runExtraction()

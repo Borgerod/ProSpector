@@ -1,8 +1,9 @@
 import json
-from backend.dev_backend.SQL.models.insert import Insert
+# from SQL.models.insert import Insert
+# from SQL.
 import SQL.db as db
-from backend.dev_backend.SQL.query import Search, getAll1881Industries
-from backend.dev_backend.SQL.reset import Reset
+from SQL.query import Insert, getAll1881Industries
+from SQL.reset import Reset
 import requests
 import pandas as pd
 from tqdm import tqdm

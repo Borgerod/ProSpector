@@ -24,7 +24,7 @@ ____ Track_record ____
 
 import time
 START = time.perf_counter() #Since it also takes time to Import libs, I allways START the timer asap. 
-# from backend.dev_backend.utilities.chromedriver_installer import Chrome
+# from utilities.chromedriver_installer import Chrome
 
 from typing import Any
 import ast
@@ -53,8 +53,8 @@ import os
 from utilities.chromedriver_installer import Chrome
 # from SQL.query import getAllGoogle
 from utilities.recaptcha_solver import Recaptcha as Recaptcha
-from SQL.models.insert import Insert
-# from backend.dev_backend.SQL.models.insert import Insert
+from SQL.insert import Insert
+# from SQL.insert import Insert
 # import SQL.db as db
 
 # from file_manager import *

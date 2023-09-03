@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup
 from bs4 import element #annotaions
 
 ''' ___ Local Imports ___ '''
-from backend.dev_backend.SQL.models.insert import Insert
-from backend.dev_backend.SQL.reset import Reset
+from SQL.insert import Insert
+from SQL.reset import Reset
 
 ''' 
 ____ Track_record ____

@@ -8,7 +8,7 @@
 # from inspect import currentframe, stack
 
 # ''' ___ local imports ___ '''
-# # from ..SQL.core.__config import tablenames, settings
+# # from SQL.core.__config import tablenames, settings
 # # from postgres import fetchData
 
 

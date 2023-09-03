@@ -6,7 +6,7 @@ import pandas as pd
 ''' ___ local imports ___ '''
 import SQL.db as db
 from SQL.db import InputTable, Gulesider, _1881, Proff
-from backend.dev_backend.SQL.models.insert import Insert
+from SQL.insert import Insert
 
 # Create new Session
 Session = sessionmaker(bind = db.engine)
@@ -172,7 +172,7 @@ def getAllGoogle():
 	return [[s.org_num, s.name, s.tlf, s.loc] for s in session.query(db.Google).all()]
 
 
-# # TODO [ ] change org_num to org_num (and translate the other names)
+# TODO [ ] change org_num to org_num (and translate the other names)
 # class Search():
 # 	'''
 # 	example:
@@ -180,7 +180,7 @@ def getAllGoogle():
 
 # 	NOTE: imports needed to use this;
 # 			from SQL.db import InputTable, Industries, Gulesider, _1881, Proff
-# 			from backend.dev_backend.SQL.query import Search 
+# 			from SQL.query import Search 
 # 	'''
 # 	def __init__(self, table) -> None:
 # 		self.table = table
