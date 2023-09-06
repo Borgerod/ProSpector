@@ -1,4 +1,4 @@
-ProSpector
+ProSpector (Update in progress, current state is not operable)
 ===============
 SaaS Lead generation software, commissioned by Mediavest AS.     
 Data source:  brreg.no  &nbsp;nbsp;nbsp extraction targets:  gulesider.no, 1881.no, proff.no and gooogle.com.  &nbsp;&nbsp;  ![splash](https://wakatime.com/badge/user/6194a262-5659-4d0f-a79a-b6509fdfeba1/project/0f4c8bf0-ddd7-44ee-8f2d-1621b5bf744d.svg?style=for-the-badge)
