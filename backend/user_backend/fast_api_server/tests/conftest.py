@@ -101,6 +101,9 @@ NEW_USER = {
 def user(client, fake_sms):
     response = client.post("/users/", json = NEW_USER)
     assert response.status_code == 200, response.text
+    verified = client.get("/users/verification/phone/recieve_code",
+                          params = {"verify_sid": "VA_test", "phone_number": NEW_USER["telefon_nummer"], "otp_code": "123456"})
+    assert verified.status_code == 200, verified.text
     return NEW_USER
 
 

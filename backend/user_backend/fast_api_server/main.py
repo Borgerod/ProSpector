@@ -1,4 +1,4 @@
-from fastapi import FastAPI,  Depends
+from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from apis.version1.send_email import send_email_async
 
@@ -6,7 +6,9 @@ from apis.version1.send_email import send_email_async
 from core.config import settings
 from db.base import Base
 from db.session import get_db, engine
-from db.repository.users import changePassword
+from db.repository.users import changePassword, get_user_by_email
+from db.repository.password_reset import create_reset_code, use_reset_code
+from schemas.users import ShowUser, PasswordResetRequest
 from db.repository.call_list import getOverview, getCurrentCallList, getRowsBetween, updateCallListStatus, renewList
 from db.utils import check_db_disconnected, check_db_connected
 from apis.version1.route_login import get_current_user_from_token
@@ -39,7 +41,8 @@ async def app_shutdown():
     await check_db_disconnected()
 
 @app.get("/callList")
-def get_limited_call_list(skip: int = 0, limit: int = 40, db: Session = Depends(get_db)):    
+def get_limited_call_list(skip: int = 0, limit: int = 40, token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)), db: Session = Depends(get_db)):
+    get_current_user_from_token(token, db)
     return getRowsBetween(db, skip, limit)
 
 @app.get("/currentcallList")
@@ -48,8 +51,10 @@ def get_call_list(token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)
     return getCurrentCallList(db, user)
 
 @app.put("/callList/ringe_status")
-async def update_item(org_num: int, db: Session = Depends(get_db)):
-    return updateCallListStatus(db, org_num)
+async def update_item(org_num: int, token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)), db: Session = Depends(get_db)):
+    user = get_current_user_from_token(token, db)
+    if not updateCallListStatus(db, org_num, user):
+        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "org_num is not in your current call list")
 
 @app.get("/RenewList")
 async def renew_list(token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)), db: Session = Depends(get_db)):
@@ -62,27 +67,22 @@ def get_overview(token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL))
     overview = getOverview(db, user)
     return overview
 
-@app.get("/ShowUser")
+@app.get("/ShowUser", response_model = ShowUser)
 def get_user( token: str = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)), db: Session = Depends(get_db)):
     user = get_current_user_from_token(token, db)
     return user
 
 @app.get("/ResetPassword/Authentication")
-async def send_email_asynchronous(email_to = None, verify_num = None):
-    await send_email_async(email_to, verify_num)
+async def send_reset_code(email_to: str, db: Session = Depends(get_db)):
+    ''' Emails a reset code, generated and checked here on the server.
+        Same answer whether or not the email has an account, so it cannot be used to probe for users.
+    '''
+    if get_user_by_email(email_to, db):
+        await send_email_async(email_to, create_reset_code(email_to, db))
     return 'Success'
 
 @app.put("/ResetPassword")
-async def post_email_auth():
-    is_auth = True
-    return is_auth
-
-@app.get('/ResetPassword')
-async def put_change_password(new_password = None, email = None, db: Session = Depends(get_db)):
-    if email == None:
-        try: 
-            user = get_user( token = Depends(OAuth2PasswordBearerWithCookie(TOKEN_URL)), db = db)
-            email = user.email    
-        except:
-            print("ResetPassword ERROR")
-    return changePassword(new_password, email, db)
+async def reset_password(request: PasswordResetRequest, db: Session = Depends(get_db)):
+    if not use_reset_code(request.email, request.verify_num, db):
+        raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = "Invalid or expired verification code")
+    return changePassword(request.new_password, request.email, db)

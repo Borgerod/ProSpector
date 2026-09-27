@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from schemas.users import UserCreate
 from schemas.users import ShowUser
 from db.session import get_db
-from db.repository.users import create_new_user, delete_user_by_phone_number
+from db.repository.users import create_new_user, activate_user_by_phone_number, delete_unverified_user_by_phone_number
 from apis.version1.send_sms import Verification
 
 router = APIRouter()
@@ -35,13 +35,14 @@ async def send_otp_code_async(phone_number = None):
 async def recieve_otp_code_async(verify_sid = None,  phone_number = None, otp_code:str = None, db: Session = Depends(get_db)):
     
     if await Verification().checkVerificationCode(verify_sid, otp_code, phone_number):
+        activate_user_by_phone_number(phone_number, db)
         return Verification().verify_sid
     else:
         await delete_user(phone_number, db = db) 
         return False, "Incorrect verification code, Account removed from db, please try again" #Error, Phone number NOT verified, redirecting to "message: error, account not created"
 
 async def delete_user(phone_number, db: Session):
-    delete_user_by_phone_number(phone_number, db)
+    delete_unverified_user_by_phone_number(phone_number, db)
 
 @router.get("/verification/search_for_user_in_db") #link trenger email fra Frontend
 async def search_for_user_in_db(phone_number = None, otp_code:str = None, db: Session = Depends(get_db)):

@@ -236,10 +236,13 @@ These need the user before the named phase. Everything else above is decided.
 | Where | What | Fixed in |
 |-------|------|----------|
 | `route_users.py:23` | `send_otp_code_async` called without `await`, so signup never sent the SMS | Phase 5 (test failed; fixed) |
-| `main.py` `GET /ResetPassword` | Changes any user's password from just an email address, with no login or code check | Not fixed — security, needs a user decision |
-| `main.py` `GET /ShowUser` | Returns the full user row, including `hashed_password` | Not fixed — security, needs a user decision |
-| `main.py` `/callList`, `/callList/ringe_status` | No login required | Not fixed — needs a user decision |
+| `main.py` `GET /ResetPassword` | Changed any user's password from just an email address | Fixed: server makes and checks a one-time 6-digit code (15 min, 5 tries); reset is now `PUT /ResetPassword` with a JSON body |
+| `main.py` `GET /ShowUser` | Returned the full user row, including `hashed_password` | Fixed: `response_model = ShowUser` |
+| `main.py` `/callList`, `/callList/ringe_status` | No login required | Fixed: login required; `ringe_status` only toggles rows in the caller's current list |
 | `send_sms.py` `requestVerification` | Creates a new Twilio Verify service on every request instead of using `VERIFY_SID` | Not fixed |
+| `route_users.py` `recieve_code` | A wrong SMS code deleted the account for that phone number, even a verified one | Fixed: new signups start inactive, a correct code activates, a wrong code only deletes unverified signups; login needs an active account |
+| `route_users.py` `send_code` | Anyone can trigger an SMS to any number, and each Twilio SMS costs money | Not fixed — needs rate limiting |
+| `route_users.py:39` | `return Verification().verify_sid` returns the sid of a new, empty object (`None`) | Not fixed |
 | Windows machine env vars | 18 `POSTGRES_*` / `MAIL_*` / `TWILIO_*` / `SECRET_KEY` vars set machine-wide by the 2022 `setEnv.bat`, pointing at AWS RDS. They override `backend/.env`. Tests load `.env` over them; running uvicorn needs them unset. | Not fixed — machine config, needs the user |
 | `main.py:8`, `extractors/brreg.py:25` | Import path `SQL.models.insert` does not exist | Phase 7 (files rebuilt) |
 | brreg CSV | The register now includes `telefon`, `mobil`, `epostadresse` and `hjemmeside`, but `call_list` has no column for them | Added `telefon` and `mobil` (user approved, 2026-09-27) |
@@ -251,3 +254,14 @@ These need the user before the named phase. Everything else above is decided.
 - `call_list` holds brreg data and the app's routes return it.
 - Each scraper is either working with a fixture test or deleted.
 - No secrets or generated data tracked in git.
+
+## Frontend impact
+
+The security fixes change what the app must send. The frontend plan picks these up.
+
+| App file | Change needed |
+|----------|---------------|
+| `popups/reset_password_authentication_widget.dart` | Stop generating the code in the app. Call `/ResetPassword/Authentication?email_to=…` only; the user types the emailed code. |
+| `popups/reset_password_widget.dart` | Send `PUT /ResetPassword` with JSON `{email, verify_num, new_password}` instead of `GET` with query params. |
+| `pages/call_list_widget.dart` | Send the `access_token` cookie with `PUT /callList/ringe_status`. |
+

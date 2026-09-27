@@ -11,7 +11,7 @@ def create_new_user(user: UserCreate, db: Session):
     username = user.brukername,
     email = user.epost,
     hashed_password = Hasher.get_password_hash(user.passord),
-    is_active = True,
+    is_active = False,  # set True once the phone number is verified
     is_superuser = False,
     org = user.organisasjon,
     phone_number = user.telefon_nummer
@@ -33,7 +33,16 @@ def changePassword(new_password: str, email: str, db: Session):
     return 'Success'
 
 
-def delete_user_by_phone_number(phone_number: str, db: Session):
+def activate_user_by_phone_number(phone_number: str, db: Session):
     user = db.query(User).filter(User.phone_number == phone_number).first()
-    db.delete(user)
-    db.commit()   
+    if user:
+        user.is_active = True
+        db.commit()
+
+
+def delete_unverified_user_by_phone_number(phone_number: str, db: Session):
+    ''' Removes a signup whose phone was never verified. Verified accounts are never touched. '''
+    user = db.query(User).filter(User.phone_number == phone_number, User.is_active == False).first()
+    if user:
+        db.delete(user)
+        db.commit()   

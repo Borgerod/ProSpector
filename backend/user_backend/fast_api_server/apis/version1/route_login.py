@@ -21,6 +21,8 @@ def authenticate_user(username: str, password: str, db: Session = Depends(get_db
         return False
     if not Hasher.verify_password(password, user.hashed_password):
         return False
+    if not user.is_active:  # phone number not verified yet
+        return False
     return user
 
 @router.post("/token", response_model=Token)

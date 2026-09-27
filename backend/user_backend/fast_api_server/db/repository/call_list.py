@@ -44,13 +44,17 @@ def checkCurrentListStatus(db: Session, kunde_id: int ):
 def getCurrentCallListInfo(db: Session, kunde_id: int):
     return db.query(CallListOverview).filter_by(kunde_id = str(kunde_id)).first()
 
-def updateCallListStatus(db: Session, org_num: int):
-    callStatus = db.query(CallList).filter_by(org_num = org_num).first()
-    if callStatus.ringe_status:
-         callStatus.ringe_status = False
-    else:
-        callStatus.ringe_status = True
+def updateCallListStatus(db: Session, org_num: int, user) -> bool:
+    ''' Toggles ringe_status for a row in the user's current list. False if the row is not there. '''
+    current_list_info = getCurrentCallListInfo(db, user.id)
+    if not current_list_info:
+        return False
+    callStatus = db.query(CallList).filter_by(org_num = org_num, liste_id = current_list_info.liste_id).first()
+    if not callStatus:
+        return False
+    callStatus.ringe_status = not callStatus.ringe_status
     db.commit()
+    return True
 
 def renewList(db: Session, user: int):
     if checkIfCurrentLists(db, user.id):

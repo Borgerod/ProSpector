@@ -27,4 +27,16 @@ class ShowUser(BaseModel):
 
     class Config:  # to convert non dict obj to json
         orm_mode = True
-  
+
+
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+    verify_num: str
+    new_password: str
+
+    @field_validator("new_password")
+    @classmethod
+    def new_password_fits_bcrypt(cls, value: str) -> str:
+        if len(value.encode()) > MAX_PASSWORD_BYTES:
+            raise ValueError(f"new_password is longer than {MAX_PASSWORD_BYTES} bytes")
+        return value
