@@ -35,12 +35,14 @@ def download(path: Path = DOWNLOAD_PATH) -> Path:
     return path
 
 
-def read_active_companies(rows: Iterable[dict]) -> Iterator[tuple[int, str]]:
-    ''' Yields (org_num, name) for companies not bankrupt or being dissolved. '''
+def read_active_companies(rows: Iterable[dict]) -> Iterator[tuple[int, str, str | None, str | None]]:
+    ''' Yields (org_num, name, telefon, mobil) for companies not bankrupt or being dissolved.
+        A missing phone number is None.
+    '''
     for row in rows:
         if any(row[flag] == "true" for flag in INACTIVE_FLAGS):
             continue
-        yield int(row["organisasjonsnummer"]), row["navn"]
+        yield int(row["organisasjonsnummer"]), row["navn"], row["telefon"] or None, row["mobil"] or None
 
 
 def read_csv_gz(path: Path) -> Iterator[dict]:
@@ -48,7 +50,7 @@ def read_csv_gz(path: Path) -> Iterator[dict]:
         yield from csv.DictReader(f)
 
 
-def load(engine: Engine, companies: Iterable[tuple[int, str]]) -> int:
+def load(engine: Engine, companies: Iterable[tuple[int, str, str | None, str | None]]) -> int:
     ''' Replaces call_list and its overview with the given companies,
         split into lists of LIST_SIZE. Returns the number of companies.
         Replacing resets every ringe_status, as the old brreg import did.
@@ -62,9 +64,9 @@ def load(engine: Engine, companies: Iterable[tuple[int, str]]) -> int:
     raw = engine.raw_connection()
     try:
         with raw.cursor() as cursor:
-            with cursor.copy("COPY call_list (org_num, name, ringe_status, liste_id) FROM STDIN") as copy:
-                for org_num, name in companies:
-                    copy.write_row((org_num, name, False, count // LIST_SIZE + 1))
+            with cursor.copy("COPY call_list (org_num, name, telefon, mobil, ringe_status, liste_id) FROM STDIN") as copy:
+                for org_num, name, telefon, mobil in companies:
+                    copy.write_row((org_num, name, telefon, mobil, False, count // LIST_SIZE + 1))
                     count += 1
             list_count = -(-count // LIST_SIZE)
             with cursor.copy("COPY call_list_overview_mediavest (liste_id, liste_start, liste_limit, er_ledig, er_ferdig) FROM STDIN") as copy:

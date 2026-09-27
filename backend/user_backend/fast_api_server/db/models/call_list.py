@@ -12,6 +12,8 @@ class CallList(Base):
 	ringe_status = Column(Boolean(), index=True)
 	liste_id = Column(Integer, index=True)
 	link_til_profil = Column(String, index=True)
+	telefon = Column(String)  # from brreg, as written there (e.g. "51 68 57 00")
+	mobil = Column(String)
 
 class CallListOverview(Base):
 	__tablename__ = "call_list_overview_mediavest"

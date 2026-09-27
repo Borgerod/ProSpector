@@ -242,7 +242,7 @@ These need the user before the named phase. Everything else above is decided.
 | `send_sms.py` `requestVerification` | Creates a new Twilio Verify service on every request instead of using `VERIFY_SID` | Not fixed |
 | Windows machine env vars | 18 `POSTGRES_*` / `MAIL_*` / `TWILIO_*` / `SECRET_KEY` vars set machine-wide by the 2022 `setEnv.bat`, pointing at AWS RDS. They override `backend/.env`. Tests load `.env` over them; running uvicorn needs them unset. | Not fixed — machine config, needs the user |
 | `main.py:8`, `extractors/brreg.py:25` | Import path `SQL.models.insert` does not exist | Phase 7 (files rebuilt) |
-| brreg CSV | The register now includes `telefon`, `mobil`, `epostadresse` and `hjemmeside`, but `call_list` has no column for them | Not added — schema change, needs a user decision |
+| brreg CSV | The register now includes `telefon`, `mobil`, `epostadresse` and `hjemmeside`, but `call_list` has no column for them | Added `telefon` and `mobil` (user approved, 2026-09-27) |
 
 ## Done when
 

@@ -11,11 +11,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "user_backend" / "fast_api_server"))
 
 from db.base import Base  # noqa: E402
+from db.models.call_list import CallList, CallListOverview  # noqa: E402
 from db.session import engine  # noqa: E402
 from extractors import brreg  # noqa: E402
 
 
 if __name__ == "__main__":
+    # brreg replaces call_list completely, so recreate its tables to pick up schema changes
+    tables = [CallList.__table__, CallListOverview.__table__]
+    Base.metadata.drop_all(bind = engine, tables = tables)
     Base.metadata.create_all(bind = engine)
     count = brreg.run(engine)
     print(f"brreg: loaded {count} companies into call_list")
