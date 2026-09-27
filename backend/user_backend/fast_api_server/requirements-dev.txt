@@ -1,0 +1,6 @@
+#for testing
+pytest==9.1.1
+requests==2.34.2
+
+#for cleaning up codebase on each commit
+pre-commit==4.6.2
