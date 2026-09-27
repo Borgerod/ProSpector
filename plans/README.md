@@ -48,26 +48,3 @@ Analysis never repairs. Renovation never investigates. Keeping them apart is wha
 Cheap phases are written as `claude -p --model X --effort Y` commands inside the plan. Each runs in its own process with its model fixed on the command line, so the map is obeyed without changing session settings between phases.
 
 Judgement phases run in the main chat, because a fresh process cannot carry the conversation.
-
-## TEST BLOCK — DELETE ME
-
-This block exists only to test how file changes show up in the chat.
-Line two of the test block.
-Line three of the test block.
-Line four of the test block.
-Line five of the test block.
-Line six of the test block.
-Line seven of the test block.
-Line eight of the test block.
-Line nine of the test block.
-Line ten of the test block.
-Line eleven of the test block.
-Line twelve of the test block.
-Line thirteen of the test block.
-Line fourteen of the test block.
-Line fifteen of the test block.
-Line sixteen of the test block.
-Line seventeen of the test block.
-Line eighteen of the test block.
-Line nineteen of the test block.
-Line twenty of the test block.
