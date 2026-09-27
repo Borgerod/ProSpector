@@ -6,7 +6,7 @@ Plans that **change code**. One per verdict, written only after that verdict exi
 
 | Plan | Written from | Status |
 |------|--------------|--------|
-| [`backend-renovation.md`](backend-renovation.md) | `analysis/findings/backend-verdict.md` | written, not started |
+| [`backend-renovation.md`](backend-renovation.md) | `analysis/findings/backend-verdict.md` | phases 0–8 done; scraper rewrites deferred |
 | `frontend-renovation.md` | `analysis/findings/frontend-verdict.md` | not written |
 
 ## Rules

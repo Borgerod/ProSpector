@@ -1,0 +1,4 @@
+# Shares the API's packages (models, settings, database driver)
+-r ../user_backend/fast_api_server/requirements.txt
+
+requests==2.34.2

@@ -1,156 +1,81 @@
-''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
-'''	
-This is used to make input_table
-NOTE: This code is for the most part not in use except for fetching location info. 
-Designed to be used once per quarter, year, oslt.
+''' Loads active companies from the brreg open register into call_list.
 
-
-#> UNDER CONSTRUCTION
-
-
+Source: https://data.brreg.no/enhetsregisteret/api/enheter/lastned/csv
+(gzipped CSV, one row per company). Free, official, no key needed.
 '''
-''' TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP  TEMP TEMP TEMP TEMP TEMP TEMP TEMP '''
+import csv
+import gzip
+from pathlib import Path
+from typing import Iterable, Iterator
+
+import requests
+from sqlalchemy import delete
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import Session
+
+from db.models.call_list import CallList, CallListOverview
+
+URL = "https://data.brreg.no/enhetsregisteret/api/enheter/lastned/csv"
+DOWNLOAD_PATH = Path(__file__).resolve().parents[1] / "downloads" / "enheter.csv.gz"
+
+# Same as the API's default /callList page size (main.py get_limited_call_list)
+LIST_SIZE = 40
+
+# Companies in any of these states are not worth calling
+INACTIVE_FLAGS = ("konkurs", "underAvvikling", "underTvangsavviklingEllerTvangsopplosning")
 
 
-
-import json
-import requests 
-import numpy as np
-import pandas as pd 
-#> test 
-from tqdm import tqdm
-from multiprocessing import Pool 
-
-''' ___ local imports ___'''
-from backend.dev_backend.SQL.models.insert import Insert
-from backend.dev_backend.SQL.reset import Reset
-from SQL.config import engine, base
+def download(path: Path = DOWNLOAD_PATH) -> Path:
+    path.parent.mkdir(parents = True, exist_ok = True)
+    with requests.get(URL, stream = True, timeout = 60) as response:
+        response.raise_for_status()
+        with open(path, "wb") as f:
+            for chunk in response.iter_content(chunk_size = 1 << 20):  # 1 MiB read buffer
+                f.write(chunk)
+    return path
 
 
+def read_active_companies(rows: Iterable[dict]) -> Iterator[tuple[int, str]]:
+    ''' Yields (org_num, name) for companies not bankrupt or being dissolved. '''
+    for row in rows:
+        if any(row[flag] == "true" for flag in INACTIVE_FLAGS):
+            continue
+        yield int(row["organisasjonsnummer"]), row["navn"]
 
-''' 
-____ Track_record ____
-	tot. time:  294.28s  (141.04s if .to_sql() is used) 	  
-'''
+
+def read_csv_gz(path: Path) -> Iterator[dict]:
+    with gzip.open(path, "rt", encoding = "utf-8", newline = "") as f:
+        yield from csv.DictReader(f)
 
 
+def load(engine: Engine, companies: Iterable[tuple[int, str]]) -> int:
+    ''' Replaces call_list and its overview with the given companies,
+        split into lists of LIST_SIZE. Returns the number of companies.
+        Replacing resets every ringe_status, as the old brreg import did.
+    '''
+    with Session(engine) as session:
+        session.execute(delete(CallList))
+        session.execute(delete(CallListOverview))
+        session.commit()
 
-class BrregExtractor:
-	def __init__(self) -> None:
-		self.url = f'https://data.brreg.no/enhetsregisteret/api/enheter/lastned'
-		self.json_file_name = 'enheter_alle.json.gz'
-		self.json_file_path = r'utilities/enheter_alle.json.gz'
-		
-	def downloadJSON(self) -> None:
-		"""
-			Helper method handling downloading large files from `url` to `filename`. Returns a pointer to `filename`.
-		"""
-		chunk_size = 1024
-		r = requests.get(self.url, stream=True)
-		# with open(f'{self.json_file_name}', 'wb') as f:
-		with open(f'{self.json_file_path}', 'wb') as f:
-			pbar = tqdm( unit = "B", total = int( r.headers['Content-Length'] ) )
-			for chunk in r.iter_content(chunk_size = chunk_size): 
-				if chunk: # filter out keep-alive new chunks
-					pbar.update (len(chunk))
-					f.write(chunk)
+    count = 0
+    raw = engine.raw_connection()
+    try:
+        with raw.cursor() as cursor:
+            with cursor.copy("COPY call_list (org_num, name, ringe_status, liste_id) FROM STDIN") as copy:
+                for org_num, name in companies:
+                    copy.write_row((org_num, name, False, count // LIST_SIZE + 1))
+                    count += 1
+            list_count = -(-count // LIST_SIZE)
+            with cursor.copy("COPY call_list_overview_mediavest (liste_id, liste_start, liste_limit, er_ledig, er_ferdig) FROM STDIN") as copy:
+                for liste_id in range(1, list_count + 1):
+                    start = (liste_id - 1) * LIST_SIZE
+                    copy.write_row((liste_id, start, min(start + LIST_SIZE, count), True, False))
+        raw.commit()
+    finally:
+        raw.close()
+    return count
 
-	def jsonToPandas(self) -> pd.DataFrame:
-		return pd.read_json(self.json_file_path)
 
-	def editDataSet(self, brreg_table:pd.DataFrame) -> pd.DataFrame:
-		'''
-			Makes Dataframe from brreg Json file, picks out desiered columns, returns "dirty" df 
-			drops columns not in keep_list, then renames columns from BRREG dataset  
-				
-				will return ==> brreg_table, input_table 
-		'''
-		brreg_table = brreg_table[[
-			'org_num', 
-			'name', 
-			'postadresse',
-			'loc',
-			'registreringsdatoEnhetsregisteret', 
-			'registrertIMvaregisteret',
-			'antallAnsatte', 
-			'registrertIForetaksregisteret', 
-			'registrertIStiftelsesregisteret',
-			'registrertIFrivillighetsregisteret', 
-			'konkurs',
-			'underAvvikling',
-			'underTvangsavviklingEllerTvangsopplosning', 
-			'hjemmeside',
-			'stiftelsesdato', 
-			'sisteInnsendteAarsregnskap'
-			]]
-		brreg_table = brreg_table.rename(
-			columns = {	
-				'org_num':'org_num',
-				'name':'name',
-				'postadresse':'postadresse',
-				'loc':'loc',
-				'registreringsdatoEnhetsregisteret':'registreringsdato',
-				'registrertIMvaregisteret':'mva_registrert',
-				'antallAnsatte':'antall_ansatte',
-				'registrertIForetaksregisteret':'foretaks_registeret',
-				'registrertIStiftelsesregisteret':'stiftelses_registeret',
-				'registrertIFrivillighetsregisteret':'frivillighets_registeret',
-				'konkurs':'konkurs',
-				'underAvvikling':'under_avvikling',
-				'underTvangsavviklingEllerTvangsopplosning':'under_tvangsavvikling_eller_oppløsning',
-				'hjemmeside':'hjemmeside',
-				'stiftelsesdato':'stiftelsesdato',
-				'sisteInnsendteAarsregnskap':'siste_innsendt_årsregnskap',
-				}
-			)
-		
-		# dumping dictionaries to df 
-		brreg_table['postadresse'] = brreg_table['postadresse'].apply(json.dumps)
-		brreg_table['loc'] = brreg_table['loc'].apply(json.dumps)
-		
-		return self.removeIrrelevantCompanies(brreg_table) 
-
-	def removeIrrelevantCompanies(self, brreg_table:pd.DataFrame) -> pd.DataFrame:
-		'''
-			clean up routine that removes companies which is tagged; 
-				bankrupt, disolved, liquidated, (might include "last annual report == None")
-			function is called by: resetInputTable()
-			the routine:
-		'''
-		return brreg_table.loc[(brreg_table['under_avvikling'] == False) & (brreg_table['under_tvangsavvikling_eller_oppløsning'] == False) & (brreg_table['konkurs'] == False)]
-
-	def makeTables(self) -> pd.DataFrame:
-		'''
-		makes two DataFrames:
-			- brreg_table; Dataframe containing all the data from brreg. (Currently not in use but will keep it for future use. )
-			- input_table; Shorter version of brreg_table containing only the nessasary columns. (is smaller due to faster iteration.)
-		'''
-		brreg_table = self.jsonToPandas()
-		brreg_table = self.editDataSet(brreg_table)
-		return brreg_table, brreg_table[['org_num', 'name', 'loc',]]
-	
-	def insertToDb(self, row):
-		Insert().toInputTable(row)
-
-	def runExtraction(self) -> None:
-		'''
-		runs setup, then gets array of company names, then iterates through the list via ThreadPoolExecutor: extractionManager()
-		stops process if Captcha is triggered, finally sends a df of results to database.
-		'''
-		self.downloadJSON()
-		Reset().inputTable()
-		brreg_table, input_table = self.makeTables()	
-		
-		
-		array = input_table.to_numpy()
-		with Pool() as pool:
-			list(tqdm(pool.imap_unordered(self.insertToDb, array), total = len(array))) #294.28s
-		
-		'''NOTE:
-			apparently pd.to_sql() is but for now i've decided to go with the Pool solution, 
-			since then eveything looks uniform, and have less variation. 
-
-			Here is the old code if i should change my mind: 
-			
-			input_table.to_sql('input_table', engine, if_exists='replace',) #! 141.04s
-		'''
+def run(engine: Engine) -> int:
+    return load(engine, read_active_companies(read_csv_gz(download())))

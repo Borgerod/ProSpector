@@ -159,6 +159,8 @@ Files: new `backend/user_backend/fast_api_server/tests/` (conftest + one file pe
 
 ## Phase 6 — One shared schema
 
+> **Outcome (2026-09-27):** done together with phase 7. `dev_backend` turned out far more broken than planned (imports of modules that never existed, such as `SQL.models.insert` and `core.base`), so the user chose a minimal rebuild over an in-place repair. The old `dev_backend/SQL/` layer is deleted; the scraper side now imports the API's models and settings directly. The committed `VERIFY_SID` went with it.
+
 Finding: both layers declare `call_list` (`dev_backend/SQL/call_list.py:17`, `fast_api_server/db/models/call_list.py:6`). The scrapers write it; the API reads it (verdict, DB section).
 
 Files: `dev_backend/SQL/call_list.py`, `dev_backend/SQL/config.py`.
@@ -176,6 +178,12 @@ Exactly one hit, in `fast_api_server/db/models/call_list.py`. And `git grep VA0a
 ---
 
 ## Phase 7 — Scrapers
+
+> **Outcome (2026-09-27):** minimal rebuild, chosen by the user.
+> - `extractors/brreg.py` rewritten: streams the brreg CSV download, skips bankrupt and dissolving companies, and bulk-loads `call_list` plus `call_list_overview_mediavest` in lists of 40 (the API's default `/callList` page size). Live run: 1,163,572 companies in 82 s. The API serves them from `/callList`.
+> - Deleted: every other extractor, the old SQL layer, `utilities/` (including `chromedriver.exe` and the unused reCAPTCHA solver). Restore from commit `402f752` when the Gulesider / Proff rewrites start.
+> - 7.2–7.6 (Gulesider, Proff, Google, regnskapstall) are deferred to their own later step.
+> - Tests: `backend/dev_backend/tests`, 3 passed.
 
 Findings: phase 3 scraper probes; verdict per-source table. One source per commit.
 
@@ -233,7 +241,8 @@ These need the user before the named phase. Everything else above is decided.
 | `main.py` `/callList`, `/callList/ringe_status` | No login required | Not fixed — needs a user decision |
 | `send_sms.py` `requestVerification` | Creates a new Twilio Verify service on every request instead of using `VERIFY_SID` | Not fixed |
 | Windows machine env vars | 18 `POSTGRES_*` / `MAIL_*` / `TWILIO_*` / `SECRET_KEY` vars set machine-wide by the 2022 `setEnv.bat`, pointing at AWS RDS. They override `backend/.env`. Tests load `.env` over them; running uvicorn needs them unset. | Not fixed — machine config, needs the user |
-| `main.py:8`, `extractors/brreg.py:25` | Import path `SQL.models.insert` does not exist | Phase 7 |
+| `main.py:8`, `extractors/brreg.py:25` | Import path `SQL.models.insert` does not exist | Phase 7 (files rebuilt) |
+| brreg CSV | The register now includes `telefon`, `mobil`, `epostadresse` and `hjemmeside`, but `call_list` has no column for them | Not added — schema change, needs a user decision |
 
 ## Done when
 

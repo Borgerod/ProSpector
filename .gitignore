@@ -27,5 +27,5 @@ python_upload_package.zip
 test
 main_test
 
-# brreg download, fetched fresh by extractors/brreg.py
-backend/dev_backend/utilities/enheter_alle.json.gz
+# brreg download, fetched fresh by dev_backend/extractors/brreg.py
+backend/dev_backend/downloads/
