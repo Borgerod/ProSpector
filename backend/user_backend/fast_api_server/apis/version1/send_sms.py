@@ -1,9 +1,7 @@
 from twilio.rest import Client
 import phonenumbers
 
-# Nessasary for importing config 
-import sys; sys.path.insert(0, '.')
-from virtual_env.config import Config
+from core.config import settings
 
 
 class Input:
@@ -33,9 +31,8 @@ class Input:
 	
 class Verification:
 	def __init__(self) -> None:
-		config = Config.getPhoneConfig # Get Appropriate config variables 
-		self.account_sid: str = config["TWILIO_ACCOUNT_SID"]
-		self.auth_token: str = config['TWILIO_AUTH_TOKEN']
+		self.account_sid: str = settings.TWILIO_ACCOUNT_SID
+		self.auth_token: str = settings.TWILIO_AUTH_TOKEN
 		self.client = None
 		self.verify_sid = None
 		self.phone_number = None

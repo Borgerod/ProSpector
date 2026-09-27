@@ -1,40 +1,16 @@
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
-# Nessasary for importing config 
-import sys; sys.path.insert(0, '..')
-from virtual_env.config import Config
+from core.config import settings
 
-class Envs:
-		config = Config.getEmailConfig # Get Appropriate config variables 
-		MAIL_USERNAME: str = config["MAIL_USERNAME"]
-		MAIL_PASSWORD = config['MAIL_PASSWORD']
-		MAIL_FROM = config['MAIL_FROM']
-		MAIL_PORT = int(config['MAIL_PORT'])
-		MAIL_SERVER = config['MAIL_SERVER']
-		MAIL_FROM_NAME = config['MAIL_FROM_NAME']
-try:
-	conf = ConnectionConfig(
-			MAIL_USERNAME=Envs.MAIL_USERNAME,
-			MAIL_PASSWORD=Envs.MAIL_PASSWORD,
-			MAIL_FROM=Envs.MAIL_FROM,
-			MAIL_PORT=Envs.MAIL_PORT,
-			MAIL_SERVER=Envs.MAIL_SERVER,
-			MAIL_FROM_NAME=Envs.MAIL_FROM_NAME,
-			MAIL_STARTTLS = True, #! sometimes fastapi_mail requires this, sometimes the other 
-			MAIL_SSL_TLS = False, #! sometimes fastapi_mail requires this, sometimes the other 
-			USE_CREDENTIALS = True,
-			VALIDATE_CERTS = True
-	)
-except:
-	ConnectionConfig(
-		MAIL_USERNAME=Envs.MAIL_USERNAME,
-		MAIL_PASSWORD=Envs.MAIL_PASSWORD,
-		MAIL_FROM=Envs.MAIL_FROM,
-		MAIL_PORT=Envs.MAIL_PORT,
-		MAIL_SERVER=Envs.MAIL_SERVER,
-		MAIL_FROM_NAME=Envs.MAIL_FROM_NAME,
-		MAIL_TLS=True,          #* sometimes fastapi_mail requires this, sometimes the other 
-		MAIL_SSL=False,         #* sometimes fastapi_mail requires this, sometimes the other 
-		USE_CREDENTIALS = True,
+conf = ConnectionConfig(
+		MAIL_USERNAME = settings.MAIL_USERNAME,
+		MAIL_PASSWORD = settings.MAIL_PASSWORD,
+		MAIL_FROM = settings.MAIL_FROM,
+		MAIL_PORT = settings.MAIL_PORT,
+		MAIL_SERVER = settings.MAIL_SERVER,
+		MAIL_FROM_NAME = settings.MAIL_FROM_NAME,
+		MAIL_STARTTLS = settings.MAIL_STARTTLS,
+		MAIL_SSL_TLS = settings.MAIL_SSL_TLS,
+		USE_CREDENTIALS = settings.USE_CREDENTIALS,
 		VALIDATE_CERTS = True
 )
 

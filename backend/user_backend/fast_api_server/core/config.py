@@ -1,21 +1,47 @@
-''' Nessasary for importing config ''' 
-import sys; sys.path.insert(0, '.')
-from virtual_env.config import Config
+from pathlib import Path
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# backend/.env, shared with dev_backend
+ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
 
 
-class Settings:
-    ''' A little bit redundant but im keeping it regardless
+class Settings(BaseSettings):
+    ''' Reads every value from env vars or backend/.env.
+        A missing required value fails at startup with its name.
     '''
-    config = Config.getPostgresConfig # Get Appropriate config variables 
+    model_config = SettingsConfigDict(env_file = ENV_FILE, extra = "ignore")
+
     PROJECT_NAME: str = "ProSpector"
-    USE_SQLITE_DB: str = config["USE_SQLITE_DB"]
-    POSTGRES_USER = "postgres" #(OR) POSTGRES_USER: str = config["POSTGRES_USER"] 
-    POSTGRES_PASSWORD = config["POSTGRES_PASSWORD"]
-    POSTGRES_SERVER: str = config["POSTGRES_SERVER"] #(OR), "localhost",
-    POSTGRES_PORT: str = config["POSTGRES_PORT"] #(OR), 5432, ''' default postgres port is 5432 '''
-    POSTGRES_DB: str = config["POSTGRES_DB"]  #(OR), "tdd",
-    DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
-    ALGORITHM = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES = 480  # in mins (8 hours)
+    PROJECT_VERSION: str
+
+    USE_SQLITE_DB: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_SERVER: str
+    POSTGRES_PORT: int
+    POSTGRES_DB: str
+
+    SECRET_KEY: str
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 480  # in mins (8 hours)
+
+    MAIL_USERNAME: str
+    MAIL_PASSWORD: str
+    MAIL_FROM: str
+    MAIL_PORT: int
+    MAIL_SERVER: str
+    MAIL_FROM_NAME: str
+    MAIL_STARTTLS: bool
+    MAIL_SSL_TLS: bool
+    USE_CREDENTIALS: bool
+
+    TWILIO_ACCOUNT_SID: str
+    TWILIO_AUTH_TOKEN: str
+
+    @property
+    def DATABASE_URL(self) -> str:
+        return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+
 
 settings = Settings()
