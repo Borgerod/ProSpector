@@ -13,9 +13,8 @@ pydantic-settings==2.15.0
 #for email validation
 pydantic[email]==2.13.5
 
-#hashing (bcrypt pinned below 4.1 until passlib is replaced)
-passlib[bcrypt]==1.7.4
-bcrypt==4.0.1
+#hashing
+bcrypt==5.0.0
 
 #for creating jwt tokens
 python-jose==3.5.0

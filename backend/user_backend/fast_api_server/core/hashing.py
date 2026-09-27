@@ -1,13 +1,17 @@
-from passlib.context import CryptContext
+import bcrypt
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# bcrypt only reads the first 72 bytes; longer passwords are rejected, not truncated
+MAX_PASSWORD_BYTES = 72
 
 
 class Hasher:
     @staticmethod
     def verify_password(plain_password, hashed_password):
-        return pwd_context.verify(plain_password, hashed_password)
+        return bcrypt.checkpw(plain_password.encode(), hashed_password.encode())
 
     @staticmethod
     def get_password_hash(password):
-        return pwd_context.hash(password)
+        password_bytes = password.encode()
+        if len(password_bytes) > MAX_PASSWORD_BYTES:
+            raise ValueError(f"Password is longer than {MAX_PASSWORD_BYTES} bytes")
+        return bcrypt.hashpw(password_bytes, bcrypt.gensalt()).decode()
