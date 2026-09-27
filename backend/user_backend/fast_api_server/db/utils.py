@@ -1,14 +1,14 @@
 import databases
-from db.session import SQLALCHEMY_DATABASE_URL
+from core.config import settings
 
 
 async def check_db_connected():
     try:
-        if not str(SQLALCHEMY_DATABASE_URL).__contains__("sqlite"):
-            database = databases.Database(SQLALCHEMY_DATABASE_URL)
-            if not database.is_connected:
-                await database.connect()
-                await database.execute("SELECT 1")
+        # plain postgresql:// URL; databases uses asyncpg for it
+        database = databases.Database(settings.DATABASE_URL)
+        if not database.is_connected:
+            await database.connect()
+            await database.execute("SELECT 1")
         print("Database is connected (^_^)")
         
     except Exception as e:
@@ -20,10 +20,9 @@ async def check_db_connected():
 
 async def check_db_disconnected():
     try:
-        if not str(SQLALCHEMY_DATABASE_URL).__contains__("sqlite"):
-            database = databases.Database(SQLALCHEMY_DATABASE_URL)
-            if database.is_connected:
-                await database.disconnect()
+        database = databases.Database(settings.DATABASE_URL)
+        if database.is_connected:
+            await database.disconnect()
         print("Database is Disconnected (-_-) zZZ")
     except Exception as e:
         raise e

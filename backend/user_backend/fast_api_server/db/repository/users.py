@@ -1,4 +1,3 @@
-from psycopg2 import IntegrityError
 from core.hashing import Hasher
 from db.models.users import User
 from schemas.users import UserCreate

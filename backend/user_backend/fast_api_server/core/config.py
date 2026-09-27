@@ -15,7 +15,6 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "ProSpector"
     PROJECT_VERSION: str
 
-    USE_SQLITE_DB: str
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_SERVER: str
