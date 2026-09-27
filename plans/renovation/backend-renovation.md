@@ -227,7 +227,12 @@ These need the user before the named phase. Everything else above is decided.
 
 | Where | What | Fixed in |
 |-------|------|----------|
-| `route_users.py:23` | `send_otp_code_async` called without `await` | Phase 5, if its test fails |
+| `route_users.py:23` | `send_otp_code_async` called without `await`, so signup never sent the SMS | Phase 5 (test failed; fixed) |
+| `main.py` `GET /ResetPassword` | Changes any user's password from just an email address, with no login or code check | Not fixed — security, needs a user decision |
+| `main.py` `GET /ShowUser` | Returns the full user row, including `hashed_password` | Not fixed — security, needs a user decision |
+| `main.py` `/callList`, `/callList/ringe_status` | No login required | Not fixed — needs a user decision |
+| `send_sms.py` `requestVerification` | Creates a new Twilio Verify service on every request instead of using `VERIFY_SID` | Not fixed |
+| Windows machine env vars | 18 `POSTGRES_*` / `MAIL_*` / `TWILIO_*` / `SECRET_KEY` vars set machine-wide by the 2022 `setEnv.bat`, pointing at AWS RDS. They override `backend/.env`. Tests load `.env` over them; running uvicorn needs them unset. | Not fixed — machine config, needs the user |
 | `main.py:8`, `extractors/brreg.py:25` | Import path `SQL.models.insert` does not exist | Phase 7 |
 
 ## Done when

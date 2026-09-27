@@ -20,7 +20,7 @@ async def create_user(user:UserCreate, db: Session = Depends(get_db)):
             await send_sms_async(sms_to = user.telefon_nummer)
                 "await Verification().requestVerification(phone_number = sms_to)" 
     '''
-    send_otp_code_async(phone_number = user.telefon_nummer)
+    await send_otp_code_async(phone_number = user.telefon_nummer)
     user = create_new_user(user = user, db = db)
     return user 
 
